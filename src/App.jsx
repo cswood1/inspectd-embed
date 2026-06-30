@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { INVENTORY } from "./data.js";
 import { SearchPage, VDPPage } from "./Dealer.jsx";
 import { BrowserChrome, InspectdLanding, InspectdOrder, InspectdConfirm } from "./Inspectd.jsx";
+import { WholesalePage } from "./Wholesale.jsx";
 
 export default function App() {
-  const [view, setView] = useState("search"); // search | vdp
+  const [view, setView] = useState("search"); // search | vdp | wholesale
   const [vehicle, setVehicle] = useState(INVENTORY[0]);
   const [tab, setTab] = useState(null); // null | { context, step }
   const [orderRef] = useState("INS-" + Math.floor(100000 + Math.random() * 900000));
@@ -39,6 +40,12 @@ export default function App() {
           >
             Dealer VDP
           </button>
+          <button
+            onClick={() => { setView("wholesale"); setTab(null); }}
+            className={"rounded-md px-3 py-1 text-xs font-medium " + (view === "wholesale" ? "bg-white text-slate-900" : "text-slate-300 hover:bg-slate-800")}
+          >
+            Auction
+          </button>
         </div>
         <span className="ml-auto hidden text-[11px] text-slate-500 sm:block">
           Mock dealer site. The Inspectd flow opens in a simulated new tab.
@@ -51,6 +58,7 @@ export default function App() {
             <SearchPage onOpenVehicle={openVehicle} onOrderGeneric={() => openTab({ mode: "standalone" })} />
           )}
           {view === "vdp" && <VDPPage v={vehicle} onBack={() => setView("search")} onOrder={openTab} />}
+          {view === "wholesale" && <WholesalePage />}
         </div>
 
         {tab && (
