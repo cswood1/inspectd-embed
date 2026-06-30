@@ -150,7 +150,7 @@ function VehicleCard({ v, onOpen }) {
   return (
     <div onClick={onOpen} className="group cursor-pointer overflow-hidden rounded-lg border border-slate-200 bg-white transition hover:shadow-md">
       <div className="relative">
-        <CarThumb hue={v.hue} className="aspect-[4/3] w-full" watermark />
+        <CarThumb hue={v.hue} image={v.image} className="aspect-[4/3] w-full" watermark />
         {v.cpo && (
           <span className="absolute left-2 top-2 rounded bg-slate-900/90 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
             Certified Pre-Owned
@@ -261,7 +261,7 @@ export function VDPPage({ v, onBack, onOrder }) {
         <div className="grid gap-5 lg:grid-cols-[1.55fr_1fr]">
           <div>
             <div className="relative">
-              <CarThumb hue={v.hue} className="aspect-[16/10] w-full rounded-lg" watermark />
+              <CarThumb hue={v.hue} image={v.image} className="aspect-[16/10] w-full rounded-lg" watermark />
               {v.cpo && (
                 <span className="absolute left-3 top-3 rounded bg-slate-900/90 px-2.5 py-1 text-[11px] font-bold uppercase text-white">Certified Pre-Owned</span>
               )}
@@ -271,7 +271,7 @@ export function VDPPage({ v, onBack, onOrder }) {
             </div>
             <div className="mt-2 grid grid-cols-5 gap-2">
               {[0, 1, 2, 3, 4].map((i) => (
-                <CarThumb key={i} hue={v.hue} className={"aspect-[4/3] rounded " + (i === 0 ? "ring-2 ring-red-600" : "opacity-70")} />
+                <CarThumb key={i} hue={v.hue} image={v.image} className={"aspect-[4/3] rounded " + (i === 0 ? "ring-2 ring-red-600" : "opacity-70")} />
               ))}
             </div>
 

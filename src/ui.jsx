@@ -2,25 +2,31 @@ import React, { useState } from "react";
 import { Info, ShieldCheck } from "lucide-react";
 import { DEALER } from "./data.js";
 
-export function CarThumb({ hue = 210, className = "", watermark = false }) {
+export function CarThumb({ hue = 210, className = "", watermark = false, image }) {
+  const [failed, setFailed] = useState(false);
+  const showImage = image && !failed;
   return (
     <div
       className={"relative overflow-hidden " + className}
-      style={{ background: `linear-gradient(160deg, hsl(${hue} 16% 90%), hsl(${hue} 14% 78%))` }}
+      style={showImage ? undefined : { background: `linear-gradient(160deg, hsl(${hue} 16% 90%), hsl(${hue} 14% 78%))` }}
     >
-      <svg viewBox="0 0 240 120" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet">
-        <rect x="0" y="92" width="240" height="28" fill="hsl(0 0% 0% / 0.06)" />
-        <path
-          d="M30 84 L52 84 C56 70 66 62 84 62 L150 62 C168 62 182 68 196 84 L212 84 C218 84 222 80 220 74 L214 60 C210 52 200 48 188 47 L168 45 C158 40 146 36 130 36 L96 36 C82 36 72 42 62 52 L44 60 C34 63 28 68 26 76 C25 81 26 84 30 84 Z"
-          fill={`hsl(${hue} 30% 52%)`}
-          opacity="0.9"
-        />
-        <path d="M92 47 L128 47 C140 47 150 50 158 56 L96 56 C88 56 84 52 92 47 Z" fill="hsl(0 0% 100% / 0.55)" />
-        <circle cx="74" cy="84" r="13" fill="#1f2937" />
-        <circle cx="74" cy="84" r="6" fill="#9ca3af" />
-        <circle cx="176" cy="84" r="13" fill="#1f2937" />
-        <circle cx="176" cy="84" r="6" fill="#9ca3af" />
-      </svg>
+      {showImage ? (
+        <img src={image} alt="" onError={() => setFailed(true)} className="absolute inset-0 h-full w-full object-cover" />
+      ) : (
+        <svg viewBox="0 0 240 120" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet">
+          <rect x="0" y="92" width="240" height="28" fill="hsl(0 0% 0% / 0.06)" />
+          <path
+            d="M30 84 L52 84 C56 70 66 62 84 62 L150 62 C168 62 182 68 196 84 L212 84 C218 84 222 80 220 74 L214 60 C210 52 200 48 188 47 L168 45 C158 40 146 36 130 36 L96 36 C82 36 72 42 62 52 L44 60 C34 63 28 68 26 76 C25 81 26 84 30 84 Z"
+            fill={`hsl(${hue} 30% 52%)`}
+            opacity="0.9"
+          />
+          <path d="M92 47 L128 47 C140 47 150 50 158 56 L96 56 C88 56 84 52 92 47 Z" fill="hsl(0 0% 100% / 0.55)" />
+          <circle cx="74" cy="84" r="13" fill="#1f2937" />
+          <circle cx="74" cy="84" r="6" fill="#9ca3af" />
+          <circle cx="176" cy="84" r="13" fill="#1f2937" />
+          <circle cx="176" cy="84" r="6" fill="#9ca3af" />
+        </svg>
+      )}
       {watermark && (
         <div className="absolute bottom-0 left-0 right-0 bg-red-700/90 px-2 py-1 text-[10px] font-semibold text-white">
           {DEALER.name} · {DEALER.phone}

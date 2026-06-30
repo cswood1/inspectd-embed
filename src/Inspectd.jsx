@@ -143,7 +143,7 @@ export function InspectdLanding({ context, onContinue }) {
 
         {isVehicle ? (
           <div className="mt-5 flex items-center gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <CarThumb hue={v.hue} className="h-16 w-28 rounded" />
+            <CarThumb hue={v.hue} image={v.image} className="h-16 w-28 rounded" />
             <div>
               <div className="text-sm font-semibold text-slate-900">
                 {v.year} {v.make} {v.model} {v.trim}
