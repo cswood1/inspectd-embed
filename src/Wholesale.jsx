@@ -212,7 +212,7 @@ function CompleteCRControl({ onSelfInspect, onOrderInspect }) {
         onClick={() => setOpen((o) => !o)}
         className="flex w-40 items-center justify-center gap-1.5 rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-500"
       >
-        Complete CR
+        Complete Listing
         <ChevronDown className="h-4 w-4" />
       </button>
       {open && (
