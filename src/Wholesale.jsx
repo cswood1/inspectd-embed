@@ -210,7 +210,7 @@ function CompleteCRControl({ onSelfInspect, onOrderInspect }) {
     <div ref={ref} className="relative inline-block text-left">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex w-40 items-center justify-center gap-1.5 rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-500"
+        className="flex w-48 items-center justify-center gap-1.5 whitespace-nowrap rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-500"
       >
         Complete Listing
         <ChevronDown className="h-4 w-4" />
@@ -257,9 +257,9 @@ function VehicleRow({ v, state, selected, onToggle, onSelfInspect, onOrderInspec
       </td>
       <td className="px-3 py-3 text-sm text-slate-300">5</td>
       <td className="px-3 py-3 text-sm text-slate-300">-</td>
-      <td className="w-44 px-3 py-3 text-right">
+      <td className="w-52 px-3 py-3 text-right">
         {state.status === "Ready to List" && (
-          <button className="w-40 rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500">
+          <button className="w-48 whitespace-nowrap rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500">
             Schedule Auction
           </button>
         )}
@@ -352,7 +352,7 @@ function MainPanel({ vehicles, rowState, selected, onToggle, onToggleAll, onClea
               <th className="px-3 py-3">Reserve</th>
               <th className="px-3 py-3">Remaining Runs</th>
               <th className="px-3 py-3">High Bid</th>
-              <th className="w-44 px-3 py-3"></th>
+              <th className="w-52 px-3 py-3"></th>
               <th className="w-10 px-3 py-3"></th>
             </tr>
           </thead>
