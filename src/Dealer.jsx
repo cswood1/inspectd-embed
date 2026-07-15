@@ -14,7 +14,7 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import { DEALER, INVENTORY, FEATURES, usd } from "./data.js";
-import { CarThumb } from "./ui.jsx";
+import { CarThumb, IndependentBadge } from "./ui.jsx";
 import { SearchInspectdBand, VdpInspectdModule } from "./Inspectd.jsx";
 
 /* ---- dealer chrome ---------------------------------------------- */
@@ -37,8 +37,8 @@ function TopUtilityBar() {
   );
 }
 
-function DealerHeader() {
-  const nav = ["New", "Used", "Specials", "Finance", "Service & Parts", "About"];
+function DealerHeader({ onOpenAbout }) {
+  const nav = ["New", "Used", "Specials", "Finance", "Service & Parts"];
   return (
     <div className="border-b border-slate-200 bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
@@ -55,6 +55,9 @@ function DealerHeader() {
               <ChevronDown className="h-3 w-3 text-slate-400" />
             </span>
           ))}
+          <button onClick={onOpenAbout} className="cursor-pointer hover:text-red-700">
+            About
+          </button>
         </nav>
         <div className="flex items-center gap-3">
           <button className="hidden items-center gap-1.5 rounded-full border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 sm:flex">
@@ -187,11 +190,11 @@ function VehicleCard({ v, onOpen }) {
   );
 }
 
-export function SearchPage({ onOpenVehicle }) {
+export function SearchPage({ onOpenVehicle, onOpenAbout }) {
   return (
     <div className="min-h-full bg-slate-100">
       <TopUtilityBar />
-      <DealerHeader />
+      <DealerHeader onOpenAbout={onOpenAbout} />
       <PromoStrip />
 
       <div className="mx-auto max-w-7xl px-4 py-5">
@@ -219,7 +222,7 @@ export function SearchPage({ onOpenVehicle }) {
               <span className="font-semibold text-slate-900">142</span> certified and used vehicles for sale in {DEALER.city}
             </div>
 
-            <SearchInspectdBand />
+            <SearchInspectdBand onOpenAbout={onOpenAbout} />
 
             <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
               {INVENTORY.map((v) => (
@@ -244,13 +247,13 @@ function SpecRow({ k, v }) {
   );
 }
 
-export function VDPPage({ v, onBack, onOrder }) {
+export function VDPPage({ v, onBack, onOrder, onOpenAbout }) {
   const [showAll, setShowAll] = useState(false);
   const feats = showAll ? FEATURES : FEATURES.slice(0, 9);
   return (
     <div className="min-h-full bg-slate-100">
       <TopUtilityBar />
-      <DealerHeader />
+      <DealerHeader onOpenAbout={onOpenAbout} />
       <PromoStrip />
 
       <div className="mx-auto max-w-7xl px-4 py-4">
@@ -372,6 +375,111 @@ export function VDPPage({ v, onBack, onOrder }) {
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---- About page (dealer chrome + content) ----------------------- */
+
+function CarfaxBadge() {
+  return (
+    <span className="mx-1 inline-flex overflow-hidden rounded border border-black align-middle text-[10px] font-black leading-none tracking-wider">
+      {"CARFAX".split("").map((c, i) => (
+        <span
+          key={i}
+          className="border-r border-white bg-black px-1.5 py-1 text-white last:border-r-0"
+        >
+          {c}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+export function AboutPage({ onBack, onOpenAbout }) {
+  return (
+    <div className="min-h-full bg-slate-100">
+      <TopUtilityBar />
+      <DealerHeader onOpenAbout={onOpenAbout} />
+      <PromoStrip />
+
+      <div className="mx-auto max-w-3xl px-4 py-8">
+        <button
+          onClick={onBack}
+          className="mb-5 flex items-center gap-1 text-xs text-slate-500 hover:text-slate-800"
+        >
+          <ArrowLeft className="h-3.5 w-3.5" /> Back to inventory
+        </button>
+
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+          Welcome to Crestview Auto Group
+        </h1>
+        <p className="mt-4 text-base leading-relaxed text-slate-700">
+          As Aurora, Colorado's premier destination for high-quality used vehicles, we believe that trust is earned,
+          not given. We've built our dealership on total transparency, fair pricing, and putting our customers in the
+          driver's seat, on the road and during the buying process. We aren't just selling cars. We're building
+          lifelong relationships in our Colorado community.
+        </p>
+
+        <div className="mt-8 rounded-lg border border-slate-200 bg-white p-6">
+          <h2 className="text-xl font-bold text-slate-900">
+            Beyond the History Report: get the ground-truth facts
+          </h2>
+          <p className="mt-3 text-base leading-relaxed text-slate-700">
+            Because we believe in total transparency, we provide a complimentary
+            <CarfaxBadge />
+            Vehicle History Report with every car on our lot. But a history report only tells you the past. It doesn't
+            tell you the condition of the vehicle today. You wouldn't buy a house on its permit history alone without
+            hiring an independent home inspector. Buying a car should be no different. Consumer advocates recommend a
+            Pre-Purchase Inspection before you buy, especially shopping online or out of state.
+          </p>
+        </div>
+
+        <div className="mt-6 rounded-lg border border-slate-200 bg-white p-6">
+          <h2 className="text-xl font-bold text-slate-900">We agree. And we have nothing to hide.</h2>
+          <div className="mt-3">
+            <IndependentBadge />
+          </div>
+          <p className="mt-3 text-base leading-relaxed text-slate-700">
+            Because we're confident in the quality of our inventory, we make it easy to get an independent second
+            opinion. We supply a link to order a VINsight™ Inspection Report directly through Inspectd™, an impartial,
+            nationwide network of professional vehicle inspectors who operate entirely independently from our
+            dealership.
+          </p>
+        </div>
+
+        <div className="mt-6 rounded-lg border border-slate-200 bg-white p-6">
+          <h2 className="text-xl font-bold text-slate-900">How to get the facts</h2>
+          <ol className="mt-4 space-y-3 text-base leading-relaxed text-slate-700">
+            <li className="flex gap-3">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-bold text-white">
+                1
+              </span>
+              <span>Click "Order VINsight™ Inspection Report" on any vehicle listing.</span>
+            </li>
+            <li className="flex gap-3">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-bold text-white">
+                2
+              </span>
+              <span>
+                An impartial third-party inspector arrives at our lot to evaluate the vehicle and delivers the data
+                directly and exclusively to your device.
+              </span>
+            </li>
+          </ol>
+        </div>
+
+        <div className="mt-6 rounded-lg bg-slate-900 p-6 text-white">
+          <p className="text-base leading-relaxed text-slate-200">
+            <span className="font-bold text-white">The Crestview Reimbursement:</span> if you buy from us, we reimburse
+            the full cost.
+          </p>
+        </div>
+
+        <p className="mx-auto mt-10 max-w-2xl text-center text-xl font-semibold italic leading-snug text-slate-800">
+          Shop with the ease of digital retail, backed by the certainty of physical truth.
+        </p>
       </div>
     </div>
   );

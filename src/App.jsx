@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { INVENTORY } from "./data.js";
-import { SearchPage, VDPPage } from "./Dealer.jsx";
+import { SearchPage, VDPPage, AboutPage } from "./Dealer.jsx";
 import { BrowserChrome, InspectdLanding, InspectdOrder, InspectdConfirm } from "./Inspectd.jsx";
 import { WholesalePage } from "./Wholesale.jsx";
 
 export default function App() {
-  const [view, setView] = useState("search"); // search | vdp | wholesale
+  const [view, setView] = useState("search"); // search | vdp | wholesale | about
   const [vehicle, setVehicle] = useState(INVENTORY[0]);
   const [tab, setTab] = useState(null); // null | { context, step }
   const [orderRef] = useState("INS-" + Math.floor(100000 + Math.random() * 900000));
@@ -15,6 +15,7 @@ export default function App() {
     setView("vdp");
   };
   const openTab = (context) => setTab({ context, step: "landing" });
+  const openAbout = () => { setView("about"); setTab(null); };
 
   const tabUrl =
     tab && `inspectd.com/crestview/inspect/${tab.context.vehicle.vin.slice(-6)}`;
@@ -52,10 +53,15 @@ export default function App() {
       <div className="relative flex-1 overflow-hidden">
         <div className="h-full overflow-auto">
           {view === "search" && (
-            <SearchPage onOpenVehicle={openVehicle} />
+            <SearchPage onOpenVehicle={openVehicle} onOpenAbout={openAbout} />
           )}
-          {view === "vdp" && <VDPPage v={vehicle} onBack={() => setView("search")} onOrder={openTab} />}
+          {view === "vdp" && (
+            <VDPPage v={vehicle} onBack={() => setView("search")} onOrder={openTab} onOpenAbout={openAbout} />
+          )}
           {view === "wholesale" && <WholesalePage />}
+          {view === "about" && (
+            <AboutPage onBack={() => setView("search")} onOpenAbout={openAbout} />
+          )}
         </div>
 
         {tab && (
