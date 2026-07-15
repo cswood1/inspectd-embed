@@ -26,19 +26,19 @@ export default function App() {
     <div className="flex h-screen flex-col bg-slate-300">
       {/* demo harness */}
       <div className="flex items-center gap-3 bg-slate-950 px-4 py-2 text-white">
-        <span className="text-xs font-semibold tracking-wide text-slate-300">INSPECTD EMBED DEMO</span>
+        <span className="text-xs font-semibold tracking-wide text-slate-300">INSPECTD DEV+STAGING</span>
         <div className="flex gap-1">
           <button
             onClick={() => { setView("search"); setTab(null); }}
             className={"rounded-md px-3 py-1 text-xs font-medium " + (view === "search" ? "bg-white text-slate-900" : "text-slate-300 hover:bg-slate-800")}
           >
-            Dealer search
+            SRP
           </button>
           <button
             onClick={() => { setView("vdp"); setTab(null); }}
             className={"rounded-md px-3 py-1 text-xs font-medium " + (view === "vdp" ? "bg-white text-slate-900" : "text-slate-300 hover:bg-slate-800")}
           >
-            Dealer VDP
+            VDP
           </button>
           <button
             onClick={() => { setView("wholesale"); setTab(null); }}
