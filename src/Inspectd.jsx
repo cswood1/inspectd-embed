@@ -5,8 +5,8 @@ import { CarThumb, IndependentBadge, InfoTip, Field } from "./ui.jsx";
 
 /* ---- copy ------------------------------------------------------- */
 
-const TIP_VEHICLE = `An independent technician inspects this exact vehicle and sends you a standardized condition report, including a diagnostic scan. Inspectd does not work for ${DEALER.short}, so the report reads the same whether the news is good or bad.`;
-const TIP_GENERIC = `Order a standardized, independent condition report by VIN. The technician does not work for the dealer, so the assessment is impartial.`;
+const TIP_VEHICLE = `An independent technician inspects this exact vehicle and delivers a VINsight™ Inspection Report, a standardized condition report with a diagnostic scan. Inspectd does not work for ${DEALER.short}, so the report reads the same whether the news is good or bad.`;
+const TIP_GENERIC = `Order a VINsight™ Inspection Report by VIN. The independent third-party technician does not work for the dealer, so the assessment is impartial.`;
 
 /* ---- embed modules (the inserted third-party pieces) ------------ */
 
@@ -18,18 +18,18 @@ export function VdpInspectdModule({ onOrder }) {
         <IndependentBadge />
         <InfoTip text={TIP_VEHICLE} align="right" />
       </div>
-      <div className="text-sm font-semibold text-slate-900">Order an independent inspection</div>
+      <div className="text-sm font-semibold text-slate-900">VINsight™ Inspection Report</div>
       <p className="mt-0.5 text-xs text-slate-500">
-        Standardized third-party condition report on this exact vehicle before you buy.
+        Independent third-party condition report on this exact vehicle before you buy.
       </p>
       <button
         onClick={onOrder}
         className="mt-2.5 flex w-full items-center justify-center gap-2 rounded-md bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
       >
-        Order Inspection <ChevronRight className="h-4 w-4" />
+        Order VINsight™ Report <ChevronRight className="h-4 w-4" />
       </button>
       <p className="mt-1.5 text-center text-[10px] text-slate-400">
-        Provided by Inspectd. Not affiliated with {DEALER.short}.
+        Provided by Inspectd™. Not affiliated with {DEALER.short}.
       </p>
     </div>
   );
@@ -43,7 +43,7 @@ export function SearchInspectdBand({ onOrder }) {
         <IndependentBadge />
         <div>
           <div className="text-sm font-semibold text-slate-900">
-            Considering a vehicle? Get an independent inspection.
+            Considering a vehicle? Get a VINsight™ Inspection Report.
             <span className="ml-1 align-middle">
               <InfoTip text={TIP_GENERIC} align="left" />
             </span>
@@ -57,7 +57,7 @@ export function SearchInspectdBand({ onOrder }) {
         onClick={onOrder}
         className="shrink-0 rounded-md bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
       >
-        Third-party inspection
+        Order VINsight™ Inspection Report
       </button>
     </div>
   );
@@ -94,7 +94,7 @@ function InspectdHeader() {
           <div className="flex h-7 w-7 items-center justify-center rounded-md bg-slate-900 text-white">
             <ShieldCheck className="h-4 w-4" />
           </div>
-          <span className="text-sm font-bold tracking-tight text-slate-900">Inspectd</span>
+          <span className="text-sm font-bold tracking-tight text-slate-900">Inspectd™</span>
         </div>
         <span className="text-xs text-slate-400">For {DEALER.short} shoppers</span>
       </div>
@@ -134,11 +134,12 @@ export function InspectdLanding({ context, onContinue }) {
         <h1 className="mt-3 text-2xl font-bold tracking-tight text-slate-900">
           {isVehicle
             ? "Know this vehicle's real condition before you buy"
-            : "Get an impartial condition report before you buy"}
+            : "Get a VINsight™ Inspection Report before you buy"}
         </h1>
         <p className="mt-2 text-slate-600">
-          Inspectd is an independent inspection service. The technician who inspects the vehicle does not work for the
-          dealer. You get the same standardized report whether the news is good or bad.
+          The VINsight™ Inspection Report is an independent condition report delivered by Inspectd. The technician who
+          inspects the vehicle does not work for the dealer, so you get the same standardized report whether the news
+          is good or bad.
         </p>
 
         {isVehicle ? (
@@ -216,7 +217,7 @@ export function InspectdOrder({ context, onPlace }) {
     <div>
       <InspectdHeader />
       <div className="mx-auto max-w-2xl px-5 py-7">
-        <h1 className="text-xl font-bold tracking-tight text-slate-900">Place your inspection order</h1>
+        <h1 className="text-xl font-bold tracking-tight text-slate-900">Order your VINsight™ Inspection Report</h1>
         <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm">
           <div className="flex justify-between">
             <span className="text-slate-500">Vehicle</span>
@@ -284,12 +285,12 @@ export function InspectdConfirm({ context, orderRef, onClose }) {
           <Check className="h-7 w-7 text-emerald-600" />
         </div>
         <h1 className="mt-4 text-xl font-bold text-slate-900">Order placed</h1>
-        <p className="mt-1 text-slate-600">Your inspection order is confirmed. Reference {orderRef}.</p>
+        <p className="mt-1 text-slate-600">Your VINsight™ Inspection Report order is confirmed. Reference {orderRef}.</p>
         <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 text-left text-sm">
           {[
             ["Vehicle", isVehicle ? `${v.year} ${v.make} ${v.model}` : "From VIN"],
             ["VIN", context.vin],
-            ["Report", "Standardized condition report with diagnostic scan"],
+            ["Report", "VINsight™ Inspection Report"],
             ["Independent of", DEALER.name],
           ].map(([k, val]) => (
             <div key={k} className="flex justify-between border-b border-slate-100 py-1.5 last:border-0">
