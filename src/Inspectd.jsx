@@ -6,7 +6,6 @@ import { CarThumb, IndependentBadge, InfoTip, Field } from "./ui.jsx";
 /* ---- copy ------------------------------------------------------- */
 
 const TIP_VEHICLE = `An independent technician inspects this exact vehicle and delivers a VINsight™ Inspection Report, a standardized condition report with a diagnostic scan. Inspectd does not work for ${DEALER.short}, so the report reads the same whether the news is good or bad.`;
-const TIP_GENERIC = `Order a VINsight™ Inspection Report by VIN. The independent third-party technician does not work for the dealer, so the assessment is impartial.`;
 
 /* ---- embed modules (the inserted third-party pieces) ------------ */
 
@@ -35,30 +34,26 @@ export function VdpInspectdModule({ onOrder }) {
   );
 }
 
-// Page-level band above the search results, vehicle-agnostic.
-export function SearchInspectdBand({ onOrder }) {
+// Page-level band above the search results, in the dealer's voice.
+export function SearchInspectdBand({ onOpenAbout }) {
   return (
-    <div className="mb-4 flex flex-col items-start justify-between gap-3 rounded-lg border border-slate-200 bg-white p-4 sm:flex-row sm:items-center">
-      <div className="flex items-start gap-3">
+    <div className="mb-4 rounded-lg border border-slate-200 bg-white p-4">
+      <div className="mb-2">
         <IndependentBadge />
-        <div>
-          <div className="text-sm font-semibold text-slate-900">
-            Considering a vehicle? Get a VINsight™ Inspection Report.
-            <span className="ml-1 align-middle">
-              <InfoTip text={TIP_GENERIC} align="left" />
-            </span>
-          </div>
-          <p className="text-sm text-slate-500">
-            Order a standardized third-party condition report before you buy.
-          </p>
-        </div>
       </div>
-      <button
-        onClick={onOrder}
-        className="shrink-0 rounded-md bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
-      >
-        Order VINsight™ Inspection Report
-      </button>
+      <h2 className="text-base font-bold text-slate-900">Absolute transparency on every vehicle.</h2>
+      <p className="mt-1 text-sm text-slate-600">
+        Because we stand behind our inventory, we make it seamless to order a VINsight™ Inspection Report directly
+        from any of our listings. Order an independent report, and if you buy from us, we reimburse the full cost.
+      </p>
+      <div className="mt-3">
+        <button
+          onClick={onOpenAbout}
+          className="rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+        >
+          Read Our Transparency Promise
+        </button>
+      </div>
     </div>
   );
 }
