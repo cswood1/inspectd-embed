@@ -24,7 +24,10 @@ export default function App() {
     <div className="flex h-screen flex-col bg-slate-300">
       {/* demo harness */}
       <div className="flex items-center gap-3 bg-slate-950 px-4 py-2 text-white">
-        <span className="text-xs font-semibold tracking-wide text-slate-300">INSPECTD DEV+STAGING</span>
+        <span className="flex items-center gap-2 text-xs font-semibold tracking-wide text-slate-300">
+          <img src="/inspectd-symbol.png" alt="" className="h-5 w-5" />
+          INSPECTD DEV+STAGING
+        </span>
         <div className="flex gap-1">
           <button
             onClick={() => { setView("search"); setTab(null); }}
