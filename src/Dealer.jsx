@@ -382,21 +382,6 @@ export function VDPPage({ v, onBack, onOrder, onOpenAbout }) {
 
 /* ---- About page (dealer chrome + content) ----------------------- */
 
-function CarfaxBadge() {
-  return (
-    <span className="mx-1 inline-flex overflow-hidden rounded border border-black align-middle text-[10px] font-black leading-none tracking-wider">
-      {"CARFAX".split("").map((c, i) => (
-        <span
-          key={i}
-          className="border-r border-white bg-black px-1.5 py-1 text-white last:border-r-0"
-        >
-          {c}
-        </span>
-      ))}
-    </span>
-  );
-}
-
 export function AboutPage({ onBack, onOpenAbout }) {
   return (
     <div className="min-h-full bg-slate-100">
@@ -427,12 +412,11 @@ export function AboutPage({ onBack, onOpenAbout }) {
             Beyond the History Report: get the ground-truth facts
           </h2>
           <p className="mt-3 text-base leading-relaxed text-slate-700">
-            Because we believe in total transparency, we provide a complimentary
-            <CarfaxBadge />
-            Vehicle History Report with every car on our lot. But a history report only tells you the past. It doesn't
-            tell you the condition of the vehicle today. You wouldn't buy a house on its permit history alone without
-            hiring an independent home inspector. Buying a car should be no different. Consumer advocates recommend a
-            Pre-Purchase Inspection before you buy, especially shopping online or out of state.
+            Because we believe in total transparency, we provide a complimentary Carfax® Vehicle History Report with
+            every car on our lot. But a history report only tells you the past. It doesn't tell you the condition of
+            the vehicle today. You wouldn't buy a house on its permit history alone without hiring an independent home
+            inspector. Buying a car should be no different. Consumer advocates recommend a Pre-Purchase Inspection
+            before you buy, especially shopping online or out of state.
           </p>
         </div>
 
@@ -477,7 +461,7 @@ export function AboutPage({ onBack, onOpenAbout }) {
           </p>
         </div>
 
-        <p className="mx-auto mt-10 max-w-2xl text-center text-xl font-semibold italic leading-snug text-slate-800">
+        <p className="mx-auto mt-10 max-w-3xl text-balance text-center text-xl font-semibold italic leading-snug text-slate-800">
           Shop with the ease of digital retail, backed by the certainty of physical truth.
         </p>
       </div>

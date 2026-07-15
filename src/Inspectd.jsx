@@ -37,23 +37,21 @@ export function VdpInspectdModule({ onOrder }) {
 // Page-level band above the search results, in the dealer's voice.
 export function SearchInspectdBand({ onOpenAbout }) {
   return (
-    <div className="mb-4 rounded-lg border border-slate-200 bg-white p-4">
-      <div className="mb-2">
+    <div className="mb-4 flex flex-col items-stretch justify-between gap-4 rounded-lg border border-slate-200 bg-white p-4 sm:flex-row sm:items-center">
+      <div className="min-w-0 flex-1">
         <IndependentBadge />
+        <div className="mt-2 text-sm font-semibold text-slate-900">Absolute transparency on every vehicle.</div>
+        <p className="mt-0.5 text-sm text-slate-500">
+          Because we stand behind our inventory, you can order an independent VINsight™ Inspection Report from any
+          listing. Buy from us and we reimburse the full cost.
+        </p>
       </div>
-      <h2 className="text-base font-bold text-slate-900">Absolute transparency on every vehicle.</h2>
-      <p className="mt-1 text-sm text-slate-600">
-        Because we stand behind our inventory, we make it seamless to order a VINsight™ Inspection Report directly
-        from any of our listings. Order an independent report, and if you buy from us, we reimburse the full cost.
-      </p>
-      <div className="mt-3">
-        <button
-          onClick={onOpenAbout}
-          className="rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
-        >
-          Read Our Transparency Promise
-        </button>
-      </div>
+      <button
+        onClick={onOpenAbout}
+        className="shrink-0 rounded-md bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
+      >
+        Read Our Transparency Promise
+      </button>
     </div>
   );
 }

@@ -40,7 +40,7 @@ export function IndependentBadge({ subtle = false }) {
   return (
     <span
       className={
-        "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium " +
+        "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-1 text-xs font-medium " +
         (subtle ? "border-slate-200 bg-white text-slate-600" : "border-emerald-200 bg-emerald-50 text-emerald-800")
       }
     >
