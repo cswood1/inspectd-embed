@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { ShieldCheck, Check, ChevronRight, X, Lock } from "lucide-react";
 import { DEALER, PRICE, usd } from "./data.js";
 import { CarThumb, IndependentBadge, InfoTip, Field } from "./ui.jsx";
@@ -123,8 +123,6 @@ function HowItWorks() {
 }
 
 export function InspectdLanding({ context, onContinue }) {
-  const [vin, setVin] = useState("");
-  const isVehicle = context.mode === "vehicle";
   const v = context.vehicle;
   return (
     <div>
@@ -132,9 +130,7 @@ export function InspectdLanding({ context, onContinue }) {
       <div className="mx-auto max-w-3xl px-5 py-7">
         <IndependentBadge />
         <h1 className="mt-3 text-2xl font-bold tracking-tight text-slate-900">
-          {isVehicle
-            ? "Know this vehicle's real condition before you buy"
-            : "Get a VINsight™ Inspection Report before you buy"}
+          Know this vehicle's real condition before you buy
         </h1>
         <p className="mt-2 text-slate-600">
           The VINsight™ Inspection Report is an independent condition report delivered by Inspectd. The technician who
@@ -142,31 +138,17 @@ export function InspectdLanding({ context, onContinue }) {
           is good or bad.
         </p>
 
-        {isVehicle ? (
-          <div className="mt-5 flex items-center gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <CarThumb hue={v.hue} image={v.image} className="h-16 w-28 rounded" />
-            <div>
-              <div className="text-sm font-semibold text-slate-900">
-                {v.year} {v.make} {v.model} {v.trim}
-              </div>
-              <div className="text-xs text-slate-500">
-                VIN {v.vin} · {v.miles.toLocaleString()} mi · {DEALER.short}
-              </div>
+        <div className="mt-5 flex items-center gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
+          <CarThumb hue={v.hue} image={v.image} className="h-16 w-28 rounded" />
+          <div>
+            <div className="text-sm font-semibold text-slate-900">
+              {v.year} {v.make} {v.model} {v.trim}
+            </div>
+            <div className="text-xs text-slate-500">
+              VIN {v.vin} · {v.miles.toLocaleString()} mi · {DEALER.short}
             </div>
           </div>
-        ) : (
-          <div className="mt-5 rounded-xl border border-slate-200 p-4">
-            <label className="block text-sm font-medium text-slate-700">Enter the VIN you want inspected</label>
-            <input
-              value={vin}
-              onChange={(e) => setVin(e.target.value.toUpperCase())}
-              placeholder="17-character VIN"
-              maxLength={17}
-              className="mt-2 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm tracking-wider"
-            />
-            <p className="mt-1 text-xs text-slate-400">We decode the year, make, model, and trim from the VIN.</p>
-          </div>
-        )}
+        </div>
 
         <div className="mt-7 grid gap-6 sm:grid-cols-2">
           <div>
@@ -198,9 +180,8 @@ export function InspectdLanding({ context, onContinue }) {
             <div className="text-xs text-slate-400">Representative price. Final price set by market and scope.</div>
           </div>
           <button
-            disabled={!isVehicle && vin.length < 11}
-            onClick={() => onContinue({ ...context, vin: isVehicle ? v.vin : vin })}
-            className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-400 disabled:cursor-not-allowed disabled:bg-slate-600"
+            onClick={() => onContinue({ ...context, vin: v.vin })}
+            className="inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-400"
           >
             Continue to order <ChevronRight className="h-4 w-4" />
           </button>
@@ -211,7 +192,6 @@ export function InspectdLanding({ context, onContinue }) {
 }
 
 export function InspectdOrder({ context, onPlace }) {
-  const isVehicle = context.mode === "vehicle";
   const v = context.vehicle;
   return (
     <div>
@@ -221,9 +201,7 @@ export function InspectdOrder({ context, onPlace }) {
         <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm">
           <div className="flex justify-between">
             <span className="text-slate-500">Vehicle</span>
-            <span className="font-medium text-slate-800">
-              {isVehicle ? `${v.year} ${v.make} ${v.model}` : "Decoded from VIN"}
-            </span>
+            <span className="font-medium text-slate-800">{v.year} {v.make} {v.model}</span>
           </div>
           <div className="mt-1 flex justify-between">
             <span className="text-slate-500">VIN</span>
@@ -231,7 +209,7 @@ export function InspectdOrder({ context, onPlace }) {
           </div>
           <div className="mt-1 flex justify-between">
             <span className="text-slate-500">Location</span>
-            <span className="font-medium text-slate-800">{isVehicle ? DEALER.address : "To be confirmed"}</span>
+            <span className="font-medium text-slate-800">{DEALER.address}</span>
           </div>
         </div>
 
@@ -275,7 +253,6 @@ export function InspectdOrder({ context, onPlace }) {
 }
 
 export function InspectdConfirm({ context, orderRef, onClose }) {
-  const isVehicle = context.mode === "vehicle";
   const v = context.vehicle;
   return (
     <div>
@@ -288,7 +265,7 @@ export function InspectdConfirm({ context, orderRef, onClose }) {
         <p className="mt-1 text-slate-600">Your VINsight™ Inspection Report order is confirmed. Reference {orderRef}.</p>
         <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 text-left text-sm">
           {[
-            ["Vehicle", isVehicle ? `${v.year} ${v.make} ${v.model}` : "From VIN"],
+            ["Vehicle", `${v.year} ${v.make} ${v.model}`],
             ["VIN", context.vin],
             ["Report", "VINsight™ Inspection Report"],
             ["Independent of", DEALER.name],

@@ -187,7 +187,7 @@ function VehicleCard({ v, onOpen }) {
   );
 }
 
-export function SearchPage({ onOpenVehicle, onOrderGeneric }) {
+export function SearchPage({ onOpenVehicle }) {
   return (
     <div className="min-h-full bg-slate-100">
       <TopUtilityBar />
@@ -219,7 +219,7 @@ export function SearchPage({ onOpenVehicle, onOrderGeneric }) {
               <span className="font-semibold text-slate-900">142</span> certified and used vehicles for sale in {DEALER.city}
             </div>
 
-            <SearchInspectdBand onOrder={onOrderGeneric} />
+            <SearchInspectdBand />
 
             <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
               {INVENTORY.map((v) => (
@@ -363,7 +363,7 @@ export function VDPPage({ v, onBack, onOrder }) {
                 </div>
               </div>
 
-              <VdpInspectdModule onOrder={() => onOrder({ mode: "vehicle", vehicle: v })} />
+              <VdpInspectdModule onOrder={() => onOrder({ vehicle: v })} />
 
               <div className="rounded-lg bg-amber-400 p-4">
                 <div className="text-sm font-bold text-slate-900">What's your car worth?</div>

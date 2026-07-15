@@ -17,10 +17,7 @@ export default function App() {
   const openTab = (context) => setTab({ context, step: "landing" });
 
   const tabUrl =
-    tab &&
-    `inspectd.com/crestview/${
-      tab.context.mode === "vehicle" ? "inspect/" + tab.context.vehicle.vin.slice(-6) : "inspect"
-    }`;
+    tab && `inspectd.com/crestview/inspect/${tab.context.vehicle.vin.slice(-6)}`;
 
   return (
     <div className="flex h-screen flex-col bg-slate-300">
@@ -55,7 +52,7 @@ export default function App() {
       <div className="relative flex-1 overflow-hidden">
         <div className="h-full overflow-auto">
           {view === "search" && (
-            <SearchPage onOpenVehicle={openVehicle} onOrderGeneric={() => openTab({ mode: "standalone" })} />
+            <SearchPage onOpenVehicle={openVehicle} />
           )}
           {view === "vdp" && <VDPPage v={vehicle} onBack={() => setView("search")} onOrder={openTab} />}
           {view === "wholesale" && <WholesalePage />}
