@@ -219,7 +219,7 @@ export function SearchPage({ onOpenVehicle, onOpenAbout }) {
             </div>
 
             <div className="mb-3 text-sm text-slate-600">
-              <span className="font-semibold text-slate-900">142</span> certified and used vehicles for sale in {DEALER.city}
+              <span className="font-semibold text-slate-900">142</span> certified and used vehicles for sale in {DEALER.city}, {DEALER.state}
             </div>
 
             <SearchInspectdBand onOpenAbout={onOpenAbout} />
@@ -296,7 +296,7 @@ export function VDPPage({ v, onBack, onOrder, onOpenAbout }) {
                   <SpecRow k="Trim" v={v.trim} />
                   <SpecRow k="Stock #" v={v.stock} />
                   <SpecRow k="VIN" v={v.vin} />
-                  <SpecRow k="Location" v={DEALER.city} />
+                  <SpecRow k="Location" v={`${DEALER.city}, ${DEALER.state}`} />
                   <SpecRow k="Exterior color" v={v.ext} />
                   <SpecRow k="Interior color" v={v.intc} />
                 </dl>
@@ -330,7 +330,7 @@ export function VDPPage({ v, onBack, onOrder, onOpenAbout }) {
             </div>
 
             <div className="mt-4 rounded-lg border border-slate-200 bg-white p-4">
-              <h2 className="mb-2 text-sm font-bold text-slate-900">Used {v.year} {v.make} {v.model} for sale in {DEALER.city}</h2>
+              <h2 className="mb-2 text-sm font-bold text-slate-900">Used {v.year} {v.make} {v.model} for sale in {DEALER.city}, {DEALER.state}</h2>
               <p className="text-sm leading-relaxed text-slate-600">
                 This {v.year} {v.make} {v.model} {v.trim} is offered by {DEALER.name}. Equipped with {v.drive} and a {v.engine},
                 it comes ready for Colorado driving. Stop in for a test drive or unlock your price online. All pricing excludes

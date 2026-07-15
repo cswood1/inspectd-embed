@@ -1,5 +1,5 @@
 import React from "react";
-import { ShieldCheck, Check, ChevronRight, X, Lock } from "lucide-react";
+import { Check, ChevronRight, X, Lock } from "lucide-react";
 import { DEALER, PRICE, usd } from "./data.js";
 import { CarThumb, IndependentBadge, InfoTip, Field } from "./ui.jsx";
 
@@ -84,10 +84,8 @@ function InspectdHeader() {
     <div className="border-b border-slate-100 bg-white">
       <div className="mx-auto flex max-w-3xl items-center justify-between px-5 py-3">
         <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-slate-900 text-white">
-            <ShieldCheck className="h-4 w-4" />
-          </div>
-          <span className="text-sm font-bold tracking-tight text-slate-900">Inspectd™</span>
+          <img src="/inspectd-symbol.png" alt="" className="h-7 w-7" />
+          <span className="text-sm font-bold tracking-tight text-slate-900">Inspectd</span>
         </div>
         <span className="text-xs text-slate-400">For {DEALER.short} shoppers</span>
       </div>
@@ -179,6 +177,18 @@ export function InspectdLanding({ context, onContinue }) {
             Continue to order <ChevronRight className="h-4 w-4" />
           </button>
         </div>
+
+        <p className="mt-5 text-center text-sm text-slate-500">
+          Curious what a report looks like?{" "}
+          <a
+            href="https://www.inspectd.com/sample/tundra"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-slate-800 underline underline-offset-2 hover:text-slate-900"
+          >
+            See a sample VINsight™ Inspection Report
+          </a>
+        </p>
       </div>
     </div>
   );
@@ -200,9 +210,21 @@ export function InspectdOrder({ context, onPlace }) {
             <span className="text-slate-500">VIN</span>
             <span className="font-medium text-slate-800">{context.vin}</span>
           </div>
-          <div className="mt-1 flex justify-between">
-            <span className="text-slate-500">Location</span>
-            <span className="font-medium text-slate-800">{DEALER.address}</span>
+        </div>
+
+        <div className="mt-5 flex items-center gap-2">
+          <span className="text-sm font-semibold text-slate-900">Vehicle location</span>
+          <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-500">
+            <Lock className="h-3 w-3" /> From listing
+          </span>
+        </div>
+        <div className="mt-2 space-y-3">
+          <LockedField label="Dealership name" value={DEALER.name} />
+          <LockedField label="Address" value={DEALER.address} />
+          <div className="grid grid-cols-3 gap-3">
+            <LockedField label="City" value={DEALER.city} />
+            <LockedField label="State" value={DEALER.state} />
+            <LockedField label="Zip" value={DEALER.zip} />
           </div>
         </div>
 
@@ -213,6 +235,11 @@ export function InspectdOrder({ context, onPlace }) {
             <Field label="Email" placeholder="you@email.com" />
             <Field label="Phone" placeholder="(555) 555-0123" />
           </div>
+        </div>
+
+        <div className="mt-5 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-900">
+          <span className="font-semibold">Remember:</span> {DEALER.name} reimburses this full {usd(PRICE)} at signing
+          if you purchase this vehicle.
         </div>
 
         <div className="mt-5 text-sm font-semibold text-slate-900">Payment</div>
@@ -233,15 +260,34 @@ export function InspectdOrder({ context, onPlace }) {
         </div>
         <button
           onClick={onPlace}
-          className="mt-3 w-full rounded-lg bg-emerald-500 py-3 text-sm font-semibold text-white hover:bg-emerald-400"
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 py-3 text-sm font-semibold text-white hover:bg-emerald-400"
         >
-          Place order
+          <Lock className="h-4 w-4" /> Place order {usd(PRICE)}
         </button>
-        <p className="mt-2 text-center text-xs text-slate-400">
+        <p className="mt-2 text-center text-xs text-slate-500">
+          Most inspections are completed and delivered to your phone within 24-48 hours.
+        </p>
+        <p className="mt-1 text-center text-xs text-slate-400">
           By ordering you agree this inspection is independent of {DEALER.short}.
+        </p>
+        <p className="mt-4 flex items-center justify-center gap-1 border-t border-slate-100 pt-3 text-xs text-slate-400">
+          <Lock className="h-3 w-3" /> Secure checkout · encrypted payment
         </p>
       </div>
     </div>
+  );
+}
+
+function LockedField({ label, value }) {
+  return (
+    <label className="block">
+      <span className="text-xs font-medium text-slate-500">{label}</span>
+      <input
+        value={value}
+        readOnly
+        className="mt-1 w-full cursor-default rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600 focus:outline-none"
+      />
+    </label>
   );
 }
 

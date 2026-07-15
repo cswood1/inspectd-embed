@@ -14,8 +14,10 @@ import {
 export const DEALER = {
   name: "Crestview Auto Group",
   short: "Crestview",
-  city: "Aurora, CO",
-  address: "16400 E Colfax Ave, Aurora, CO 80011",
+  address: "16400 E Colfax Ave",
+  city: "Aurora",
+  state: "CO",
+  zip: "80011",
   phone: "(303) 555-0148",
   url: "crestviewautogroup.com",
 };

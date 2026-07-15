@@ -432,7 +432,7 @@ function OrderPanel({ vins, onCancel, onConfirm }) {
               {vehicles.length} vehicle{vehicles.length === 1 ? "" : "s"}
             </p>
             <p className="text-xs text-slate-300">{DEALER.name}</p>
-            <p className="text-xs text-slate-400">{DEALER.address}</p>
+            <p className="text-xs text-slate-400">{DEALER.address}, {DEALER.city}, {DEALER.state} {DEALER.zip}</p>
           </div>
           <button
             onClick={onCancel}
