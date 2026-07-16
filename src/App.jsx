@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { INVENTORY } from "./data.js";
+import { INVENTORY, DN_INVENTORY } from "./data.js";
 import { SearchPage, VDPPage, AboutPage } from "./Dealer.jsx";
 import { BrowserChrome, InspectdLanding, InspectdOrder, InspectdConfirm } from "./Inspectd.jsx";
 import { WholesalePage } from "./Wholesale.jsx";
+import { DigitalNativeSRP, DigitalNativeVDP } from "./DigitalNative.jsx";
 
 export default function App() {
-  const [view, setView] = useState("search"); // search | vdp | wholesale | about
+  const [view, setView] = useState("search"); // search | vdp | wholesale | about | dn-srp | dn-vdp
   const [vehicle, setVehicle] = useState(INVENTORY[0]);
+  const [dnVehicle, setDnVehicle] = useState(DN_INVENTORY[0]);
   const [tab, setTab] = useState(null); // null | { context, step }
   const [orderRef] = useState("INS-" + Math.floor(100000 + Math.random() * 900000));
 
@@ -16,9 +18,14 @@ export default function App() {
   };
   const openTab = (context) => setTab({ context, step: "landing" });
   const openAbout = () => { setView("about"); setTab(null); };
+  const openDnVehicle = (v) => {
+    setDnVehicle(v);
+    setView("dn-vdp");
+    setTab(null);
+  };
 
   const tabUrl =
-    tab && `inspectd.com/crestview/inspect/${tab.context.vehicle.vin.slice(-6)}`;
+    tab && `inspectd.com/${tab.context.dealer.key}/inspect/${tab.context.vehicle.vin.slice(-6)}`;
 
   return (
     <div className="flex h-screen flex-col bg-slate-300">
@@ -47,10 +54,19 @@ export default function App() {
           >
             Auction
           </button>
+          <button
+            onClick={() => { setView("dn-srp"); setTab(null); }}
+            className={"rounded-md px-3 py-1 text-xs font-medium " + (view === "dn-srp" ? "bg-white text-slate-900" : "text-slate-300 hover:bg-slate-800")}
+          >
+            SRP v2
+          </button>
+          <button
+            onClick={() => { setView("dn-vdp"); setTab(null); }}
+            className={"rounded-md px-3 py-1 text-xs font-medium " + (view === "dn-vdp" ? "bg-white text-slate-900" : "text-slate-300 hover:bg-slate-800")}
+          >
+            VDP v2
+          </button>
         </div>
-        <span className="ml-auto hidden text-[11px] text-slate-500 sm:block">
-          Mock dealer site. The Inspectd flow opens in a simulated new tab.
-        </span>
       </div>
 
       <div className="relative flex-1 overflow-hidden">
@@ -62,6 +78,10 @@ export default function App() {
             <VDPPage v={vehicle} onBack={() => setView("search")} onOrder={openTab} onOpenAbout={openAbout} />
           )}
           {view === "wholesale" && <WholesalePage />}
+          {view === "dn-srp" && <DigitalNativeSRP onOpenVehicle={openDnVehicle} />}
+          {view === "dn-vdp" && (
+            <DigitalNativeVDP v={dnVehicle} onBack={() => setView("dn-srp")} onOrder={openTab} />
+          )}
           {view === "about" && (
             <AboutPage onBack={() => setView("search")} onOpenAbout={openAbout} />
           )}

@@ -13,7 +13,7 @@ import {
   ArrowLeft,
   SlidersHorizontal,
 } from "lucide-react";
-import { DEALER, INVENTORY, FEATURES, usd } from "./data.js";
+import { DEALER, CRESTVIEW_DEALER, INVENTORY, FEATURES, usd } from "./data.js";
 import { CarThumb, IndependentBadge } from "./ui.jsx";
 import { SearchInspectdBand, VdpInspectdModule } from "./Inspectd.jsx";
 
@@ -374,7 +374,7 @@ export function VDPPage({ v, onBack, onOrder, onOpenAbout }) {
                 </button>
               </div>
 
-              <VdpInspectdModule onOrder={() => onOrder({ vehicle: v })} />
+              <VdpInspectdModule onOrder={() => onOrder({ vehicle: v, dealer: CRESTVIEW_DEALER })} />
 
               <div className="rounded-lg bg-amber-400 p-4">
                 <div className="text-sm font-bold text-slate-900">What's your car worth?</div>

@@ -79,7 +79,7 @@ export function BrowserChrome({ url, onClose, children }) {
   );
 }
 
-function InspectdHeader() {
+function InspectdHeader({ dealer }) {
   return (
     <div className="border-b border-slate-100 bg-white">
       <div className="mx-auto flex max-w-3xl items-center justify-between px-5 py-3">
@@ -87,7 +87,7 @@ function InspectdHeader() {
           <img src="/inspectd-symbol.png" alt="" className="h-7 w-7" />
           <span className="text-sm font-bold tracking-tight text-slate-900">Inspectd</span>
         </div>
-        <span className="text-xs text-slate-400">For {DEALER.short} shoppers</span>
+        <span className="text-xs text-slate-400">For {dealer.short} shoppers</span>
       </div>
     </div>
   );
@@ -115,9 +115,10 @@ function HowItWorks() {
 
 export function InspectdLanding({ context, onContinue }) {
   const v = context.vehicle;
+  const dealer = context.dealer;
   return (
     <div>
-      <InspectdHeader />
+      <InspectdHeader dealer={dealer} />
       <div className="mx-auto max-w-3xl px-5 py-7">
         <IndependentBadge />
         <h1 className="mt-3 text-2xl font-bold tracking-tight text-slate-900">
@@ -136,7 +137,7 @@ export function InspectdLanding({ context, onContinue }) {
               {v.year} {v.make} {v.model} {v.trim}
             </div>
             <div className="text-xs text-slate-500">
-              VIN {v.vin} · {v.miles.toLocaleString()} mi · {DEALER.short}
+              VIN {v.vin} · {v.miles.toLocaleString()} mi · {dealer.short}
             </div>
           </div>
         </div>
@@ -196,9 +197,10 @@ export function InspectdLanding({ context, onContinue }) {
 
 export function InspectdOrder({ context, onPlace }) {
   const v = context.vehicle;
+  const dealer = context.dealer;
   return (
     <div>
-      <InspectdHeader />
+      <InspectdHeader dealer={dealer} />
       <div className="mx-auto max-w-2xl px-5 py-7">
         <h1 className="text-xl font-bold tracking-tight text-slate-900">Order your VINsight™ Inspection Report</h1>
         <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm">
@@ -219,12 +221,12 @@ export function InspectdOrder({ context, onPlace }) {
           </span>
         </div>
         <div className="mt-2 space-y-3">
-          <LockedField label="Dealership name" value={DEALER.name} />
-          <LockedField label="Address" value={DEALER.address} />
+          <LockedField label="Dealership name" value={dealer.name} />
+          <LockedField label="Address" value={dealer.address} />
           <div className="grid grid-cols-3 gap-3">
-            <LockedField label="City" value={DEALER.city} />
-            <LockedField label="State" value={DEALER.state} />
-            <LockedField label="Zip" value={DEALER.zip} />
+            <LockedField label="City" value={dealer.city} />
+            <LockedField label="State" value={dealer.state} />
+            <LockedField label="Zip" value={dealer.zip} />
           </div>
         </div>
 
@@ -238,8 +240,7 @@ export function InspectdOrder({ context, onPlace }) {
         </div>
 
         <div className="mt-5 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-900">
-          <span className="font-semibold">Remember:</span> {DEALER.name} reimburses this full {usd(PRICE)} at signing
-          if you purchase this vehicle.
+          <span className="font-semibold">Remember:</span> {dealer.reimbursementText(usd(PRICE))}
         </div>
 
         <div className="mt-5 text-sm font-semibold text-slate-900">Payment</div>
@@ -268,7 +269,7 @@ export function InspectdOrder({ context, onPlace }) {
           Most inspections are completed and delivered to your phone within 24-48 hours.
         </p>
         <p className="mt-1 text-center text-xs text-slate-400">
-          By ordering you agree this inspection is independent of {DEALER.short}.
+          By ordering you agree this inspection is independent of {dealer.short}.
         </p>
         <p className="mt-4 flex items-center justify-center gap-1 border-t border-slate-100 pt-3 text-xs text-slate-400">
           <Lock className="h-3 w-3" /> Secure checkout · encrypted payment
@@ -293,9 +294,10 @@ function LockedField({ label, value }) {
 
 export function InspectdConfirm({ context, orderRef, onClose }) {
   const v = context.vehicle;
+  const dealer = context.dealer;
   return (
     <div>
-      <InspectdHeader />
+      <InspectdHeader dealer={dealer} />
       <div className="mx-auto max-w-xl px-5 py-12 text-center">
         <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100">
           <Check className="h-7 w-7 text-emerald-600" />
@@ -307,7 +309,7 @@ export function InspectdConfirm({ context, orderRef, onClose }) {
             ["Vehicle", `${v.year} ${v.make} ${v.model}`],
             ["VIN", context.vin],
             ["Report", "VINsight™ Inspection Report"],
-            ["Independent of", DEALER.name],
+            ["Independent of", dealer.name],
           ].map(([k, val]) => (
             <div key={k} className="flex justify-between border-b border-slate-100 py-1.5 last:border-0">
               <span className="text-slate-500">{k}</span>
