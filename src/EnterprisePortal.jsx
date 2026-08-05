@@ -15,7 +15,7 @@ import {
   CheckCircle2,
   Search,
 } from "lucide-react";
-import { useOrderStore, formatReceived, formatUsd } from "./OrderStore.jsx";
+import { useOrderStore, formatReceived, formatUsd, SERVICE_LEVELS } from "./OrderStore.jsx";
 
 const NAV_ITEMS = [
   { key: "dashboard", label: "Dashboard", icon: LayoutGrid },
@@ -139,7 +139,14 @@ function OrderRow({ order }) {
 }
 
 function JobsPage() {
-  const { orders, counts } = useOrderStore();
+  const { orders } = useOrderStore();
+  const myOrders = orders.filter((o) => o.requestor === "test-enterprise");
+  const counts = {
+    total: myOrders.length,
+    open: myOrders.filter((o) => o.status === "Open").length,
+    inProgress: myOrders.filter((o) => o.status === "In Progress").length,
+    completed: myOrders.filter((o) => o.status === "Completed").length,
+  };
   return (
     <div className="min-h-full bg-[#050b1c] px-10 py-10 text-white">
       <div className="mb-8">
@@ -174,12 +181,207 @@ function JobsPage() {
             </tr>
           </thead>
           <tbody>
-            {orders.map((o) => (
+            {myOrders.map((o) => (
               <OrderRow key={o.id} order={o} />
             ))}
           </tbody>
         </table>
       </div>
+    </div>
+  );
+}
+
+/* ---- Create Job page ------------------------------------------- */
+
+const DEFAULT_PRICE = {
+  "VINsight": 219,
+  "VINsight EV": 259,
+  "VINshield": 349,
+  "VINshield EV": 429,
+  "VINgrade Pre-Sale": 99,
+  "VINgrade Post-Sale": 89,
+};
+
+const inputClass =
+  "w-full rounded-md border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-emerald-400/60 focus:outline-none focus:ring-2 focus:ring-emerald-400/30";
+
+function Label({ children }) {
+  return (
+    <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-slate-400">
+      {children}
+    </label>
+  );
+}
+
+function CreateJobPage({ onCreated }) {
+  const { addOrder } = useOrderStore();
+  const [requestor, setRequestor] = useState("Test Enterprise Co");
+  const [year, setYear] = useState("");
+  const [make, setMake] = useState("");
+  const [model, setModel] = useState("");
+  const [vin, setVin] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [serviceLevel, setServiceLevel] = useState("VINsight");
+  const [price, setPrice] = useState(String(DEFAULT_PRICE["VINsight"]));
+
+  const onServiceLevelChange = (sl) => {
+    setServiceLevel(sl);
+    setPrice(String(DEFAULT_PRICE[sl] ?? ""));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const cleanYear = year.trim();
+    const cleanMake = make.trim();
+    const cleanModel = model.trim();
+    const priceNum = Number(price);
+    if (!requestor.trim() || !cleanYear || !cleanMake || !cleanModel || !city.trim() || !state.trim() || !Number.isFinite(priceNum)) {
+      return;
+    }
+    addOrder({
+      requestor: "test-enterprise",
+      title: requestor.trim(),
+      location: `${city.trim()}, ${state.trim().toUpperCase()}`,
+      vehicle: [cleanYear, cleanMake, cleanModel].join(" "),
+      vin: vin.trim() || undefined,
+      serviceLevel,
+      price: priceNum,
+    });
+    onCreated();
+  };
+
+  return (
+    <div className="min-h-full bg-[#050b1c] px-10 py-10 text-white">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold tracking-tight text-white">Create Job</h1>
+        <p className="mt-1 text-sm text-slate-400">Add a new inspection order to your queue</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="max-w-3xl space-y-6 rounded-xl border border-white/5 bg-white/[0.02] p-6">
+        <div>
+          <Label>Requestor</Label>
+          <input
+            type="text"
+            value={requestor}
+            onChange={(e) => setRequestor(e.target.value)}
+            required
+            className={inputClass}
+          />
+        </div>
+
+        <div>
+          <Label>Vehicle</Label>
+          <div className="grid grid-cols-3 gap-3">
+            <input
+              type="text"
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+              required
+              placeholder="Year"
+              inputMode="numeric"
+              maxLength={4}
+              className={inputClass}
+            />
+            <input
+              type="text"
+              value={make}
+              onChange={(e) => setMake(e.target.value)}
+              required
+              placeholder="Make"
+              className={inputClass}
+            />
+            <input
+              type="text"
+              value={model}
+              onChange={(e) => setModel(e.target.value)}
+              required
+              placeholder="Model"
+              className={inputClass}
+            />
+          </div>
+        </div>
+
+        <div>
+          <Label>VIN <span className="text-slate-500 normal-case">(optional)</span></Label>
+          <input
+            type="text"
+            value={vin}
+            onChange={(e) => setVin(e.target.value.toUpperCase())}
+            placeholder="17-character VIN"
+            maxLength={17}
+            className={inputClass + " tracking-wider"}
+          />
+        </div>
+
+        <div>
+          <Label>Location</Label>
+          <div className="grid grid-cols-3 gap-3">
+            <input
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              required
+              placeholder="City"
+              className={inputClass + " col-span-2"}
+            />
+            <input
+              type="text"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+              required
+              placeholder="State"
+              maxLength={2}
+              className={inputClass + " uppercase"}
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <Label>Service Level</Label>
+            <select
+              value={serviceLevel}
+              onChange={(e) => onServiceLevelChange(e.target.value)}
+              className={inputClass + " appearance-none pr-8"}
+            >
+              {SERVICE_LEVELS.map((sl) => (
+                <option key={sl} value={sl} className="bg-slate-900">
+                  {sl}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <Label>Price (USD)</Label>
+            <input
+              type="number"
+              min="0"
+              step="1"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+              className={inputClass}
+            />
+          </div>
+        </div>
+
+        <div className="flex items-center justify-end gap-3 border-t border-white/5 pt-6">
+          <button
+            type="button"
+            onClick={onCreated}
+            className="rounded-md px-4 py-2 text-sm font-medium text-slate-400 hover:text-white"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="rounded-md bg-emerald-500 px-6 py-2.5 text-sm font-bold text-slate-950 transition hover:bg-emerald-400"
+          >
+            Create Job
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
@@ -222,7 +424,11 @@ export function EnterprisePortal() {
     <div className="flex h-full bg-[#050b1c] text-white">
       <Sidebar subview={subview} onSelect={setSubview} onLogOut={handleLogOut} />
       <main className="flex-1 overflow-auto">
-        {subview === "jobs" ? <JobsPage /> : <SubviewPlaceholder label={active?.label ?? "Enterprise"} />}
+        {subview === "jobs" && <JobsPage />}
+        {subview === "create" && <CreateJobPage onCreated={() => setSubview("jobs")} />}
+        {subview !== "jobs" && subview !== "create" && (
+          <SubviewPlaceholder label={active?.label ?? "Enterprise"} />
+        )}
       </main>
     </div>
   );

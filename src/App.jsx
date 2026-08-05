@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { INVENTORY, DN_INVENTORY } from "./data.js";
+import { INVENTORY, DN_INVENTORY, PRICE } from "./data.js";
+import { useOrderStore } from "./OrderStore.jsx";
 import { SearchPage, VDPPage, AboutPage } from "./Dealer.jsx";
 import { BrowserChrome, InspectdLanding, InspectdOrder, InspectdConfirm } from "./Inspectd.jsx";
 import { WholesalePage } from "./Wholesale.jsx";
@@ -168,8 +169,8 @@ export default function App() {
   const [view, setView] = useState("home");
   const [vehicle, setVehicle] = useState(INVENTORY[0]);
   const [dnVehicle, setDnVehicle] = useState(DN_INVENTORY[0]);
-  const [tab, setTab] = useState(null); // null | { context, step }
-  const [orderRef] = useState("INS-" + Math.floor(100000 + Math.random() * 900000));
+  const [tab, setTab] = useState(null); // null | { context, step, orderId? }
+  const { addOrder } = useOrderStore();
 
   const go = (nextView) => {
     setView(nextView);
@@ -274,10 +275,29 @@ export default function App() {
                 <InspectdLanding context={tab.context} onContinue={(ctx) => setTab({ context: ctx, step: "order" })} />
               )}
               {tab.step === "order" && (
-                <InspectdOrder context={tab.context} onPlace={() => setTab({ ...tab, step: "confirm" })} />
+                <InspectdOrder
+                  context={tab.context}
+                  onPlace={() => {
+                    const v = tab.context.vehicle;
+                    const d = tab.context.dealer;
+                    const id = addOrder({
+                      requestor: d.key,
+                      title: d.name,
+                      location: `${d.city}, ${d.state}`,
+                      vehicle: `${v.year} ${v.make} ${v.model}`,
+                      serviceLevel: "VINsight",
+                      price: PRICE,
+                    });
+                    setTab({ ...tab, step: "confirm", orderId: id });
+                  }}
+                />
               )}
               {tab.step === "confirm" && (
-                <InspectdConfirm context={tab.context} orderRef={orderRef} onClose={() => setTab(null)} />
+                <InspectdConfirm
+                  context={tab.context}
+                  orderRef={tab.orderId}
+                  onClose={() => setTab(null)}
+                />
               )}
             </BrowserChrome>
           </div>

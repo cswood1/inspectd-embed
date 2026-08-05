@@ -13,7 +13,9 @@ export const SERVICE_LEVELS = [
 ];
 
 // Seed orders. IDs descend so addOrder can safely resume at max + 1.
-const SEED = [
+// All seed rows belong to the "test-enterprise" requestor; embedded surface
+// writes (crestview / axleauto / auctionplus) carry their own requestor.
+const SEED_RAW = [
   { id: "INS-8842", title: "Cascadia Auto Group",       location: "Seattle, WA",       vehicle: "2023 Mercedes-Benz GLC 300",       serviceLevel: "VINshield",         status: "In Progress", price: 349, received: "2026-08-05T09:22:00" },
   { id: "INS-8841", title: "Bay Area Motors",           location: "San Francisco, CA", vehicle: "2022 Tesla Model Y Performance",   serviceLevel: "VINshield EV",      status: "Open",        price: 429, received: "2026-08-05T08:15:00" },
   { id: "INS-8840", title: "Rainier Auto Group",        location: "Bellevue, WA",      vehicle: "2022 Porsche Macan",               serviceLevel: "VINsight",          status: "In Progress", price: 229, received: "2026-08-05T06:30:00" },
@@ -28,6 +30,8 @@ const SEED = [
   { id: "INS-8831", title: "Cascadia Auto Group",       location: "Seattle, WA",       vehicle: "2023 Mercedes-Benz E-Class",       serviceLevel: "VINshield",         status: "Completed",   price: 359, received: "2026-08-01T14:00:00" },
 ];
 
+const SEED = SEED_RAW.map((o) => ({ requestor: "test-enterprise", ...o }));
+
 const OrderStoreContext = createContext(null);
 
 function loadOrders() {
@@ -35,7 +39,13 @@ function loadOrders() {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       const parsed = JSON.parse(stored);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        // Migrate: any pre-existing row without a requestor belongs to the
+        // enterprise account it was seeded/created from.
+        return parsed.map((o) =>
+          o && o.requestor ? o : { ...o, requestor: "test-enterprise" }
+        );
+      }
     }
   } catch {
     // fall through to seed
@@ -62,14 +72,33 @@ export function OrderStoreProvider({ children }) {
     }
   }, [orders]);
 
-  const addOrder = (order) => {
-    setOrders((prev) => {
-      const id = nextOrderId(prev);
-      const received = new Date().toISOString();
-      const status = order.status ?? "Open";
-      return [{ id, received, status, ...order }, ...prev];
+  // addOrders takes a list of order drafts, assigns sequential ids based on
+  // current state, and prepends them newest-first. Returns the created ids.
+  // Computing ids outside the setter keeps things predictable under StrictMode
+  // and lets a single bulk confirm produce N unique ids in one go.
+  const addOrders = (drafts) => {
+    if (!drafts || drafts.length === 0) return [];
+    const nums = orders
+      .map((o) => parseInt(String(o.id).slice(4), 10))
+      .filter((n) => Number.isFinite(n));
+    let max = nums.length ? Math.max(...nums) : 8830;
+    const received = new Date().toISOString();
+    const created = drafts.map((draft) => {
+      max += 1;
+      return {
+        id: `INS-${max}`,
+        received,
+        status: draft.status ?? "Open",
+        ...draft,
+      };
     });
+    const ids = created.map((o) => o.id);
+    // Prepend in reverse so the highest id (last created) sits at the top.
+    setOrders((prev) => [...created.slice().reverse(), ...prev]);
+    return ids;
   };
+
+  const addOrder = (order) => addOrders([order])[0];
 
   const counts = useMemo(
     () => ({
@@ -81,7 +110,7 @@ export function OrderStoreProvider({ children }) {
     [orders]
   );
 
-  const value = { orders, addOrder, counts };
+  const value = { orders, addOrder, addOrders, counts };
   return <OrderStoreContext.Provider value={value}>{children}</OrderStoreContext.Provider>;
 }
 

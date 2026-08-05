@@ -30,6 +30,9 @@ import {
 } from "lucide-react";
 import { DEALER, INVENTORY, usd } from "./data.js";
 import { CarThumb, IndependentBadge } from "./ui.jsx";
+import { useOrderStore } from "./OrderStore.jsx";
+
+const AUCTIONPLUS_PRICE = 129; // wholesale figure, below the consumer PRICE
 
 // Two vehicles start "Ready to List" with a reserve. The rest are Incomplete.
 const INITIAL_ROW_STATE = {
@@ -622,6 +625,7 @@ function SelfInspectPanel({ vin, onClose }) {
 /* ---- page -------------------------------------------------------- */
 
 export function WholesalePage() {
+  const { addOrders } = useOrderStore();
   const [rowState, setRowState] = useState(() => {
     const m = {};
     INVENTORY.forEach((v) => { m[v.vin] = initialRowState(v.vin); });
@@ -659,6 +663,20 @@ export function WholesalePage() {
 
   const confirmOrder = () => {
     if (!orderPanel) return;
+    const vehicles = orderPanel.vins
+      .map((vin) => INVENTORY.find((v) => v.vin === vin))
+      .filter(Boolean);
+    addOrders(
+      vehicles.map((v) => ({
+        requestor: "auctionplus",
+        title: "AuctionPlus",
+        location: `${DEALER.city}, ${DEALER.state}`,
+        vehicle: `${v.year} ${v.make} ${v.model}`,
+        vin: v.vin,
+        serviceLevel: "VINgrade Pre-Sale",
+        price: AUCTIONPLUS_PRICE,
+      }))
+    );
     setRowState((prev) => {
       const next = { ...prev };
       for (const vin of orderPanel.vins) {
