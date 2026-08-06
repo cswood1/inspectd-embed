@@ -6,7 +6,6 @@ import { SearchPage, VDPPage, AboutPage } from "./Dealer.jsx";
 import { BrowserChrome, InspectdLanding, InspectdOrder, InspectdConfirm } from "./Inspectd.jsx";
 import { WholesalePage } from "./Wholesale.jsx";
 import { DigitalNativeSRP, DigitalNativeVDP } from "./DigitalNative.jsx";
-import { EnterprisePortal } from "./EnterprisePortal.jsx";
 import { gridBg } from "./AccessGate.jsx";
 
 /* ---- routing model --------------------------------------------- */
@@ -249,7 +248,7 @@ export default function App() {
       <div className="relative flex-1 overflow-hidden">
         <div className="h-full overflow-auto">
           {view === "home" && <Homepage onGo={go} />}
-          {view === "platform-enterprise" && <EnterprisePortal />}
+          {view === "platform-enterprise" && <PlatformPlaceholder label="Enterprise" />}
           {view === "platform-provider" && <PlatformPlaceholder label="Provider" />}
           {view === "platform-internal" && <PlatformPlaceholder label="Internal" />}
           {view === "search" && (
