@@ -505,14 +505,80 @@ function SpecGrid({ v }) {
   );
 }
 
-function CarfaxRow() {
+function CheckThisVehicle({ v, onOrder }) {
   return (
-    <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4">
-      <img src="/carfax-badge.png" alt="Carfax" className="h-7 shrink-0" />
-      <div className="flex-1 text-sm text-slate-600">Vehicle history report available for this vehicle.</div>
-      <button className="shrink-0 text-sm font-semibold text-violet-700 hover:text-violet-800">
-        View Carfax® report
-      </button>
+    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-100/70">
+      {/* Header */}
+      <div className="border-b border-slate-200 px-6 py-6 md:px-8">
+        <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+          Check this vehicle
+        </h2>
+        <p className="mt-1 text-sm text-slate-500">
+          Two independent reports on this exact car — one on where it has been, one on where it stands today.
+        </p>
+      </div>
+
+      {/* Carfax section */}
+      <div className="flex items-start gap-6 px-6 py-6 md:px-8 md:py-7">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-3">
+            <img src="/carfax-badge.png" alt="Carfax" className="h-7 shrink-0" />
+            <span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
+              Vehicle history
+            </span>
+          </div>
+          <h3 className="mt-3 text-xl font-semibold tracking-tight text-slate-900">
+            Review its past.
+          </h3>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">
+            A vehicle history report is available for this vehicle. Review reported accidents, title and salvage records, service history, and previous ownership, as reported to Carfax® by the shops, agencies, and insurers that handled the car.
+          </p>
+        </div>
+        <div className="shrink-0 text-right">
+          <button className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800">
+            View Carfax® report
+          </button>
+          <div className="mt-2 text-xs text-slate-500">Included — no cost</div>
+        </div>
+      </div>
+
+      {/* VINsight section */}
+      <div className="flex items-start gap-6 border-t border-slate-200 bg-emerald-50/40 px-6 py-6 md:px-8 md:py-7">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-3">
+            <span className="inline-flex items-center rounded-md bg-slate-900 px-3 py-1.5 text-sm font-bold text-white">
+              VINsight
+            </span>
+            <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-800">
+              Independent inspection
+            </span>
+          </div>
+          <h3 className="mt-3 text-xl font-semibold tracking-tight text-slate-900">
+            Verify its present.
+          </h3>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">
+            Order a VINsight™ Pre-Purchase Inspection and an independent third-party professional will evaluate this vehicle on our lot. You will receive a standardized condition report complete with high-resolution images, video, road-test data, and a mechanical evaluation. Plus, we will credit 100% of the inspection cost back to you when you complete your vehicle purchase.
+          </p>
+        </div>
+        <div className="shrink-0 text-right">
+          <button
+            onClick={() => onOrder({ vehicle: v, dealer: AXLEAUTO_DEALER })}
+            className="inline-flex items-center justify-center rounded-full bg-emerald-400 px-6 py-3 text-sm font-semibold text-slate-900 hover:bg-emerald-300"
+          >
+            Order VINsight™ report
+          </button>
+          <div className="mt-2 text-xs text-slate-500">
+            {usd(PRICE)} — credited back at purchase
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="border-t border-slate-200 bg-white px-6 py-3 md:px-8">
+        <div className="text-sm text-slate-500">
+          Powered by <span className="font-bold text-slate-900">Inspectd</span>
+        </div>
+      </div>
     </div>
   );
 }
@@ -530,31 +596,6 @@ function FeaturesGrid() {
           </div>
         ))}
       </div>
-    </div>
-  );
-}
-
-function InspectionModule({ v, onOrder }) {
-  return (
-    <div className="rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50/60 to-white p-6">
-      <IndependentBadge />
-      <h3 className="mt-3 text-lg font-semibold tracking-tight text-slate-900">
-        Know this vehicle's real condition before you buy.
-      </h3>
-      <p className="mt-2 text-sm leading-relaxed text-slate-600">
-        A VINsight™ inspection means a third-party technician, not the seller, inspects this exact vehicle and
-        delivers a standardized condition report. Ordering reserves this vehicle while it's inspected, and the
-        {" "}{usd(PRICE)} cost applies toward your purchase if you buy.
-      </p>
-      <button
-        onClick={() => onOrder({ vehicle: v, dealer: AXLEAUTO_DEALER })}
-        className="mt-4 rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
-      >
-        Order VINsight™ Report
-      </button>
-      <p className="mt-3 text-xs text-slate-500">
-        Provided by Inspectd™. Independent of AxleAuto.
-      </p>
     </div>
   );
 }
@@ -609,8 +650,7 @@ export function DigitalNativeVDP({ v = DN_INVENTORY[0], onBack = () => {}, onOrd
             <GallerySection v={v} />
             <TitleAndPrice v={v} />
             <TradeInCard />
-            <CarfaxRow />
-            <InspectionModule v={v} onOrder={onOrder} />
+            <CheckThisVehicle v={v} onOrder={onOrder} />
             <SpecGrid v={v} />
             <FeaturesGrid />
           </div>
