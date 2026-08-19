@@ -283,7 +283,7 @@ export function VDPPage({ v, onBack, onOrder, onOpenAbout }) {
 
             <div className="mt-3 flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3">
               <span className="rounded bg-slate-900 px-2 py-1 text-xs font-bold text-white">1-OWNER</span>
-              <img src="/carfax-badge.png" alt="Carfax" className="h-7 shrink-0" />
+              <img src="/carfax-logo.svg" alt="Carfax" className="h-7 shrink-0" />
               <span className="text-sm text-slate-600">Free vehicle history report available</span>
               <button className="ml-auto text-sm font-semibold text-red-700">View report</button>
             </div>
@@ -368,7 +368,7 @@ export function VDPPage({ v, onBack, onOrder, onOpenAbout }) {
               </div>
 
               <div className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white p-3.5">
-                <img src="/carfax-badge.png" alt="Carfax" className="h-7 shrink-0" />
+                <img src="/carfax-logo.svg" alt="Carfax" className="h-7 shrink-0" />
                 <button className="text-sm font-semibold text-red-700 hover:text-red-800">
                   View Carfax® report
                 </button>

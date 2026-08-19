@@ -5,14 +5,14 @@ import { useOrderStore } from "./OrderStore.jsx";
 import { SearchPage, VDPPage, AboutPage } from "./Dealer.jsx";
 import { BrowserChrome, InspectdLanding, InspectdOrder, InspectdConfirm } from "./Inspectd.jsx";
 import { WholesalePage } from "./Wholesale.jsx";
-import { DigitalNativeSRP, DigitalNativeVDP } from "./DigitalNative.jsx";
+import { DigitalNativeSRP, DigitalNativeVDP, DigitalNativeSaved } from "./DigitalNative.jsx";
 import { EnterprisePortal } from "./EnterprisePortal.jsx";
 import { ProviderPortal } from "./ProviderPortal.jsx";
 import { gridBg } from "./AccessGate.jsx";
 
 /* ---- routing model --------------------------------------------- */
 
-const DEALER_VIEWS = new Set(["search", "vdp", "dn-srp", "dn-vdp", "about"]);
+const DEALER_VIEWS = new Set(["search", "vdp", "dn-srp", "dn-vdp", "dn-saved", "about"]);
 const PLATFORM_VIEWS = new Set([
   "platform-enterprise",
   "platform-provider",
@@ -260,9 +260,23 @@ export default function App() {
             <VDPPage v={vehicle} onBack={() => setView("search")} onOrder={openTab} onOpenAbout={openAbout} />
           )}
           {view === "wholesale" && <WholesalePage />}
-          {view === "dn-srp" && <DigitalNativeSRP onOpenVehicle={openDnVehicle} />}
+          {view === "dn-srp" && (
+            <DigitalNativeSRP onOpenVehicle={openDnVehicle} onNavigate={go} />
+          )}
           {view === "dn-vdp" && (
-            <DigitalNativeVDP v={dnVehicle} onBack={() => setView("dn-srp")} onOrder={openTab} />
+            <DigitalNativeVDP
+              v={dnVehicle}
+              onBack={() => setView("dn-srp")}
+              onOrder={openTab}
+              onNavigate={go}
+            />
+          )}
+          {view === "dn-saved" && (
+            <DigitalNativeSaved
+              onOpenVehicle={openDnVehicle}
+              onNavigate={go}
+              onOrder={openTab}
+            />
           )}
           {view === "about" && (
             <AboutPage onBack={() => setView("search")} onOpenAbout={openAbout} />

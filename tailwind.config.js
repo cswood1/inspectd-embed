@@ -16,9 +16,21 @@ export default {
           muted: "#94a3b8",    // --muted-foreground: 215 20% 65%
           emerald: "#13d382",  // --primary: 160 84% 45%
         },
+        // AxleAuto.ai brand palette — cream page with crimson primary.
+        axle: {
+          bg: "#F5EDDC",             // page cream
+          card: "#FBF6E8",           // subtly lighter card fill
+          border: "#E4D9BE",         // warm subtle border
+          crimson: "#BE1B44",        // primary red
+          "crimson-dark": "#9F1638",
+          "crimson-light": "#F7DCE3", // soft rose for chips/badges
+          text: "#141017",           // near-black
+          muted: "#6D6558",          // warm brown-gray
+        },
       },
       fontFamily: {
         inter: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        script: ['"Yellowtail"', '"Great Vibes"', "cursive"],
       },
     },
   },
