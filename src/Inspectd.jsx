@@ -1,35 +1,35 @@
 import React from "react";
 import { Check, ChevronRight, X, Lock } from "lucide-react";
 import { DEALER, PRICE, usd } from "./data.js";
-import { CarThumb, IndependentBadge, InfoTip, Field } from "./ui.jsx";
+import { CarThumb, IndependentBadge, InfoLink, InfoTip, Field } from "./ui.jsx";
 
 /* ---- copy ------------------------------------------------------- */
 
-const TIP_VEHICLE = `An independent technician inspects this exact vehicle and delivers a VINsight™ Inspection Report, a standardized condition report with a diagnostic scan. Inspectd does not work for ${DEALER.short}, so the report reads the same whether the news is good or bad.`;
+const INSPECTION_TIP = "An independent third-party professional will evaluate this vehicle on our lot. You will receive a standardized condition report complete with high-resolution images, video, road-test data, and a mechanical evaluation. Plus, we will credit 100% of the inspection cost back to you when you complete your vehicle purchase.";
 
 /* ---- embed modules (the inserted third-party pieces) ------------ */
 
 // Right-rail module on the VDP, sits in the dealer's CTA stack.
+// Mirrors the Carfax row layout: logo on the left, red text CTA on the right,
+// with a hoverable info link and price note underneath.
 export function VdpInspectdModule({ onOrder }) {
   return (
     <div className="rounded-lg border border-slate-200 bg-white p-3.5">
-      <div className="mb-2 flex items-center justify-between">
-        <IndependentBadge />
-        <InfoTip text={TIP_VEHICLE} align="right" />
+      <div className="flex items-center justify-between gap-3">
+        <img src="/vinsight-wordmark.png" alt="VINsight" className="h-7 shrink-0" />
+        <button
+          onClick={onOrder}
+          className="text-sm font-semibold text-red-700 hover:text-red-800"
+        >
+          Order VINsight™ report
+        </button>
       </div>
-      <div className="text-sm font-semibold text-slate-900">VINsight™ Inspection Report</div>
-      <p className="mt-0.5 text-xs text-slate-500">
-        Independent third-party condition report on this exact vehicle before you buy.
-      </p>
-      <button
-        onClick={onOrder}
-        className="mt-2.5 flex w-full items-center justify-center gap-2 rounded-md bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
-      >
-        Order VINsight™ Report <ChevronRight className="h-4 w-4" />
-      </button>
-      <p className="mt-1.5 text-center text-[10px] text-slate-400">
-        Provided by Inspectd™. Not affiliated with {DEALER.short}.
-      </p>
+      <div className="mt-2 flex items-center justify-between gap-3 border-t border-slate-100 pt-2">
+        <InfoLink label="What's in the inspection" tone="emerald" tip={INSPECTION_TIP} />
+        <span className="text-xs text-slate-500">
+          {usd(PRICE)} — credited back at purchase
+        </span>
+      </div>
     </div>
   );
 }

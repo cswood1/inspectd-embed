@@ -73,6 +73,48 @@ export function InfoTip({ text, align = "center" }) {
   );
 }
 
+// Text link with an info icon and a hover-triggered tooltip.
+// tone: "blue" (Carfax) → slate bubble | "emerald" (VINsight) → light green bubble.
+export function InfoLink({ label, tone = "blue", tip }) {
+  const [open, setOpen] = useState(false);
+  const linkCls =
+    tone === "emerald"
+      ? "text-emerald-600 hover:text-emerald-700"
+      : "text-blue-600 hover:text-blue-700";
+  const bubbleCls =
+    tone === "emerald"
+      ? "border-emerald-200 bg-emerald-50 text-emerald-900"
+      : "border-slate-200 bg-slate-100 text-slate-800";
+  return (
+    <span className="relative inline-block">
+      <button
+        type="button"
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
+        onFocus={() => setOpen(true)}
+        onBlur={() => setOpen(false)}
+        className={
+          "inline-flex items-center gap-1.5 text-xs font-medium underline underline-offset-2 transition " +
+          linkCls
+        }
+      >
+        <Info className="h-3.5 w-3.5" />
+        {label}
+      </button>
+      {open && (
+        <span
+          className={
+            "pointer-events-none absolute bottom-full left-0 z-50 mb-2 w-72 rounded-lg border p-3 text-left text-xs leading-relaxed shadow-lg " +
+            bubbleCls
+          }
+        >
+          {tip}
+        </span>
+      )}
+    </span>
+  );
+}
+
 export function Field({ label, placeholder }) {
   return (
     <label className="block">
