@@ -78,6 +78,29 @@ export const EV_ADDENDUM = [
   "Charge port condition and function",
 ];
 
+// What the dev panel Advance button will do next, or null at a dead end.
+export const NEXT_STATE = {
+  OPEN: "CLAIMED",
+  CLAIMED: "IN_PROGRESS",
+  IN_PROGRESS: "SUBMITTED",
+  REVISION_REQUESTED: "SUBMITTED",
+  SUBMITTED: "ACCEPTED",
+  ACCEPTED: "PAID",
+};
+
+// datetime-local shape, matching what the real submit form produces.
+function stubSubmission() {
+  const d = new Date();
+  const p = (n) => String(n).padStart(2, "0");
+  return {
+    pdfName: "inspection-report.pdf",
+    odometer: 48210,
+    photoCount: 104,
+    completedAt: `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`,
+    blockingIssues: "",
+  };
+}
+
 /* ---- seed ---------------------------------------------------- */
 
 const MIN = 60000;
@@ -525,6 +548,33 @@ export function OfferStoreProvider({ children }) {
     return { ok: true };
   };
 
+  /*
+   * Dev-panel only: step a job along the happy path. Token-scoped rather than
+   * job-scoped because OPEN -> CLAIMED needs to know which provider is
+   * claiming, and that only exists on the token.
+   */
+  const advance = (tokenId) => {
+    const s = current();
+    const token = s.tokens[tokenId];
+    const job = token && s.jobs[token.jobId];
+    if (!job) return { ok: false, reason: "NOT_FOUND" };
+    switch (job.state) {
+      case "OPEN":
+        return claim(tokenId);
+      case "CLAIMED":
+        return start(job.id);
+      case "IN_PROGRESS":
+      case "REVISION_REQUESTED":
+        return submit(job.id, stubSubmission());
+      case "SUBMITTED":
+        return accept(job.id);
+      case "ACCEPTED":
+        return pay(job.id);
+      default:
+        return { ok: false, reason: "TERMINAL" };
+    }
+  };
+
   const withdraw = (jobId) => {
     const s = current();
     if (!s.jobs[jobId]) return { ok: false };
@@ -566,6 +616,7 @@ export function OfferStoreProvider({ children }) {
       pay,
       withdraw,
       expireToken,
+      advance,
       resetAll,
     }),
     // `now` ticks every second; the action closures read live storage anyway.

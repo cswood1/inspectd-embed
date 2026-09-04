@@ -20,6 +20,8 @@ import {
 import { formatReceived } from "./OrderStore.jsx";
 import { Btn, Eyebrow } from "./InternalUI.jsx";
 import { ClaimFlow, ReasonSheet, SubmitFlow } from "./JobOfferFlows.jsx";
+import { OfferDevPanel } from "./OfferDevPanel.jsx";
+import { useQueryFlag } from "./router.jsx";
 
 /*
  * Provider offer screen for /job/:token.
@@ -456,6 +458,7 @@ export function JobOffer({ token }) {
   const { resolve, decline, release, start, submit } = useOffers();
   const view = resolve(token);
   const [sheet, setSheet] = useState(null); // null | "claim" | "decline" | "release"
+  const devMode = useQueryFlag("dev");
   const [submitting, setSubmitting] = useState(false);
 
   const closeSheet = () => setSheet(null);
@@ -521,6 +524,8 @@ export function JobOffer({ token }) {
           closeSheet();
         }}
       />
+
+      {devMode && <OfferDevPanel token={token} />}
     </div>
   );
 }
