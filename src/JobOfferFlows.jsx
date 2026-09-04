@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ShieldCheck, X } from "lucide-react";
+import { FileUp, ShieldCheck, X } from "lucide-react";
 import { DECLINE_REASONS, useOffers } from "./OfferStore.jsx";
 import { Btn } from "./InternalUI.jsx";
 
@@ -226,3 +226,139 @@ export function ReasonSheet({
   );
 }
 
+/* ---- submit report ------------------------------------------- */
+
+// datetime-local wants YYYY-MM-DDTHH:mm in local time, not an ISO string.
+function localStamp(d = new Date()) {
+  const p = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+
+const LABEL = "text-[11px] font-semibold uppercase tracking-wide text-slate-400";
+
+/*
+ * Full screen rather than a sheet — a PDF plus four fields is too much for a
+ * bottom sheet on a phone. Prefills from the previous submission so a
+ * resubmission after a revision request is an edit, not a re-entry.
+ */
+export function SubmitFlow({ job, onCancel, onSubmit }) {
+  const prev = job.submission;
+  const [pdfName, setPdfName] = useState(prev?.pdfName || "");
+  const [odometer, setOdometer] = useState(prev?.odometer || "");
+  const [photoCount, setPhotoCount] = useState(prev?.photoCount || "");
+  const [completedAt, setCompletedAt] = useState(prev?.completedAt || localStamp());
+  const [blockingIssues, setBlockingIssues] = useState(prev?.blockingIssues || "");
+
+  const ready = pdfName && odometer !== "" && photoCount !== "" && completedAt;
+  const shortOnPhotos = photoCount !== "" && Number(photoCount) < 100;
+
+  return (
+    <div className="space-y-3">
+      <button
+        onClick={onCancel}
+        className="text-xs text-slate-500 underline underline-offset-2 hover:text-slate-800"
+      >
+        Back to job
+      </button>
+
+      <div className="rounded-lg border border-slate-200 bg-white p-4">
+        <h2 className="text-lg font-bold tracking-tight text-slate-900">Submit report</h2>
+        <p className="mt-1 text-sm text-slate-600">
+          Attach the report and confirm what you captured.
+        </p>
+
+        <div className="mt-5">
+          <div className={LABEL}>Report PDF</div>
+          <label className="mt-2 flex cursor-pointer flex-col items-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 px-4 py-6 text-center transition hover:border-emerald-400">
+            <FileUp className="h-6 w-6 text-slate-400" strokeWidth={1.75} />
+            <span className="mt-2 text-sm font-medium text-slate-700">
+              {pdfName || "Choose a PDF"}
+            </span>
+            <span className="mt-0.5 text-xs text-slate-500">
+              {pdfName ? "Tap to replace" : "PDF up to 50 MB"}
+            </span>
+            <input
+              type="file"
+              accept="application/pdf,.pdf"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) setPdfName(file.name);
+              }}
+            />
+          </label>
+        </div>
+
+        <div className="mt-5 grid grid-cols-2 gap-3">
+          <div>
+            <div className={LABEL}>Odometer</div>
+            <input
+              inputMode="numeric"
+              value={odometer}
+              onChange={(e) => setOdometer(e.target.value.replace(/\D/g, "").slice(0, 7))}
+              placeholder="48210"
+              className={FIELD_LG + " mt-2 font-mono tabular-nums"}
+            />
+          </div>
+          <div>
+            <div className={LABEL}>Photos</div>
+            <input
+              inputMode="numeric"
+              value={photoCount}
+              onChange={(e) => setPhotoCount(e.target.value.replace(/\D/g, "").slice(0, 4))}
+              placeholder="104"
+              className={FIELD_LG + " mt-2 font-mono tabular-nums"}
+            />
+          </div>
+        </div>
+        {shortOnPhotos && (
+          <p className="mt-2 text-xs text-amber-700">
+            This job requires a minimum of 100 photos.
+          </p>
+        )}
+
+        <div className="mt-4">
+          <div className={LABEL}>Completed</div>
+          <input
+            type="datetime-local"
+            value={completedAt}
+            onChange={(e) => setCompletedAt(e.target.value)}
+            className={FIELD_LG + " mt-2"}
+          />
+        </div>
+
+        <div className="mt-4">
+          <div className={LABEL}>Blocking issues (optional)</div>
+          <textarea
+            rows={3}
+            value={blockingIssues}
+            onChange={(e) => setBlockingIssues(e.target.value)}
+            placeholder="Anything that stopped you completing a required section"
+            className={FIELD_LG + " mt-2 resize-y text-sm"}
+          />
+        </div>
+      </div>
+
+      <div className="fixed inset-x-0 bottom-0 border-t border-slate-200 bg-white/95 backdrop-blur">
+        <div className="mx-auto max-w-lg px-4 py-3">
+          <Btn
+            variant="primary"
+            size="lg"
+            disabled={!ready}
+            onClick={() =>
+              onSubmit({
+                pdfName,
+                odometer: Number(odometer),
+                photoCount: Number(photoCount),
+                completedAt,
+                blockingIssues: blockingIssues.trim(),
+              })
+            }
+          >
+            {prev ? "Resubmit report" : "Submit report"}
+          </Btn>
+        </div>
+      </div>
+    </div>
+  );
+}
