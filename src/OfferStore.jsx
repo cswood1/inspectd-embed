@@ -35,14 +35,13 @@ export const JOB_STATES = [
 // Recovery / terminal states outside the happy path.
 export const JOB_RECOVERY_STATES = ["REVISION_REQUESTED", "RELEASED", "WITHDRAWN"];
 
-export const TOKEN_STATES = ["ACTIVE", "EXPIRED", "SUPERSEDED", "DECLINED"];
+export const TOKEN_STATES = ["ACTIVE", "SUPERSEDED", "DECLINED"];
 
 // Screens that show a single line plus the vehicle summary and nothing else.
 export const TERMINAL_KINDS = new Set([
   "NOT_FOUND",
   "DECLINED",
   "SUPERSEDED",
-  "EXPIRED",
   "WITHDRAWN",
   "CLAIMED_BY_ANOTHER",
 ]);
@@ -111,7 +110,7 @@ function iso(ms) {
 
 export function buildSeed(now = Date.now()) {
   return {
-    version: 1,
+    version: 2,
     providers: {
       pro_kestrel: {
         id: "pro_kestrel",
@@ -227,46 +226,24 @@ export function buildSeed(now = Date.now()) {
     },
     tokens: {
       // The two-tab pair — same job, two providers.
-      t_k4rav: {
-        jobId: "JOB-4471",
-        providerId: "pro_kestrel",
-        state: "ACTIVE",
-        expiresAt: iso(now + 90 * MIN),
-      },
-      t_r9rav: {
-        jobId: "JOB-4471",
-        providerId: "pro_ridgeline",
-        state: "ACTIVE",
-        expiresAt: iso(now + 90 * MIN),
-      },
-      t_k2tsl: {
-        jobId: "JOB-4472",
-        providerId: "pro_kestrel",
-        state: "ACTIVE",
-        expiresAt: iso(now + 45 * MIN),
-      },
-      t_r7f15: {
-        jobId: "JOB-4473",
-        providerId: "pro_ridgeline",
-        state: "ACTIVE",
-        expiresAt: iso(now + 6 * 60 * MIN),
-      },
-      // Pre-set so the terminal screens are reachable without the dev panel.
-      t_k1exp: {
-        jobId: "JOB-4473",
-        providerId: "pro_kestrel",
-        state: "EXPIRED",
-        expiresAt: iso(now - 40 * MIN),
-      },
-      t_r3sup: {
-        jobId: "JOB-4472",
-        providerId: "pro_ridgeline",
-        state: "SUPERSEDED",
-        expiresAt: iso(now + 45 * MIN),
-      },
+      t_k4rav: { jobId: "JOB-4471", providerId: "pro_kestrel", state: "ACTIVE" },
+      t_r9rav: { jobId: "JOB-4471", providerId: "pro_ridgeline", state: "ACTIVE" },
+      t_k2tsl: { jobId: "JOB-4472", providerId: "pro_kestrel", state: "ACTIVE" },
+      t_r7f15: { jobId: "JOB-4473", providerId: "pro_ridgeline", state: "ACTIVE" },
+      // Pre-set so the superseded screen is reachable without the dev panel.
+      t_r3sup: { jobId: "JOB-4472", providerId: "pro_ridgeline", state: "SUPERSEDED" },
     },
   };
 }
+
+function hashCode(s) {
+  let h = 0;
+  const str = String(s ?? "");
+  for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
+const mintToken = (seed) => "t_" + hashCode(seed).toString(36).slice(0, 7);
 
 /* ---- persistence --------------------------------------------- */
 
@@ -275,7 +252,7 @@ function readStorage() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw);
-    if (parsed && parsed.version === 1 && parsed.jobs && parsed.tokens) return parsed;
+    if (parsed && parsed.version === 2 && parsed.jobs && parsed.tokens) return parsed;
   } catch {
     // fall through to a fresh seed
   }
@@ -299,28 +276,28 @@ function writeStorage(state) {
  *
  * First match wins.
  */
-export function resolveToken(state, tokenId, now = Date.now()) {
+export function resolveToken(state, tokenId) {
   const token = state.tokens[tokenId];
   if (!token) return { kind: "NOT_FOUND", tokenId };
 
   const job = state.jobs[token.jobId];
-  const provider = state.providers[token.providerId];
-  if (!job || !provider) return { kind: "NOT_FOUND", tokenId };
+  if (!job) return { kind: "NOT_FOUND", tokenId };
 
-  const base = { tokenId, token, job, provider };
+  /*
+   * A seeded token names its provider. A token minted by Dispatch is one link
+   * sent to everyone, so it carries no provider and the token itself is the
+   * claimant identity — otherwise whoever claimed would read their own claim
+   * back as CLAIMED_BY_ANOTHER.
+   */
+  const provider = token.providerId ? state.providers[token.providerId] : null;
+  const claimant = token.providerId || tokenId;
+  const base = { tokenId, token, job, provider, claimant };
 
   if (token.state === "DECLINED") return { kind: "DECLINED", ...base };
   if (token.state === "SUPERSEDED") return { kind: "SUPERSEDED", ...base };
-
-  const expired =
-    token.state === "EXPIRED" ||
-    (token.expiresAt && Date.parse(token.expiresAt) <= now);
-  // Expiry only matters while the job is still up for grabs.
-  if (expired && job.state === "OPEN") return { kind: "EXPIRED", ...base };
-
   if (job.state === "WITHDRAWN") return { kind: "WITHDRAWN", ...base };
   if (job.state === "OPEN") return { kind: "OFFERED", ...base };
-  if (job.claimedBy !== token.providerId) return { kind: "CLAIMED_BY_ANOTHER", ...base };
+  if (job.claimedBy !== claimant) return { kind: "CLAIMED_BY_ANOTHER", ...base };
   if (job.state === "CLAIMED") return { kind: "CLAIMED_BY_YOU", ...base };
 
   // IN_PROGRESS | SUBMITTED | REVISION_REQUESTED | ACCEPTED | PAID
@@ -333,14 +310,14 @@ export function vinLast6(vin) {
 
 export function vehicleLine(v) {
   if (!v) return "";
+  // Dispatched jobs carry the console vehicle string; seeded ones decompose.
+  if (v.label) return v.label;
   return `${v.year} ${v.make} ${v.model}${v.trim ? ` ${v.trim}` : ""}`;
 }
 
 /* ---- provider ------------------------------------------------ */
 
 const OfferContext = createContext(null);
-
-const TICK_MS = 1000;
 
 export function OfferStoreProvider({ children }) {
   const [state, setState] = useState(() => readStorage() || buildSeed());
@@ -369,13 +346,6 @@ export function OfferStoreProvider({ children }) {
     };
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
-  }, []);
-
-  // Drives the offer expiry countdown and flips EXPIRED without interaction.
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    const t = setInterval(() => setNow(Date.now()), TICK_MS);
-    return () => clearInterval(t);
   }, []);
 
   /* -- mutation helpers -- */
@@ -409,7 +379,7 @@ export function OfferStoreProvider({ children }) {
 
   // First claim wins. Returns a result rather than throwing so the UI can show
   // the losing tab why it failed.
-  const claim = (tokenId) => {
+  const claim = (tokenId, phone = null) => {
     const s = current();
     const token = s.tokens[tokenId];
     if (!token) return { ok: false, reason: "NOT_FOUND" };
@@ -417,13 +387,15 @@ export function OfferStoreProvider({ children }) {
     if (!job) return { ok: false, reason: "NOT_FOUND" };
     if (job.state !== "OPEN") return { ok: false, reason: "ALREADY_CLAIMED" };
 
+    const claimant = token.providerId || tokenId;
+    const who = s.providers[token.providerId]?.name || phone || "a provider";
     const at = new Date().toISOString();
     commit(
       withJob(
         s,
         job.id,
-        { state: "CLAIMED", claimedBy: token.providerId, claimedAt: at },
-        `Claimed by ${s.providers[token.providerId]?.name || token.providerId}`
+        { state: "CLAIMED", claimedBy: claimant, claimedAt: at, claimedByPhone: phone },
+        `Claimed by ${who}`
       )
     );
     return { ok: true };
@@ -454,13 +426,14 @@ export function OfferStoreProvider({ children }) {
     const token = s.tokens[tokenId];
     if (!token) return { ok: false, reason: "NOT_FOUND" };
     const job = s.jobs[token.jobId];
-    if (!job || job.claimedBy !== token.providerId) {
+    const claimant = token.providerId || tokenId;
+    if (!job || job.claimedBy !== claimant) {
       return { ok: false, reason: "NOT_YOURS" };
     }
     const reopened = withJob(
       s,
       job.id,
-      { state: "OPEN", claimedBy: null, claimedAt: null, startedAt: null },
+      { state: "OPEN", claimedBy: null, claimedAt: null, claimedByPhone: null, startedAt: null },
       `Released by ${s.providers[token.providerId]?.name || token.providerId} — ${declineLabel(reason)}`
     );
     commit(
@@ -575,19 +548,82 @@ export function OfferStoreProvider({ children }) {
     }
   };
 
+  /*
+   * Dispatch mints ONE link for the job rather than one per provider. The
+   * offer job is COPIED, not referenced — /job/:token renders standalone and
+   * must never need RequestStore mounted.
+   *
+   * Idempotent: dispatching a job that already has a live link returns the
+   * existing one instead of minting a second.
+   */
+  const dispatch = (draft) => {
+    const s = current();
+    const jobId = "OFR-" + String(draft.sourceId).replace(/[^A-Za-z0-9]/g, "");
+    const tokenId = mintToken(jobId);
+    if (s.tokens[tokenId] && s.jobs[jobId]) return { ok: true, tokenId, existing: true };
+
+    const at = new Date().toISOString();
+    const isEv = /\bEV\b/.test(draft.serviceLevel || "");
+    const next = {
+      ...s,
+      jobs: {
+        ...s.jobs,
+        [jobId]: {
+          id: jobId,
+          state: "OPEN",
+          sourceId: draft.sourceId,
+          // The console has no VIN or trim breakdown, so the offer screen
+          // renders the vehicle string it does have.
+          vehicle: { label: draft.vehicleLabel, vin: null },
+          service: {
+            name: draft.serviceLevel,
+            evAddendum: isEv,
+            requirements: isEv ? [...PRE_PURCHASE, ...EV_ADDENDUM] : [...PRE_PURCHASE],
+          },
+          city: draft.city,
+          state_: draft.state_,
+          zip: draft.zip,
+          // Street address, distance and time window are not in the console
+          // model. Omitted rather than invented; the offer screen degrades.
+          address: null,
+          distanceMi: null,
+          window: null,
+          payout: draft.payout,
+          contact: { name: draft.contactName, email: draft.contactEmail, phone: null },
+          claimedBy: null,
+          claimedAt: null,
+          claimedByPhone: null,
+          startedAt: null,
+          submittedAt: null,
+          acceptedAt: null,
+          paidAt: null,
+          submission: null,
+          revisionNotes: null,
+          log: [{ at, event: "Dispatched from the internal console" }],
+        },
+      },
+      tokens: {
+        ...s.tokens,
+        [tokenId]: { jobId, providerId: null, state: "ACTIVE", dispatchedAt: at },
+      },
+    };
+    commit(next);
+    return { ok: true, tokenId, existing: false };
+  };
+
+  // What the console needs to show: is this job already out, and to whom.
+  const findDispatch = (sourceId) => {
+    const jobId = "OFR-" + String(sourceId).replace(/[^A-Za-z0-9]/g, "");
+    const tokenId = mintToken(jobId);
+    const job = state.jobs[jobId];
+    if (!job || !state.tokens[tokenId]) return null;
+    return { tokenId, job, token: state.tokens[tokenId] };
+  };
+
   const withdraw = (jobId) => {
     const s = current();
     if (!s.jobs[jobId]) return { ok: false };
     commit(withJob(s, jobId, { state: "WITHDRAWN" }, "Withdrawn by requestor"));
-    return { ok: true };
-  };
-
-  const expireToken = (tokenId) => {
-    const s = current();
-    if (!s.tokens[tokenId]) return { ok: false };
-    commit(
-      withToken(s, tokenId, { state: "EXPIRED", expiresAt: new Date().toISOString() })
-    );
     return { ok: true };
   };
 
@@ -604,8 +640,7 @@ export function OfferStoreProvider({ children }) {
   const value = useMemo(
     () => ({
       state,
-      now,
-      resolve: (tokenId) => resolveToken(state, tokenId, now),
+      resolve: (tokenId) => resolveToken(state, tokenId),
       claim,
       decline,
       release,
@@ -615,13 +650,14 @@ export function OfferStoreProvider({ children }) {
       accept,
       pay,
       withdraw,
-      expireToken,
       advance,
+      dispatch,
+      findDispatch,
       resetAll,
     }),
-    // `now` ticks every second; the action closures read live storage anyway.
+    // The action closures read live storage anyway.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [state, now]
+    [state]
   );
 
   return <OfferContext.Provider value={value}>{children}</OfferContext.Provider>;

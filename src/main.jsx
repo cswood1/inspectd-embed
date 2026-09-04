@@ -17,13 +17,10 @@ import "./index.css";
 function Root() {
   const { token } = useRoute();
 
-  if (token) {
-    return (
-      <OfferStoreProvider>
-        <JobOffer token={token} />
-      </OfferStoreProvider>
-    );
-  }
+  // OfferStoreProvider wraps both branches: the console writes offers when it
+  // dispatches, and a real second tab at /job/:token reads the same
+  // localStorage back.
+  if (token) return <JobOffer token={token} />;
 
   return (
     <OrderStoreProvider>
@@ -38,6 +35,8 @@ function Root() {
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Root />
+    <OfferStoreProvider>
+      <Root />
+    </OfferStoreProvider>
   </React.StrictMode>
 );

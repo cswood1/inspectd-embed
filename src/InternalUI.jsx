@@ -81,7 +81,7 @@ export function StatCard({ label, value, active, onClick }) {
     <button
       onClick={onClick}
       className={
-        "flex-1 rounded-lg border px-4 py-3.5 text-left transition " +
+        "flex-1 rounded-lg border px-3.5 py-3 text-left transition " +
         (active
           ? "border-emerald-500 bg-emerald-50/70"
           : "border-slate-200 bg-white hover:border-slate-300")
@@ -89,14 +89,14 @@ export function StatCard({ label, value, active, onClick }) {
     >
       <div
         className={
-          "text-sm font-semibold " + (active ? "text-emerald-800" : "text-slate-500")
+          "text-[13px] font-semibold " + (active ? "text-emerald-800" : "text-slate-500")
         }
       >
         {label}
       </div>
       <div
         className={
-          "mt-1 text-3xl font-bold tracking-tight " +
+          "mt-0.5 text-2xl font-bold tracking-tight " +
           (active ? "text-emerald-900" : "text-slate-900")
         }
       >
@@ -121,7 +121,7 @@ export function StatusPill({ status }) {
   return (
     <span
       className={
-        "inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium " +
+        "inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium " +
         (STATUS_TONE[status] || STATUS_TONE.Waiting)
       }
     >
@@ -132,7 +132,7 @@ export function StatusPill({ status }) {
 
 export function OutcomePill({ outcome }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-600">
+    <span className="inline-flex items-center rounded-full border border-slate-200 bg-white px-2 py-0.5 text-xs font-medium text-slate-600">
       {outcome}
     </span>
   );
@@ -155,7 +155,7 @@ export function Avatar({ name }) {
   return (
     <span
       className={
-        "flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-sm font-bold " + tone
+        "flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-xs font-bold " + tone
       }
     >
       {letter}
@@ -173,7 +173,7 @@ export function SearchInput({ value, onChange, placeholder }) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-lg border border-slate-300 bg-white py-2 pl-9 pr-3 text-sm text-slate-800 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none"
+        className="w-full rounded-lg border border-slate-300 bg-white py-1.5 pl-9 pr-3 text-[13px] text-slate-800 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none"
       />
     </div>
   );
@@ -202,7 +202,9 @@ export function Field({ label, children, className = "" }) {
   return (
     <div className={className}>
       <Eyebrow>{label}</Eyebrow>
-      <div className="mt-1 text-sm font-medium text-slate-800">{children ?? "—"}</div>
+      <div className="mt-1 break-words text-sm font-medium text-slate-800">
+        {children ?? "—"}
+      </div>
     </div>
   );
 }
@@ -227,8 +229,8 @@ export function Empty({ children }) {
 }
 
 export const TH =
-  "px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-slate-500";
-export const TD = "px-5 py-4 text-sm text-slate-700";
+  "px-3 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wide text-slate-500";
+export const TD = "px-3 py-2.5 text-[13px] text-slate-700";
 
 /*
  * Right slide-over. Follows the repo's existing sheet idiom in Wholesale.jsx:

@@ -51,7 +51,6 @@ export function OfferDevPanel({ token }) {
     resolve,
     advance,
     requestRevision,
-    expireToken,
     withdraw,
     resetAll,
   } = useOffers();
@@ -101,12 +100,6 @@ export function OfferDevPanel({ token }) {
           onClick={() => requestRevision(job.id, REVIEWER_NOTE)}
         >
           Request revision
-        </DevBtn>
-        <DevBtn
-          disabled={!tok || tok.state !== "ACTIVE"}
-          onClick={() => expireToken(token)}
-        >
-          Expire token
         </DevBtn>
         <DevBtn
           disabled={!job || job.state === "WITHDRAWN"}

@@ -70,7 +70,8 @@ export function ClaimFlow({ open, onClose, view, token }) {
   const canVerify = code.length === 6;
 
   const verify = () => {
-    const r = claim(token);
+    // The verified number is the only identity a shared dispatch link carries.
+    const r = claim(token, phone);
     if (r.ok) onClose();
     // Otherwise the derived view has already flipped and `lost` renders below.
   };

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import {
   Ban,
   CircleSlash,
-  Clock,
   FileText,
+  Mail,
   MapPin,
   Navigation,
   Phone,
@@ -37,16 +37,6 @@ import { useQueryFlag } from "./router.jsx";
 
 /* ---- helpers ------------------------------------------------- */
 
-function countdown(ms) {
-  if (ms <= 0) return "0:00";
-  const total = Math.floor(ms / 1000);
-  const h = Math.floor(total / 3600);
-  const m = Math.floor((total % 3600) / 60);
-  const s = total % 60;
-  if (h > 0) return `${h}h ${String(m).padStart(2, "0")}m`;
-  return `${m}:${String(s).padStart(2, "0")}`;
-}
-
 const mapsUrl = (address) =>
   "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(address);
 
@@ -57,7 +47,6 @@ const TERMINAL_COPY = {
     icon: Ban,
     line: "This job has been claimed by another provider.",
   },
-  EXPIRED: { icon: Clock, line: "This offer has expired." },
   SUPERSEDED: { icon: RefreshCw, line: "This offer was replaced by a newer one." },
   WITHDRAWN: { icon: CircleSlash, line: "This job was withdrawn by the requestor." },
   DECLINED: { icon: Ban, line: "You declined this job." },
@@ -112,12 +101,16 @@ function VehicleSummary({ vehicle, size = "lg" }) {
           "font-bold tracking-tight text-slate-900 " + (big ? "text-2xl" : "text-lg")
         }
       >
-        {vehicle.year} {vehicle.make} {vehicle.model}
+        {vehicle.label || `${vehicle.year} ${vehicle.make} ${vehicle.model}`}
       </h1>
-      {vehicle.trim && <div className="mt-0.5 text-sm text-slate-600">{vehicle.trim}</div>}
-      <div className="mt-1 font-mono text-xs tabular-nums text-slate-500">
-        VIN …{vinLast6(vehicle.vin)}
-      </div>
+      {!vehicle.label && vehicle.trim && (
+        <div className="mt-0.5 text-sm text-slate-600">{vehicle.trim}</div>
+      )}
+      {vehicle.vin && (
+        <div className="mt-1 font-mono text-xs tabular-nums text-slate-500">
+          VIN …{vinLast6(vehicle.vin)}
+        </div>
+      )}
     </div>
   );
 }
@@ -178,11 +171,7 @@ function StickyBar({ children }) {
 /* ---- offered -------------------------------------------------- */
 
 function Offered({ view, onClaim, onDecline }) {
-  const { job, token } = view;
-  const { now } = useOffers();
-
-  const msLeft = token.expiresAt ? Date.parse(token.expiresAt) - now : null;
-  const urgent = msLeft !== null && msLeft < 10 * 60000;
+  const { job } = view;
 
   return (
     <>
@@ -191,26 +180,11 @@ function Offered({ view, onClaim, onDecline }) {
           <VehicleSummary vehicle={job.vehicle} />
         </Card>
 
-        <Card className="flex items-center justify-between">
-          <div>
-            <Eyebrow>Payout</Eyebrow>
-            <div className="mt-1 font-mono text-3xl font-bold tabular-nums text-slate-900">
-              ${job.payout}
-            </div>
+        <Card>
+          <Eyebrow>Payout</Eyebrow>
+          <div className="mt-1 font-mono text-3xl font-bold tabular-nums text-slate-900">
+            ${job.payout}
           </div>
-          {msLeft !== null && (
-            <div className="text-right">
-              <Eyebrow>Expires in</Eyebrow>
-              <div
-                className={
-                  "mt-1 font-mono text-xl font-semibold tabular-nums " +
-                  (urgent ? "text-rose-600" : "text-slate-700")
-                }
-              >
-                {countdown(msLeft)}
-              </div>
-            </div>
-          )}
         </Card>
 
         <Card className="space-y-4">
@@ -219,19 +193,25 @@ function Offered({ view, onClaim, onDecline }) {
             <div className="mt-1 flex items-center gap-1.5 text-sm font-medium text-slate-800">
               <MapPin className="h-3.5 w-3.5 shrink-0 text-slate-400" strokeWidth={1.75} />
               {job.city}, {job.state_} {job.zip}
-              <span className="text-slate-400">·</span>
-              <span className="font-mono tabular-nums text-slate-600">
-                ~{job.distanceMi} mi
-              </span>
+              {job.distanceMi != null && (
+                <>
+                  <span className="text-slate-400">·</span>
+                  <span className="font-mono tabular-nums text-slate-600">
+                    ~{job.distanceMi} mi
+                  </span>
+                </>
+              )}
             </div>
             <div className="mt-1 text-xs text-slate-500">
               Full address is shared once you claim.
             </div>
           </div>
-          <div>
-            <Eyebrow>Time window</Eyebrow>
-            <div className="mt-1 text-sm font-medium text-slate-800">{job.window}</div>
-          </div>
+          {job.window && (
+            <div>
+              <Eyebrow>Time window</Eyebrow>
+              <div className="mt-1 text-sm font-medium text-slate-800">{job.window}</div>
+            </div>
+          )}
         </Card>
 
         <Requirements service={job.service} />
@@ -343,9 +323,11 @@ function PostClaim({ view, onStart, onRelease, onSubmit }) {
         <Card className="space-y-4">
           <div>
             <Eyebrow>Job site</Eyebrow>
-            <div className="mt-1 text-sm font-medium text-slate-800">{job.address}</div>
+            <div className="mt-1 text-sm font-medium text-slate-800">
+              {job.address || `${job.city}, ${job.state_} ${job.zip}`}
+            </div>
             <a
-              href={mapsUrl(job.address)}
+              href={mapsUrl(job.address || `${job.city}, ${job.state_} ${job.zip}`)}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-700 hover:text-blue-900"
@@ -359,18 +341,32 @@ function PostClaim({ view, onStart, onRelease, onSubmit }) {
             <div className="mt-1 text-sm font-medium text-slate-800">
               {job.contact.name}
             </div>
-            <a
-              href={telHref(job.contact.phone)}
-              className="mt-1 inline-flex items-center gap-1.5 font-mono text-sm font-medium tabular-nums text-blue-700 hover:text-blue-900"
-            >
-              <Phone className="h-3.5 w-3.5" strokeWidth={2} />
-              {job.contact.phone}
-            </a>
+            {job.contact.phone ? (
+              <a
+                href={telHref(job.contact.phone)}
+                className="mt-1 inline-flex items-center gap-1.5 font-mono text-sm font-medium tabular-nums text-blue-700 hover:text-blue-900"
+              >
+                <Phone className="h-3.5 w-3.5" strokeWidth={2} />
+                {job.contact.phone}
+              </a>
+            ) : (
+              job.contact.email && (
+                <a
+                  href={"mailto:" + job.contact.email}
+                  className="mt-1 inline-flex items-center gap-1.5 break-all text-sm font-medium text-blue-700 hover:text-blue-900"
+                >
+                  <Mail className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />
+                  {job.contact.email}
+                </a>
+              )
+            )}
           </div>
-          <div className="border-t border-slate-100 pt-3">
-            <Eyebrow>Time window</Eyebrow>
-            <div className="mt-1 text-sm font-medium text-slate-800">{job.window}</div>
-          </div>
+          {job.window && (
+            <div className="border-t border-slate-100 pt-3">
+              <Eyebrow>Time window</Eyebrow>
+              <div className="mt-1 text-sm font-medium text-slate-800">{job.window}</div>
+            </div>
+          )}
         </Card>
 
         {job.submission && kind !== "REVISION_REQUESTED" && (
@@ -443,9 +439,11 @@ function Terminal({ view }) {
           <div className="text-sm font-semibold text-slate-900">
             {vehicleLine(job.vehicle)}
           </div>
-          <div className="mt-1 font-mono text-xs tabular-nums text-slate-500">
-            VIN …{vinLast6(job.vehicle.vin)}
-          </div>
+          {job.vehicle.vin && (
+            <div className="mt-1 font-mono text-xs tabular-nums text-slate-500">
+              VIN …{vinLast6(job.vehicle.vin)}
+            </div>
+          )}
         </div>
       )}
     </Card>
