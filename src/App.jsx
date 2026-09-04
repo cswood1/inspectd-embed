@@ -8,6 +8,7 @@ import { WholesalePage } from "./Wholesale.jsx";
 import { DigitalNativeSRP, DigitalNativeVDP, DigitalNativeSaved } from "./DigitalNative.jsx";
 import { EnterprisePortal } from "./EnterprisePortal.jsx";
 import { ProviderPortal } from "./ProviderPortal.jsx";
+import { InternalRequests } from "./InternalRequests.jsx";
 import { gridBg } from "./AccessGate.jsx";
 
 /* ---- routing model --------------------------------------------- */
@@ -120,23 +121,7 @@ function AreaSwitcher({ area, onSelect }) {
   );
 }
 
-/* ---- placeholders ---------------------------------------------- */
-
-function PlatformPlaceholder({ label }) {
-  return (
-    <div className="flex h-full items-center justify-center bg-slate-100 px-6">
-      <div className="text-center">
-        <div className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
-          Platform · {label}
-        </div>
-        <div className="mt-3 text-2xl font-semibold text-slate-800">Coming soon</div>
-        <p className="mt-2 max-w-sm text-sm text-slate-500">
-          This surface will land in a future layer. Nothing to see yet.
-        </p>
-      </div>
-    </div>
-  );
-}
+/* ---- home ------------------------------------------------------- */
 
 function Homepage({ onGo }) {
   const links = [
@@ -252,7 +237,7 @@ export default function App() {
           {view === "home" && <Homepage onGo={go} />}
           {view === "platform-enterprise" && <EnterprisePortal onExit={() => go("home")} />}
           {view === "platform-provider" && <ProviderPortal onExit={() => go("home")} />}
-          {view === "platform-internal" && <PlatformPlaceholder label="Internal" />}
+          {view === "platform-internal" && <InternalRequests />}
           {view === "search" && (
             <SearchPage onOpenVehicle={openVehicle} onOpenAbout={openAbout} />
           )}
