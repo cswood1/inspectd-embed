@@ -45,6 +45,27 @@ import {
 
 const telHref = (phone) => "tel:" + String(phone).replace(/[^0-9]/g, "");
 
+/*
+ * Console job -> offer draft. Shared by the board row action and the panel
+ * section so the two cannot drift.
+ */
+function dispatchDraft(job) {
+  const [city = "", st = ""] = String(job.location || "")
+    .split(",")
+    .map((p) => p.trim());
+  return {
+    sourceId: job.id,
+    vehicleLabel: job.vehicle,
+    serviceLevel: job.serviceLevel,
+    city,
+    state_: st,
+    zip: job.zip,
+    payout: providerPayout(job.price),
+    contactName: job.customer.name,
+    contactEmail: job.customer.email,
+  };
+}
+
 /* ---- drawer pieces ------------------------------------------ */
 
 function ProviderCard({ p }) {
@@ -78,25 +99,11 @@ function DispatchSection({ job, onOpenTab }) {
   const [copied, setCopied] = useState(false);
 
   const sent = findDispatch(job.id);
-  const ready = job.status === "Ready" && job.providers.length > 0;
   const link = sent ? "inspectd.com/job/" + sent.tokenId : null;
 
   useEffect(() => setCopied(false), [job.id]);
 
-  const doDispatch = () => {
-    const [city = "", st = ""] = String(job.location || "").split(",").map((p) => p.trim());
-    dispatch({
-      sourceId: job.id,
-      vehicleLabel: job.vehicle,
-      serviceLevel: job.serviceLevel,
-      city,
-      state_: st,
-      zip: job.zip,
-      payout: providerPayout(job.price),
-      contactName: job.customer.name,
-      contactEmail: job.customer.email,
-    });
-  };
+  const doDispatch = () => dispatch(dispatchDraft(job));
 
   const doCopy = async () => {
     if (await copyText("https://" + link)) {
@@ -111,14 +118,16 @@ function DispatchSection({ job, onOpenTab }) {
 
       {!sent ? (
         <>
+          {/* Dispatch never depends on research — you can push a job out
+              before, after, or instead of looking providers up. */}
           <p className="mt-1.5 text-sm text-slate-600">
-            {ready
+            {job.providers.length > 0
               ? job.providers.length +
                 " providers found. Dispatching creates a link you can text to any of them."
-              : "Run research to find providers before dispatching."}
+              : "Creates a link you can text to a provider. You do not need to run research first."}
           </p>
           <div className="mt-3">
-            <Btn variant="primary" disabled={!ready} onClick={doDispatch}>
+            <Btn variant="primary" onClick={doDispatch}>
               <Send className="h-4 w-4" />
               Dispatch job
             </Btn>
@@ -320,7 +329,10 @@ function DrawerBody({ job, onClose, onOpenJob, onOpenTab }) {
 
 /* ---- table --------------------------------------------------- */
 
-function Row({ job, duplicate, selected, onOpen, onRun }) {
+function Row({ job, duplicate, selected, onOpen, onRun, onDispatch }) {
+  const { findDispatch } = useOffers();
+  const sent = findDispatch(job.id);
+  const running = job.status === "Researching";
   return (
     <tr
       onClick={onOpen}
@@ -362,18 +374,35 @@ function Row({ job, duplicate, selected, onOpen, onRun }) {
         {job.status === "Ready" ? job.providers.length : "—"}
       </td>
       <td className={TD + " whitespace-nowrap"}>{formatReceived(job.receivedAt)}</td>
+      {/* Icon-only: a lookup is over in a second, so a full "Run again" label
+          costs more width than it earns, and the column has to fit Dispatch. */}
       <td className={TD + " text-right"}>
-        <Btn
-          size="sm"
-          onClick={(e) => {
-            e.stopPropagation();
-            onRun();
-          }}
-          disabled={job.status === "Researching"}
-        >
-          <RotateCw className="h-3.5 w-3.5" />
-          {job.status === "Researching" ? "Running…" : "Run again"}
-        </Btn>
+        <div className="flex items-center justify-end gap-1.5">
+          <Btn
+            size="icon"
+            title={running ? "Researching…" : "Run research"}
+            aria-label="Run research"
+            disabled={running}
+            onClick={(e) => {
+              e.stopPropagation();
+              onRun();
+            }}
+          >
+            <RotateCw className={"h-3.5 w-3.5 " + (running ? "animate-spin" : "")} />
+          </Btn>
+          <Btn
+            size="icon"
+            title={sent ? "Dispatched — open the link" : "Dispatch job"}
+            aria-label="Dispatch job"
+            className={sent ? "text-emerald-700" : ""}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDispatch();
+            }}
+          >
+            {sent ? <Link2 className="h-3.5 w-3.5" /> : <Send className="h-3.5 w-3.5" />}
+          </Btn>
+        </div>
       </td>
     </tr>
   );
@@ -383,10 +412,17 @@ function Row({ job, duplicate, selected, onOpen, onRun }) {
 
 function Surface() {
   const { jobs, counts, jobById, runAgain } = useRequests();
+  const { dispatch } = useOffers();
   const [filter, setFilter] = useState(null);
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
   const [tabToken, setTabToken] = useState(null);
+
+  // Dispatch is idempotent, so this doubles as "open the link I already made".
+  const onDispatch = (job) => {
+    dispatch(dispatchDraft(job));
+    setSelectedId(job.id);
+  };
 
   // An address with more than one live job gets flagged in the table.
   const duplicateEmails = useMemo(() => {
@@ -487,6 +523,7 @@ function Surface() {
                         selected={selectedId === j.id}
                         onOpen={() => setSelectedId(j.id)}
                         onRun={() => runAgain(j.id)}
+                        onDispatch={() => onDispatch(j)}
                       />
                     ))}
                   </tbody>

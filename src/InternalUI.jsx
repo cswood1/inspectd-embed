@@ -44,6 +44,8 @@ export function Btn({ variant = "default", size = "md", className = "", children
     lg: "w-full px-4 py-3 text-[15px]",
     md: "px-3.5 py-2 text-sm",
     sm: "px-2.5 py-1.5 text-xs",
+    // icon keeps the board's action column narrow enough for nine columns.
+    icon: "h-7 w-7 shrink-0",
   };
   const looks = {
     primary: "bg-emerald-600 text-white hover:bg-emerald-700",
@@ -229,8 +231,8 @@ export function Empty({ children }) {
 }
 
 export const TH =
-  "px-3 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wide text-slate-500";
-export const TD = "px-3 py-2.5 text-[13px] text-slate-700";
+  "px-2.5 py-2 text-left text-[10px] font-semibold uppercase tracking-wide text-slate-500";
+export const TD = "px-2.5 py-2 text-[13px] text-slate-700";
 
 /*
  * Right slide-over. Follows the repo's existing sheet idiom in Wholesale.jsx:

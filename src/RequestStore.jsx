@@ -86,8 +86,11 @@ function genProviders(job, salt = 0) {
 /*
  * Seed plan. Hours-ago rather than order.received: the seed orders are dated
  * several weeks back, and "New jobs are researched automatically" next to a
- * month-old timestamp reads wrong. Waiting is newest, then Researching, then
- * everything already looked up.
+ * month-old timestamp reads wrong.
+ *
+ * Nothing rests in Researching. A lookup takes a second or two, so that state
+ * only exists while one is actually running — seeding jobs into it would imply
+ * a queue that does not exist. The two Waiting jobs are ones that just landed.
  *
  * INS-8823 carries `empty` so the zero-result case stays visible — a lookup
  * that finds nobody is just Ready with no providers, not a separate status.
@@ -95,9 +98,9 @@ function genProviders(job, salt = 0) {
 const SEED = [
   { id: "INS-8825", status: "Waiting",     hAgo: 0.3 },
   { id: "INS-8821", status: "Waiting",     hAgo: 0.8 },
-  { id: "INS-8827", status: "Researching", hAgo: 1.4 },
-  { id: "INS-8826", status: "Researching", hAgo: 2.1 },
-  { id: "INS-8824", status: "Researching", hAgo: 3.0 },
+  { id: "INS-8827", status: "Ready",       hAgo: 1.4 },
+  { id: "INS-8826", status: "Ready",       hAgo: 2.1 },
+  { id: "INS-8824", status: "Ready",       hAgo: 3.0 },
   { id: "INS-8829", status: "Ready",       hAgo: 4.5 },
   { id: "INS-8830", status: "Ready",       hAgo: 6.2, outcome: "Contacted" },
   { id: "INS-8828", status: "Ready",       hAgo: 8.0 },
@@ -139,7 +142,8 @@ function seedEntry(order, now) {
 
 const RequestContext = createContext(null);
 
-const RUN_MS = 1200;
+// A lookup is a couple of seconds, not a job you come back to later.
+const RUN_MS = 900;
 
 export function RequestProvider({ children }) {
   const { orders } = useOrderStore();
