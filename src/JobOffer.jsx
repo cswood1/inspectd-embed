@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Ban, CircleSlash, Clock, MapPin, RefreshCw, TriangleAlert } from "lucide-react";
 import {
   EV_ADDENDUM,
@@ -8,6 +8,7 @@ import {
   vinLast6,
 } from "./OfferStore.jsx";
 import { Btn, Eyebrow } from "./InternalUI.jsx";
+import { ClaimFlow, ReasonSheet } from "./JobOfferFlows.jsx";
 
 /*
  * Provider offer screen for /job/:token.
@@ -107,7 +108,7 @@ function RequirementList({ items }) {
 
 /* ---- offered -------------------------------------------------- */
 
-function Offered({ view, onClaim }) {
+function Offered({ view, onClaim, onDecline }) {
   const { job, token } = view;
   const { now } = useOffers();
 
@@ -184,13 +185,16 @@ function Offered({ view, onClaim }) {
 
       <div className="fixed inset-x-0 bottom-0 border-t border-slate-200 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-lg gap-2 px-4 py-3">
-          <Btn variant="primary" size="lg" onClick={onClaim}>
-            Claim job
-          </Btn>
-          {/* Real decline flow lands in layer 3. */}
-          <Btn size="lg" disabled title="Decline flow lands in layer 3">
-            Decline
-          </Btn>
+          <div className="flex-[2]">
+            <Btn variant="primary" size="lg" onClick={onClaim}>
+              Claim job
+            </Btn>
+          </div>
+          <div className="flex-1">
+            <Btn size="lg" onClick={onDecline}>
+              Decline
+            </Btn>
+          </div>
         </div>
       </div>
     </>
@@ -248,29 +252,43 @@ function PostClaimPlaceholder({ view }) {
 /* ---- entry ---------------------------------------------------- */
 
 export function JobOffer({ token }) {
-  const { resolve, claim } = useOffers();
+  const { resolve, decline } = useOffers();
   const view = resolve(token);
+  const [sheet, setSheet] = useState(null); // null | "claim" | "decline"
 
-  const onClaim = () => {
-    // Interim: layer 3 puts phone verification in front of this.
-    const r = claim(token);
-    if (!r.ok && r.reason === "ALREADY_CLAIMED") {
-      // The derived view already flipped to CLAIMED_BY_ANOTHER; nothing to do.
-    }
-  };
+  const closeSheet = () => setSheet(null);
 
   return (
     <div className="min-h-screen bg-slate-100 font-inter">
       <Header provider={view.provider} />
       <main className="mx-auto max-w-lg px-4 pb-28 pt-5">
         {view.kind === "OFFERED" ? (
-          <Offered view={view} onClaim={onClaim} />
+          <Offered
+            view={view}
+            onClaim={() => setSheet("claim")}
+            onDecline={() => setSheet("decline")}
+          />
         ) : TERMINAL_KINDS.has(view.kind) ? (
           <Terminal view={view} />
         ) : (
           <PostClaimPlaceholder view={view} />
         )}
       </main>
+
+      {/* Sheets sit outside the branch so a claim that loses the race can
+          still explain itself over the terminal screen underneath. */}
+      <ClaimFlow open={sheet === "claim"} onClose={closeSheet} view={view} token={token} />
+      <ReasonSheet
+        open={sheet === "decline"}
+        onClose={closeSheet}
+        title="Decline this job"
+        description="Tell us why, so we stop sending you jobs like this one."
+        confirmLabel="Decline job"
+        onConfirm={(reason, note) => {
+          decline(token, reason, note);
+          closeSheet();
+        }}
+      />
     </div>
   );
 }
