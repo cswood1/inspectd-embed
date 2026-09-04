@@ -40,6 +40,8 @@ export function Btn({ variant = "default", size = "md", className = "", children
   const base =
     "inline-flex items-center justify-center gap-1.5 rounded-md font-semibold transition disabled:cursor-not-allowed disabled:opacity-40";
   const sizes = {
+    // lg is for thumb-sized tap targets on the provider offer route.
+    lg: "w-full px-4 py-3 text-[15px]",
     md: "px-3.5 py-2 text-sm",
     sm: "px-2.5 py-1.5 text-xs",
   };

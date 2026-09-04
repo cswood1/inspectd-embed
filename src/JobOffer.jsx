@@ -1,98 +1,276 @@
 import React from "react";
-import { useOffers, vehicleLine, vinLast6 } from "./OfferStore.jsx";
+import { Ban, CircleSlash, Clock, MapPin, RefreshCw, TriangleAlert } from "lucide-react";
+import {
+  EV_ADDENDUM,
+  TERMINAL_KINDS,
+  useOffers,
+  vehicleLine,
+  vinLast6,
+} from "./OfferStore.jsx";
+import { Btn, Eyebrow } from "./InternalUI.jsx";
 
 /*
- * LAYER 1 SCAFFOLD.
+ * Provider offer screen for /job/:token.
  *
- * Deliberately unstyled. This exists to prove routing, seeding, resolution and
- * cross-tab sync before any real UI is built. Layer 2 replaces the body with
- * the Offered and terminal screens; the raw action buttons below go away in
- * layer 3 when claim and decline get their real flows.
+ * Standalone and mobile-first — a provider opens this from an SMS on a phone,
+ * so it is a single narrow column with a sticky action bar rather than the
+ * desk-bound layout the internal surfaces use.
+ *
+ * Terminal screens deliberately show one line and the vehicle summary only.
+ * No location, no payout, no requirements: once the offer is off the table the
+ * holder of a dead token should not keep seeing the job's details.
  */
 
-const box = {
-  fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-  fontSize: 13,
-  lineHeight: 1.7,
-  padding: 24,
-  maxWidth: 720,
-  margin: "0 auto",
+/* ---- helpers ------------------------------------------------- */
+
+function countdown(ms) {
+  if (ms <= 0) return "0:00";
+  const total = Math.floor(ms / 1000);
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
+  if (h > 0) return `${h}h ${String(m).padStart(2, "0")}m`;
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
+const TERMINAL_COPY = {
+  CLAIMED_BY_ANOTHER: {
+    icon: Ban,
+    line: "This job has been claimed by another provider.",
+  },
+  EXPIRED: { icon: Clock, line: "This offer has expired." },
+  SUPERSEDED: { icon: RefreshCw, line: "This offer was replaced by a newer one." },
+  WITHDRAWN: { icon: CircleSlash, line: "This job was withdrawn by the requestor." },
+  DECLINED: { icon: Ban, line: "You declined this job." },
+  NOT_FOUND: { icon: TriangleAlert, line: "This link is not valid." },
 };
 
-export function JobOffer({ token }) {
-  const { resolve, claim, release, now } = useOffers();
-  const view = resolve(token);
-  const { kind, job, provider, token: tok } = view;
+/* ---- chrome -------------------------------------------------- */
 
-  const secondsLeft =
-    tok?.expiresAt && kind === "OFFERED"
-      ? Math.max(0, Math.round((Date.parse(tok.expiresAt) - now) / 1000))
-      : null;
+function Header({ provider }) {
+  return (
+    <header className="border-b border-slate-200 bg-white">
+      <div className="mx-auto flex h-14 max-w-lg items-center gap-2 px-4">
+        <img src="/inspectd-symbol.png" alt="" className="h-5 w-5" />
+        <span className="text-sm font-bold tracking-tight text-slate-900">Inspectd</span>
+        {provider && (
+          <span className="ml-auto truncate text-xs text-slate-500">{provider.name}</span>
+        )}
+      </div>
+    </header>
+  );
+}
+
+function VehicleSummary({ vehicle, size = "lg" }) {
+  const big = size === "lg";
+  return (
+    <div>
+      <h1
+        className={
+          "font-bold tracking-tight text-slate-900 " + (big ? "text-2xl" : "text-lg")
+        }
+      >
+        {vehicle.year} {vehicle.make} {vehicle.model}
+      </h1>
+      {vehicle.trim && (
+        <div className={"mt-0.5 text-slate-600 " + (big ? "text-sm" : "text-sm")}>
+          {vehicle.trim}
+        </div>
+      )}
+      <div className="mt-1 font-mono text-xs tabular-nums text-slate-500">
+        VIN …{vinLast6(vehicle.vin)}
+      </div>
+    </div>
+  );
+}
+
+function Card({ children, className = "" }) {
+  return (
+    <div className={"rounded-lg border border-slate-200 bg-white p-4 " + className}>
+      {children}
+    </div>
+  );
+}
+
+function RequirementList({ items }) {
+  return (
+    <ul className="mt-2 space-y-1.5">
+      {items.map((r) => (
+        <li key={r} className="flex items-start gap-2.5 text-sm text-slate-700">
+          <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-slate-400" />
+          {r}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/* ---- offered -------------------------------------------------- */
+
+function Offered({ view, onClaim }) {
+  const { job, token } = view;
+  const { now } = useOffers();
+
+  const msLeft = token.expiresAt ? Date.parse(token.expiresAt) - now : null;
+  const urgent = msLeft !== null && msLeft < 10 * 60000;
+
+  const base = job.service.requirements.filter((r) => !EV_ADDENDUM.includes(r));
+  const ev = job.service.requirements.filter((r) => EV_ADDENDUM.includes(r));
 
   return (
-    <div style={box}>
-      <div style={{ fontSize: 11, letterSpacing: "0.12em", color: "#64748b" }}>
-        LAYER 1 SCAFFOLD — /job/{token}
+    <>
+      <div className="space-y-3">
+        <Card>
+          <VehicleSummary vehicle={job.vehicle} />
+        </Card>
+
+        <Card className="flex items-center justify-between">
+          <div>
+            <Eyebrow>Payout</Eyebrow>
+            <div className="mt-1 font-mono text-3xl font-bold tabular-nums text-slate-900">
+              ${job.payout}
+            </div>
+          </div>
+          {msLeft !== null && (
+            <div className="text-right">
+              <Eyebrow>Expires in</Eyebrow>
+              <div
+                className={
+                  "mt-1 font-mono text-xl font-semibold tabular-nums " +
+                  (urgent ? "text-rose-600" : "text-slate-700")
+                }
+              >
+                {countdown(msLeft)}
+              </div>
+            </div>
+          )}
+        </Card>
+
+        <Card className="space-y-4">
+          <div>
+            <Eyebrow>Location</Eyebrow>
+            <div className="mt-1 flex items-center gap-1.5 text-sm font-medium text-slate-800">
+              <MapPin className="h-3.5 w-3.5 shrink-0 text-slate-400" strokeWidth={1.75} />
+              {job.city}, {job.state_} {job.zip}
+              <span className="text-slate-400">·</span>
+              <span className="font-mono tabular-nums text-slate-600">
+                ~{job.distanceMi} mi
+              </span>
+            </div>
+            <div className="mt-1 text-xs text-slate-500">
+              Full address is shared once you claim.
+            </div>
+          </div>
+          <div>
+            <Eyebrow>Time window</Eyebrow>
+            <div className="mt-1 text-sm font-medium text-slate-800">{job.window}</div>
+          </div>
+        </Card>
+
+        <Card>
+          <div className="text-sm font-semibold text-slate-900">{job.service.name}</div>
+          <div className="mt-3">
+            <Eyebrow>Required</Eyebrow>
+            <RequirementList items={base} />
+          </div>
+          {ev.length > 0 && (
+            <div className="mt-4 border-t border-slate-100 pt-3">
+              <Eyebrow>EV addendum</Eyebrow>
+              <RequirementList items={ev} />
+            </div>
+          )}
+        </Card>
       </div>
 
-      <h1 style={{ fontSize: 22, margin: "12px 0 4px" }}>{kind}</h1>
+      <div className="fixed inset-x-0 bottom-0 border-t border-slate-200 bg-white/95 backdrop-blur">
+        <div className="mx-auto flex max-w-lg gap-2 px-4 py-3">
+          <Btn variant="primary" size="lg" onClick={onClaim}>
+            Claim job
+          </Btn>
+          {/* Real decline flow lands in layer 3. */}
+          <Btn size="lg" disabled title="Decline flow lands in layer 3">
+            Decline
+          </Btn>
+        </div>
+      </div>
+    </>
+  );
+}
 
-      {kind === "NOT_FOUND" ? (
-        <p style={{ color: "#64748b" }}>No offer matches this token.</p>
-      ) : (
-        <>
-          <div style={{ color: "#334155" }}>
-            {vehicleLine(job.vehicle)} · VIN …{vinLast6(job.vehicle.vin)}
-          </div>
-          <hr style={{ margin: "16px 0", border: 0, borderTop: "1px solid #e2e8f0" }} />
-          <div>provider     {provider.name}</div>
-          <div>job          {job.id}</div>
-          <div>job.state    {job.state}</div>
-          <div>claimedBy    {String(job.claimedBy)}</div>
-          <div>token.state  {tok.state}</div>
-          <div>payout       ${job.payout}</div>
-          <div>where        {job.city}, {job.state_} {job.zip} (~{job.distanceMi} mi)</div>
-          <div>window       {job.window}</div>
-          <div>
-            requirements {job.service.requirements.length}
-            {job.service.evAddendum ? " (incl. EV addendum)" : ""}
-          </div>
-          {secondsLeft !== null && <div>expires in   {secondsLeft}s</div>}
+/* ---- terminal ------------------------------------------------- */
 
-          <hr style={{ margin: "16px 0", border: 0, borderTop: "1px solid #e2e8f0" }} />
-          <div style={{ fontSize: 11, color: "#94a3b8", marginBottom: 8 }}>
-            SCAFFOLD ACTIONS — replaced in layer 3
-          </div>
-          <button
-            onClick={() => {
-              const r = claim(token);
-              if (!r.ok) alert("claim failed: " + r.reason);
-            }}
-            disabled={kind !== "OFFERED"}
-            style={{ marginRight: 8, padding: "6px 12px" }}
-          >
-            claim
-          </button>
-          <button
-            onClick={() => {
-              const r = release(token, "TIMING");
-              if (!r.ok) alert("release failed: " + r.reason);
-            }}
-            disabled={kind !== "CLAIMED_BY_YOU"}
-            style={{ padding: "6px 12px" }}
-          >
-            release
-          </button>
+function Terminal({ view }) {
+  const { kind, job, token } = view;
+  const copy = TERMINAL_COPY[kind] || TERMINAL_COPY.NOT_FOUND;
+  const Icon = copy.icon;
 
-          <hr style={{ margin: "16px 0", border: 0, borderTop: "1px solid #e2e8f0" }} />
-          <div style={{ fontSize: 11, color: "#94a3b8" }}>LOG</div>
-          {(job.log || []).map((l, i) => (
-            <div key={i} style={{ color: "#64748b" }}>
-              {new Date(l.at).toLocaleTimeString()} {l.event}
-            </div>
-          ))}
-        </>
+  // Release reuses the DECLINED token state; the timestamps tell them apart.
+  const line =
+    kind === "DECLINED" && token?.releasedAt ? "You released this job." : copy.line;
+
+  return (
+    <Card className="text-center">
+      <Icon className="mx-auto h-8 w-8 text-slate-300" strokeWidth={1.5} />
+      <p className="mt-3 text-sm font-medium text-slate-700">{line}</p>
+      {job && (
+        <div className="mt-5 border-t border-slate-100 pt-4">
+          <div className="text-sm font-semibold text-slate-900">
+            {vehicleLine(job.vehicle)}
+          </div>
+          <div className="mt-1 font-mono text-xs tabular-nums text-slate-500">
+            VIN …{vinLast6(job.vehicle.vin)}
+          </div>
+        </div>
       )}
+    </Card>
+  );
+}
+
+/* ---- post-claim placeholder (layer 4) ------------------------- */
+
+function PostClaimPlaceholder({ view }) {
+  const { kind, job } = view;
+  return (
+    <Card>
+      <VehicleSummary vehicle={job.vehicle} size="sm" />
+      <div className="mt-4 rounded-md border border-dashed border-slate-300 bg-slate-50 px-4 py-6 text-center">
+        <div className="font-mono text-xs font-semibold tracking-wide text-slate-700">
+          {kind}
+        </div>
+        <p className="mt-1.5 text-xs text-slate-500">
+          Post-claim screens land in layer 4.
+        </p>
+      </div>
+    </Card>
+  );
+}
+
+/* ---- entry ---------------------------------------------------- */
+
+export function JobOffer({ token }) {
+  const { resolve, claim } = useOffers();
+  const view = resolve(token);
+
+  const onClaim = () => {
+    // Interim: layer 3 puts phone verification in front of this.
+    const r = claim(token);
+    if (!r.ok && r.reason === "ALREADY_CLAIMED") {
+      // The derived view already flipped to CLAIMED_BY_ANOTHER; nothing to do.
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-100 font-inter">
+      <Header provider={view.provider} />
+      <main className="mx-auto max-w-lg px-4 pb-28 pt-5">
+        {view.kind === "OFFERED" ? (
+          <Offered view={view} onClaim={onClaim} />
+        ) : TERMINAL_KINDS.has(view.kind) ? (
+          <Terminal view={view} />
+        ) : (
+          <PostClaimPlaceholder view={view} />
+        )}
+      </main>
     </div>
   );
 }
