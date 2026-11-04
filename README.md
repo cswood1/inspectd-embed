@@ -1,49 +1,137 @@
-# Inspectd embed demo
+# Inspectd Dev + Staging
 
-A runnable mock of the Inspectd "order inspection" embed on a dealer site. Two partner
-surfaces (search results and a vehicle details page) on a generic mock dealer, with the
-Inspectd flow opening in a simulated new tab.
+The prototype environment for the Inspectd platform. Everything here is a mock: there
+is no backend, and pricing, VIN decode, provider lookup, payment and messaging are all
+stubbed. It exists for three things:
 
-This is also the home for the production `widget.js` loader when we build it.
+- **Demos.** Walk a partner, customer or investor through the product end to end.
+- **Prototyping.** Build a new screen or flow here before it goes into a production repo.
+- **Ideation.** Try variants side by side (see SRP v2 / VDP v2) without touching anything real.
+
+It covers both sides of the platform: the **Platform** surfaces we operate (enterprise,
+provider and internal workspaces) and the **External** surfaces we embed on partner
+sites (dealer listings, marketplaces, auctions).
+
+## Fidelity bar
+
+Build these as close to the shipped product as we can. A surface should look, read and
+behave like the real thing:
+
+- Real-looking copy, data and states (empty, loading, error, terminal), not lorem ipsum
+  or "TODO" boxes.
+- Interactions work end to end. If a button exists, it does something credible.
+- State carries across surfaces where it would in production. An order placed on a dealer
+  VDP should show up in the portals.
+- Partner surfaces should feel like the partner's site, with Inspectd as the inserted
+  third-party piece. Mock partners stay generic and are never real dealers or brands.
+- Mocks can be faked, but they shouldn't feel fake. Stub the backend, not the experience.
 
 ## Run
 
 ```bash
 npm install
-npm run dev
-```
-
-Open the local URL Vite prints (default http://localhost:5173).
-
-Build for hosting:
-
-```bash
+npm run dev        # http://localhost:5173
 npm run build      # outputs to dist/
 npm run preview    # serve the build locally
 ```
 
-## What's here
+The app sits behind an access gate. The code is `inspectd`, or whatever you set as
+`VITE_DEMO_ACCESS_CODE`. Access is remembered for the browser session.
 
-- Top bar switches between **Dealer search** and **Dealer VDP**.
-- Search: filter rail, results grid, and the page-level Inspectd band above the grid.
-  The band button opens the standalone flow (customer enters a VIN).
-- VDP: gallery, spec table, features, sticky pricing rail with the Inspectd module in
-  the dealer CTA stack. The module carries the specific vehicle into the flow.
-- Both open a simulated new tab to a partner-skinned Inspectd landing → order → confirm.
+Stack: Vite 5, React 18, Tailwind 3 and lucide-react. It's plain JSX with no TypeScript and
+no router library. Leaflet and `us-zips` power the provider job-board map.
 
-Everything is mock. Pricing, timing, VIN decode, and payment are stubbed. The simulated
-new tab stands in for opening a real tab to a partner-skinned Inspectd page in production.
+## Map of the environment
+
+The top bar (**INSPECTD DEV+STAGING**) switches between sections. Apart from
+`/job/:token`, navigation is view state, not URLs.
+
+### Platform
+
+| Tab | File | What it is |
+| --- | --- | --- |
+| Enterprise | `EnterprisePortal.jsx` | Business customer portal: dashboard, jobs, reports, and the multi-step Create Job wizard (vehicle → service → location → contact → review). |
+| Provider | `ProviderPortal.jsx` | Inspector workspace: job board (list + map + filters), job details, active claimed jobs, upload data, completed reports. |
+| Internal | `InternalRequests.jsx` | Ops console: incoming requests, provider research by area, notes/outcomes, duplicate detection, and **Dispatch**, which turns a job into a shareable provider link. |
+
+### External surfaces
+
+| Area / tab | File | What it is |
+| --- | --- | --- |
+| Dealer → SRP / VDP | `Dealer.jsx` | Generic dealer site (Crestview Auto Group). Page-level Inspectd band on search; Inspectd module in the VDP's CTA stack. |
+| Dealer → SRP v2 / VDP v2 | `DigitalNative.jsx` | Digital-native retailer variant (AxleAuto) with chat assistant, saved vehicles and a "check this vehicle" module. |
+| Auction | `Wholesale.jsx` | Wholesale/auction inventory table with bulk "order inspection" and a self-inspect flow. |
+
+Ordering from a dealer surface opens a **simulated new tab** (`Inspectd.jsx`: landing →
+order → confirm) skinned for that partner. In production this is a real tab to a
+partner-skinned Inspectd page.
+
+### Provider offer link: `/job/:token`
+
+A standalone mobile page an inspector opens from a texted link. The token is the auth, so it
+renders outside the access gate and the dev chrome. It covers offered → claim (with
+verification) → post-claim → submit, plus coded declines and terminal states.
+
+- Seeded tokens: `/job/t_k4rav`, `/job/t_r9rav` (two providers, same job, to demo
+  first-claim-wins across two tabs), `/job/t_k2tsl`, `/job/t_r7f15`, `/job/t_r3sup`
+  (superseded).
+- Dispatch in the Internal console mints new tokens.
+- Add `?dev=1` to get the demo operator panel, which moves the job forward and resets state.
+- Hosting needs a rewrite of `/job/*` to `index.html`.
+
+## Shared state
+
+The surfaces talk to each other through small context stores persisted to `localStorage`.
+That's what makes cross-surface demos work, for example ordering on a VDP and then seeing it
+in the Enterprise and Provider portals.
+
+| Store | Key | Holds | Written by / read by |
+| --- | --- | --- | --- |
+| `OrderStore.jsx` | `inspectd_orders_v2` | Orders, service levels, client types, payout math | Dealer/DN tab, Wholesale, Enterprise wizard → Enterprise, Provider, Internal |
+| `RequestStore.jsx` | (in memory) | Internal console overlay keyed by order id: research, notes, outcome | Internal only, never touches order status |
+| `OfferStore.jsx` | `inspectd_offers_v1` | Jobs, providers, tokens, offer state machine; syncs across tabs | Internal Dispatch → `/job/:token` |
+| `SavedStore.jsx` | `inspectd_saved_vins` | Saved vehicles | Digital-native surfaces |
+
+To reset a demo, clear those keys or use **Reset** in the `?dev=1` panel for offers.
 
 ## Structure
 
 ```
 src/
-  data.js        mock dealer, inventory, features, price, usd()
-  ui.jsx         shared primitives: CarThumb, IndependentBadge, InfoTip, Field
-  Dealer.jsx     dealer chrome, search page, VDP, sidebar, card
-  Inspectd.jsx   embed modules + new-tab flow (landing/order/confirm)
-  App.jsx        demo harness, view state, simulated-tab overlay
+  main.jsx              root: OfferStore → (/job/:token | stores → AccessGate → App)
+  router.jsx            hand-rolled /job/:token match + ?flag reader
+  AccessGate.jsx        demo access code screen
+  App.jsx               dev chrome, section/tab switching, simulated-tab overlay
+  data.js               mock partners (Crestview, AxleAuto), inventory, price
+  ui.jsx                primitives shared by customer-facing surfaces
+  InternalUI.jsx        primitives for internal surfaces (kept out of ui.jsx on purpose)
+
+  Dealer.jsx            dealer SRP / VDP / About
+  DigitalNative.jsx     SRP v2 / VDP v2 / Saved
+  Wholesale.jsx         auction surface
+  Inspectd.jsx          embed modules + new-tab order flow
+
+  EnterprisePortal.jsx  enterprise customer portal
+  ProviderPortal.jsx    provider workspace
+  VINmap.jsx            Leaflet job map, zip → coords, distance
+  InternalRequests.jsx  internal ops console + Dispatch
+
+  JobOffer.jsx          /job/:token screens
+  JobOfferFlows.jsx     claim / decline / submit bottom sheets
+  OfferDevPanel.jsx     ?dev=1 operator panel
+
+  OrderStore.jsx  RequestStore.jsx  OfferStore.jsx  SavedStore.jsx
+public/                 brand marks, partner assets, vehicle photos
 ```
 
-To change the mock dealer or inventory, edit `src/data.js`. Inspectd copy lives at the
-top of `src/Inspectd.jsx`.
+## Adding a surface
+
+1. Build it as its own `src/<Name>.jsx`. Read and write shared state through the stores
+   rather than inventing local copies of orders or jobs.
+2. Register the view in `App.jsx`: add it to `DEALER_SURFACES`, `PLATFORM_SURFACES` or
+   `EXTERNAL_AREAS`, and render it in the view switch.
+3. Use `ui.jsx` primitives for customer-facing pages and `InternalUI.jsx` for internal ones.
+4. Put mock partners and inventory in `data.js`. Partners are fictional; Inspectd product copy
+   lives with the surface that uses it.
+
+This repo is also where the production `widget.js` embed loader will start out.
