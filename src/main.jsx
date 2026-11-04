@@ -5,6 +5,7 @@ import { AccessGate } from "./AccessGate.jsx";
 import { OrderStoreProvider } from "./OrderStore.jsx";
 import { SavedStoreProvider } from "./SavedStore.jsx";
 import { OfferStoreProvider } from "./OfferStore.jsx";
+import { PlatformStoreProvider } from "./platform/PlatformStore.jsx";
 import { JobOffer } from "./JobOffer.jsx";
 import { useRoute } from "./router.jsx";
 import "./index.css";
@@ -25,9 +26,11 @@ function Root() {
   return (
     <OrderStoreProvider>
       <SavedStoreProvider>
-        <AccessGate>
-          <App />
-        </AccessGate>
+        <PlatformStoreProvider>
+          <AccessGate>
+            <App />
+          </AccessGate>
+        </PlatformStoreProvider>
       </SavedStoreProvider>
     </OrderStoreProvider>
   );

@@ -50,6 +50,8 @@ The top bar (**INSPECTD DEV+STAGING**) switches between sections. Apart from
 
 | Tab | File | What it is |
 | --- | --- | --- |
+| Operations | `platform/Console.jsx` | High-fidelity clone of the Inspectd operations console: sidebar with live counts, Open and Closed jobs boards (status cards, search, filters, sortable table, simulated lookup), and Providers, Customers, Reports and Settings sections. The app opens here. |
+| Client portal | `platform/ClientPortal.jsx` | Clone of the client portal, sharing the console's request list. Placeholder for now. |
 | Enterprise | `EnterprisePortal.jsx` | Business customer portal: dashboard, jobs, reports, and the multi-step Create Job wizard (vehicle → service → location → contact → review). |
 | Provider | `ProviderPortal.jsx` | Inspector workspace: job board (list + map + filters), job details, active claimed jobs, upload data, completed reports. |
 | Internal | `InternalRequests.jsx` | Ops console: incoming requests, provider research by area, notes/outcomes, duplicate detection, and **Dispatch**, which turns a job into a shareable provider link. |
@@ -91,6 +93,7 @@ in the Enterprise and Provider portals.
 | `RequestStore.jsx` | (in memory) | Internal console overlay keyed by order id: research, notes, outcome | Internal only, never touches order status |
 | `OfferStore.jsx` | `inspectd_offers_v1` | Jobs, providers, tokens, offer state machine; syncs across tabs | Internal Dispatch → `/job/:token` |
 | `SavedStore.jsx` | `inspectd_saved_vins` | Saved vehicles | Digital-native surfaces |
+| `platform/PlatformStore.jsx` | `inspectd_platform_v1` | Request records in the production console's exact shape, seeded from `platform/seed.js` (dates relative to first load); `reset()` reseeds | Operations, Client portal |
 
 To reset a demo, clear those keys or use **Reset** in the `?dev=1` panel for offers.
 
@@ -121,6 +124,12 @@ src/
   OfferDevPanel.jsx     ?dev=1 operator panel
 
   OrderStore.jsx  RequestStore.jsx  OfferStore.jsx  SavedStore.jsx
+
+  platform/             Operations console + client portal clones, self-contained
+    platform.css        the console design system, scoped to .ip
+    ui.jsx  derive.js   primitives, vocabulary, derived views
+    seed.js  PlatformStore.jsx
+    Console.jsx  Board.jsx  ClientPortal.jsx
 public/                 brand marks, partner assets, vehicle photos
 ```
 
