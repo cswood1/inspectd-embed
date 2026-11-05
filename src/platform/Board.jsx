@@ -21,12 +21,12 @@ const VIEW = {
   closed: ["Closed jobs", "Complete and canceled jobs. Reopen one by changing its status in the detail panel."],
 };
 
-export function Board({ mode, loaded, onRefresh, onOpenPortal }){
+export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", initialOpen = null }){
   const closed = mode === "closed";
   const { rows, fulfill } = usePlatform();
   const toast = useToast();
   const [filter, setFilter] = useState("all");
-  const [q, setQ] = useState("");
+  const [q, setQ] = useState(initialQ);   // ?q= lands with the search already filled in (customers link here)
   const [jf, setJf] = useState({type: "", designation: "", state: ""});   // filters beyond the status cards and search
   const [sortKey, setSortKey] = useState("created_at"), [sortDir, setSortDir] = useState(-1);
   const [page, setPage] = useState(0);
@@ -81,6 +81,9 @@ export function Board({ mode, loaded, onRefresh, onOpenPortal }){
     returnFocus.current = null;
   };
   useEffect(() => { if (openId) closeBtn.current?.focus(); }, [openId]);
+  // ?open=<id> lands with the detail panel already open (reports link here)
+  const pendingOpen = useRef(initialOpen);
+  useEffect(() => { if (loaded && pendingOpen.current) { const id = pendingOpen.current; pendingOpen.current = null; if (rows.some(r => r.id === id)) openOver(id); } }, [loaded]);
   useEffect(() => { if (openId && !rows.some(r => r.id === openId)) setOpenId(null); }, [rows, openId]);   // deleted while open
   useEffect(() => {
     const onKey = e => { if (e.key === "Escape" && openId && !e.closedASelect && !anySelectOpen()) closeOver(); };

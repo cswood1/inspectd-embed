@@ -222,3 +222,21 @@ export function PageDock({ pg, onChange, rowSelector }){
     </div>
   );
 }
+
+/* ---- the inline pager, for pages with more than one list (pagerHtml/wirePager) ---- */
+
+export const Pager = ({ p, onChange }) => p.total > PAGE ? (
+  <div className="pager"><span>{`${p.start}–${p.end} of ${p.total}`}</span><span className="pbtns">
+    <button className="btn sm" disabled={p.page === 0} onClick={() => onChange(-1)}>Prev</button>
+    <button className="btn sm" disabled={p.page >= p.pages - 1} onClick={() => onChange(1)}>Next</button></span></div>
+) : null;
+
+// a key-value card, pulsing (skelKv)
+export const SkelKv = ({ title = "", rows = 3 }) => (
+  <div className="kv" aria-busy="true"><h3>{title || <Sk w={96} h={12} />}</h3><dl>
+    {Array.from({length: rows}, (_, i) => <React.Fragment key={i}><dt><Sk w={64 + (i % 2) * 18} h={11} /></dt><dd><Sk w={i % 2 ? "42%" : "60%"} h={12} /></dd></React.Fragment>)}
+  </dl></div>
+);
+
+// flag(on, label, hue): a pill only when it is on
+export const flag = (on, label, hue) => on ? <Pill hue={hue}>{label}</Pill> : null;

@@ -4,6 +4,8 @@ import { usePlatform } from "./PlatformStore.jsx";
 import { navCounts } from "./derive.js";
 import { Icon, Sk, tint, ToastProvider, PaneCtx } from "./ui.jsx";
 import { Board } from "./Board.jsx";
+import { Providers, Customers, Reports } from "./Sections.jsx";
+import { Settings } from "./Settings.jsx";
 
 /*
  * The Operations console: Kavin's /dashboard shell (ui/console-client + ui/shared/shell.js).
@@ -28,16 +30,11 @@ export const NAV = [
   ]],
 ];
 
-// each section's heading and intro line, from its view.html; their bodies are built in step 3
-const STUBS = {
-  providers: ["Providers", <>Every inspection shop and mobile inspector the lookup has found so far, across all jobs. Contacted and booked flags carry over from the jobs.</>],
-  customers: ["Customers", <>Everyone who has submitted a request, grouped by email. Click a row to see their jobs.</>],
-  reports: ["Reports", <>Jobs that reached a booking or were completed. Normalized inspection reports are produced in the <a className="plainlink" href="#" onClick={e => e.preventDefault()}>report dashboard</a> for now; linking them to jobs here is the next step.</>],
-  settings: ["Settings", <>Workspaces and their teams, who reaches this console, your own account, and how this deployment is set up.</>],
-};
-
 const LOAD_MS = 400;   // the mock's stand-in for GET /api/requests, so the skeletons show
 let everLoaded = false;   // the first open of the console in this page load waits; later ones paint at once
+// The user tile is drawn from the account as it was when the page loaded (shell.js loads it once), so a
+// name changed in Settings shows there only after a reload. Mirrored; see docs/platform-iteration-notes.md.
+let tileMe = null;
 
 function UserTile({ me, onSignOut }){
   const out = <button className="btn icon" title="Sign out" aria-label="Sign out" onClick={onSignOut}><Icon name="signout" size={15} /></button>;
@@ -52,7 +49,7 @@ function UserTile({ me, onSignOut }){
   );
 }
 
-function Sidebar({ active, onNav, counts, me, onOpenPortal, onSignOut }){
+function Sidebar({ active, onNav, counts, me, onSignOut }){
   const go = (e, k) => { if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return; e.preventDefault(); onNav(k); };
   return (
     <aside className="side">
@@ -69,8 +66,8 @@ function Sidebar({ active, onNav, counts, me, onOpenPortal, onSignOut }){
           </React.Fragment>
         ))}
       </nav>
-      {/* the way across to the other app: here it switches to the Client portal platform tab */}
-      <a className="navitem out" id="portallink" href="#" onClick={e => { e.preventDefault(); onOpenPortal(); }}><Icon name="arrow" /><span>Client portal</span></a>
+      {/* Kavin's sidebar ends with a "Client portal" link here. Left out on purpose: the dev bar's tabs
+          switch apps, and the ops console should not link into a customer's portal. See the iteration notes. */}
       <div className="side-foot"><UserTile me={me} onSignOut={onSignOut} /></div>
     </aside>
   );
@@ -78,7 +75,11 @@ function Sidebar({ active, onNav, counts, me, onOpenPortal, onSignOut }){
 
 export function Console({ onOpenPortal = () => {}, onExit = () => {} }){
   const { rows, me } = usePlatform();
-  const [section, setSection] = useState("jobs");
+  // the section, and what a link into it carried (?q= for a search, ?open= for a job); seq remounts it
+  const [nav, setNav] = useState({section: "jobs", params: {}, seq: 0});
+  const section = nav.section;
+  const navigate = (k, params = {}) => setNav(n => n.section === k && !Object.keys(params).length && !Object.keys(n.params).length ? n : {section: k, params, seq: n.seq + 1});
+  if (!tileMe && me) tileMe = me;
   const [loaded, setLoaded] = useState(everLoaded);
   const [meShown, setMeShown] = useState(everLoaded);
   const pane = useRef(null), scroller = useRef(null), first = useRef(true), timer = useRef(null);
@@ -97,21 +98,23 @@ export function Console({ onOpenPortal = () => {}, onExit = () => {} }){
     else scroller.current?.scrollTo(0, 0);
     const h = scroller.current?.querySelector("main h1");
     if (h) { h.tabIndex = -1; h.focus({ preventScroll: true }); }
-  }, [section]);
+  }, [nav.seq]);
 
   const counts = navCounts(loaded ? rows : []);   // the badges wait for the list, as the sidebar does before it arrives
-  const stub = STUBS[section];
   return (
     <div className="ip" ref={pane}>
       <ToastProvider>
         <PaneCtx.Provider value={{ scroller, pane }}>
           <div className="ip-scroll" ref={scroller}>
             <div className="shell">
-              <Sidebar active={section} onNav={setSection} counts={counts} me={meShown ? me : null} onOpenPortal={onOpenPortal} onSignOut={onExit} />
+              <Sidebar active={section} onNav={k => navigate(k)} counts={counts} me={meShown ? tileMe : null} onSignOut={onExit} />
               <main id="outlet">
-                {section === "jobs" || section === "closed"
-                  ? <Board key={section} mode={section === "closed" ? "closed" : "open"} loaded={loaded} onRefresh={fetchRows} onOpenPortal={onOpenPortal} />
-                  : <div className="pad greet"><div className="gt"><h1>{stub[0]}</h1><p>{stub[1]}</p></div></div>}
+                {(section === "jobs" || section === "closed") && <Board key={nav.seq} mode={section === "closed" ? "closed" : "open"} loaded={loaded} onRefresh={fetchRows}
+                  onOpenPortal={onOpenPortal} initialQ={nav.params.q} initialOpen={nav.params.open} />}
+                {section === "providers" && <Providers key={nav.seq} loaded={loaded} />}
+                {section === "customers" && <Customers key={nav.seq} loaded={loaded} onNavigate={navigate} />}
+                {section === "reports" && <Reports key={nav.seq} loaded={loaded} onNavigate={navigate} onOpenPortal={onOpenPortal} />}
+                {section === "settings" && <Settings key={nav.seq} onOpenPortal={onOpenPortal} />}
               </main>
             </div>
           </div>

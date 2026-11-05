@@ -1,5 +1,8 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { buildSeed, lookupFor, PORTAL, SEED_VERSION, jobRef } from "./seed.js";
+import { createAuth, ApiError } from "./authServer.js";
+
+export { ApiError };
 
 /*
  * The platform's request list: the one GET /api/requests answer that every console section (and,
@@ -41,7 +44,6 @@ const shopCard = s => s && (s.name || "").trim() ? Object.fromEntries(SHOP_KEYS.
 const veh = (f, none) => [f.year, f.make, f.model].filter(Boolean).join(" ") || none;
 const locationString = f => [f.address, f.city, f.state, f.zip].filter(Boolean).join(", ");
 const TOLD_ON = ["confirmed", "complete"];
-export class ApiError extends Error {}
 const CANCELED = "This request was canceled; no inspector is booked or linked for it";
 
 // views.public: the link fields the console reads, derived from meta.inspect
@@ -64,7 +66,7 @@ const withLog = (r, meta, entry) => entry ? {...(meta || {}), emails: [...(r.met
 const preview = (r, status, meta) => ({...r, status: status || r.status, meta: {...r.meta, ...(meta || {})}});
 
 export function createServer(state){
-  const me = state.me;
+  const me = state.users.find(u => u.id === state.meId);
   // client.recipient: the workspace account that filed it, else the email on the form
   const recipient = r => ((r.user_id && state.users.find(u => u.id === r.user_id)?.email) || r.form?.email || "").trim();
   // client.status_changed: at most one email, when the stage moves onto confirmed or complete
@@ -222,6 +224,17 @@ export function PlatformStoreProvider({ children }){
     remove: id => { if (!row(id)) throw new ApiError("No such request"); setRows(rows => rows.filter(r => r.id !== id)); },
   }), [call, setRows]);
 
+  // the auth service (authServer.js): reads answer from the latest state; writes store what they leave
+  const auth = useMemo(() => {
+    const read = name => (...args) => createAuth(live.current)[name](...args);
+    const write = name => (...args) => { const { state: next, out } = createAuth(live.current)[name](...args); commit(() => next); return out; };
+    return {
+      me: read("me"), listOrgs: read("listOrgs"), members: read("members"), supers: read("supers"),
+      renameOrg: write("renameOrg"), invite: write("invite"), revokeInvitation: write("revokeInvitation"), setRole: write("setRole"),
+      removeMember: write("removeMember"), inviteTeam: write("inviteTeam"), revokeSuper: write("revokeSuper"), updateMe: write("updateMe"),
+    };
+  }, [commit]);
+
   const reset = useCallback(() => {
     for (const t of timers.current.values()) clearTimeout(t);
     timers.current.clear();
@@ -230,9 +243,9 @@ export function PlatformStoreProvider({ children }){
   }, [commit]);
 
   const value = useMemo(() => ({
-    rows: state.rows, orgs: state.orgs, users: state.users, me: state.me, seededAt: state.seededAt,
-    setRows, fulfill, reset, api,
-  }), [state, setRows, fulfill, reset, api]);
+    rows: state.rows, orgs: state.orgs, users: state.users, me: state.users.find(u => u.id === state.meId), meta: state.meta, seededAt: state.seededAt,
+    setRows, fulfill, reset, api, auth,
+  }), [state, setRows, fulfill, reset, api, auth]);
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 

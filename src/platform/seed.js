@@ -71,37 +71,37 @@ const miles = (a, b) => { const R = 3958.8, rad = d => d * Math.PI / 180, dLat =
 
 // [base ZIP, name, street address ("" for mobile), phone, domain, hours, services, rating, coverage, notes]
 const P = [
-  ["75201", "Trinity Mobile Vehicle Inspections", "", "(214) 555-0112", "trinitymobileinspect.com", "Mon-Sat 7am-7pm", "Pre-purchase, lease return, fleet condition reports", "4.9 · 318 reviews", "Mobile, covers Dallas, Irving and Garland", "Fleet volume welcome; can do 6+ vehicles at one lot in a day."],
-  ["75024", "Prairie Line Auto Inspect", "", "(972) 555-0118", "prairielineauto.com", "Mon-Fri 8am-6pm, Sat 9am-2pm", "Pre-purchase, lease end, photo condition reports", "4.8 · 204 reviews", "Mobile, covers Plano, Frisco and Allen", ""],
-  ["75038", "Northgate Pre-Purchase Inspections", "4510 W Walnut Hill Ln, Irving, TX 75038", "(972) 555-0124", "northgateppi.com", "Mon-Sat 8am-6pm", "Pre-purchase, diagnostics, OBD scans", "4.7 · 156 reviews", "", "Also inspects on site at dealer and auction lots."],
-  ["75034", "Frisco Mobile Mechanic & Inspection", "", "(469) 555-0127", "friscomobilemech.com", "Daily 7am-8pm", "Pre-purchase, mobile repair", "4.6 · 98 reviews", "Mobile, covers Frisco, McKinney and The Colony", "Weekend appointments most weeks."],
-  ["75024", "Redbud Auto Diagnostics", "1401 Legacy Dr, Plano, TX 75024", "(972) 555-0133", "redbudautodiag.com", "Mon-Fri 7:30am-6pm", "Pre-purchase, EV battery health, diagnostics", "4.8 · 241 reviews", "", "EV certified (Tesla, Ford, Hyundai). Brings a battery health scanner."],
-  ["75038", "Cedar Fork Inspection Co.", "", "(214) 555-0139", "cedarforkinspect.com", "Mon-Sat 8am-5pm", "Lease end, fleet de-fleet checks", "4.5 · 61 reviews", "Mobile, covers Irving, Grand Prairie and Arlington", ""],
-  ["75201", "Elm Fork Mobile Inspections", "", "(214) 555-0142", "elmforkmobile.com", "Mon-Fri 8am-6pm", "Pre-purchase, high-line and exotic", "4.9 · 87 reviews", "Mobile, covers Dallas, Highland Park and Richardson", "High-line specialist; paint meter and lift-system checks on request."],
+  ["75201", "Trinity Mobile Vehicle Inspections", "", "(214) 555-0112", "trinitymobileinspect.com", "Mon-Sat 7am-7pm", "Pre-purchase, lease return, fleet condition reports", "4.9 stars · 318 reviews", "Mobile, covers Dallas, Irving and Garland", "Fleet volume welcome; can do 6+ vehicles at one lot in a day."],
+  ["75024", "Prairie Line Auto Inspect", "", "(972) 555-0118", "prairielineauto.com", "Mon-Fri 8am-6pm, Sat 9am-2pm", "Pre-purchase, lease end, photo condition reports", "4.8 stars · 204 reviews", "Mobile, covers Plano, Frisco and Allen", ""],
+  ["75038", "Northgate Pre-Purchase Inspections", "4510 W Walnut Hill Ln, Irving, TX 75038", "(972) 555-0124", "northgateppi.com", "Mon-Sat 8am-6pm", "Pre-purchase, diagnostics, OBD scans", "4.7 stars · 156 reviews", "", "Also inspects on site at dealer and auction lots."],
+  ["75034", "Frisco Mobile Mechanic & Inspection", "", "(469) 555-0127", "friscomobilemech.com", "Daily 7am-8pm", "Pre-purchase, mobile repair", "4.6 stars · 98 reviews", "Mobile, covers Frisco, McKinney and The Colony", "Weekend appointments most weeks."],
+  ["75024", "Redbud Auto Diagnostics", "1401 Legacy Dr, Plano, TX 75024", "(972) 555-0133", "redbudautodiag.com", "Mon-Fri 7:30am-6pm", "Pre-purchase, EV battery health, diagnostics", "4.8 stars · 241 reviews", "", "EV certified (Tesla, Ford, Hyundai). Brings a battery health scanner."],
+  ["75038", "Cedar Fork Inspection Co.", "", "(214) 555-0139", "cedarforkinspect.com", "Mon-Sat 8am-5pm", "Lease end, fleet de-fleet checks", "4.5 stars · 61 reviews", "Mobile, covers Irving, Grand Prairie and Arlington", ""],
+  ["75201", "Elm Fork Mobile Inspections", "", "(214) 555-0142", "elmforkmobile.com", "Mon-Fri 8am-6pm", "Pre-purchase, high-line and exotic", "4.9 stars · 87 reviews", "Mobile, covers Dallas, Highland Park and Richardson", "High-line specialist; paint meter and lift-system checks on request."],
 
-  ["30303", "Peachtree Mobile Inspections", "", "(404) 555-0151", "peachtreemobileinspect.com", "Mon-Sat 7am-7pm", "Pre-purchase, lease return, fleet condition reports", "4.8 · 276 reviews", "Mobile, covers Atlanta, Decatur and East Point", "Fleet volume welcome."],
-  ["30060", "Chattahoochee Auto Check", "", "(770) 555-0154", "chattahoocheeautocheck.com", "Mon-Fri 8am-6pm", "Pre-purchase, lease end", "4.7 · 133 reviews", "Mobile, covers Marietta, Smyrna and Kennesaw", ""],
-  ["30060", "Kennesaw Ridge Vehicle Inspect", "1250 Roswell Rd, Marietta, GA 30060", "(770) 555-0157", "kennesawridgeinspect.com", "Mon-Sat 8am-6pm", "Pre-purchase, diagnostics, emissions", "4.6 · 189 reviews", "", "Shop inspections same day; mobile within 15 miles."],
-  ["30009", "Northpoint Mobile Inspection", "", "(678) 555-0160", "northpointmobile.com", "Daily 8am-7pm", "Pre-purchase, EV, high-line", "4.9 · 142 reviews", "Mobile, covers Alpharetta, Roswell and Johns Creek", "EV certified; battery health reports included."],
-  ["30030", "Decatur Square Auto Diagnostics", "415 E College Ave, Decatur, GA 30030", "(404) 555-0165", "decatursquareauto.com", "Mon-Fri 7:30am-5:30pm", "Pre-purchase, diagnostics", "4.7 · 211 reviews", "", ""],
-  ["30303", "Red Clay Inspection Services", "", "(404) 555-0168", "redclayinspect.com", "Mon-Sat 8am-5pm", "Lease end, fleet de-fleet checks, auction condition reports", "4.5 · 74 reviews", "Mobile, covers Atlanta, College Park and Hapeville", "Works auction lanes; can turn reports same day."],
-  ["30009", "Signal Hill Vehicle Inspections", "", "(678) 555-0171", "signalhillinspect.com", "Mon-Fri 8am-6pm", "Pre-purchase, lease end", "4.6 · 52 reviews", "Mobile, covers Alpharetta, Cumming and Milton", ""],
+  ["30303", "Peachtree Mobile Inspections", "", "(404) 555-0151", "peachtreemobileinspect.com", "Mon-Sat 7am-7pm", "Pre-purchase, lease return, fleet condition reports", "4.8 stars · 276 reviews", "Mobile, covers Atlanta, Decatur and East Point", "Fleet volume welcome."],
+  ["30060", "Chattahoochee Auto Check", "", "(770) 555-0154", "chattahoocheeautocheck.com", "Mon-Fri 8am-6pm", "Pre-purchase, lease end", "4.7 stars · 133 reviews", "Mobile, covers Marietta, Smyrna and Kennesaw", ""],
+  ["30060", "Kennesaw Ridge Vehicle Inspect", "1250 Roswell Rd, Marietta, GA 30060", "(770) 555-0157", "kennesawridgeinspect.com", "Mon-Sat 8am-6pm", "Pre-purchase, diagnostics, emissions", "4.6 stars · 189 reviews", "", "Shop inspections same day; mobile within 15 miles."],
+  ["30009", "Northpoint Mobile Inspection", "", "(678) 555-0160", "northpointmobile.com", "Daily 8am-7pm", "Pre-purchase, EV, high-line", "4.9 stars · 142 reviews", "Mobile, covers Alpharetta, Roswell and Johns Creek", "EV certified; battery health reports included."],
+  ["30030", "Decatur Square Auto Diagnostics", "415 E College Ave, Decatur, GA 30030", "(404) 555-0165", "decatursquareauto.com", "Mon-Fri 7:30am-5:30pm", "Pre-purchase, diagnostics", "4.7 stars · 211 reviews", "", ""],
+  ["30303", "Red Clay Inspection Services", "", "(404) 555-0168", "redclayinspect.com", "Mon-Sat 8am-5pm", "Lease end, fleet de-fleet checks, auction condition reports", "4.5 stars · 74 reviews", "Mobile, covers Atlanta, College Park and Hapeville", "Works auction lanes; can turn reports same day."],
+  ["30009", "Signal Hill Vehicle Inspections", "", "(678) 555-0171", "signalhillinspect.com", "Mon-Fri 8am-6pm", "Pre-purchase, lease end", "4.6 stars · 52 reviews", "Mobile, covers Alpharetta, Cumming and Milton", ""],
 
-  ["37203", "Music Row Mobile Inspections", "", "(615) 555-0102", "musicrowmobile.com", "Mon-Sat 7am-7pm", "Pre-purchase, lease return, fleet condition reports", "4.8 · 227 reviews", "Mobile, covers Nashville, Midtown and The Nations", "Fleet volume welcome."],
-  ["37064", "Harpeth Valley Auto Inspect", "", "(615) 555-0106", "harpethvalleyauto.com", "Mon-Fri 8am-6pm", "Pre-purchase, high-line, classic", "4.9 · 118 reviews", "Mobile, covers Franklin, Leiper's Fork and Thompson's Station", "Classic and collector cars; paint meter and compression test on request."],
-  ["37027", "Brentwood Precision Auto", "5100 Maryland Way, Brentwood, TN 37027", "(615) 555-0109", "brentwoodprecision.com", "Mon-Fri 7:30am-6pm", "Pre-purchase, diagnostics, high-line", "4.7 · 196 reviews", "", "European specialist."],
-  ["37129", "Stones River Mobile Inspection", "", "(615) 555-0113", "stonesrivermobile.com", "Mon-Sat 8am-6pm", "Pre-purchase, rebuilt title checks", "4.6 · 89 reviews", "Mobile, covers Murfreesboro, Smyrna and La Vergne", "Rebuilt and salvage title inspections; documents prior repairs."],
-  ["37203", "Cumberland Vehicle Assessment", "900 8th Ave S, Nashville, TN 37203", "(615) 555-0116", "cumberlandvehicle.com", "Mon-Fri 8am-5pm", "Pre-purchase, lease end, auction condition reports", "4.5 · 143 reviews", "", ""],
-  ["37027", "Volunteer State Inspections", "", "(615) 555-0119", "volstateinspect.com", "Daily 8am-7pm", "Pre-purchase, lease end, EV", "4.7 · 101 reviews", "Mobile, covers Brentwood, Nolensville and Antioch", ""],
-  ["37064", "Natchez Trace Mobile Inspect", "", "(629) 555-0122", "natchezmobile.com", "Mon-Sat 8am-6pm", "Lease end, fleet de-fleet checks", "4.4 · 47 reviews", "Mobile, covers Franklin, Spring Hill and Columbia", ""],
+  ["37203", "Music Row Mobile Inspections", "", "(615) 555-0102", "musicrowmobile.com", "Mon-Sat 7am-7pm", "Pre-purchase, lease return, fleet condition reports", "4.8 stars · 227 reviews", "Mobile, covers Nashville, Midtown and The Nations", "Fleet volume welcome."],
+  ["37064", "Harpeth Valley Auto Inspect", "", "(615) 555-0106", "harpethvalleyauto.com", "Mon-Fri 8am-6pm", "Pre-purchase, high-line, classic", "4.9 stars · 118 reviews", "Mobile, covers Franklin, Leiper's Fork and Thompson's Station", "Classic and collector cars; paint meter and compression test on request."],
+  ["37027", "Brentwood Precision Auto", "5100 Maryland Way, Brentwood, TN 37027", "(615) 555-0109", "brentwoodprecision.com", "Mon-Fri 7:30am-6pm", "Pre-purchase, diagnostics, high-line", "4.7 stars · 196 reviews", "", "European specialist."],
+  ["37129", "Stones River Mobile Inspection", "", "(615) 555-0113", "stonesrivermobile.com", "Mon-Sat 8am-6pm", "Pre-purchase, rebuilt title checks", "4.6 stars · 89 reviews", "Mobile, covers Murfreesboro, Smyrna and La Vergne", "Rebuilt and salvage title inspections; documents prior repairs."],
+  ["37203", "Cumberland Vehicle Assessment", "900 8th Ave S, Nashville, TN 37203", "(615) 555-0116", "cumberlandvehicle.com", "Mon-Fri 8am-5pm", "Pre-purchase, lease end, auction condition reports", "4.5 stars · 143 reviews", "", ""],
+  ["37027", "Volunteer State Inspections", "", "(615) 555-0119", "volstateinspect.com", "Daily 8am-7pm", "Pre-purchase, lease end, EV", "4.7 stars · 101 reviews", "Mobile, covers Brentwood, Nolensville and Antioch", ""],
+  ["37064", "Natchez Trace Mobile Inspect", "", "(629) 555-0122", "natchezmobile.com", "Mon-Sat 8am-6pm", "Lease end, fleet de-fleet checks", "4.4 stars · 47 reviews", "Mobile, covers Franklin, Spring Hill and Columbia", ""],
 
-  ["80202", "Front Range Mobile Inspections", "", "(303) 555-0172", "frontrangemobile.com", "Mon-Sat 7am-7pm", "Pre-purchase, lease return, fleet condition reports", "4.8 · 302 reviews", "Mobile, covers Denver, Englewood and Commerce City", "Fleet volume welcome."],
-  ["80226", "Bluebird Auto Inspect", "", "(720) 555-0175", "bluebirdautoinspect.com", "Mon-Fri 8am-6pm", "Pre-purchase, EV battery health", "4.7 · 128 reviews", "Mobile, covers Lakewood, Golden and Wheat Ridge", "EV certified (Tesla, Ford, Hyundai)."],
-  ["80202", "Mile High Pre-Buy", "1550 Larimer St, Denver, CO 80202", "(303) 555-0178", "milehighprebuy.com", "Mon-Fri 8am-6pm", "Pre-purchase, high-line and exotic, arbitration reports", "4.9 · 164 reviews", "", "Exotic and high-line specialist; arbitration-grade documentation."],
-  ["80011", "Cherry Creek Mobile Auto Check", "", "(720) 555-0181", "cherrycreekautocheck.com", "Daily 8am-7pm", "Pre-purchase, lease end", "4.6 · 93 reviews", "Mobile, covers Aurora, Centennial and Parker", ""],
-  ["80120", "Littleton Motorworks Inspection", "5600 S Broadway, Littleton, CO 80120", "(303) 555-0184", "littletonmotorworks.com", "Mon-Fri 7:30am-5:30pm", "Pre-purchase, diagnostics", "4.7 · 177 reviews", "", ""],
-  ["80120", "Columbine Vehicle Inspection", "", "(720) 555-0187", "columbineinspect.com", "Mon-Sat 8am-5pm", "Lease end, auction condition reports", "4.5 · 66 reviews", "Mobile, covers Littleton, Highlands Ranch and Ken Caryl", ""],
-  ["80226", "Highline Canal Auto Inspect", "", "(303) 555-0190", "highlinecanalauto.com", "Mon-Fri 8am-6pm", "Pre-purchase, fleet de-fleet checks", "4.6 · 58 reviews", "Mobile, covers Lakewood, Denver and Littleton", ""],
+  ["80202", "Front Range Mobile Inspections", "", "(303) 555-0172", "frontrangemobile.com", "Mon-Sat 7am-7pm", "Pre-purchase, lease return, fleet condition reports", "4.8 stars · 302 reviews", "Mobile, covers Denver, Englewood and Commerce City", "Fleet volume welcome."],
+  ["80226", "Bluebird Auto Inspect", "", "(720) 555-0175", "bluebirdautoinspect.com", "Mon-Fri 8am-6pm", "Pre-purchase, EV battery health", "4.7 stars · 128 reviews", "Mobile, covers Lakewood, Golden and Wheat Ridge", "EV certified (Tesla, Ford, Hyundai)."],
+  ["80202", "Mile High Pre-Buy", "1550 Larimer St, Denver, CO 80202", "(303) 555-0178", "milehighprebuy.com", "Mon-Fri 8am-6pm", "Pre-purchase, high-line and exotic, arbitration reports", "4.9 stars · 164 reviews", "", "Exotic and high-line specialist; arbitration-grade documentation."],
+  ["80011", "Cherry Creek Mobile Auto Check", "", "(720) 555-0181", "cherrycreekautocheck.com", "Daily 8am-7pm", "Pre-purchase, lease end", "4.6 stars · 93 reviews", "Mobile, covers Aurora, Centennial and Parker", ""],
+  ["80120", "Littleton Motorworks Inspection", "5600 S Broadway, Littleton, CO 80120", "(303) 555-0184", "littletonmotorworks.com", "Mon-Fri 7:30am-5:30pm", "Pre-purchase, diagnostics", "4.7 stars · 177 reviews", "", ""],
+  ["80120", "Columbine Vehicle Inspection", "", "(720) 555-0187", "columbineinspect.com", "Mon-Sat 8am-5pm", "Lease end, auction condition reports", "4.5 stars · 66 reviews", "Mobile, covers Littleton, Highlands Ranch and Ken Caryl", ""],
+  ["80226", "Highline Canal Auto Inspect", "", "(303) 555-0190", "highlinecanalauto.com", "Mon-Fri 8am-6pm", "Pre-purchase, fleet de-fleet checks", "4.6 stars · 58 reviews", "Mobile, covers Lakewood, Denver and Littleton", ""],
 ];
 export const PROVIDERS = P.map(([zip, name, address, phone, domain, hours, services, rating, coverage, notes]) => ({
   zip, name, address, phone, website: `https://www.${domain}`, email: `${address ? "service" : "bookings"}@${domain}`, hours, services, rating,
@@ -129,7 +129,7 @@ export function lookupFor(row, attempt = 0){
 
 /* ---- people ------------------------------------------------------- */
 
-export const SEED_VERSION = 2;   // bump when the seed changes shape: a stored older seed is replaced
+export const SEED_VERSION = 3;   // bump when the seed changes shape: a stored older seed is replaced
 export const PORTAL = "https://portal.inspectd.com";
 export const PROVIDER_TERMS_VERSION = "1";   // booking.provider_terms(): what a claim records
 // a job's reference in emails (mail._vehicle_and_ref)
@@ -192,7 +192,7 @@ const J = [
   ["tom", "80011", DEALER.address, [2021, "Ford", "F-150", "1FTFW1E5", "F"], "pre-purchase", "standard", "dispatching", "done", 1.6, {inotes: "Crestview wants it before Saturday's sale."}],
   ["tom", "80120", "8501 W Bowles Ave", [2022, "Lamborghini", "Huracan EVO", "ZHWUF5ZF", "L"], "auction-arbitration", "exotic", "dispatching", "done", 0.9, {link: "offered", notes: "Arbitration claim: buyer reports a front lift system fault not disclosed at sale. Need a documented check before the arbitration deadline."}],
   ["marcus", "75201", "2525 McKinnon St", [2019, "Lexus", "RX 350", "2T2BZMCA", "C"], "pre-purchase", "standard", "dispatching", "done", 2.2, {}],
-  ["marcus", "75034", "4800 Main St", [2020, "Honda", "Accord", "1HGCV1F3", "A"], "pre-purchase", "standard", "dispatching", "done", 1.9, {held: true, notes: "Second car I'm looking at. Seller is free after 5pm."}],
+  ["marcus", "75034", "4800 Main St", [2020, "Honda", "Accord", "1HGCV1F3", "A"], "pre-purchase", "standard", "dispatching", "done", 1.9, {held: true, name: "Marc Hale", notes: "Second car I'm looking at. Seller is free after 5pm."}],
   ["elena", "30030", "128 Sycamore St", [2021, "Subaru", "Outback", "4S4BTACC", "3"], "pre-purchase", "standard", "dispatching", "done", 4.4, {contacted: [0]}],
   ["jasmine", "37129", "1950 Old Fort Pkwy", [2020, "Honda", "Civic", "2HGFC2F6", "H"], "pre-purchase", "standard", "dispatching", "done", 1.3, {partner: "rebuildr", notes: "Want to know the repair quality on the front end before I buy."}],
   // confirmed: booked, the inspector's link claimed
@@ -234,7 +234,7 @@ export function buildSeed(now = Date.now()){
     if (x.batch) batches[x.batch] = created;
     const row = {
       id: id12(), created_at: iso(created), updated_at: iso(created), status, lookup, error: null, notes: x.inotes || "",
-      form: {name: u ? u.name : w[0], email: u ? u.email : w[1], phone: u ? u.phone : w[2], year: String(year), make, model,
+      form: {name: u ? u.name : (x.name || w[0]), email: u ? u.email : w[1], phone: u ? u.phone : w[2], year: String(year), make, model,
              vin: vin(prefix, year, plant, String(100000 + Math.floor(r() * 899999))), inspection_type: type, designation,
              address: street, city: place.city, state: place.state, zip, notes: x.notes || ""},
       result: null, meta: {emails: [], history: [{stage: "received", at: iso(created)}]},
@@ -312,5 +312,76 @@ export function buildSeed(now = Date.now()){
   });
 
   rows.sort((a, b) => b.created_at.localeCompare(a.created_at));   // the list comes newest first
-  return {version: SEED_VERSION, seededAt: new Date(now).toISOString(), rows, orgs: Object.values(orgs), users: Object.values(users), me: cam};
+  return {version: SEED_VERSION, seededAt: new Date(now).toISOString(), rows, ...buildAuth(now, orgs, users, cam), meta: META};
+}
+
+/* ---- accounts, workspaces, roles and invitations (apps/auth/store.py) ---- */
+
+// /api/meta, as production answers it
+export const META = {
+  agent_enabled: true, mail_enabled: true, mail_from: "Inspectd <jobs@inspectd.com>", mail_test_sender: false,
+  storage: "postgres", payments_enabled: true, support_email: "support@inspectd.com", google_enabled: true,
+  reports_url: PORTAL, portal_url: PORTAL,
+};
+// AUTH_SUPER_EMAILS: addresses the server grants team access to on sight, so it cannot be revoked here
+export const SUPER_EMAILS = ["kavin@inspectd.com"];
+export const INVITATION_DAYS = 7;
+
+// store.slugify
+export const slugify = name => (name || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40).replace(/-+$/, "") || "org";
+
+// [workspace key, name, email local part (or a whole address), role, sign-in, joined days ago]
+// The people who file requests keep the ids the jobs above already carry.
+const TEAM = {
+  inspectd: [["kavin", "Kavin Jeyasankar", "kavin@inspectd.com", "OWNER", "both", 420], ["cam", "Cam Wood", "cam@inspectd.com", "OWNER", "google", 400],
+             ["scott", "Scott Wood", "scott@inspectd.com", "OWNER", "google", 380]],
+  meridian: [["greg", "Greg Halvorsen", "greg.halvorsen", "OWNER", "password", 210], ["dana", null, null, "ADMIN", "password", 205],
+             ["luis", null, null, "USER", "google", 160], ["tasha", "Tasha Morel", "tasha.morel", "USER", "password", 44]],
+  northline: [["jordan", null, null, "OWNER", "google", 190], ["mei", null, null, "ADMIN", "google", 150], ["ben", "Ben Carver", "ben.carver", "USER", "password", 31]],
+  harbor: [["rachel", null, null, "OWNER", "password", 175], ["andre", null, null, "ADMIN", "password", 170],
+           ["sofia", "Sofia Lind", "sofia.lind", "ADMIN", "google", 96], ["nate", "Nate Pruitt", "nate.pruitt", "USER", "password", 12]],
+  crestview: [["mark", "Mark Delaney", "mdelaney", "OWNER", "both", 140], ["tom", null, null, "ADMIN", "password", 138], ["jen", "Jen Ortiz", "jortiz", "USER", "", 9]],
+};
+// [workspace, email, role, inviter key, sent days ago, team invitation]
+const INVITES = [
+  ["inspectd", "ops@inspectd.com", "ADMIN", "cam", 1.2, true],
+  ["meridian", "fleet.ops@meridianfleet.com", "USER", "greg", 0.6, false],
+  ["meridian", "r.santos@meridianfleet.com", "ADMIN", "dana", 3.1, false],
+  ["northline", "ops@northlinemobility.com", "USER", "jordan", 2.4, false],
+  ["northline", "temp@northlinemobility.com", "USER", "mei", 11, false],   // expired: never shown as pending
+  ["harbor", "claims@harborlease.com", "USER", "rachel", 0.3, false],
+  ["harbor", "j.wexler@harborlease.com", "ADMIN", "andre", 4.8, false],
+  ["crestview", "service@crestviewautogroup.com", "USER", "mark", 1.7, false],
+];
+
+function buildAuth(now, jobOrgs, jobUsers, cam){
+  const r = rng(20261105), id12 = () => pick(r, HEX, 12), DAY = 864e5;
+  // a time of day of their own for each person, so a member list doesn't read as one batch
+  const at = (days, key = "") => new Date(now - days * DAY - (key ? hashStr(key) % 540 : 0) * 60e3).toISOString();
+  const domain = k => k === "inspectd" ? "inspectd.com" : ORGS.find(o => o[0] === k)[2];
+  const orgs = [], users = [], memberships = [], byKey = {};
+  const ORG_NAMES = {inspectd: "Inspectd", ...Object.fromEntries(ORGS.map(([k, name]) => [k, name]))};
+  for (const [k, people] of Object.entries(TEAM)) {
+    const oldest = Math.max(...people.map(p => p[5]));
+    const org = {id: k === "inspectd" ? id12() : jobOrgs[k].id, name: ORG_NAMES[k], slug: slugify(ORG_NAMES[k]), created_at: at(oldest + 0.4), created_by: null};
+    orgs.push(org);
+    for (const [key, name, email, role, signin, days] of people) {
+      let u = byKey[key];
+      if (!u) {
+        const known = key === "cam" ? cam : jobUsers[key];
+        u = byKey[key] = {id: known ? known.id : id12(), email: known ? known.email : (email.includes("@") ? email : `${email}@${domain(k)}`),
+                          name: known ? known.name : name, phone: known?.phone || "", is_super: k === "inspectd",
+                          has_password: signin === "password" || signin === "both", google_linked: signin === "google" || signin === "both",
+                          created_at: at(days, key), last_login_at: signin ? at(Math.min(days, 0.04 + (hashStr(key) % 90) / 24)) : null};
+        users.push(u);
+      }
+      if (!org.created_by) org.created_by = u.id;
+      memberships.push({org_id: org.id, user_id: u.id, role, joined_at: at(days, key + k)});
+    }
+  }
+  const invitations = INVITES.map(([k, email, role, by, days, team]) => ({
+    id: id12(), org_id: orgs.find(o => o.slug === slugify(ORG_NAMES[k])).id, email, role, invited_by: byKey[by].id, grants_super: team,
+    token: pick(r, URLSAFE, 43), created_at: at(days, email), expires_at: at(days - INVITATION_DAYS, email), accepted_at: null, accepted_by: null, revoked_at: null,
+  }));
+  return {orgs: orgs.sort((a, b) => a.created_at.localeCompare(b.created_at)), users, memberships, invitations, superEmails: SUPER_EMAILS, meId: cam.id};
 }
