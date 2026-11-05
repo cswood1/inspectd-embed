@@ -129,8 +129,11 @@ export function lookupFor(row, attempt = 0){
 
 /* ---- people ------------------------------------------------------- */
 
+export const SEED_VERSION = 2;   // bump when the seed changes shape: a stored older seed is replaced
 export const PORTAL = "https://portal.inspectd.com";
-export const TERMS_VERSION = "2026-10";
+export const PROVIDER_TERMS_VERSION = "1";   // booking.provider_terms(): what a claim records
+// a job's reference in emails (mail._vehicle_and_ref)
+export const jobRef = id => `J-${id.slice(0, 6).toUpperCase()}`;
 export const CAM = {name: "Cam Wood", email: "cam@inspectd.com"};
 
 // [key, name, domain]: the business workspaces, and the people who file their requests
@@ -254,7 +257,7 @@ export function buildSeed(now = Date.now()){
         const {share_bps, ...pub} = p;
         row.partner = pub; m.partner = p.key;
         m.partner_ref = {role: "shopper", listing: "RB-48213", title: "rebuilt", damage: "Front-end collision, repaired", from_listing: "year,make,model,vin"};
-        m.revroom = {vin: row.form.vin, listing_id: "RB-48213", listing_url: "https://www.rebuildr.com/listings/RB-48213", seller: "dealership", role: "shopper",
+        m.revroom = {vin: row.form.vin, listing_id: "RB-48213", listing_url: "https://listings.rebuildr.example/RB-48213", seller: "dealership", role: "shopper",
                      title_status: "rebuilt", mileage: 41210, authorization: "listing",
                      location: {name: "Stones River Auto Sales", contact_name: "Dale Prewitt", contact_phone: "(615) 555-0104"},
                      damage: [{date: "2024-03-14", type: "collision", areas: ["front_end", "right_front"], severity: "moderate", airbags_deployed: false,
@@ -286,14 +289,14 @@ export function buildSeed(now = Date.now()){
       m.booking = {provider: shopCard(s), inspector: INSPECTORS[n % INSPECTORS.length], scheduled_at: when(slot.getTime()), note: BOOK_NOTES[n % BOOK_NOTES.length], booked_by: cam.name, booked_at};
       mail(s.email, `Inspection booked: ${veh} in ${place.city}`, booked_at, {kind: "inspector_booking"});
       const claimAt = step(2, "confirmed");
-      m.inspect = {token: pick(r, URLSAFE, 32), made_at: booked_at, shop: shopCard(s), claim: {status: "claimed", at: claimAt, terms: {version: TERMS_VERSION, accepted_at: claimAt}}};
+      m.inspect = {token: pick(r, URLSAFE, 32), made_at: booked_at, shop: shopCard(s), claim: {status: "claimed", at: claimAt, terms: {version: PROVIDER_TERMS_VERSION, accepted_at: claimAt}}};
       row.inspect_url = `${PORTAL}/inspect/${m.inspect.token}`; row.inspect_shop = m.inspect.shop; row.inspect_claim = m.inspect.claim;
-      mail(row.form.email, `Inspection confirmed: ${veh} (${row.id})`, claimAt);
+      mail(row.form.email, `Inspection confirmed: ${veh} (${jobRef(row.id)})`, claimAt, {kind: "confirmed"});
       if (status === "complete") {
         t = slot.getTime() + 3 * HOUR;
         const at = step(0, "complete");
         m.report = {id: id12(), at, filename: `${make.replace(/\W/g, "")}_${row.form.vin.slice(-6)}_inspection.pdf`, shop: shopCard(s)};
-        mail(row.form.email, `Inspection report ready: ${veh} (${row.id})`, at);
+        mail(row.form.email, `Inspection report ready: ${veh} (${jobRef(row.id)})`, at, {kind: "complete"});
       }
     }
     if (status === "canceled") {
@@ -301,13 +304,13 @@ export function buildSeed(now = Date.now()){
       const by = u && !x.refund ? u : cam;
       m.canceled = {at, by: by.name, by_id: by.id, reason: x.reason};
       if (x.refund) {
-        m.refund = {amount_cents: m.order.amount_cents, at, by: cam.name};
-        mail(row.form.email, `Inspection canceled and refunded: ${veh} (${row.id})`, at);
-      } else mail(row.form.email, `Inspection canceled: ${veh} in ${place.city}`, at);
+        m.refund = {id: "re_" + pick(r, ALNUM, 24), status: "succeeded", amount_cents: m.order.amount_cents, at, by: cam.name, by_id: cam.id};
+        mail(row.form.email, `Inspection canceled and refunded: ${veh} (${jobRef(row.id)})`, at, {kind: "refunded"});
+      }   // a workspace canceling its own job from the portal is not emailed (portal.cancel_request)
     }
     return row;
   });
 
   rows.sort((a, b) => b.created_at.localeCompare(a.created_at));   // the list comes newest first
-  return {version: 1, seededAt: new Date(now).toISOString(), rows, orgs: Object.values(orgs), users: Object.values(users), me: cam};
+  return {version: SEED_VERSION, seededAt: new Date(now).toISOString(), rows, orgs: Object.values(orgs), users: Object.values(users), me: cam};
 }

@@ -1,18 +1,16 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
 import { dupEmails } from "./derive.js";
-import { TYPES, DESIGNATIONS, STATUS, LOOKUP, fmt, where, vehicle, isClosed, Icon, Who, DesigTag, Sk, SkelRows, SkelCards, CSelect, PageDock, paged, useToast } from "./ui.jsx";
+import { TYPES, DESIGNATIONS, STATUS, LOOKUP, fmt, where, vehicle, isClosed, Icon, Who, DesigTag, Sk, SkelRows, SkelCards, CSelect, PageDock, paged, useToast, anySelectOpen } from "./ui.jsx";
+import { JobPanel, requester } from "./JobPanel.jsx";
 
 /*
  * The jobs board: status cards, search and filters, the sortable table. Ported from
- * inspection-requests/ui/shared/board.js, mounted as Open jobs or Closed jobs.
- * The job detail slide-over is step 2: a row click does nothing yet.
+ * inspection-requests/ui/shared/board.js, mounted as Open jobs or Closed jobs. A row opens the job
+ * detail slide-over (JobPanel.jsx), as openOver/closeOver do.
  */
 
 const COLS = [["name", "Customer"], ["vehicle", "Vehicle"], ["where", "Location"], ["type", "Type"], ["status", "Status"], ["lookup", "Lookup"], ["shops", "Shops"], ["created_at", "Received"]];
-// Who the job is for. A request from a client workspace is the business's -- the workspace is the
-// name on the row, and the person who filed it is a detail of the job; a walk-in is the person.
-const requester = r => r.org ? {name: r.org.name, sub: r.form.email, business: true} : {name: r.form.name, sub: r.form.email, business: false};
 const colVal = (r, k) => ({name: requester(r).name.toLowerCase(), vehicle: vehicle(r.form).toLowerCase(), where: where(r.form).toLowerCase(), type: r.form.inspection_type,
   status: r.status, lookup: r.lookup, shops: r.result ? r.result.shops.length : -1, created_at: r.created_at})[k];
 // the cards along the top: the statuses this board holds, and a card for all of them
@@ -23,7 +21,7 @@ const VIEW = {
   closed: ["Closed jobs", "Complete and canceled jobs. Reopen one by changing its status in the detail panel."],
 };
 
-export function Board({ mode, loaded, onRefresh }){
+export function Board({ mode, loaded, onRefresh, onOpenPortal }){
   const closed = mode === "closed";
   const { rows, fulfill } = usePlatform();
   const toast = useToast();
@@ -32,6 +30,14 @@ export function Board({ mode, loaded, onRefresh }){
   const [jf, setJf] = useState({type: "", designation: "", state: ""});   // filters beyond the status cards and search
   const [sortKey, setSortKey] = useState("created_at"), [sortDir, setSortDir] = useState(-1);
   const [page, setPage] = useState(0);
+  const [openId, setOpenId] = useState(null);
+  // the panel keeps the last job drawn after it closes, as Kavin's does: it slides out with its content,
+  // and the next job opens in the same body, scrolled where the last one was left
+  const [shownId, setShownId] = useState(null);
+  // "Change" blanks a job's link on this page only, as Kavin's does; nothing is saved, and Refresh brings it back
+  const [unlinked, setUnlinked] = useState(() => new Set());
+  const returnFocus = useRef(null), closeBtn = useRef(null), searchBox = useRef(null);
+  useEffect(() => { if (!loaded) setUnlinked(new Set()); }, [loaded]);
 
   const pool = useMemo(() => loaded ? rows.filter(r => closed ? isClosed(r) : !isClosed(r)) : [], [rows, loaded, closed]);
   const cards = closed ? CLOSED_CARDS : OPEN_CARDS;
@@ -59,6 +65,34 @@ export function Board({ mode, loaded, onRefresh }){
   const sortBy = k => { if (sortKey === k) setSortDir(d => -d); else { setSortKey(k); setSortDir(k === "created_at" ? -1 : 1); } setPage(0); };
   const run = (e, id) => { e.stopPropagation(); fulfill(id); toast("Looking up shops"); };
 
+  /* ---- job detail ---- */
+  const openOver = id => {
+    if (!rows.some(r => r.id === id)) return;
+    returnFocus.current = document.activeElement;
+    setOpenId(id); setShownId(id);
+  };
+  const closeOver = () => {
+    if (!openId) return;
+    setOpenId(null);
+    // back to where they were, unless that was inside the panel just closed
+    const back = returnFocus.current, over = closeBtn.current?.closest(".over");
+    if (back && document.contains(back) && !over?.contains(back) && back !== document.body) back.focus();
+    else searchBox.current?.focus();
+    returnFocus.current = null;
+  };
+  useEffect(() => { if (openId) closeBtn.current?.focus(); }, [openId]);
+  useEffect(() => { if (openId && !rows.some(r => r.id === openId)) setOpenId(null); }, [rows, openId]);   // deleted while open
+  useEffect(() => {
+    const onKey = e => { if (e.key === "Escape" && openId && !e.closedASelect && !anySelectOpen()) closeOver(); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  });
+  // "view all": the board again, filtered by that customer, as /dashboard?q=... mounts it
+  const viewAll = value => { setOpenId(null); returnFocus.current = null; setJf({type: "", designation: "", state: ""}); setFilter("all");
+    setSortKey("created_at"); setSortDir(-1); setPage(0); setQ(value); };
+  const unlink = id => setUnlinked(s => new Set(s).add(id));
+  const relink = id => setUnlinked(s => { const n = new Set(s); n.delete(id); return n; });
+
   const [title, intro] = VIEW[mode];
   return (
     <>
@@ -76,7 +110,7 @@ export function Board({ mode, loaded, onRefresh }){
           ))}
         </div>
         <div className="toolbar">
-          <div className="search"><Icon name="search" size={14} /><input type="search" placeholder="Search name, email, vehicle, city" autoComplete="off" value={q} onChange={e => { setQ(e.target.value); setPage(0); }} /></div>
+          <div className="search"><Icon name="search" size={14} /><input type="search" ref={searchBox} placeholder="Search name, email, vehicle, city" autoComplete="off" value={q} onChange={e => { setQ(e.target.value); setPage(0); }} /></div>
           <CSelect className={`fsel${filter !== "all" ? " on" : ""}`} label="Status" options={statusOpts} value={filter === "all" ? "" : filter} onChange={v => pickCard(v || "all")} />
           <CSelect className={`fsel${jf.type ? " on" : ""}`} label="Inspection type" options={typeOpts} value={jf.type} onChange={v => setJ("type", v)} />
           <CSelect className={`fsel${jf.designation ? " on" : ""}`} label="Vehicle designation" options={desigOpts} value={jf.designation} onChange={v => setJ("designation", v)} />
@@ -103,7 +137,7 @@ export function Board({ mode, loaded, onRefresh }){
                     ? <Icon name="warn" size={14} className="warnico" role="img" aria-label="Another request uses this email"><title>Another request uses this email</title></Icon> : null;
                   const w = requester(r);
                   return (
-                    <tr key={r.id} className={`row st-${r.status}`} data-id={r.id}>
+                    <tr key={r.id} className={`row st-${r.status} ${r.id === openId ? "on" : ""}`} data-id={r.id} onClick={() => openOver(r.id)}>
                       <td><Who name={w.name} email={w.sub} extra={dup} /></td>
                       <td>{vehicle(f)}</td>
                       <td className="sub">{where(f)}</td>
@@ -125,6 +159,9 @@ export function Board({ mode, loaded, onRefresh }){
           )}
       </div>
       <PageDock pg={pg} rowSelector=".tablewrap tbody tr.row" onChange={d => setPage(p => p + d)} />
+      <JobPanel row={rows.find(r => r.id === shownId) || null} rows={rows} open={!!openId} closed={closed} closeRef={closeBtn}
+        onClose={closeOver} onOpen={openOver} onViewAll={viewAll} onOpenPortal={onOpenPortal}
+        unlinked={shownId ? unlinked.has(shownId) : false} onUnlink={() => unlink(shownId)} onRelink={() => relink(shownId)} />
     </>
   );
 }

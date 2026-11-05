@@ -110,7 +110,7 @@ export function Console({ onOpenPortal = () => {}, onExit = () => {} }){
               <Sidebar active={section} onNav={setSection} counts={counts} me={meShown ? me : null} onOpenPortal={onOpenPortal} onSignOut={onExit} />
               <main id="outlet">
                 {section === "jobs" || section === "closed"
-                  ? <Board key={section} mode={section === "closed" ? "closed" : "open"} loaded={loaded} onRefresh={fetchRows} />
+                  ? <Board key={section} mode={section === "closed" ? "closed" : "open"} loaded={loaded} onRefresh={fetchRows} onOpenPortal={onOpenPortal} />
                   : <div className="pad greet"><div className="gt"><h1>{stub[0]}</h1><p>{stub[1]}</p></div></div>}
               </main>
             </div>
