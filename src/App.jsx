@@ -9,12 +9,16 @@ import { DigitalNativeSRP, DigitalNativeVDP, DigitalNativeSaved } from "./Digita
 import { EnterprisePortal } from "./EnterprisePortal.jsx";
 import { ProviderPortal } from "./ProviderPortal.jsx";
 import { InternalRequests } from "./InternalRequests.jsx";
+import { Console } from "./platform/Console.jsx";
+import { ClientPortal } from "./platform/ClientPortal.jsx";
 import { gridBg } from "./AccessGate.jsx";
 
 /* ---- routing model --------------------------------------------- */
 
 const DEALER_VIEWS = new Set(["search", "vdp", "dn-srp", "dn-vdp", "dn-saved", "about"]);
 const PLATFORM_VIEWS = new Set([
+  "platform-ops",
+  "platform-portal",
   "platform-enterprise",
   "platform-provider",
   "platform-internal",
@@ -41,6 +45,8 @@ const DEALER_SURFACES = [
 ];
 
 const PLATFORM_SURFACES = [
+  { view: "platform-ops", label: "Operations" },
+  { view: "platform-portal", label: "Client portal" },
   { view: "platform-enterprise", label: "Enterprise" },
   { view: "platform-provider", label: "Provider" },
   { view: "platform-internal", label: "Internal" },
@@ -125,7 +131,7 @@ function AreaSwitcher({ area, onSelect }) {
 
 function Homepage({ onGo }) {
   const links = [
-    { label: "Platform", view: "platform-enterprise" },
+    { label: "Platform", view: "platform-ops" },
     { label: "External Surfaces", view: "search" },
   ];
   return (
@@ -152,7 +158,7 @@ function Homepage({ onGo }) {
 /* ---- app ------------------------------------------------------- */
 
 export default function App() {
-  const [view, setView] = useState("home");
+  const [view, setView] = useState("platform-ops");
   const [vehicle, setVehicle] = useState(INVENTORY[0]);
   const [dnVehicle, setDnVehicle] = useState(DN_INVENTORY[0]);
   const [tab, setTab] = useState(null); // null | { context, step, orderId? }
@@ -235,6 +241,8 @@ export default function App() {
       <div className="relative flex-1 overflow-hidden">
         <div className="h-full overflow-auto">
           {view === "home" && <Homepage onGo={go} />}
+          {view === "platform-ops" && <Console onOpenPortal={() => go("platform-portal")} onExit={() => go("home")} />}
+          {view === "platform-portal" && <ClientPortal />}
           {view === "platform-enterprise" && <EnterprisePortal onExit={() => go("home")} />}
           {view === "platform-provider" && <ProviderPortal onExit={() => go("home")} />}
           {view === "platform-internal" && <InternalRequests />}
