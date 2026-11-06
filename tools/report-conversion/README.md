@@ -13,7 +13,7 @@ unchanged. No API key and no network calls.
 
 | File | What it does |
 | --- | --- |
-| `lemonsquad.py` | The layout reader: sections, item labels paired with their status by position, red remarks as notes, one finding per tire, NAAA scores as ratings, the Summary page as per-area summaries, and the cover's date and place. The ordering customer and the legal disclosures are not read. |
+| `lemonsquad.py` | The layout reader: sections, item labels paired with their status by position, red remarks as notes, one finding per tire, NAAA scores as ratings, the Summary page as per-area summaries, and the cover's date and place. HTML entities in the text (`&rsquo;`) are decoded. The ordering customer and the legal disclosures are not read. |
 | `convert.py` | Runs `build_report` with the layout reader in place of the model call, then prepares each document for the demo (below) and writes it out. |
 | `images.py` | Re-encodes each photo as WebP: 1024px on the long side, plus a 360px thumbnail, both at quality 55. |
 | `index.mjs` | Writes `src/platform/reportIndex.js`, every report's summary row, from the converted documents. |

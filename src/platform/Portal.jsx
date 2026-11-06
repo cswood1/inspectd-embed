@@ -134,7 +134,7 @@ function Shell({ onExit, onReload }){
   const [path, setPath] = useState(lastPath);
   const [meReady, setMeReady] = useState(booted), [countsReady, setCountsReady] = useState(booted);
   const pane = useRef(null), scroller = useRef(null), first = useRef(true);
-  const navigate = to => { if (to === path) return; lastPath = to; setPath(to); };   // a #hash is part of the path, as location.pathname + hash in nav.js
+  const navigate = to => { if (to === path) return; lastPath = to; setPath(to); };   // the #hash is kept, as location.hash is in nav.js
   const ctx = { navigate, refreshCounts: () => {}, reload: onReload, signOut: onExit };
 
   // the account, then the counts: fetched once per page load, as nav.js does
@@ -143,21 +143,22 @@ function Shell({ onExit, onReload }){
     const a = setTimeout(() => setMeReady(true), 300), b = setTimeout(() => { booted = true; setCountsReady(true); }, 450);
     return () => { clearTimeout(a); clearTimeout(b); };
   }, []);
+  // the page is the path without its #hash: a link that only changes the hash stays on the same page
+  const [bare, tab = ""] = path.split("#"), hit = match(bare) || ROUTES[0], [re, active, page] = hit, id = re.exec(bare)?.[1];
   // a new page starts at the top, and the reader moves to its heading
   useEffect(() => {
     if (first.current) first.current = false; else scroller.current?.scrollTo(0, 0);
     const t = setTimeout(() => { const h = scroller.current?.querySelector("main h1"); if (h) { h.tabIndex = -1; h.focus({ preventScroll: true }); } }, 0);
     return () => clearTimeout(t);
-  }, [path]);
+  }, [bare]);
 
-  const [bare, tab = ""] = path.split("#"), hit = match(bare) || ROUTES[0], [re, active, page] = hit, id = re.exec(bare)?.[1];
   const me = meReady ? portal.me() : null;
   const counts = {};
-  if (countsReady) {   // refreshCounts: reports, jobs not yet complete, and every distinct car across both
+  if (countsReady) {   // refreshCounts: reports, jobs still open (not complete or canceled), and every distinct car across both
     const rep = portal.reports().reports, jobs = portal.listJobs().requests;
     const vins = new Set([...rep.map(r => (r.vehicle?.vin || "").toUpperCase() || `${r.vehicle?.year}|${r.vehicle?.make}|${r.vehicle?.model}`.toLowerCase()),
                           ...jobs.map(j => (j.form?.vin || "").toUpperCase() || `${j.form?.year}|${j.form?.make}|${j.form?.model}`.toLowerCase())]);
-    Object.assign(counts, {reports: rep.length, jobs: jobs.filter(r => r.stage !== "complete").length, vehicles: vins.size});
+    Object.assign(counts, {reports: rep.length, jobs: jobs.filter(r => r.stage !== "complete" && r.stage !== "canceled").length, vehicles: vins.size});
   }
   void rows;   // the counts and pages re-read the store whenever it changes
   const switchTo = orgId => {
@@ -165,15 +166,15 @@ function Shell({ onExit, onReload }){
     catch (e) { /* only an unknown workspace is refused; the menu offers none */ }
   };
   const body = page === "overview" ? <Overview ctx={ctx} />
-    : page === "jobs" ? <Jobs key={path} ctx={ctx} />
-    : page === "new" ? <NewJob key={path} ctx={ctx} />
-    : page === "bulk" ? <BulkJobs key={path} ctx={ctx} />
-    : page === "job" ? <Job key={path} id={id} ctx={ctx} />
-    : page === "reports" ? <Reports key={path} ctx={ctx} />
-    : page === "report" ? <ReportPage key={path} id={id} tab={tab} ctx={ctx} />
-    : page === "vehicles" ? <Vehicles key={path} ctx={ctx} />
-    : page === "team" ? <Team key={path} ctx={ctx} />
-    : page === "settings" ? <Settings key={path} ctx={ctx} />
+    : page === "jobs" ? <Jobs key={bare} ctx={ctx} />
+    : page === "new" ? <NewJob key={bare} ctx={ctx} />
+    : page === "bulk" ? <BulkJobs key={bare} ctx={ctx} />
+    : page === "job" ? <Job key={bare} id={id} ctx={ctx} />
+    : page === "reports" ? <Reports key={bare} ctx={ctx} />
+    : page === "report" ? <ReportPage key={bare} id={id} tab={tab} ctx={ctx} />
+    : page === "vehicles" ? <Vehicles key={bare} ctx={ctx} />
+    : page === "team" ? <Team key={bare} ctx={ctx} />
+    : page === "settings" ? <Settings key={bare} ctx={ctx} />
     : <Invoices />;
   return (
     <div className="ipp" ref={pane}>
@@ -182,7 +183,7 @@ function Shell({ onExit, onReload }){
           <div className="ipp-scroll" ref={scroller}>
             <div className="shell">
               <Sidebar active={active} me={me} counts={counts} ctx={ctx} onSwitch={switchTo} onSignOut={onExit} />
-              <main id="outlet" key={path}>{body}</main>
+              <main id="outlet" key={bare}>{body}</main>
             </div>
           </div>
         </PaneCtx.Provider>

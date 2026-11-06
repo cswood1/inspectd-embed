@@ -65,8 +65,7 @@ export function Vehicles({ ctx, expand = false }){
   else body = list.map((g, i) => {
     const open = g.jobs.filter(j => j.stage !== "complete"), hue = worstOf(g.reports), n = g.reports.length;
     const issues = g.reports.length ? Math.max(...g.reports.map(issuesOf)) : 0;
-    // Kavin's row header is a template with a line break between its parts; .secgroup has no style of its
-    // own, so each break shows as a space, as it does in his (docs/platform-iteration-notes.md)
+    // the row's styles are ours (portal.css, "added after the clone"): Kavin's markup has no stylesheet behind it
     return (
       <details key={g.key} className="secgroup vgroup" open={list.length === 1 || (i === 0 && expand)}>
         <summary>

@@ -412,3 +412,16 @@
   .ip .subnav a{padding:6px 10px}
   .ip .subnav a small{display:none}
 }
+
+/* ===== dialogs: the console's confirm() and prompt() as in-page dialogs, in the client portal's dialog style
+   (inspection-dashboard ui/shared/base.css .veil/.dlg), on the console's own tokens. ===== */
+.ip .veil{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(16,24,40,.38);animation:ip-veilin .12s ease-out}
+.ip .dlg{width:min(440px,100%);background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow-over);padding:20px 20px 16px;animation:ip-dlgin .14s ease-out}
+.ip .dlg h3{margin:0 0 6px;font-size:16px;font-weight:650;letter-spacing:-.01em;color:var(--ink);line-height:1.4}
+.ip .dlg p{margin:0;color:var(--sub)}
+.ip .dlg .dlgf{display:block;margin-top:14px}
+.ip .dlg .dlgf span{display:block;font-size:12px;color:var(--sub);margin-bottom:5px}
+.ip .dlg .dlgf input{width:100%;box-sizing:border-box}
+.ip .dlg .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+@keyframes ip-veilin{from{opacity:0}to{opacity:1}}
+@keyframes ip-dlgin{from{opacity:0;transform:translateY(6px) scale(.985)}to{opacity:1;transform:none}}

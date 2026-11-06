@@ -22,6 +22,7 @@ printed label and the note, exactly as it does for the model's answer.
 """
 from __future__ import annotations
 
+import html
 import re
 import unicodedata
 
@@ -37,7 +38,8 @@ PASS_WORDS, ATTN_WORDS, NA_WORDS, FAIL_WORDS = ({"good", "yes", "no issues", "pa
 
 
 def _text(s: str) -> str:
-    return " ".join(unicodedata.normalize("NFKC", s).split())   # the PDFs set "Diﬀerential" with a ligature
+    # the PDFs set "Diﬀerential" with a ligature, and some inspectors' text carries HTML entities ("one&rsquo;s")
+    return " ".join(html.unescape(unicodedata.normalize("NFKC", s)).split())
 
 
 def _join(spans) -> str:
