@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { buildSeed, lookupFor, PORTAL, SEED_VERSION, jobRef } from "./seed.js";
+import { buildSeed, lookupFor, SEED_VERSION, jobRef, inspectLink } from "./seed.js";
 import { createAuth, ApiError } from "./authServer.js";
 import { createPortal } from "./portalServer.js";
 
@@ -50,7 +50,7 @@ const CANCELED = "This request was canceled; no inspector is booked or linked fo
 // views.public: the link fields the console reads, derived from meta.inspect
 function present(r){
   const inspect = r.meta?.inspect || {};
-  return {...r, inspect_url: inspect.token ? `${PORTAL}/inspect/${inspect.token}` : null, inspect_shop: shopCard(inspect.shop),
+  return {...r, inspect_url: inspect.token ? inspectLink(inspect.token) : null, inspect_shop: shopCard(inspect.shop),
           inspect_claim: inspect.token ? (inspect.claim || {status: "offered", at: inspect.made_at || ""}) : null};
 }
 // store.update: status, notes, result, a shallow meta merge; a change of stage goes into the history

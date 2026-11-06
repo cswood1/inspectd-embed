@@ -143,6 +143,10 @@ export function lookupFor(row, attempt = 0){
 
 export const SEED_VERSION = 5;   // bump when the seed changes shape: a stored older seed is replaced
 export const PORTAL = "https://portal.inspectd.com";
+// The links the demo hands out (an inspector's job link) are built on the page's own origin, so a copied link opens
+// inside the demo, on localhost, a preview or staging alike. Invitation links stay on PORTAL: the demo has no invite page.
+export const linkOrigin = () => (typeof window !== "undefined" && window.location?.origin) || PORTAL;
+export const inspectLink = token => `${linkOrigin()}/inspect/${token}`;
 export const PROVIDER_TERMS_VERSION = "1";   // booking.provider_terms(): what a claim records
 // a job's reference in emails (mail._vehicle_and_ref)
 export const jobRef = id => `J-${id.slice(0, 6).toUpperCase()}`;
@@ -313,7 +317,7 @@ export function buildSeed(now = Date.now()){
     const link = (shop, claim) => {
       const token = pick(r, URLSAFE, 32);
       m.inspect = {token, made_at: step(1.5), shop: shopCard(shop), claim};
-      row.inspect_url = `${PORTAL}/inspect/${token}`; row.inspect_shop = shopCard(shop); row.inspect_claim = claim;
+      row.inspect_url = inspectLink(token); row.inspect_shop = shopCard(shop); row.inspect_claim = claim;
     };
     if (x.link === "offered") { shops[0].contacted = true; link(shops[0], {status: "offered", at: iso(t + 1.5 * HOUR)}); }
     if (x.link === "rejected") { link(shops[0], null); const at = step(3); row.inspect_claim = m.inspect.claim = {status: "rejected", at, reason: "Booked solid through next week, sorry."}; }
@@ -327,7 +331,7 @@ export function buildSeed(now = Date.now()){
       mail(s.email, `Inspection booked: ${veh} in ${place.city}`, booked_at, {kind: "inspector_booking"});
       const claimAt = step(2, "confirmed");
       m.inspect = {token: pick(r, URLSAFE, 32), made_at: booked_at, shop: shopCard(s), claim: {status: "claimed", at: claimAt, terms: {version: PROVIDER_TERMS_VERSION, accepted_at: claimAt}}};
-      row.inspect_url = `${PORTAL}/inspect/${m.inspect.token}`; row.inspect_shop = m.inspect.shop; row.inspect_claim = m.inspect.claim;
+      row.inspect_url = inspectLink(m.inspect.token); row.inspect_shop = m.inspect.shop; row.inspect_claim = m.inspect.claim;
       mail(row.form.email, `Inspection confirmed: ${veh} (${jobRef(row.id)})`, claimAt, {kind: "confirmed"});
       if (status === "complete") {
         t = slot.getTime() + 3 * HOUR;
@@ -441,7 +445,7 @@ function reportFlow(row, x, created, k){
   row.updated_at = booked_at;
   const claimAt = k.step(2, "confirmed");
   m.inspect = {token: pick(k.r, URLSAFE, 32), made_at: booked_at, shop: shopCard(shop), claim: {status: "claimed", at: claimAt, terms: {version: PROVIDER_TERMS_VERSION, accepted_at: claimAt}}};
-  row.inspect_url = `${PORTAL}/inspect/${m.inspect.token}`; row.inspect_shop = m.inspect.shop; row.inspect_claim = m.inspect.claim;
+  row.inspect_url = inspectLink(m.inspect.token); row.inspect_shop = m.inspect.shop; row.inspect_claim = m.inspect.claim;
   k.mail(row.form.email, `Inspection confirmed: ${k.veh} (${jobRef(row.id)})`, claimAt, {kind: "confirmed"});
   k.setT(visit.getTime() + 3 * k.HOUR);
   const at = k.step(0, "complete");

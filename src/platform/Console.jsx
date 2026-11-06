@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./platform.css";
 import { usePlatform } from "./PlatformStore.jsx";
 import { navCounts } from "./derive.js";
-import { Icon, Sk, tint, ToastProvider, PaneCtx } from "./ui.jsx";
+import { Icon, Sk, tint, ToastProvider, DialogProvider, PaneCtx } from "./ui.jsx";
 import { Board } from "./Board.jsx";
 import { Providers, Customers, Reports } from "./Sections.jsx";
 import { Settings } from "./Settings.jsx";
@@ -103,7 +103,7 @@ export function Console({ onOpenPortal = () => {}, onExit = () => {} }){
   const counts = navCounts(loaded ? rows : []);   // the badges wait for the list, as the sidebar does before it arrives
   return (
     <div className="ip" ref={pane}>
-      <ToastProvider>
+      <ToastProvider><DialogProvider>
         <PaneCtx.Provider value={{ scroller, pane }}>
           <div className="ip-scroll" ref={scroller}>
             <div className="shell">
@@ -119,7 +119,7 @@ export function Console({ onOpenPortal = () => {}, onExit = () => {} }){
             </div>
           </div>
         </PaneCtx.Provider>
-      </ToastProvider>
+      </DialogProvider></ToastProvider>
     </div>
   );
 }

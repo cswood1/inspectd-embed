@@ -112,6 +112,53 @@ export function ToastProvider({ children }){
   return <ToastCtx.Provider value={toast}>{children}<div className="toast" ref={el} /></ToastCtx.Provider>;
 }
 
+/* ---- dialogs ---------------------------------------------------- */
+
+/**
+ * The in-page replacement for the browser's confirm() and prompt(), in the portal's dialog style
+ * (portalUi.jsx Dialog, .veil/.dlg). ask({title, input, ok, cancel, danger}) resolves true (OK) or the
+ * typed text (with `input`), and null for Cancel, Escape or a click outside, as prompt() returns null.
+ * Enter confirms, Tab stays inside, focus goes back to where it was, and Escape closes the dialog only.
+ */
+const AskCtx = createContext(async () => null);
+export const useAsk = () => useContext(AskCtx);
+export function DialogProvider({ children }){
+  const [dialog, setDialog] = useState(null);
+  const seq = useRef(0);
+  // each dialog is its own: one asked straight after another (the refund's reason) gets fresh focus and state
+  const ask = useCallback(opts => new Promise(resolve => setDialog({...opts, resolve, n: ++seq.current})), []);
+  return (<AskCtx.Provider value={ask}>{children}
+    {dialog && <Dialog key={dialog.n} {...dialog} onDone={v => { setDialog(null); dialog.resolve(v); }} />}</AskCtx.Provider>);
+}
+function Dialog({ title, text = "", input = null, ok = "OK", cancel = "Cancel", danger = false, onDone }){
+  const veil = useRef(null), field = useRef(null), okBtn = useRef(null), prev = useRef(document.activeElement);
+  const done = v => { onDone(v); prev.current?.focus?.(); };
+  const value = () => (input ? field.current.value : true);
+  useEffect(() => {
+    if (input) { field.current.focus(); field.current.select(); } else okBtn.current?.focus();
+    const keys = e => {
+      if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); done(null); }   // not the panel's Escape too
+      else if (e.key === "Enter" && !(e.target.tagName === "BUTTON" && e.target.id === "dlgCancel")) { e.preventDefault(); e.stopPropagation(); done(value()); }
+      else if (e.key === "Tab") {
+        const f = [...veil.current.querySelectorAll("input,button")], i = f.indexOf(document.activeElement);
+        if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); }
+        else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); }
+      }
+    };
+    document.addEventListener("keydown", keys, true);
+    return () => document.removeEventListener("keydown", keys, true);
+  }, []);
+  return (
+    <div className="veil" ref={veil} onMouseDown={e => { if (e.target === veil.current) done(null); }}>
+      <div className="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+        <h3 id="dlgTitle">{title}</h3>{text ? <p>{text}</p> : null}
+        {input ? <label className="dlgf">{input.label ? <span>{input.label}</span> : null}<input id="dlgInput" ref={field} defaultValue={input.value || ""} placeholder={input.placeholder || ""} maxLength={input.maxlength || 300} autoComplete="off" aria-label={input.label ? undefined : title} /></label> : null}
+        <div className="acts"><button className="btn" id="dlgCancel" onClick={() => done(null)}>{cancel}</button><button className={`btn ${danger ? "danger" : "primary"}`} id="dlgOk" ref={okBtn} onClick={() => done(value())}>{ok}</button></div>
+      </div>
+    </div>
+  );
+}
+
 /* ---- custom select ---------------------------------------------- */
 
 // The design-system select: a button and a menu in place of the browser's control. Kavin's version

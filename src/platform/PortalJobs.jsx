@@ -316,7 +316,7 @@ export function Job({ id, ctx }){
       <div className="actions"><span id="jobActions">{actions}</span><span className={pill ? `pill lg ${pill[0]}` : "pill lg"} id="jobPill">{pill ? pill[1] : null}</span></div></div>
   );
   if (!j) return (
-    <section className="pad">{head(<Sk w={220} h={26} />, <Sk w="50%" h={14} />, null, null)}
+    <section className="pad jobpage">{head(<Sk w={220} h={26} />, <Sk w="50%" h={14} />, null, null)}
       <div className="cards" id="jobSteps">{ORDER.map(s => <div key={s} className="card"><Sk w={60} h={10} /><Sk w={120} h={16} /><Sk w={150} h={11} /></div>)}</div>
       <div className="facts" id="jobFacts">{Array.from({length: 5}, (_, i) => <div key={i}><Sk w={56} h={9} /><Sk w={96} h={14} /></div>)}</div>
       <div className="cols2" id="jobCols"></div></section>
@@ -333,14 +333,14 @@ export function Job({ id, ctx }){
     ["VIN", f.vin, "mono"], ["Contact", [f.name, f.phone].filter(Boolean).join(" · ")], ["Requested", fmtWhen(j.created_at)], ["Last update", fmtWhen(j.updated_at)]].filter(([, v]) => v);
   const rep = canceled ? null : j.report, when = j.scheduled_at ? (fmtWhen(j.scheduled_at) || j.scheduled_at) : "";
   const sub = {margin: "6px 0 0", color: "var(--sub)"}, ink = {color: "var(--ink)"};
-  // Kavin's page reads j.cancel_reason, which the server never sends (it is canceled.reason): mirrored, so no reason shows
+  // the reason the request was withdrawn with is canceled.reason (Kavin's page read cancel_reason, which is never sent)
   return (
-    <section className="pad">
+    <section className="pad jobpage">
       {head(<>{`${vehicleOf(f)} `}<span className="pill gray mono jobtag" title={j.id}>{jobRef(j.id)}</span></>, lead,
         CANCELABLE.includes(j.stage) ? <button className="btn sm danger" id="cancelJob" disabled={canceling} onClick={cancel}>{canceling ? "Cancelling" : "Cancel request"}</button> : null,
         [STAGE.of(j.stage).pill, STAGE.of(j.stage).label])}
       <div className="cards" id="jobSteps">{canceled
-        ? <div className="card on"><div className="t">Canceled</div><div className="d" style={{ fontWeight: 650, color: "var(--ink)", fontSize: 14 }}>Request withdrawn</div><div className="d">{`${fmtWhen(reached.canceled || j.updated_at)}${j.cancel_reason ? " · " + j.cancel_reason : ""}`}</div></div>
+        ? <div className="card on"><div className="t">Canceled</div><div className="d" style={{ fontWeight: 650, color: "var(--ink)", fontSize: 14 }}>Request withdrawn</div><div className="d">{`${fmtWhen(reached.canceled || j.updated_at)}${j.canceled?.reason ? " · " + j.canceled.reason : ""}`}</div></div>
         : ORDER.map((s, i) => { const at = reached[s]; return (
             <div key={s} className={`card ${i === idx ? "on" : ""}`}><div className="t">{`${i < idx || idx === 3 ? "Done" : i === idx ? "Now" : "Next"}${at ? ` · ${fmtWhen(at)}` : ""}`}</div>
               <div className="d" style={{ fontWeight: 650, color: "var(--ink)", fontSize: 14 }}>{STAGE.of(s).label}</div><div className="d">{STAGE.of(s).d}</div></div>); })}</div>

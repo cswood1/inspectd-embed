@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
-import { fmt, ROLE, Icon, Who, Pill, Sk, SkelRows, SkelKv, CSelect, Pager, paged, useToast } from "./ui.jsx";
+import { fmt, ROLE, Icon, Who, Pill, Sk, SkelRows, SkelKv, CSelect, Pager, paged, useToast, useAsk } from "./ui.jsx";
 import { PORTAL } from "./seed.js";
 
 /*
@@ -37,7 +37,7 @@ function LinkNote({ note, toast }){
 
 export function Settings({ onOpenPortal }){
   const { auth, rows, meta } = usePlatform();
-  const toast = useToast();
+  const toast = useToast(), ask = useAsk();   // the in-page confirm() and prompt() (ui.jsx Dialog)
   const [pane, setPane] = useState("workspaces");
   const [orgsReady, setOrgsReady] = useState(false), [teamReady, setTeamReady] = useState(false), [supersReady, setSupersReady] = useState(false);
   const [orgId, setOrgId] = useState("");
@@ -66,9 +66,9 @@ export function Settings({ onOpenPortal }){
   const pickOrg = id => { setOrgId(id); setMpage(0); setIpage(0); setTeamReady(false); later(() => setTeamReady(true), FETCH_MS / 2); };
 
   /* ---------- workspaces and teams ---------- */
-  const rename = () => {
+  const rename = async () => {
     const cur = orgs.find(o => o.org.id === current)?.org.name || "";
-    const name = prompt("Workspace name", cur);
+    const name = await ask({title: "Workspace name", input: {value: cur, maxlength: 80}});
     if (!name || name.trim() === cur) return;
     try { auth.renameOrg(current, name.trim()); toast("Renamed"); } catch (e) { fail(e); }
   };
@@ -87,8 +87,8 @@ export function Settings({ onOpenPortal }){
     finally { setInvBusy(false); }
   };
   const setRole = (uid, role) => { try { auth.setRole(current, uid, role); toast("Role updated"); } catch (e) { fail(e); } };
-  const removeMember = (uid, name, orgName) => {
-    if (!confirm(`Remove ${name} from ${orgName}?`)) return;
+  const removeMember = async (uid, name, orgName) => {
+    if (!await ask({title: `Remove ${name} from ${orgName}?`, danger: true})) return;
     try { auth.removeMember(current, uid); toast("Removed"); } catch (e) { fail(e); }
   };
   const revoke = (oid, iid) => { try { auth.revokeInvitation(oid, iid); toast("Invitation revoked"); } catch (e) { fail(e); } };
@@ -109,8 +109,8 @@ export function Settings({ onOpenPortal }){
     } catch (err) { setSuperr(err.message); }
     finally { setSupBusy(false); }
   };
-  const removeSuper = (uid, name) => {
-    if (!confirm(`Take team access away from ${name}? They keep their own workspace.`)) return;
+  const removeSuper = async (uid, name) => {
+    if (!await ask({title: `Take team access away from ${name}? They keep their own workspace.`, danger: true})) return;
     try { auth.revokeSuper(uid); toast("Team access removed"); } catch (e) { fail(e); }
   };
 

@@ -647,3 +647,43 @@
 .ipp .idone b{display:block;font-size:15px;font-weight:650;margin-bottom:2px} .ipp .idone p{color:var(--sub);font-size:13px;line-height:1.55}
 .ipp .ifoot{color:var(--sub);font-size:12.5px;text-align:center;margin-top:18px}
 @media (max-width:560px){.ipp .iwrap{padding:20px 14px 60px} .ipp .icard{padding:18px}}
+
+/* ===== added after the clone (docs/platform-iteration-notes.md, "Fixed after the clone"): styles Kavin's markup
+   asks for and no stylesheet of his gives, drawn from his own tokens and components. ===== */
+
+/* the job page: a facts grid like the console's job panel, and cards like the Overview cards. Scoped to the job
+   page: Settings uses .kv too, and stays as Kavin's is. */
+.ipp .jobpage .facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px 24px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.ipp .jobpage .facts > div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.ipp .jobpage .facts small{font-size:11px;font-weight:600;color:var(--deco);letter-spacing:.03em;text-transform:uppercase}
+.ipp .jobpage .facts span{font-size:14px;font-weight:600;color:var(--ink);overflow-wrap:anywhere}
+.ipp .jobpage .facts span.mono{font-size:13px}
+.ipp .jobpage .kv{background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9), 0 1px 2px rgba(16,24,40,.05)}
+.ipp .jobpage .kv h3{margin:0;font-weight:650;font-size:13px;color:var(--sub)}
+.ipp .jobpage .none{color:var(--sub);font-size:13px;line-height:1.55}
+.ipp .jobpage .none b{color:var(--ink);font-weight:650}
+.ipp .jobpage .none p{margin:4px 0 0}
+
+/* Vehicles: each car a bordered row that opens; the header in one line, the body its jobs and its reports */
+.ipp details.vgroup{border:1px solid var(--line);border-radius:5px;background:var(--bg);margin-bottom:10px;overflow:hidden;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9), 0 1px 2px rgba(16,24,40,.05)}
+.ipp details.vgroup > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 16px;user-select:none;transition:background .13s ease-out}
+.ipp details.vgroup > summary::-webkit-details-marker{display:none}
+.ipp details.vgroup > summary:hover{background:var(--hover)}
+.ipp details.vgroup[open] > summary{border-bottom:1px solid var(--line)}
+.ipp .vgroup > summary .chev{flex:none;color:var(--deco);transition:transform .15s var(--ease)}
+.ipp .vgroup[open] > summary .chev{transform:rotate(90deg)}
+.ipp .vgroup > summary .av{width:30px;height:30px;border-radius:4px;display:grid;place-items:center;font-weight:650;font-size:12.5px;color:#26313d;flex:none}
+.ipp .vgroup .vt{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1}
+.ipp .vgroup .vt b{font-weight:650;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ipp .vgroup .vt .mono{font-size:12px;color:var(--sub)}
+.ipp .vgroup > summary .cnt{color:var(--sub);font-size:12.5px;white-space:nowrap}
+.ipp .vgroup > summary .vlast{min-width:104px;text-align:right}
+.ipp .vgroup .vjobs{display:flex;flex-direction:column;padding:6px 0;background:var(--well)}
+.ipp .vgroup .vjob{display:grid;grid-template-columns:84px auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:7px 16px 7px 70px;color:inherit;text-decoration:none;font-size:13px}
+.ipp .vgroup .vjob:hover{background:var(--hover)}
+.ipp .vgroup .vjob .pill{justify-self:start}
+.ipp .vgroup .vjob .sub{color:var(--sub)}
+.ipp .vgroup .vempty{padding:14px 16px 14px 70px;color:var(--sub);font-size:13px}
+@media (max-width:720px){ .ipp .vgroup > summary .vlast{display:none} .ipp .vgroup .vjob{padding-left:16px;grid-template-columns:auto auto minmax(0,1fr)} .ipp .vgroup .vjob .sub:last-child{display:none} }

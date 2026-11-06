@@ -61,7 +61,7 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
     (async () => {
       await null;   // after a StrictMode remount's cleanup, so a refusal is told once
       if (!live) return;
-      try { const row = getRow(); const doc = await reportDoc(row); if (live) { setCurrent(doc); if (tab === "details") setTimeout(() => openSection("sec-config"), 0); } }
+      try { const row = getRow(); const doc = await reportDoc(row); if (live) { setCurrent(doc); const sec = tab === "details" ? "sec-config" : /^(sec|cat)-/.test(tab) ? tab : ""; if (sec) setTimeout(() => openSection(sec), 0); } }
       catch (e) {
         if (!live) return;
         setMissing(true);
@@ -167,10 +167,9 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
     el.open = true; el.scrollIntoView({behavior: "smooth", block: "start"}); markNav(sid);
     chosenAt.current = Date.now();   // a section near the bottom can't scroll to the top: what they picked stays marked
   }
-  // In the portal, Kavin's router (nav.js) takes every same-origin link click first, these "#section" links
-  // included: it routes to /reports/<id>#<section>, which mounts the viewer afresh at the top rather than
-  // opening the section. Mirrored (docs/platform-iteration-notes.md). On the share page there is no router.
-  const indexClick = sid => isPublic ? openSection(sid) : ctx.navigate(`/reports/${current.id}#${sid}`);
+  // The index opens the section in place. In the portal the router also records it as the page's #hash,
+  // which stays on the same page rather than mounting the viewer again (docs/platform-iteration-notes.md).
+  const indexClick = sid => { if (!isPublic) ctx.navigate(`/reports/${current.id}#${sid}`); openSection(sid); };
   const markNav = sid => navEl.current?.querySelectorAll("a").forEach(a => a.classList.toggle("on", a.dataset.sec === sid));
   // the index follows the reader down the page
   useEffect(() => {

@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
-import { PORTAL } from "./seed.js";
-import { TYPES, DESIGNATIONS, STATUS, LOOKUP, fmt, where, vehicle, isClosed, Icon, CSelect, anySelectOpen, useToast } from "./ui.jsx";
+import { PORTAL, inspectLink } from "./seed.js";
+import { TYPES, DESIGNATIONS, STATUS, LOOKUP, fmt, where, vehicle, isClosed, Icon, CSelect, anySelectOpen, useToast, useAsk } from "./ui.jsx";
 
 /*
  * The job detail slide-over: renderOver() and its helpers from inspection-requests/ui/shared/board.js,
@@ -91,7 +91,7 @@ function Order({ r, toast, onRefund }){
 
 export function JobPanel({ row: r, rows, open, closed, onClose, onOpen, onViewAll, onOpenPortal, unlinked, onUnlink, onRelink, closeRef }){
   const { api, fulfill } = usePlatform();
-  const toast = useToast();
+  const toast = useToast(), ask = useAsk();   // ask: the in-page confirm() and prompt() (ui.jsx Dialog)
   const over = useRef(null), body = useRef(null), notesTimer = useRef(null);
   const [form, setForm] = useState(null);      // {id, prefill, pick} while the team is filling the booking in
   const [bkerr, setBkerr] = useState(""), [saving, setSaving] = useState(false);
@@ -101,6 +101,9 @@ export function JobPanel({ row: r, rows, open, closed, onClose, onOpen, onViewAl
   useEffect(() => { if (over.current) over.current.inert = !open; }, [open]);
   useEffect(() => { setForm(null); setBkerr(""); setLinkPick(null); setMaking(false); setRefunding(false); }, [r?.id, open]);
   useEffect(() => () => clearTimeout(notesTimer.current), [r?.id]);
+  // the panel keeps one scrolling body: a different job starts at its top, the same job reopens where it was left
+  const shownId = useRef(null);
+  useLayoutEffect(() => { if (r && r.id !== shownId.current) { if (body.current) body.current.scrollTop = 0; shownId.current = r.id; } }, [r?.id]);
 
   const shell = inner => (<>
     <div className={`scrim${open ? " on" : ""}`} onClick={onClose}></div>
@@ -113,7 +116,7 @@ export function JobPanel({ row: r, rows, open, closed, onClose, onOpen, onViewAl
 
   const f = r.form, w = requester(r), [hue, label] = STATUS[r.status] || ["gray", r.status], [lhue, llabel] = LOOKUP[r.lookup] || ["gray", r.lookup];
   const cx = r.meta?.canceled, b = r.meta?.booking, rep = r.meta?.report, claim = r.inspect_claim;
-  const shop = unlinked ? null : r.inspect_shop, url = unlinked ? null : r.inspect_url;
+  const shop = unlinked ? null : r.inspect_shop, url = unlinked || !r.meta?.inspect?.token ? null : inspectLink(r.meta.inspect.token);
   const shops = r.result?.shops || [], res = r.result, booked = b?.provider;
   const editing = form && form.id === r.id;
   const fail = e => toast(e.message);
@@ -162,10 +165,10 @@ export function JobPanel({ row: r, rows, open, closed, onClose, onOpen, onViewAl
     if (booked?.name && !shops.some(s => s.name === booked.name)) o.unshift(["booked", booked.name]);
     return o;
   };
-  const refund = () => {
+  const refund = async () => {
     const amount = money(r.meta?.order?.amount_cents);
-    if (!confirm(`Cancel this job and refund ${amount} to the customer? They will be emailed.`)) return;
-    const reason = prompt("Reason, for the job's history (optional):", "") || "";
+    if (!await ask({title: `Cancel this job and refund ${amount} to the customer? They will be emailed.`, danger: true})) return;
+    const reason = (await ask({title: "Reason, for the job's history (optional):", input: {value: ""}})) || "";   // cancelling it still refunds, as prompt() did
     setRefunding(true);
     try { api.refund(r.id, {reason}); toast(`Refunded ${amount} and canceled`); } catch (e) { setRefunding(false); toast(e.message); }
   };
@@ -203,11 +206,11 @@ export function JobPanel({ row: r, rows, open, closed, onClose, onOpen, onViewAl
         <div className="prov"><b>{shop.name}</b>{shop.phone ? <span className="sub">{shop.phone}</span> : null}<span className={`pill ${chue}`} title={claim?.at ? fmt(claim.at) : ""}>{clabel}</span>
           {claim?.status === "rejected" && claim.reason ? <span className="sub">{claim.reason}</span> : null}
           {claim?.status === "claimed" && claim.terms ? <span className="sub" title={`Terms v${claim.terms.version} accepted ${fmt(claim.terms.accepted_at)}`}>terms accepted</span> : null}
-          <span className="sp"></span><button className="btn sm" id="bkchange" onClick={() => { if (confirm("Make this link for a different shop? The current one stops working.")) onUnlink(); }}>Change</button></div>
+          <span className="sp"></span><button className="btn sm" id="bkchange" onClick={async () => { if (await ask({title: "Make this link for a different shop? The current one stops working."})) onUnlink(); }}>Change</button></div>
         <div className="linkrow"><Icon name="copy" size={14} /><span className="mono">{url}</span>
           <button className="btn sm" id="bkcopy" onClick={() => navigator.clipboard.writeText(url).then(() => toast("Upload link copied"))}>Copy</button>
-          <button className="btn sm" id="bknew" title="The link they already have stops working" onClick={() => {
-            if (!confirm("Create a new link? The one the inspector already has stops working.")) return;
+          <button className="btn sm" id="bknew" title="The link they already have stops working" onClick={async () => {
+            if (!await ask({title: "Create a new link? The one the inspector already has stops working."})) return;
             try { api.newLink(r.id); toast("New link ready"); } catch (e) { toast(e.message); } }}>New link</button></div>
       </>);
     } else {
@@ -302,8 +305,8 @@ export function JobPanel({ row: r, rows, open, closed, onClose, onOpen, onViewAl
       <Sec title="Internal notes" />
       <textarea key={r.id} className="internal" id="inotes" placeholder="Who you called, what they quoted, when it is set" defaultValue={r.notes} onChange={onNotes}></textarea>
       {em.length ? <details className="mail"><summary>Emails ({em.length})</summary><div className="maillog">{em.map((e, i) => <React.Fragment key={i}>{i ? <br /> : null}<b>{e.sent ? "Sent" : "Not sent"}</b>{` ${e.subject} to ${e.to}${e.sent ? "" : ` · ${e.error || ""}`}`}</React.Fragment>)}</div></details> : null}
-      <Sec style={{ paddingTop: 26 }} title={null} right={<button className="btn sm danger" id="delbtn" onClick={() => {
-        if (!confirm("Delete this request?")) return; try { api.remove(r.id); onClose(); } catch (e) { toast(e.message); } }}><Icon name="trash" size={14} /> Delete request</button>} />
+      <Sec style={{ paddingTop: 26 }} title={null} right={<button className="btn sm danger" id="delbtn" onClick={async () => {
+        if (!await ask({title: "Delete this request?", danger: true})) return; try { api.remove(r.id); onClose(); } catch (e) { toast(e.message); } }}><Icon name="trash" size={14} /> Delete request</button>} />
     </div>
   </>);
 }
