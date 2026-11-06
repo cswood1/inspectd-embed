@@ -13,6 +13,9 @@ these differences.
   Client portal, and in production the ops console should not link into a customer's portal. The
   report row's "Open" button and the Reports "report dashboard" link still switch to the Client
   portal tab for now, because the report viewer only exists there.
+- **No "Operations console" link in the client portal sidebar.** Kavin's portal shows Inspectd team
+  accounts a link to the console. It is left out: the dev bar's Platform tabs switch between the two
+  surfaces, and a customer's portal should never link to the ops console.
 
 ## Job detail (step 2)
 
@@ -43,3 +46,21 @@ these differences.
 - **Settings fetches everything again on every visit.** The workspace picker, member table and team
   list pulse as skeletons each time the section opens, even seconds after the last visit, so moving
   in and out of Settings during a demo flickers.
+
+## Client portal: shell and job pages (step 4)
+
+- **The job page's facts and cards are unstyled.** The page builds its fact list and its Inspection,
+  Report and notes cards from `.facts`, `.kv` and `.none`, and no stylesheet in the portal defines them,
+  so they render as plain stacked text under the stage cards. It is the one page that looks unfinished.
+- **A cancel reason never shows.** The job page looks for `cancel_reason`, but the server returns the
+  reason as `canceled.reason`, so the reason a customer types when canceling is saved and never shown
+  back to them.
+- **The Jobs badge counts canceled jobs as open.** The sidebar counts every job that is not complete,
+  so canceled requests keep the number up after there is nothing left to do.
+- **Switching workspace reloads the whole page.** The switcher saves the choice and reloads, so the
+  sidebar and page go back to skeletons, and the "Switched workspace" notice disappears with the reload
+  before it can be read.
+- **The Scheduled column runs free text through a date parser.** The booking's time is whatever the team
+  typed ("Thu Nov 6, 9:00 AM"); the column parses it as a date, which works for that shape by luck (the
+  browser assumes a year and the column hides it) and shows the raw text for anything else.
+

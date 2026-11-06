@@ -242,7 +242,7 @@ export default function App() {
         <div className="h-full overflow-auto">
           {view === "home" && <Homepage onGo={go} />}
           {view === "platform-ops" && <Console onOpenPortal={() => go("platform-portal")} onExit={() => go("home")} />}
-          {view === "platform-portal" && <ClientPortal />}
+          {view === "platform-portal" && <ClientPortal onExit={() => go("home")} />}
           {view === "platform-enterprise" && <EnterprisePortal onExit={() => go("home")} />}
           {view === "platform-provider" && <ProviderPortal onExit={() => go("home")} />}
           {view === "platform-internal" && <InternalRequests />}

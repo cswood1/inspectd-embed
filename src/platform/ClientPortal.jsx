@@ -1,14 +1,8 @@
 import React from "react";
-import "./platform.css";
+import { Portal } from "./Portal.jsx";
 
-// The client portal (inspection-dashboard). A placeholder until step 4 builds it; it reads the same
-// PlatformStore as the console, so a job changed in one shows in the other.
-export function ClientPortal(){
-  return (
-    <div className="ip">
-      <div className="ip-scroll">
-        <main><div className="pad greet"><div className="gt"><h1>Client portal</h1></div></div></main>
-      </div>
-    </div>
-  );
+// The client portal (inspection-dashboard), sharing PlatformStore with the Operations console:
+// a request sent here is a job on the console's board, and a change made there shows here.
+export function ClientPortal({ onExit }){
+  return <Portal onExit={onExit} />;
 }

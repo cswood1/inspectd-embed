@@ -129,7 +129,7 @@ export function lookupFor(row, attempt = 0){
 
 /* ---- people ------------------------------------------------------- */
 
-export const SEED_VERSION = 3;   // bump when the seed changes shape: a stored older seed is replaced
+export const SEED_VERSION = 4;   // bump when the seed changes shape: a stored older seed is replaced
 export const PORTAL = "https://portal.inspectd.com";
 export const PROVIDER_TERMS_VERSION = "1";   // booking.provider_terms(): what a claim records
 // a job's reference in emails (mail._vehicle_and_ref)
@@ -237,7 +237,8 @@ export function buildSeed(now = Date.now()){
       form: {name: u ? u.name : (x.name || w[0]), email: u ? u.email : w[1], phone: u ? u.phone : w[2], year: String(year), make, model,
              vin: vin(prefix, year, plant, String(100000 + Math.floor(r() * 899999))), inspection_type: type, designation,
              address: street, city: place.city, state: place.state, zip, notes: x.notes || ""},
-      result: null, meta: {emails: [], history: [{stage: "received", at: iso(created)}]},
+      // a workspace files from the client portal, one car or a list; a walk-in pays on the public form
+      result: null, meta: {emails: [], history: [{stage: "received", at: iso(created)}], ...(u ? {source: x.batch ? "portal-bulk" : "portal"} : {})},
       org_id: u ? orgs[u.org].id : null, user_id: u ? u.id : null, org: u ? orgs[u.org] : null,
       partner: null, inspect_url: null, inspect_shop: null, inspect_claim: null,
     };
@@ -295,7 +296,7 @@ export function buildSeed(now = Date.now()){
       if (status === "complete") {
         t = slot.getTime() + 3 * HOUR;
         const at = step(0, "complete");
-        m.report = {id: id12(), at, filename: `${make.replace(/\W/g, "")}_${row.form.vin.slice(-6)}_inspection.pdf`, shop: shopCard(s)};
+        m.report = {id: reportId(at, id12()), at, filename: `${make.replace(/\W/g, "")}_${row.form.vin.slice(-6)}_inspection.pdf`, shop: shopCard(s)};
         mail(row.form.email, `Inspection report ready: ${veh} (${jobRef(row.id)})`, at, {kind: "complete"});
       }
     }
@@ -312,7 +313,9 @@ export function buildSeed(now = Date.now()){
   });
 
   rows.sort((a, b) => b.created_at.localeCompare(a.created_at));   // the list comes newest first
-  return {version: SEED_VERSION, seededAt: new Date(now).toISOString(), rows, ...buildAuth(now, orgs, users, cam), meta: META};
+  const auth = buildAuth(now, orgs, users, cam);
+  return {version: SEED_VERSION, seededAt: new Date(now).toISOString(), rows, ...auth, meta: META,
+          reports: buildReports(rows), portal: {orgId: orgs.meridian.id}};
 }
 
 /* ---- accounts, workspaces, roles and invitations (apps/auth/store.py) ---- */
@@ -384,4 +387,37 @@ function buildAuth(now, jobOrgs, jobUsers, cam){
     token: pick(r, URLSAFE, 43), created_at: at(days, email), expires_at: at(days - INVITATION_DAYS, email), accepted_at: null, accepted_by: null, revoked_at: null,
   }));
   return {orgs: orgs.sort((a, b) => a.created_at.localeCompare(b.created_at)), users, memberships, invitations, superEmails: SUPER_EMAILS, meId: cam.id};
+}
+
+/* ---- inspection reports (apps/reports_service): one per finished job ---- */
+
+/** Kavin's report id: the upload time to the second, then six hex characters (YYYYMMDD-HHMMSS-abc123). */
+export const reportId = (iso, hex) => { const d = new Date(iso), p = n => String(n).padStart(2, "0");
+  return `${d.getUTCFullYear()}${p(d.getUTCMonth() + 1)}${p(d.getUTCDate())}-${p(d.getUTCHours())}${p(d.getUTCMinutes())}${p(d.getUTCSeconds())}-${hex.slice(0, 6)}`; };
+
+/*
+ * The report store's documents. The list pages read the summary row (store.summary_row): vehicle,
+ * inspection, summary, image_count, uploaded_at. Step 5 fills findings, images and ratings in place;
+ * the ids here already match the jobs' meta.report.id, so nothing has to be renumbered.
+ */
+function buildReports(rows){
+  const r = rng(20261106), out = [];
+  for (const row of rows) {
+    const rep = row.meta?.report; if (!rep?.id) continue;
+    const f = row.form, total = 118 + Math.floor(r() * 40), fail = Math.floor(r() * 3), attention = 2 + Math.floor(r() * 7), na = 3 + Math.floor(r() * 9);
+    const photos = 34 + Math.floor(r() * 30);
+    out.push({
+      id: rep.id, filename: rep.filename, uploaded_at: rep.at, request_id: row.id, org_id: row.org_id,
+      uploaded_by: null, uploaded_by_name: rep.shop?.name || "",                 // the inspector, through their job link
+      vehicle: {year: f.year, make: f.make, model: f.model, trim: "", vin: f.vin, mileage: String(18000 + Math.floor(r() * 52000))},
+      vehicle_in_pdf: null,
+      inspection: {date: rep.at.slice(0, 10), location: `${f.city}, ${f.state}`, report_id: `${(rep.shop?.name || "IN").split(/\s+/).map(w => w[0]).join("").slice(0, 3).toUpperCase()}-${10000 + Math.floor(r() * 89999)}`,
+                   customer: row.org?.name || f.name, overall: ""},
+      summary: {pass: total - fail - attention - na, attention, fail, na, unknown: 0, total},
+      pages: 8 + Math.floor(r() * 9),
+      images: Array.from({length: photos}, (_, i) => ({n: i + 1, name: `photo-${String(i + 1).padStart(3, "0")}.jpg`})),
+      findings: [],          // step 5: the checklist, issues first
+    });
+  }
+  return out.sort((a, b) => b.uploaded_at.localeCompare(a.uploaded_at));
 }

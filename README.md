@@ -51,7 +51,7 @@ The top bar (**INSPECTD DEV+STAGING**) switches between sections. Apart from
 | Tab | File | What it is |
 | --- | --- | --- |
 | Operations | `platform/Console.jsx` | High-fidelity clone of the Inspectd operations console: sidebar with live counts, Open and Closed jobs boards (status cards, search, filters, sortable table, simulated lookup), and Providers, Customers, Reports and Settings sections. The app opens here. |
-| Client portal | `platform/ClientPortal.jsx` | Clone of the client portal, sharing the console's request list. Placeholder for now. |
+| Client portal | `platform/Portal.jsx` | High-fidelity clone of the Inspectd client portal, signed in as Cam (Inspectd team) in Meridian Fleet Services: workspace switcher, Overview, Jobs, New inspection request, Upload a list (CSV or Excel; demo files in `public/demo/`) and the job page. Shares the console's request list: a portal request is a job on the console's board, and console changes show in the portal. Reports, Vehicles, Team, Settings and Invoices come next. |
 | Enterprise | `EnterprisePortal.jsx` | Business customer portal: dashboard, jobs, reports, and the multi-step Create Job wizard (vehicle → service → location → contact → review). |
 | Provider | `ProviderPortal.jsx` | Inspector workspace: job board (list + map + filters), job details, active claimed jobs, upload data, completed reports. |
 | Internal | `InternalRequests.jsx` | Ops console: incoming requests, provider research by area, notes/outcomes, duplicate detection, and **Dispatch**, which turns a job into a shareable provider link. |
@@ -127,9 +127,11 @@ src/
 
   platform/             Operations console + client portal clones, self-contained
     platform.css        the console design system, scoped to .ip
-    ui.jsx  derive.js   primitives, vocabulary, derived views
-    seed.js  PlatformStore.jsx
-    Console.jsx  Board.jsx  ClientPortal.jsx
+    portal.css          the portal design system, scoped to .ipp
+    ui.jsx  derive.js   console primitives, vocabulary, derived views
+    seed.js  PlatformStore.jsx  authServer.js  portalServer.js
+    Console.jsx  Board.jsx  JobPanel.jsx  Sections.jsx  Settings.jsx
+    Portal.jsx  PortalJobs.jsx  portalUi.jsx  vin.js  xlsx.js
 public/                 brand marks, partner assets, vehicle photos
 ```
 
