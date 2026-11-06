@@ -79,7 +79,7 @@ verification) → post-claim → submit, plus coded declines and terminal states
   (superseded).
 - Dispatch in the Internal console mints new tokens.
 - Add `?dev=1` to get the demo operator panel, which moves the job forward and resets state.
-- Hosting needs a rewrite of `/job/*` to `index.html`.
+- Hosting needs a rewrite of `/job/*` to `index.html`; on Vercel it lives in `vercel.json`.
 
 ### Client portal links: `/r/:token` and `/inspect/:token`
 
@@ -91,7 +91,7 @@ the Operations console and Client portal:
 - `/inspect/<token>` is the inspector's job link: the job facts, Claim (with the terms) or Decline on
   an offered link, then the received state. Uploads show a demo notice. Each job's token is
   `rows[].meta.inspect.token`; the console's job panel shows the link.
-- Hosting needs the same rewrite for `/r/*` and `/inspect/*`.
+- Hosting needs the same rewrite for `/r/*` and `/inspect/*`, also in `vercel.json`.
 
 ## Shared state
 
