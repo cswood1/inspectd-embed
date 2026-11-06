@@ -5,7 +5,8 @@
  * folded into one hop. Writes return {state, out}; refusals throw ApiError carrying the status and,
  * for a bulk upload, the per-row errors.
  */
-import { ApiError } from "./authServer.js";
+import { ApiError, createAuth } from "./authServer.js";
+import { PROVIDER_TERMS_VERSION, jobRef } from "./seed.js";
 import { vinCheck } from "./vin.js";
 
 const nowIso = () => new Date().toISOString().replace(/\.\d{3}Z$/, "+00:00");
@@ -122,6 +123,27 @@ export function createPortal(state){
   const actorRole = oid => me.is_super ? "OWNER" : state.memberships.find(m => m.org_id === oid && m.user_id === me.id)?.role || null;
   const ws = () => { const c = current(); if (!c) throw fail(409, "Choose the workspace this job belongs to before creating it"); return c.org; };
   const withState = patch => ({...state, ...patch});
+  // reports_service.without_urls: the inspector's name and the share token stay on the server
+  const withoutUrls = ({uploaded_by_name, share, pdf_url, raw_text, ...doc}) => {
+    if (doc.inspection && "inspector" in doc.inspection) { const {inspector, ...i} = doc.inspection; doc.inspection = i; }
+    return doc;
+  };
+  const recipient = r => ((r.user_id && state.users.find(u => u.id === r.user_id)?.email) || r.form?.email || "").trim();
+  const byToken = token => { const r = token && state.rows.find(x => x.meta?.inspect?.token === token); if (!r) throw fail(404, "This link is not valid. Ask your contact for a new one."); return r; };
+  const linkClaim = r => r.meta?.inspect?.token ? (r.meta.inspect.claim || {status: "offered", at: r.meta.inspect.made_at || ""}) : null;
+  // booking._instance: what the page behind the link may see; the customer stays anonymous to the provider
+  const instance = r => {
+    const f = r.form, b = r.meta?.booking || {}, rep = r.meta?.report || {}, rv = r.meta?.revroom || {}, lot = rv.location || {};
+    const shop = shopCard(r.meta?.inspect?.shop) || shopCard(b.provider);
+    const site = {name: lot.name || "", contact_name: lot.contact_name || "", contact_phone: lot.contact_phone || ""};
+    return {request_id: r.id, status: r.status, shop, site: Object.values(site).some(Boolean) ? site : null, title_status: rv.title_status || "", damage: rv.damage || [],
+            mileage: rv.mileage ?? null, seller: rv.seller || "", claim: linkClaim(r) || {status: "offered"},
+            vehicle: [f.year, f.make, f.model].filter(Boolean).join(" ") || "the vehicle", vin: f.vin || "", year: f.year || "", make: f.make || "", model: f.model || "",
+            inspection_type: f.inspection_type, designation: f.designation || "", location: [f.address, f.city, f.state, f.zip].filter(Boolean).join(", "),
+            onsite: {phone: f.phone || "", note: b.note || ""}, contact_phone: f.phone || "", scheduled_at: b.scheduled_at || "", provider: shop?.name || "",
+            note: b.note || "", report_id: rep.id || "", uploaded_at: rep.at || "",
+            terms: {url: "", version: PROVIDER_TERMS_VERSION, summary: "By claiming this job you agree to the Inspectd provider terms, including that Inspectd may keep, alter, own and freely use the completed report."}};
+  };
   const newRow = (form, org, ts, meta) => ({id: hex(12), created_at: ts, updated_at: ts, status: "received", lookup: "none", error: null, notes: "",
     form, result: null, meta, org_id: org.id, user_id: me.id, org: {id: org.id, name: org.name}, partner: null, inspect_url: null, inspect_shop: null, inspect_claim: null});
 
@@ -141,10 +163,88 @@ export function createPortal(state){
       if (!match) throw fail(403, "That workspace is not yours");
       return {state: withState({portal: {...state.portal, orgId}}), out: {ok: true, org: match.org, role: match.role}};
     },
-    // GET /api/reports: the workspace's report store, newest first (store.summary_row)
+    // GET /api/reports: the chosen workspace's reports, newest first, as they go out on the wire (without_urls)
     reports(){
       const org = current()?.org;
-      return {reports: state.reports.filter(r => r.org_id === org?.id).map(({images, findings, ...row}) => ({...row, image_count: (images || []).length}))};
+      return {reports: state.reports.filter(r => r.org_id === org?.id).map(withoutUrls), llm: false, cloud: true, max_part: 4194304};
+    },
+    // GET /api/reports/{id}: the row the store keeps; the viewer adds the document it fetches (reportDoc)
+    report(id){
+      const doc = state.reports.find(r => r.id === id);
+      if (!doc || !(me.is_super || doc.org_id === current()?.org.id)) throw fail(404, "No such report");
+      return withoutUrls(doc);
+    },
+    // DELETE /api/reports/{id}: the Inspectd team only. The job keeps its link to the report (the request service is not told)
+    deleteReport(id){
+      const doc = state.reports.find(r => r.id === id);
+      if (!doc || !(me.is_super || doc.org_id === current()?.org.id)) throw fail(404, "No such report");
+      if (!me.is_super) throw fail(403, "Reports are managed by the Inspectd team");
+      return {state: withState({reports: state.reports.filter(r => r.id !== id)}), out: {ok: true}};
+    },
+    // which workspace a report is kept in, for the console's hand-off (the Inspectd team sees every one)
+    reportOrg(id){
+      const doc = state.reports.find(r => r.id === id);
+      return doc && workspaces().some(w => w.org.id === doc.org_id) ? doc.org_id : null;
+    },
+    // GET /api/r/{token}: one report, for whoever holds its link; nothing about whose workspace it sits in
+    shared(token){
+      const doc = state.reports.find(r => r.share?.token === token);
+      if (!doc) throw fail(404, "No such report");
+      const {org_id, uploaded_by, request_id, linked, link_error, llm_error, ...view} = withoutUrls(doc);
+      return view;
+    },
+
+    /* ---- Team and Settings (accounts_service): the auth service's rules, in the current workspace ---- */
+    // GET /api/team
+    team(){
+      const org = current()?.org;
+      if (!org) throw fail(404, "Your account is not in a workspace yet");
+      return {...createAuth(state).members(org.id), me: me.id};
+    },
+    teamWrite(name, ...args){   // invite, revokeInvitation, setRole, removeMember, renameOrg: the auth service answers
+      const org = current()?.org;
+      if (!org) throw fail(404, "Your account is not in a workspace yet");
+      try { return createAuth(state)[name](org.id, ...args); }
+      catch (e) { throw fail(e.status || 403, e.message); }
+    },
+    // PATCH /api/me
+    rename(name){
+      try { return createAuth(state).updateMe(name); } catch (e) { throw fail(422, e.message); }
+    },
+
+    /* ---- the inspector's page, /inspect/<token> (requests/booking.py) ---- */
+    inspection(token){
+      const r = byToken(token);
+      if (r.status === "canceled") throw fail(410, "This inspection was canceled. You don't need to go out for it.");
+      if (r.status === "complete" && (Date.now() - Date.parse(r.meta?.report?.at || "")) / 864e5 > 14) throw fail(410, "This job is closed. Contact Inspectd if you need anything about it.");
+      return instance(r);
+    },
+    // POST /api/inspect/{token}/claim: the provider takes the job and accepts the terms; a claimed job is confirmed
+    claim(token, acceptTerms){
+      const r = byToken(token);
+      if (r.status === "canceled") throw fail(409, "This job was canceled");
+      const current = linkClaim(r) || {};
+      if (current.status === "claimed") return {state, out: {ok: true, claim: current, status: r.status}};
+      if (current.status === "rejected") throw fail(409, "This job was declined from this link. Ask your contact for a new one.");
+      if (!acceptTerms) throw fail(422, "Accept the terms to claim this job");
+      const at = nowIso(), claim = {status: "claimed", at, terms: {version: PROVIDER_TERMS_VERSION, accepted_at: at}};
+      const status = ["received", "dispatching"].includes(r.status) ? "confirmed" : r.status;
+      let meta = {...r.meta, inspect: {...(r.meta.inspect || {}), claim}};
+      if (status !== r.status) {   // the business is told an inspector is scheduled (client.status_changed)
+        meta.history = [...(r.meta.history || []), {stage: status, at}];
+        const to = recipient(r), f = r.form;
+        if (to) meta.emails = [...(r.meta.emails || []), {to, subject: `Inspection confirmed: ${[f.year, f.make, f.model].filter(Boolean).join(" ") || "your vehicle"} (${jobRef(r.id)})`, at, sent: true, id: mailId(), kind: "confirmed"}];
+      }
+      const next = {...r, status, updated_at: at, meta, inspect_claim: claim};
+      return {state: withState({rows: state.rows.map(x => x.id === r.id ? next : x)}), out: {ok: true, claim, status}};
+    },
+    // POST /api/inspect/{token}/reject: the provider passes; the job itself is unchanged
+    reject(token, reason = ""){
+      const r = byToken(token);
+      if ((linkClaim(r) || {}).status === "claimed") throw fail(409, "This job is already claimed from this link");
+      const claim = {status: "rejected", at: nowIso(), reason: String(reason || "").trim().slice(0, 300)};
+      const next = {...r, updated_at: claim.at, meta: {...r.meta, inspect: {...(r.meta.inspect || {}), claim}}, inspect_claim: claim};
+      return {state: withState({rows: state.rows.map(x => x.id === r.id ? next : x)}), out: {ok: true, claim, status: r.status}};
     },
     // GET /api/jobs
     listJobs(){

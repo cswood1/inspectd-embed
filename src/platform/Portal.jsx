@@ -1,13 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./portal.css";
 import { usePlatform } from "./PlatformStore.jsx";
 import { PaneCtx } from "./ui.jsx";
 import { Svg, I, SECTIONS, Sk, SkelRows, ReportRows, NoticeProvider, useLoaded } from "./portalUi.jsx";
 import { Jobs, NewJob, BulkJobs, Job } from "./PortalJobs.jsx";
+import { Reports, Vehicles } from "./PortalReports.jsx";
+import { Team, Settings, Invoices } from "./PortalTeam.jsx";
+import { ReportView } from "./ReportView.jsx";
 
 /*
  * The client portal: Kavin's inspection-dashboard shell (ui/nav-client) with its workspace switcher,
- * the Overview page, and the job pages (PortalJobs.jsx). Pages switch as view state, not URLs; the
+ * the Overview page, the job pages (PortalJobs.jsx), Reports and Vehicles (PortalReports.jsx), the report
+ * viewer (ReportView.jsx), and Team, Settings and Invoices (PortalTeam.jsx). Pages switch as view state, not URLs; the
  * page you were on is kept when you go to Operations and come back.
  *
  * .ipp is the pane: the scope for portal.css, and the containing block for the notices, the page dock
@@ -22,7 +26,7 @@ import { Jobs, NewJob, BulkJobs, Job } from "./PortalJobs.jsx";
 const ROUTES = [
   [/^\/$/, "overview", "overview"],
   [/^\/reports$/, "reports", "reports"],
-  [/^\/reports\/([0-9]{8}-[0-9]{6}-[a-f0-9]{6})$/, "reports", "reports"],   // the report viewer is step 5; until then, Reports
+  [/^\/reports\/([0-9]{8}-[0-9]{6}-[a-f0-9]{6})$/, "reports", "report"],
   [/^\/jobs$/, "jobs", "jobs"],
   [/^\/jobs\/new$/, "jobs", "new"],
   [/^\/jobs\/bulk$/, "jobs", "bulk"],
@@ -34,16 +38,11 @@ const ROUTES = [
 ];
 const match = path => ROUTES.find(([re]) => re.test(path));
 // kept between visits to the tab: the page, and whether this page load has fetched the account yet
-let lastPath = "/", booted = false;
+let lastPath = "/", booted = false, pending = null;
 
-// each step-5 section's heading and intro line, from its view.html
-const STUBS = {
-  reports: <section className="pad greet"><div className="gt"><h1>Reports</h1><p>Every finished inspection, newest first. Each one comes from the inspector who did the job. Open one for the photos, condition scores and full checklist.</p></div></section>,
-  vehicles: <section className="pad"><div className="greet"><div className="gt"><h1>Vehicles</h1><p>Every car you have had inspected, one row each. Open a vehicle to see all of its reports and any inspection still in progress.</p></div></div></section>,
-  invoices: <section className="pad"><div className="greet"><div className="gt"><h1>Invoices</h1><p>One invoice per billing period covering every inspection.</p></div></div></section>,
-  team: <section className="pad"><div className="greet"><div className="gt"><h1>Team</h1><p>People at your company who can request inspections and read reports.</p></div></div></section>,
-  settings: <section className="pad"><div className="greet"><div className="gt"><h1>Settings</h1><p>Your workspace and your account.</p></div></div></section>,
-};
+/** Open the portal at a page, as the console's links do: a report opens in the workspace it is kept in
+ *  (a walk-in's, in Inspectd's own), switching to it as Kavin's switcher would, with a reload. */
+export function portalAt(path, { report = null } = {}){ pending = {path, report}; }
 
 /* ---- Overview: the request hero, what you get, and the recent reports ---- */
 
@@ -135,8 +134,8 @@ function Shell({ onExit, onReload }){
   const [path, setPath] = useState(lastPath);
   const [meReady, setMeReady] = useState(booted), [countsReady, setCountsReady] = useState(booted);
   const pane = useRef(null), scroller = useRef(null), first = useRef(true);
-  const navigate = to => { if (to === path) return; lastPath = to; setPath(to); };
-  const ctx = { navigate, refreshCounts: () => {} };
+  const navigate = to => { if (to === path) return; lastPath = to; setPath(to); };   // a #hash is part of the path, as location.pathname + hash in nav.js
+  const ctx = { navigate, refreshCounts: () => {}, reload: onReload, signOut: onExit };
 
   // the account, then the counts: fetched once per page load, as nav.js does
   useEffect(() => {
@@ -151,7 +150,7 @@ function Shell({ onExit, onReload }){
     return () => clearTimeout(t);
   }, [path]);
 
-  const hit = match(path) || ROUTES[0], [re, active, page] = hit, id = re.exec(path)?.[1];
+  const [bare, tab = ""] = path.split("#"), hit = match(bare) || ROUTES[0], [re, active, page] = hit, id = re.exec(bare)?.[1];
   const me = meReady ? portal.me() : null;
   const counts = {};
   if (countsReady) {   // refreshCounts: reports, jobs not yet complete, and every distinct car across both
@@ -170,7 +169,12 @@ function Shell({ onExit, onReload }){
     : page === "new" ? <NewJob key={path} ctx={ctx} />
     : page === "bulk" ? <BulkJobs key={path} ctx={ctx} />
     : page === "job" ? <Job key={path} id={id} ctx={ctx} />
-    : STUBS[page];
+    : page === "reports" ? <Reports key={path} ctx={ctx} />
+    : page === "report" ? <ReportPage key={path} id={id} tab={tab} ctx={ctx} />
+    : page === "vehicles" ? <Vehicles key={path} ctx={ctx} />
+    : page === "team" ? <Team key={path} ctx={ctx} />
+    : page === "settings" ? <Settings key={path} ctx={ctx} />
+    : <Invoices />;
   return (
     <div className="ipp" ref={pane}>
       <NoticeProvider>
@@ -187,8 +191,22 @@ function Shell({ onExit, onReload }){
   );
 }
 
+// /reports/<id>: the viewer, given the row the store keeps (a report from another workspace is "not found")
+function ReportPage({ id, tab, ctx }){
+  const { portal } = usePlatform();
+  return <ReportView id={id} tab={tab} ctx={ctx} row={() => portal.report(id)} />;
+}
+
 export function Portal({ onExit = () => {} }){
+  const { portal } = usePlatform();
   // a reload, as after switching workspace: the shell starts over on the same page
-  const [gen, setGen] = useState(0);
-  return <Shell key={gen} onExit={onExit} onReload={() => setGen(g => g + 1)} />;
+  const [gen, setGen] = useState(0), [ready, setReady] = useState(!pending);
+  useLayoutEffect(() => {   // the console's hand-off: the workspace first, then the page
+    if (!pending) return;
+    const { path, report } = pending; pending = null;
+    const org = report && portal.reportOrg(report);
+    if (org && org !== portal.me().account.id) { portal.chooseWorkspace(org); booted = false; }
+    lastPath = path; setReady(true); setGen(g => g + 1);
+  }, []);
+  return ready ? <Shell key={gen} onExit={onExit} onReload={() => setGen(g => g + 1)} /> : null;
 }

@@ -243,7 +243,10 @@ export function PlatformStoreProvider({ children }){
     const write = name => (...args) => { const { state: next, out } = createPortal(live.current)[name](...args); commit(() => next); return out; };
     return {
       me: read("me"), reports: read("reports"), listJobs: read("listJobs"), getJob: read("getJob"),
-      chooseWorkspace: write("chooseWorkspace"), cancelJob: write("cancelJob"),
+      report: read("report"), reportOrg: read("reportOrg"), shared: read("shared"), team: read("team"), inspection: read("inspection"),
+      chooseWorkspace: write("chooseWorkspace"), cancelJob: write("cancelJob"), deleteReport: write("deleteReport"),
+      teamWrite: (name, ...args) => write("teamWrite")(name, ...args), rename: write("rename"),
+      claim: write("claim"), reject: write("reject"),
       createJob: body => { const out = write("createJob")(body); fulfill(out.id); return out; },
       createBulk: body => { const out = write("createBulk")(body); out.created.forEach(r => fulfill(r.id)); return out; },
     };

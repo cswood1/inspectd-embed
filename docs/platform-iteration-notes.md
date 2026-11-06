@@ -11,8 +11,9 @@ these differences.
 - **No "Client portal" link in the console sidebar.** Kavin's sidebar ends with a link into the client
   portal. It is left out because the dev bar's Platform tabs already switch between Operations and
   Client portal, and in production the ops console should not link into a customer's portal. The
-  report row's "Open" button and the Reports "report dashboard" link still switch to the Client
-  portal tab for now, because the report viewer only exists there.
+  report row's "Open" button opens that report in the Client portal tab (switching the portal to the
+  workspace the report is kept in, Inspectd's own for a walk-in), and the Reports "report dashboard"
+  link opens the portal's Reports list, because the report viewer only exists there.
 - **No "Operations console" link in the client portal sidebar.** Kavin's portal shows Inspectd team
   accounts a link to the console. It is left out: the dev bar's Platform tabs switch between the two
   surfaces, and a customer's portal should never link to the ops console.
@@ -63,4 +64,47 @@ these differences.
 - **The Scheduled column runs free text through a date parser.** The booking's time is whatever the team
   typed ("Thu Nov 6, 9:00 AM"); the column parses it as a date, which works for that shape by luck (the
   browser assumes a year and the column hides it) and shows the raw text for anything else.
+- **"Download PDF" shows a notice instead of a file.** The inspectors' original PDFs stay out of the
+  repo, so the viewer's Download PDF button says the original isn't available in this demo and points
+  to Print, which saves the report as a PDF.
+- **The inspector's page has Claim and Decline controls.** Kavin's `/inspect/<token>` page only shows
+  the job and an upload; claiming and declining exist as routes of his request service
+  (`requests/booking.py`, `POST /inspect/{token}/claim` and `/reject`) with no controls on the page.
+  Here an offered link shows the terms with a checkbox, Claim this job and Decline (with an optional
+  reason), wired to the same rules: the terms must be accepted, a claim on a received or dispatching job
+  confirms it and emails the business, a declined link can't claim and a claimed one can't decline.
+  The console's claim pill follows.
+- **The inspector's page can't upload.** Its drop zone and Choose PDF show a short "uploads aren't
+  available in this demo" notice. The ten reports in the demo were converted ahead of time
+  (`tools/report-conversion/`).
+- **Report photos are WebP at quality 55, not the PDFs' originals.** Each photo is 1024px on its long
+  side with a 360px thumbnail. Quality 60 came to 62.4 MB for the ten reports, over the 60 MB budget;
+  55 comes to 59.3 MB.
 
+## Client portal: reports, vehicles, team, settings (step 5)
+
+- **Deleting a report leaves its job pointing at it.** Delete removes the report from the store, but
+  the request service is never told, so the job's Report link and the Jobs table's "Open" still lead to
+  it and open "Report not found".
+- **The Vehicles rows are unstyled.** Each vehicle is a `<details class="secgroup vgroup">`, and no
+  stylesheet styles `.secgroup` or `.vgroup`, so the rows render as plain disclosure lines with the parts
+  of the header run together.
+- **Saving in Settings reloads the page.** Renaming the workspace or yourself reloads the portal 600 ms
+  later, so the sidebar and page go back to skeletons and the "saved" notice vanishes with the reload.
+- **The report's section index reloads the report instead of jumping to the section.** The index links
+  are `href="#section"` anchors, and the portal's router takes every same-origin link click first: it
+  routes to `/reports/<id>#<section>`, which mounts the viewer again at the top with the section
+  closed. Only the share page (`/r/<token>`), which has no router, jumps. The fix is for the router to
+  ignore links whose path is the current one.
+
+Kavin's report extraction (`extraction_service`), run on the ten Lemon Squad PDFs by
+`tools/report-conversion/`, has two flaws the conversion works around rather than mirrors, since they
+change what the report says:
+
+- **The odometer can be a repair-history mileage.** The heuristic pass takes the first "N miles" in
+  the text, and the merge keeps it over the model's reading. On the GMC Acadia that was 103,797 from a
+  service record, not the 103,855 the Vehicle Information table prints. The conversion uses the table's.
+- **Photos drawn on two pages are dropped.** The extractor treats any image that appears on two pages
+  as a header or footer logo. That also drops a cover photo repeated in the gallery (the Charger, the
+  Corsair) and photos split across a page break (five on the Acadia). The conversion keeps every image
+  at least 48px on each side and no wider than 3:1, with Kavin's caption where he has one.

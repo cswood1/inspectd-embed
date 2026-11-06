@@ -44,14 +44,14 @@ no router library. Leaflet and `us-zips` power the provider job-board map.
 ## Map of the environment
 
 The top bar (**INSPECTD DEV+STAGING**) switches between sections. Apart from
-`/job/:token`, navigation is view state, not URLs.
+`/job/:token`, `/r/:token` and `/inspect/:token`, navigation is view state, not URLs.
 
 ### Platform
 
 | Tab | File | What it is |
 | --- | --- | --- |
 | Operations | `platform/Console.jsx` | High-fidelity clone of the Inspectd operations console: sidebar with live counts, Open and Closed jobs boards (status cards, search, filters, sortable table, simulated lookup), and Providers, Customers, Reports and Settings sections. The app opens here. |
-| Client portal | `platform/Portal.jsx` | High-fidelity clone of the Inspectd client portal, signed in as Cam (Inspectd team) in Meridian Fleet Services: workspace switcher, Overview, Jobs, New inspection request, Upload a list (CSV or Excel; demo files in `public/demo/`) and the job page. Shares the console's request list: a portal request is a job on the console's board, and console changes show in the portal. Reports, Vehicles, Team, Settings and Invoices come next. |
+| Client portal | `platform/Portal.jsx` | High-fidelity clone of the Inspectd client portal, signed in as Cam (Inspectd team) in Meridian Fleet Services: workspace switcher, Overview, Jobs, New inspection request, Upload a list (CSV or Excel; demo files in `public/demo/`) the job page, Reports and the report viewer (photos, configuration, inspector notes and every checklist area, from ten real Lemon Squad reports), Vehicles, Team, Settings and Invoices. Shares the console's request list: a portal request is a job on the console's board, and console changes show in the portal. A console job's report "Open" opens that report here. |
 | Enterprise | `EnterprisePortal.jsx` | Business customer portal: dashboard, jobs, reports, and the multi-step Create Job wizard (vehicle → service → location → contact → review). |
 | Provider | `ProviderPortal.jsx` | Inspector workspace: job board (list + map + filters), job details, active claimed jobs, upload data, completed reports. |
 | Internal | `InternalRequests.jsx` | Ops console: incoming requests, provider research by area, notes/outcomes, duplicate detection, and **Dispatch**, which turns a job into a shareable provider link. |
@@ -81,6 +81,18 @@ verification) → post-claim → submit, plus coded declines and terminal states
 - Add `?dev=1` to get the demo operator panel, which moves the job forward and resets state.
 - Hosting needs a rewrite of `/job/*` to `index.html`.
 
+### Client portal links: `/r/:token` and `/inspect/:token`
+
+Two more standalone pages, outside the access gate, reading and writing the same `PlatformStore` as
+the Operations console and Client portal:
+
+- `/r/<token>` is the customer's report link (the portal's viewer, public, in the dark share colours).
+  Each report's token is `reports[].share.token` in `inspectd_platform_v1`.
+- `/inspect/<token>` is the inspector's job link: the job facts, Claim (with the terms) or Decline on
+  an offered link, then the received state. Uploads show a demo notice. Each job's token is
+  `rows[].meta.inspect.token`; the console's job panel shows the link.
+- Hosting needs the same rewrite for `/r/*` and `/inspect/*`.
+
 ## Shared state
 
 The surfaces talk to each other through small context stores persisted to `localStorage`.
@@ -101,8 +113,8 @@ To reset a demo, clear those keys or use **Reset** in the `?dev=1` panel for off
 
 ```
 src/
-  main.jsx              root: OfferStore → (/job/:token | stores → AccessGate → App)
-  router.jsx            hand-rolled /job/:token match + ?flag reader
+  main.jsx              root: OfferStore → (/job/:token | /r/:token | /inspect/:token | stores → AccessGate → App)
+  router.jsx            hand-rolled /job, /r and /inspect token matches + ?flag reader
   AccessGate.jsx        demo access code screen
   App.jsx               dev chrome, section/tab switching, simulated-tab overlay
   data.js               mock partners (Crestview, AxleAuto), inventory, price
@@ -131,8 +143,13 @@ src/
     ui.jsx  derive.js   console primitives, vocabulary, derived views
     seed.js  PlatformStore.jsx  authServer.js  portalServer.js
     Console.jsx  Board.jsx  JobPanel.jsx  Sections.jsx  Settings.jsx
-    Portal.jsx  PortalJobs.jsx  portalUi.jsx  vin.js  xlsx.js
+    Portal.jsx  PortalJobs.jsx  PortalReports.jsx  PortalTeam.jsx  ReportView.jsx
+    PublicPages.jsx  portalUi.jsx  vin.js  xlsx.js
+    reportIndex.js      generated: each converted report's summary row
 public/                 brand marks, partner assets, vehicle photos
+  portal/reports/       the ten converted reports: <id>/report.json and images/ (WebP)
+tools/
+  report-conversion/    turns inspection PDFs into those reports; not part of the build (see its README)
 ```
 
 ## Adding a surface

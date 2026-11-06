@@ -225,7 +225,7 @@
   .ipp .wsbtn:not(.static):hover{background:var(--hover)} .ipp .wsbtn.static{cursor:pointer}
   .ipp .wsbtn .bt{min-width:0;flex:1} .ipp .wsbtn .bt b,.ipp .wsbtn .bt span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
   .ipp .wsbtn .chev{color:var(--sub);flex:none;display:grid;place-items:center}
-  .ipp .wsmenu{position:absolute;left:0;right:0;top:100%;z-index:25;background:#fff;border:1px solid var(--line);border-radius:6px;box-shadow:var(--shadow-over);padding:6px;max-height:60vh;overflow-y:auto}
+  .ipp .wsmenu{position:absolute;left:0;right:0;top:100%;z-index:25;background:#fff;border:1px solid var(--line);border-radius:6px;box-shadow:var(--shadow-over);padding:6px;max-height:60cqh;overflow-y:auto}
   .ipp .wshead{font-size:11px;font-weight:600;color:var(--sub);letter-spacing:.02em;padding:6px 10px 4px}
   .ipp .wsitem{display:flex;align-items:center;gap:10px;width:100%;padding:7px 10px;border-radius:5px;transition:background .13s ease-out}
   .ipp .wsitem:hover{background:var(--hover)} .ipp .wsitem.on{background:var(--blue-t)}
@@ -369,7 +369,7 @@
 
   /* ---------- header: the car's photo behind its name and facts ---------- */
   .ipp .cr-hero{position:relative;background:var(--well) center 42%/cover no-repeat;border-bottom:1px solid var(--line)}
-  .ipp .cr-hero.img{min-height:clamp(300px,56vh,600px);display:flex;align-items:stretch;color:#fff;border-bottom:0}
+  .ipp .cr-hero.img{min-height:clamp(300px,56cqh,600px);display:flex;align-items:stretch;color:#fff;border-bottom:0}
   .ipp .cr-hero.img::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,15,27,.38) 0%,rgba(9,15,27,.06) 26%,rgba(9,15,27,.22) 55%,rgba(9,15,27,.86) 100%)}
   .ipp .cr-hero-in{position:relative;width:100%;padding-top:20px;padding-bottom:28px}
   .ipp .cr-hero.img .cr-hero-in{padding-top:76px;display:flex;flex-direction:column;justify-content:flex-end}   /* full height: the top bar sits at the top, the name at the bottom */
@@ -526,7 +526,7 @@
     .ipp .cr-body{grid-template-columns:minmax(0,1fr);padding-top:12px}
     .ipp .cr-nav{display:none}
     .ipp .cr-search{margin-left:0;flex:1 1 100%;min-width:0}
-    .ipp .cr-hero.img{min-height:clamp(260px,62vh,460px)}
+    .ipp .cr-hero.img{min-height:clamp(260px,62cqh,460px)}
     .ipp .cr-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 20px}
     .ipp .cr-sec > summary h2{font-size:19px}
   }
@@ -550,3 +550,100 @@
     .ipp .cr-grid{ grid-template-columns: repeat(5, 1fr) !important; } .ipp .cr-thumb{ break-inside: avoid; }
     .ipp a{ color: inherit !important; text-decoration: none !important; }
   }
+
+/* ===== the standalone pages: share-client/style.css (the customer's /r/<token> report) and inspect-client/style.css
+   (the inspector's /inspect/<token> page). Their body.share / body.inspect classes sit on the .ipp pane here, so
+   .share rules become .ipp.share. ===== */
+/* ===== share-client/style.css ===== */
+/* share-client: the report viewer on its own page, under a plain Inspectd bar. The car's photo runs edge to edge;
+   everything else sits in one centered column. */
+.ipp.share{ background: var(--bg, #fff); --pad-l: 28px; --pad-r: 28px; }
+.ipp .sbar{ display: flex; align-items: center; gap: 8px; padding: 12px 20px; border-bottom: 1px solid var(--line, #e3e5e9); background: #fff; }
+.ipp .sbar .logo{ width: 24px; height: 24px; display: block; flex: none; }
+.ipp .sbar b{ font-size: 14px; }
+.ipp .sbar .sub{ color: var(--sub, #6b7280); font-size: 13px; padding-left: 8px; border-left: 1px solid var(--line, #e3e5e9); }
+.ipp .swrap{ padding: 0 0 48px; }
+.ipp.share .pad{ max-width: 1280px; margin-left: auto; margin-right: auto; }
+@media (max-width: 520px) { .ipp.share{ --pad-l: 16px; --pad-r: 16px; } }
+@media print { .ipp .sbar{ display: none; } }
+
+/* The customer's report is dark, like inspectd.com's sample condition report (Tailwind's slate on navy). On screen
+   only: printed, it stays black on white paper. The team portal shows the same report in its light colors. */
+@media screen {
+  /* html:has(body.share) darkens the page behind the report; here the .ipp.share pane fills the window and is dark itself */
+  .ipp.share{
+    color-scheme: dark;
+    --bg: #0b1120; --well: #0f172a; --hover: rgba(148, 163, 184, .08); --line: rgba(51, 65, 85, .6);
+    --ink: #f1f5f9; --sub: #94a3b8; --deco: #64748b; --key: #334155; --key-b: #475569;
+    --blue: #60a5fa; --blue-d: #93c5fd; --blue-t: rgba(59, 130, 246, .22);
+    --green: #34d399; --amber: #fbbf24; --red: #f87171; --gray-p: #cbd5e1;
+  }
+  .ipp.share .sbar{ background: var(--bg); }
+  .ipp.share .sbar b{ color: #fff; }
+
+  /* the bar: outlined counts, as on the sample */
+  .ipp.share .rb{ background: transparent; }
+  .ipp.share .rb:hover:not(:disabled){ background: var(--hover); }
+  .ipp.share .rb.pass,.ipp.share .rb.issues.none{ color: #34d399; border-color: rgba(52, 211, 153, .4); }
+  .ipp.share .rb.pass.on{ background: rgba(16, 185, 129, .14); }
+  .ipp.share .rb.issues{ color: #f87171; border-color: rgba(248, 113, 113, .35); }
+  .ipp.share .rb.issues.on{ background: rgba(239, 68, 68, .12); }
+  .ipp.share .rb.all.on{ background: #334155; border-color: #475569; color: #fff; }
+  .ipp.share .rb.listing{ color: #60a5fa; border-color: rgba(96, 165, 250, .4); background: rgba(59, 130, 246, .08); }
+  .ipp.share .cr-search{ background: rgba(30, 41, 59, .5); }
+  .ipp.share .cr-search input::placeholder{ color: var(--deco); }
+
+  /* the index and the sections */
+  .ipp.share #crNav{ background: rgba(15, 23, 42, .6); }
+  .ipp.share #crNav a.on{ background: #1e293b; color: #fff; border-left-color: #3b82f6; }
+  .ipp.share .dot.info{ background: #60a5fa; } .ipp.share .dot.pass{ background: #34d399; }
+  .ipp.share .dot.fail{ background: #f87171; } .ipp.share .dot.attention{ background: #fbbf24; }
+  .ipp.share .chip{ background: transparent; color: #cbd5e1; }
+  .ipp.share .chip.on{ background: #334155; border-color: #475569; color: #fff; }
+  .ipp.share .cr-thumb:hover{ border-color: #64748b; box-shadow: 0 2px 10px rgba(0, 0, 0, .35); }
+  .ipp.share .cr-issue{ background: rgba(30, 41, 59, .5); border-left-color: #fbbf24; }
+  .ipp.share .cr-issue.fail{ border-left-color: #f87171; }
+  .ipp.share .cr-issue p,.ipp.share .cr-note p,.ipp.share .rating .nm{ color: #cbd5e1; }
+  .ipp.share .rating .bar{ background: #1e293b; }
+  .ipp.share .cr-odd{ background: rgba(251, 191, 36, .1); color: #fcd34d; }
+  .ipp.share .pill,.ipp.share .pill::before{ box-shadow: none; }
+  .ipp.share .pill.green{ --pf: rgba(16, 185, 129, .16); --pr: rgba(16, 185, 129, .38); --pi: #6ee7b7; }
+  .ipp.share .pill.amber{ --pf: rgba(245, 158, 11, .16); --pr: rgba(245, 158, 11, .38); --pi: #fcd34d; }
+  .ipp.share .pill.red{ --pf: rgba(239, 68, 68, .16); --pr: rgba(239, 68, 68, .38); --pi: #fca5a5; }
+  .ipp.share .pill.gray{ --pf: rgba(148, 163, 184, .14); --pr: rgba(148, 163, 184, .3); --pi: #cbd5e1; }
+  .ipp.share .btn{ background: rgba(30, 41, 59, .7); border-color: #475569; color: #e2e8f0; box-shadow: none; }
+  .ipp.share .btn:hover{ background: #334155; }
+  .ipp.share .skel .sk{ background: linear-gradient(90deg, #111a2e 25%, #18233a 37%, #111a2e 63%); background-size: 400% 100%; }
+  .ipp.share #dash.loading .cr-hero h1:empty::before{ background: #18233a; }
+}
+
+/* ===== inspect-client/style.css ===== */
+/* The inspector's upload page: public, one column, no sidebar. The link in their booking is the only credential. */
+.ipp.inspect{background:var(--well)}
+.ipp .ibar{display:flex;align-items:center;gap:10px;padding:14px 20px;background:#fff;border-bottom:1px solid var(--line)}
+.ipp .ibar .logo{width:24px;height:24px;display:block;flex:none}
+.ipp .ibar b{font-size:15px;font-weight:700}
+.ipp .iwrap{max-width:680px;margin:0 auto;padding:34px 20px 80px}
+.ipp .icard{background:#fff;border:1px solid var(--line);border-radius:6px;padding:24px;box-shadow:0 1px 2px rgba(16,24,40,.05)}
+.ipp .icard h1{font-size:22px;font-weight:700;letter-spacing:-.01em}
+.ipp .icard .lead{color:var(--sub);margin-top:6px;line-height:1.6}
+.ipp .jobfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px 24px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.ipp .jobfacts div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.ipp .jobfacts small{font-size:11px;font-weight:600;color:var(--deco);letter-spacing:.03em;text-transform:uppercase}
+.ipp .jobfacts span{font-size:14px;font-weight:600;overflow-wrap:anywhere}
+.ipp .inote{margin-top:18px;border:1px solid var(--line);background:var(--well);border-radius:5px;padding:11px 14px;font-size:13px;line-height:1.55}
+.ipp .idamage{margin-top:18px;border:1px solid #f6c08c;background:#fff7ed;border-radius:5px;padding:12px 14px;font-size:13px;line-height:1.55}
+.ipp .idamage b{display:block;font-weight:650;margin-bottom:6px}
+.ipp .idamage ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.ipp .idamage li span{font-weight:600} .ipp .idamage em{font-style:normal;color:#b45309;font-weight:600}
+.ipp .idamage p{color:var(--sub);margin-top:2px}
+.ipp .idrop{display:block;margin-top:20px;border:1px dashed #cfd3d9;border-radius:6px;padding:36px 20px;text-align:center;background:var(--well);cursor:pointer;
+  transition:background .13s ease-out,border-color .13s ease-out}
+.ipp .idrop:hover{background:var(--hover)} .ipp .idrop.drag{border-color:#67a5d8;background:var(--blue-t)} .ipp .idrop.busy{pointer-events:none;opacity:.7}
+.ipp .idrop b{display:block;font-size:15px;font-weight:650;margin-bottom:4px} .ipp .idrop p{color:var(--sub);font-size:13px}
+.ipp .idrop .btn{margin-top:14px}
+.ipp .idone{display:flex;gap:12px;align-items:flex-start;margin-top:20px;border:1px solid #94d3ac;background:#f5fcf7;border-radius:6px;padding:16px}
+.ipp .idone svg{color:var(--green);flex:none;margin-top:2px}
+.ipp .idone b{display:block;font-size:15px;font-weight:650;margin-bottom:2px} .ipp .idone p{color:var(--sub);font-size:13px;line-height:1.55}
+.ipp .ifoot{color:var(--sub);font-size:12.5px;text-align:center;margin-top:18px}
+@media (max-width:560px){.ipp .iwrap{padding:20px 14px 60px} .ipp .icard{padding:18px}}

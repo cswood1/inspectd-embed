@@ -9,6 +9,7 @@
  * Ids and tokens come from a fixed-seed generator: a reset rebuilds the same records.
  */
 import { DEALER } from "../data.js";
+import { REPORT_INDEX } from "./reportIndex.js";
 
 /* ---- deterministic ids ----------------------------------------- */
 
@@ -48,6 +49,17 @@ export const ZIPS = {
   "80011": {city: "Aurora", state: "CO", lat: 39.744033, lon: -104.790013, tier: 2},
   "80226": {city: "Lakewood", state: "CO", lat: 39.710131, lon: -105.092127, tier: 1},
   "80120": {city: "Littleton", state: "CO", lat: 39.593836, lon: -105.01146, tier: 2},
+  // where the ten real reports were inspected
+  "35611": {city: "Athens", state: "AL", lat: 34.773833, lon: -87.084145, tier: 4},
+  "94533": {city: "Fairfield", state: "CA", lat: 38.280745, lon: -122.00638, tier: 2},
+  "78838": {city: "Concan", state: "TX", lat: 29.534647, lon: -99.706512, tier: 5},
+  "95348": {city: "Merced", state: "CA", lat: 37.420522, lon: -120.499608, tier: 3},
+  "48180": {city: "Taylor", state: "MI", lat: 42.225283, lon: -83.267691, tier: 2},
+  "94709": {city: "Berkeley", state: "CA", lat: 37.878291, lon: -122.266252, tier: 1},
+  "48009": {city: "Birmingham", state: "MI", lat: 42.544048, lon: -83.217653, tier: 1},
+  "91746": {city: "La Puente", state: "CA", lat: 34.043304, lon: -117.986859, tier: 1},
+  "10467": {city: "Bronx", state: "NY", lat: 40.875262, lon: -73.872027, tier: 1},
+  "21157": {city: "Westminster", state: "MD", lat: 39.548569, lon: -76.983558, tier: 3},
 };
 // apps/pricing/tiers.json
 export const TIERS = {
@@ -129,7 +141,7 @@ export function lookupFor(row, attempt = 0){
 
 /* ---- people ------------------------------------------------------- */
 
-export const SEED_VERSION = 4;   // bump when the seed changes shape: a stored older seed is replaced
+export const SEED_VERSION = 5;   // bump when the seed changes shape: a stored older seed is replaced
 export const PORTAL = "https://portal.inspectd.com";
 export const PROVIDER_TERMS_VERSION = "1";   // booking.provider_terms(): what a claim records
 // a job's reference in emails (mail._vehicle_and_ref)
@@ -160,6 +172,8 @@ const WALKINS = {
   aisha: ["Aisha Grant", "aisha.grant@pinemail.net", "(720) 555-0193"],
   brian: ["Brian Cho", "brian.cho@pinemail.net", "(770) 555-0195"],
   jasmine: ["Jasmine Patel", "jasmine.patel@pinemail.net", "(615) 555-0197"],
+  rafael: ["Rafael Ortiz", "rafael.ortiz@pinemail.net", "(626) 555-0172"],
+  omar: ["Omar Haddad", "omar.haddad@pinemail.net", "(209) 555-0183"],
 };
 // the pilot partner whose listing sent one shopper (its public profile, apps/partners/registry PUBLIC)
 export const PARTNERS = {
@@ -168,6 +182,31 @@ export const PARTNERS = {
 };
 
 /* ---- the jobs ------------------------------------------------------ */
+
+// Lemon Squad: the inspection network whose reports these are, booked on every job that has one. Its website
+// only: no phone, email or address of theirs is invented here.
+export const LEMON_SQUAD = {name: "Lemon Squad", address: "", phone: "", website: "https://www.lemonsquad.com", email: "", hours: "",
+  services: "Pre-purchase, lease return, condition reports", rating: "", distance: "Mobile, nationwide network",
+  notes: "Inspector dispatched to the vehicle; the report comes back through the job link.", mobile: true, sources: ["https://www.lemonsquad.com"]};
+
+// [report id (tools/report-conversion/manifest.json), who, street, type, class, created days ago, inspected days ago, form notes]
+// Each job takes its report's car, VIN and city, so the job and its report always agree.
+export const REPORT_JOBS = [
+  ["20261021-161204-3c9e1a", "dana", "1220 Hwy 72 E", "lease-end", "standard", 18, 15, "Lease return from our north Alabama pool."],
+  ["20261027-142810-8b20d4", "luis", "2950 FM 1050", "general", "standard", 12, 9, ""],
+  ["20261023-174533-e15f07", "jordan", "23000 Eureka Rd", "general", "standard", 16, 13, "Subscription return. Member reported a rattle from the rear on rough roads."],
+  ["20261028-120952-5a7c31", "mei", "3500 Jerome Ave", "pre-purchase", "standard", 10, 8, "High-mileage unit; deciding whether it goes to retail or auction."],
+  ["20261017-153340-c4d812", "rachel", "140 Englar Rd", "lease-end", "standard", 21, 19, ""],
+  ["20261024-131125-0f6be9", "andre", "1250 S Old Woodward Ave", "auction-listing", "high-end", 14, 12, "Lease return headed to the online auction. Listing photos needed."],
+  ["20261025-160218-92ad4e", "tom", "1700 Shattuck Ave", "pre-purchase", "high-end", 13, 11, "Out-of-state buy. We need the full condition report before we bid."],
+  ["20261014-145907-d73b05", "tom", "2300 Cordelia Rd", "auction-arbitration", "standard", 24, 22, "Arbitration claim: front bumper and grille damage not disclosed at sale."],
+  ["20261022-171446-6e48c0", "rafael", "15000 Valley Blvd", "pre-purchase", "high-end", 17, 14, "Buying from a private seller sight unseen. Please look hard at leaks and the interior."],
+  ["20261029-130637-a91f2c", "omar", "3300 G St", "pre-purchase", "high-end", 9, 7, "The seller says it was garage kept. I would like that confirmed."],
+];
+function reportJob([id, who, street, type, desig, created, inspected, notes]){
+  const rep = REPORT_INDEX[id], v = rep.vehicle, zip = rep.inspection.location.match(/(\d{5})\s*$/)[1];
+  return [who, zip, street, [+v.year, v.make, v.model, null, null], type, desig, "complete", "done", created, {report: id, vin: v.vin, inspected, notes}];
+}
 
 // [who, zip, street, [year, make, model, vin prefix, plant], type, designation, status, lookup, days ago, extras]
 // who: a user key (a workspace request) or a walk-in key. extras: form notes, internal notes, batch, link, contacted...
@@ -203,12 +242,8 @@ const J = [
   ["tom", "80202", "1225 17th St", [2023, "Hyundai", "Ioniq 5", "KM8KN4AE", "U"], "pre-purchase", "ev", "confirmed", "done", 4.8, {}],
   ["kevin", "37027", "9040 Carothers Pkwy", [1989, "Porsche", "911 Carrera", "WP0AB091", "S"], "pre-purchase", "classic", "confirmed", "done", 5.1, {notes: "Seller claims original paint. A paint meter reading on every panel and a compression test, please."}],
   ["mei", "30009", "3000 Old Alabama Rd", [2022, "Jeep", "Wrangler", "1C4HJXEG", "W"], "pre-purchase", "standard", "confirmed", "done", 8.2, {}],
-  // complete: the report is in
-  ["dana", "75201", "1601 Elm St", [2022, "Toyota", "Corolla", "5YFEPMAE", "P"], "general", "standard", "complete", "done", 13, {}],
-  ["luis", "30060", "800 Whitlock Ave NW", [2022, "Dodge", "Charger", "2C3CDXBG", "H"], "lease-end", "standard", "complete", "done", 16, {}],
-  ["andre", "37064", "4000 Mallory Ln", [2022, "Ram", "1500", "1C6SRFBT", "N"], "lease-end", "standard", "complete", "done", 12, {}],
-  ["tom", "80011", DEALER.address, [2021, "Toyota", "Tacoma", "3TMCZ5AN", "M"], "auction-arbitration", "standard", "complete", "done", 18, {}],
-  ["jordan", "75038", "6301 N State Hwy 161", [2022, "Ford", "Escape", "1FMCU0G6", "U"], "general", "standard", "complete", "done", 14, {}],
+  // complete: one job per real report, the car and the place as the report has them (REPORT_JOBS)
+  ...REPORT_JOBS.map(reportJob),
   // canceled
   ["brian", "30060", "560 Powder Springs St", [2018, "Mazda", "CX-5", "JM3KFBCM", "0"], "pre-purchase", "standard", "canceled", "done", 9, {refund: true, reason: "Customer bought a different vehicle"}],
   ["jordan", "75034", "3201 Dallas Pkwy", [2021, "Nissan", "Rogue", "5N1AT3AA", "C"], "general", "standard", "canceled", "done", 11, {reason: "Vehicle sold before the inspection"}],
@@ -235,7 +270,7 @@ export function buildSeed(now = Date.now()){
     const row = {
       id: id12(), created_at: iso(created), updated_at: iso(created), status, lookup, error: null, notes: x.inotes || "",
       form: {name: u ? u.name : (x.name || w[0]), email: u ? u.email : w[1], phone: u ? u.phone : w[2], year: String(year), make, model,
-             vin: vin(prefix, year, plant, String(100000 + Math.floor(r() * 899999))), inspection_type: type, designation,
+             vin: x.vin || vin(prefix, year, plant, String(100000 + Math.floor(r() * 899999))), inspection_type: type, designation,
              address: street, city: place.city, state: place.state, zip, notes: x.notes || ""},
       // a workspace files from the client portal, one car or a list; a walk-in pays on the public form
       result: null, meta: {emails: [], history: [{stage: "received", at: iso(created)}], ...(u ? {source: x.batch ? "portal-bulk" : "portal"} : {})},
@@ -270,6 +305,7 @@ export function buildSeed(now = Date.now()){
     // the lookup: started minutes after it arrived, which moved it to dispatching
     step(0.2, "dispatching");
     if (lookup === "failed") { row.error = "Shop lookup timed out twice. Please run it again."; m.lookup = {timeouts: 2}; step(0.5); return row; }
+    if (x.report) return reportFlow(row, x, created, {step, mail, iso, cam, r, now, veh, place, DAY, HOUR, t: () => t, setT: v => { t = v; }});
     row.result = lookupFor(row); step(0.05);
     const shops = row.result.shops;
     for (const i of x.contacted || []) if (shops[i]) shops[i].contacted = true;
@@ -315,7 +351,7 @@ export function buildSeed(now = Date.now()){
   rows.sort((a, b) => b.created_at.localeCompare(a.created_at));   // the list comes newest first
   const auth = buildAuth(now, orgs, users, cam);
   return {version: SEED_VERSION, seededAt: new Date(now).toISOString(), rows, ...auth, meta: META,
-          reports: buildReports(rows), portal: {orgId: orgs.meridian.id}};
+          reports: buildReports(rows, auth.orgs.find(o => o.slug === "inspectd").id), portal: {orgId: orgs.meridian.id}};
 }
 
 /* ---- accounts, workspaces, roles and invitations (apps/auth/store.py) ---- */
@@ -389,6 +425,31 @@ function buildAuth(now, jobOrgs, jobUsers, cam){
   return {orgs: orgs.sort((a, b) => a.created_at.localeCompare(b.created_at)), users, memberships, invitations, superEmails: SUPER_EMAILS, meId: cam.id};
 }
 
+/* ---- the ten jobs with real reports ------------------------------------ */
+
+// A job whose report is real: Lemon Squad looked up and booked, claimed through its link, inspected on the
+// day, and its report back three hours later, with the history, booking, claim and emails Kavin's server keeps.
+function reportFlow(row, x, created, k){
+  const m = row.meta, rep = REPORT_INDEX[x.report];
+  const shop = {...LEMON_SQUAD, lat: null, lon: null, miles: null, contacted: true, booked: true};
+  row.result = {shops: [shop], summary: `Lemon Squad covers ${k.place.city}, ${k.place.state} with a mobile inspector who comes to the vehicle.`, origin: [k.place.lat, k.place.lon]};
+  k.step(0.05);
+  const visit = new Date(k.now - x.inspected * k.DAY); visit.setHours(10, 0, 0, 0);
+  const booked_at = k.iso(created + (visit.getTime() - created) * 0.45);
+  k.setT(Date.parse(booked_at));
+  m.booking = {provider: shopCard(shop), inspector: "", scheduled_at: when(visit.getTime()), note: "", booked_by: k.cam.name, booked_at};
+  row.updated_at = booked_at;
+  const claimAt = k.step(2, "confirmed");
+  m.inspect = {token: pick(k.r, URLSAFE, 32), made_at: booked_at, shop: shopCard(shop), claim: {status: "claimed", at: claimAt, terms: {version: PROVIDER_TERMS_VERSION, accepted_at: claimAt}}};
+  row.inspect_url = `${PORTAL}/inspect/${m.inspect.token}`; row.inspect_shop = m.inspect.shop; row.inspect_claim = m.inspect.claim;
+  k.mail(row.form.email, `Inspection confirmed: ${k.veh} (${jobRef(row.id)})`, claimAt, {kind: "confirmed"});
+  k.setT(visit.getTime() + 3 * k.HOUR);
+  const at = k.step(0, "complete");
+  m.report = {id: rep.id, at, filename: rep.filename, shop: shopCard(shop)};
+  k.mail(row.form.email, `Inspection report ready: ${k.veh} (${jobRef(row.id)})`, at, {kind: "complete"});
+  return row;
+}
+
 /* ---- inspection reports (apps/reports_service): one per finished job ---- */
 
 /** Kavin's report id: the upload time to the second, then six hex characters (YYYYMMDD-HHMMSS-abc123). */
@@ -396,28 +457,23 @@ export const reportId = (iso, hex) => { const d = new Date(iso), p = n => String
   return `${d.getUTCFullYear()}${p(d.getUTCMonth() + 1)}${p(d.getUTCDate())}-${p(d.getUTCHours())}${p(d.getUTCMinutes())}${p(d.getUTCSeconds())}-${hex.slice(0, 6)}`; };
 
 /*
- * The report store's documents. The list pages read the summary row (store.summary_row): vehicle,
- * inspection, summary, image_count, uploaded_at. Step 5 fills findings, images and ratings in place;
- * the ids here already match the jobs' meta.report.id, so nothing has to be renumbered.
+ * The report store's rows (store.summary_row plus what the store keeps beside it): each converted report's
+ * summary from reportIndex.js, with the dates, workspace and job the seed gives it. The full document, its
+ * findings and photos, is public/portal/reports/<id>/report.json, fetched when the report is opened.
  */
-function buildReports(rows){
+function buildReports(rows, inspectdOrgId){
   const r = rng(20261106), out = [];
   for (const row of rows) {
-    const rep = row.meta?.report; if (!rep?.id) continue;
-    const f = row.form, total = 118 + Math.floor(r() * 40), fail = Math.floor(r() * 3), attention = 2 + Math.floor(r() * 7), na = 3 + Math.floor(r() * 9);
-    const photos = 34 + Math.floor(r() * 30);
+    const rep = row.meta?.report, doc = rep?.id && REPORT_INDEX[rep.id]; if (!doc) continue;
     out.push({
-      id: rep.id, filename: rep.filename, uploaded_at: rep.at, request_id: row.id, org_id: row.org_id,
+      ...doc, uploaded_at: rep.at, request_id: row.id,
+      // a walk-in has no workspace: its report is kept in Inspectd's own (reports_service DIRECT_ORG)
+      org_id: row.org_id || inspectdOrgId,
       uploaded_by: null, uploaded_by_name: rep.shop?.name || "",                 // the inspector, through their job link
-      vehicle: {year: f.year, make: f.make, model: f.model, trim: "", vin: f.vin, mileage: String(18000 + Math.floor(r() * 52000))},
-      vehicle_in_pdf: null,
-      inspection: {date: rep.at.slice(0, 10), location: `${f.city}, ${f.state}`, report_id: `${(rep.shop?.name || "IN").split(/\s+/).map(w => w[0]).join("").slice(0, 3).toUpperCase()}-${10000 + Math.floor(r() * 89999)}`,
-                   customer: row.org?.name || f.name, overall: ""},
-      summary: {pass: total - fail - attention - na, attention, fail, na, unknown: 0, total},
-      pages: 8 + Math.floor(r() * 9),
-      images: Array.from({length: photos}, (_, i) => ({n: i + 1, name: `photo-${String(i + 1).padStart(3, "0")}.jpg`})),
-      findings: [],          // step 5: the checklist, issues first
+      inspection: {...doc.inspection, date: localDate(Date.parse(rep.at) - 3 * 36e5)},
+      share: {token: pick(r, HEX, 32), listing: pick(r, HEX, 32)},                // the customer's /r/<token> link, and the listing's
     });
   }
   return out.sort((a, b) => b.uploaded_at.localeCompare(a.uploaded_at));
 }
+const localDate = ms => { const d = new Date(ms), p = n => String(n).padStart(2, "0"); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`; };
