@@ -121,7 +121,7 @@ export function Reports({ loaded, onNavigate, onOpenPortal }){
     })}</tbody></table>
   );
   return (<>
-    <div className="pad greet"><div className="gt"><h1>Reports</h1><p>Jobs that reached a booking or were completed. Normalized inspection reports are produced in the <a className="plainlink" id="reportsLink" href="#" target="_blank" rel="noopener" onClick={e => { stay(e); onOpenPortal(); }}>report dashboard</a> for now; linking them to jobs here is the next step.</p></div></div>
+    <div className="pad greet"><div className="gt"><h1>Reports</h1><p>Jobs that reached a booking or were completed. Normalized inspection reports are produced in the <a className="plainlink" id="reportsLink" href="#" target="_blank" rel="noopener" onClick={e => { stay(e); onOpenPortal("/reports"); }}>report dashboard</a> for now; linking them to jobs here is the next step.</p></div></div>
     <div className="tablewrap" id="reports">{body}</div>
     <PageDock pg={loaded && list.length ? pg : null} rowSelector="#reports tbody tr" onChange={d => setPage(pg.page + d)} />
   </>);

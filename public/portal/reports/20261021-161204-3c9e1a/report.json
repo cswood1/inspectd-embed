@@ -1,0 +1,1433 @@
+{
+ "id": "20261021-161204-3c9e1a",
+ "filename": "Dodge_699367_inspection.pdf",
+ "uploaded_at": "2026-11-06T03:15:19+00:00",
+ "size": 10536239,
+ "llm_error": "",
+ "scanned": false,
+ "vehicle": {
+  "vin": "2C3CDXGJ3PH699367",
+  "year": "2023",
+  "make": "Dodge",
+  "model": "Charger",
+  "mileage": "15928",
+  "color": "Grey",
+  "interior_color": "Red",
+  "interior_material": "Leather/Cloth",
+  "engine": "8 Cylinder",
+  "transmission": "Automatic",
+  "drivetrain": "Rear Wheel Drive",
+  "fuel": "Gas"
+ },
+ "inspection": {
+  "report_id": "20261021-161204-3c9e1a",
+  "date": "2025-08-11",
+  "location": "Athens, AL, 35611",
+  "customer": "Meridian Fleet Services"
+ },
+ "findings": [
+  {
+   "item": "Road Test",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Yes"
+  },
+  {
+   "item": "Engine Starting Easily",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine running well after Started",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Transmission performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Differential Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Wheel Bearing Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Braking Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Suspension Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Steering Performance and Alignment",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Tire Pressure System (TPMS)",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Computer Diagnosis/OBD2",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Back-Up Camera",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Wiper Blades",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Windshield Washer",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Body Panel Alignment",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Scratches",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "There are minor misc scratches around the vehicle, most too small to see in photos.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Paint Condition",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Seals",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Rust",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Exterior Lights",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Sunroof",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Door Mirrors",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Bumpers",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Side Moldings",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Underbody/Frame Condition",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Glass",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dings",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dents",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Steering Wheel",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Horn",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cruise Control",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Seat Condition",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "There is light wear to the seats.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Heated Seats",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Seat Belts",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Clock",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radio/Navigation/DVD",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Inner Door Panels",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Locks",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Window Switches",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Center Console",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dash",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dash Lights Working",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Air Conditioning",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Heater",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Rear Defroster",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Carpet",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Floor Mats",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Signs of Smoking?",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cup Holders",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Headliner",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Blower Motor",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Instrument Cluster/Gauges",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Unusual Odors",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Window Function",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Interior Trim",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The interior trim shows normal wear.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Sun Visors",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Air Filter",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Battery Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Charging System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cooling Fan Condition Mechanical/Electronic",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radiator Cap Sealing Properly",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Hoses and Clamps Age/Cracking",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radiator Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Coolant Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Coolant Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Belts",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Steering System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine Oil Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine Oil Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Transmission Fluid Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Brake System Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Brake Fluid Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Differential leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Muffler System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "CV Boots and Joints",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Shocks and bushings Condition. Leaking?",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Ball Joints and Tie Rods",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Key Fob",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Driver's Front Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Goodyear 245/45R20, 8/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Passenger's Front Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Goodyear 245/45R20, 8/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Driver's 1st Axle Outer Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Goodyear 245/45R20, 8/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Passenger's 1st Axle Outer Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Goodyear 245/45R20, 8/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  }
+ ],
+ "notes": [],
+ "ratings": [
+  {
+   "name": "NAAA Paint & Body Rating",
+   "value": "4.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Interior Rating",
+   "value": "4",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Frame/Unibody Rating",
+   "value": "4.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Mechanical Rating",
+   "value": "4",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Tires Rating",
+   "value": "4",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Rating",
+   "value": "4.2",
+   "scale": "5"
+  }
+ ],
+ "summaries": [
+  {
+   "section": "Tire",
+   "text": "All four tires have an adequate amount of remaining tread depth with an even wear pattern."
+  },
+  {
+   "section": "Exterior",
+   "text": "There are minor misc scratches around the vehicle, most too small to see in photos. Headlights and taillights were clear and free of cracks or other damage. The panel alignments appeared to be normal. The exterior lights were functional and working properly. The sunroof also worked well."
+  },
+  {
+   "section": "Interior",
+   "text": "There is light wear to the seats. The interior trim shows normal wear. I did not notice any odd smells or signs that the car had been smoked in. There were also no signs of water leaks. The climate control system operated in all modes and blew the desired temperature. All the interior electronics appeared to operate as designed, including the infotainment system."
+  },
+  {
+   "section": "Mechanical",
+   "text": "The oil was at the proper level and did not appear to be dark. Inspection under the oil fill cap found no signs of moisture or sludge accumulation. All accessible fluids are on level. It did not have any visible active fluid leaks at the time of inspection."
+  },
+  {
+   "section": "Road Test",
+   "text": "The vehicle starts up with no issues or unusual sounds. The steering alignment is straight, and engine performance is good. The vehicle shifts through all gears with no issues. The brakes are firm with no pulsations or grinding. I scanned the vehicle's system, and no error codes were found."
+  }
+ ],
+ "images": [
+  {
+   "index": 1,
+   "page": 4,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-001.webp",
+   "caption": "",
+   "thumb": "thumb-001.webp"
+  },
+  {
+   "index": 2,
+   "page": 11,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-002.webp",
+   "caption": "",
+   "thumb": "thumb-002.webp"
+  },
+  {
+   "index": 3,
+   "page": 12,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-003.webp",
+   "caption": "",
+   "thumb": "thumb-003.webp"
+  },
+  {
+   "index": 4,
+   "page": 13,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-004.webp",
+   "caption": "",
+   "thumb": "thumb-004.webp"
+  },
+  {
+   "index": 5,
+   "page": 14,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-005.webp",
+   "caption": "",
+   "thumb": "thumb-005.webp"
+  },
+  {
+   "index": 6,
+   "page": 15,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-006.webp",
+   "caption": "",
+   "thumb": "thumb-006.webp"
+  },
+  {
+   "index": 7,
+   "page": 16,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-007.webp",
+   "caption": "",
+   "thumb": "thumb-007.webp"
+  },
+  {
+   "index": 8,
+   "page": 17,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-008.webp",
+   "caption": "",
+   "thumb": "thumb-008.webp"
+  },
+  {
+   "index": 9,
+   "page": 18,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-009.webp",
+   "caption": "",
+   "thumb": "thumb-009.webp"
+  },
+  {
+   "index": 10,
+   "page": 19,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-010.webp",
+   "caption": "",
+   "thumb": "thumb-010.webp"
+  },
+  {
+   "index": 11,
+   "page": 20,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-011.webp",
+   "caption": "",
+   "thumb": "thumb-011.webp"
+  },
+  {
+   "index": 12,
+   "page": 21,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-012.webp",
+   "caption": "",
+   "thumb": "thumb-012.webp"
+  },
+  {
+   "index": 13,
+   "page": 22,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-013.webp",
+   "caption": "",
+   "thumb": "thumb-013.webp"
+  },
+  {
+   "index": 14,
+   "page": 23,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-014.webp",
+   "caption": "",
+   "thumb": "thumb-014.webp"
+  },
+  {
+   "index": 15,
+   "page": 24,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-015.webp",
+   "caption": "",
+   "thumb": "thumb-015.webp"
+  },
+  {
+   "index": 16,
+   "page": 25,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-016.webp",
+   "caption": "",
+   "thumb": "thumb-016.webp"
+  },
+  {
+   "index": 17,
+   "page": 26,
+   "width": 604,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-017.webp",
+   "caption": "",
+   "thumb": "thumb-017.webp"
+  },
+  {
+   "index": 18,
+   "page": 27,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-018.webp",
+   "caption": "",
+   "thumb": "thumb-018.webp"
+  },
+  {
+   "index": 19,
+   "page": 28,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-019.webp",
+   "caption": "",
+   "thumb": "thumb-019.webp"
+  },
+  {
+   "index": 20,
+   "page": 29,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-020.webp",
+   "caption": "",
+   "thumb": "thumb-020.webp"
+  },
+  {
+   "index": 21,
+   "page": 30,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-021.webp",
+   "caption": "",
+   "thumb": "thumb-021.webp"
+  },
+  {
+   "index": 22,
+   "page": 31,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-022.webp",
+   "caption": "",
+   "thumb": "thumb-022.webp"
+  },
+  {
+   "index": 23,
+   "page": 32,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-023.webp",
+   "caption": "",
+   "thumb": "thumb-023.webp"
+  },
+  {
+   "index": 24,
+   "page": 33,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-024.webp",
+   "caption": "",
+   "thumb": "thumb-024.webp"
+  },
+  {
+   "index": 25,
+   "page": 34,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-025.webp",
+   "caption": "",
+   "thumb": "thumb-025.webp"
+  },
+  {
+   "index": 26,
+   "page": 35,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-026.webp",
+   "caption": "",
+   "thumb": "thumb-026.webp"
+  },
+  {
+   "index": 27,
+   "page": 36,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-027.webp",
+   "caption": "",
+   "thumb": "thumb-027.webp"
+  },
+  {
+   "index": 28,
+   "page": 37,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-028.webp",
+   "caption": "",
+   "thumb": "thumb-028.webp"
+  },
+  {
+   "index": 29,
+   "page": 38,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-029.webp",
+   "caption": "",
+   "thumb": "thumb-029.webp"
+  },
+  {
+   "index": 30,
+   "page": 39,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-030.webp",
+   "caption": "",
+   "thumb": "thumb-030.webp"
+  },
+  {
+   "index": 31,
+   "page": 40,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-031.webp",
+   "caption": "",
+   "thumb": "thumb-031.webp"
+  },
+  {
+   "index": 32,
+   "page": 41,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-032.webp",
+   "caption": "",
+   "thumb": "thumb-032.webp"
+  },
+  {
+   "index": 33,
+   "page": 42,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-033.webp",
+   "caption": "",
+   "thumb": "thumb-033.webp"
+  },
+  {
+   "index": 34,
+   "page": 43,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-034.webp",
+   "caption": "",
+   "thumb": "thumb-034.webp"
+  },
+  {
+   "index": 35,
+   "page": 44,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-035.webp",
+   "caption": "",
+   "thumb": "thumb-035.webp"
+  },
+  {
+   "index": 36,
+   "page": 45,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-036.webp",
+   "caption": "",
+   "thumb": "thumb-036.webp"
+  },
+  {
+   "index": 37,
+   "page": 46,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-037.webp",
+   "caption": "",
+   "thumb": "thumb-037.webp"
+  },
+  {
+   "index": 38,
+   "page": 47,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-038.webp",
+   "caption": "",
+   "thumb": "thumb-038.webp"
+  },
+  {
+   "index": 39,
+   "page": 48,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-039.webp",
+   "caption": "",
+   "thumb": "thumb-039.webp"
+  },
+  {
+   "index": 40,
+   "page": 49,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-040.webp",
+   "caption": "",
+   "thumb": "thumb-040.webp"
+  },
+  {
+   "index": 41,
+   "page": 50,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-041.webp",
+   "caption": "",
+   "thumb": "thumb-041.webp"
+  },
+  {
+   "index": 42,
+   "page": 51,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-042.webp",
+   "caption": "",
+   "thumb": "thumb-042.webp"
+  },
+  {
+   "index": 43,
+   "page": 52,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-043.webp",
+   "caption": "",
+   "thumb": "thumb-043.webp"
+  },
+  {
+   "index": 44,
+   "page": 53,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-044.webp",
+   "caption": "",
+   "thumb": "thumb-044.webp"
+  },
+  {
+   "index": 45,
+   "page": 54,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-045.webp",
+   "caption": "",
+   "thumb": "thumb-045.webp"
+  },
+  {
+   "index": 46,
+   "page": 55,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-046.webp",
+   "caption": "",
+   "thumb": "thumb-046.webp"
+  },
+  {
+   "index": 47,
+   "page": 56,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-047.webp",
+   "caption": "",
+   "thumb": "thumb-047.webp"
+  },
+  {
+   "index": 48,
+   "page": 57,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-048.webp",
+   "caption": "",
+   "thumb": "thumb-048.webp"
+  },
+  {
+   "index": 49,
+   "page": 58,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-049.webp",
+   "caption": "",
+   "thumb": "thumb-049.webp"
+  },
+  {
+   "index": 50,
+   "page": 59,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-050.webp",
+   "caption": "",
+   "thumb": "thumb-050.webp"
+  },
+  {
+   "index": 51,
+   "page": 60,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-051.webp",
+   "caption": "",
+   "thumb": "thumb-051.webp"
+  },
+  {
+   "index": 52,
+   "page": 61,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-052.webp",
+   "caption": "",
+   "thumb": "thumb-052.webp"
+  },
+  {
+   "index": 53,
+   "page": 62,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-053.webp",
+   "caption": "",
+   "thumb": "thumb-053.webp"
+  },
+  {
+   "index": 54,
+   "page": 63,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-054.webp",
+   "caption": "",
+   "thumb": "thumb-054.webp"
+  },
+  {
+   "index": 55,
+   "page": 64,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-055.webp",
+   "caption": "",
+   "thumb": "thumb-055.webp"
+  },
+  {
+   "index": 56,
+   "page": 65,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-056.webp",
+   "caption": "",
+   "thumb": "thumb-056.webp"
+  },
+  {
+   "index": 57,
+   "page": 66,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-057.webp",
+   "caption": "",
+   "thumb": "thumb-057.webp"
+  },
+  {
+   "index": 58,
+   "page": 67,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-058.webp",
+   "caption": "",
+   "thumb": "thumb-058.webp"
+  },
+  {
+   "index": 59,
+   "page": 68,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-059.webp",
+   "caption": "",
+   "thumb": "thumb-059.webp"
+  },
+  {
+   "index": 60,
+   "page": 69,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-060.webp",
+   "caption": "",
+   "thumb": "thumb-060.webp"
+  },
+  {
+   "index": 61,
+   "page": 70,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-061.webp",
+   "caption": "",
+   "thumb": "thumb-061.webp"
+  },
+  {
+   "index": 62,
+   "page": 71,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-062.webp",
+   "caption": "",
+   "thumb": "thumb-062.webp"
+  },
+  {
+   "index": 63,
+   "page": 72,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-063.webp",
+   "caption": "",
+   "thumb": "thumb-063.webp"
+  },
+  {
+   "index": 64,
+   "page": 73,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-064.webp",
+   "caption": "",
+   "thumb": "thumb-064.webp"
+  },
+  {
+   "index": 65,
+   "page": 74,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-065.webp",
+   "caption": "",
+   "thumb": "thumb-065.webp"
+  },
+  {
+   "index": 66,
+   "page": 75,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-066.webp",
+   "caption": "",
+   "thumb": "thumb-066.webp"
+  },
+  {
+   "index": 67,
+   "page": 76,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-067.webp",
+   "caption": "",
+   "thumb": "thumb-067.webp"
+  },
+  {
+   "index": 68,
+   "page": 77,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-068.webp",
+   "caption": "Explore maintenance, repair and inspection services here.",
+   "thumb": "thumb-068.webp"
+  }
+ ],
+ "pages": 78,
+ "source": "layout",
+ "summary": {
+  "pass": 79,
+  "fail": 0,
+  "attention": 3,
+  "na": 0,
+  "unknown": 0,
+  "total": 82
+ }
+}

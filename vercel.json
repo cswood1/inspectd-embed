@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/job/(.*)", "destination": "/index.html" },
+    { "source": "/r/(.*)", "destination": "/index.html" },
+    { "source": "/inspect/(.*)", "destination": "/index.html" }
+  ]
+}

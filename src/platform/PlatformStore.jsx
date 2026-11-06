@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { buildSeed, lookupFor, PORTAL, SEED_VERSION, jobRef } from "./seed.js";
 import { createAuth, ApiError } from "./authServer.js";
+import { createPortal } from "./portalServer.js";
 
 export { ApiError };
 
@@ -235,6 +236,22 @@ export function PlatformStoreProvider({ children }){
     };
   }, [commit]);
 
+  // the client portal's server (portalServer.js). A request it creates starts its lookup by itself,
+  // as portal.py does when the agent is on: the same simulated lookup the console's Fulfill runs.
+  const portal = useMemo(() => {
+    const read = name => (...args) => createPortal(live.current)[name](...args);
+    const write = name => (...args) => { const { state: next, out } = createPortal(live.current)[name](...args); commit(() => next); return out; };
+    return {
+      me: read("me"), reports: read("reports"), listJobs: read("listJobs"), getJob: read("getJob"),
+      report: read("report"), reportOrg: read("reportOrg"), shared: read("shared"), team: read("team"), inspection: read("inspection"),
+      chooseWorkspace: write("chooseWorkspace"), cancelJob: write("cancelJob"), deleteReport: write("deleteReport"),
+      teamWrite: (name, ...args) => write("teamWrite")(name, ...args), rename: write("rename"),
+      claim: write("claim"), reject: write("reject"),
+      createJob: body => { const out = write("createJob")(body); fulfill(out.id); return out; },
+      createBulk: body => { const out = write("createBulk")(body); out.created.forEach(r => fulfill(r.id)); return out; },
+    };
+  }, [commit, fulfill]);
+
   const reset = useCallback(() => {
     for (const t of timers.current.values()) clearTimeout(t);
     timers.current.clear();
@@ -244,8 +261,8 @@ export function PlatformStoreProvider({ children }){
 
   const value = useMemo(() => ({
     rows: state.rows, orgs: state.orgs, users: state.users, me: state.users.find(u => u.id === state.meId), meta: state.meta, seededAt: state.seededAt,
-    setRows, fulfill, reset, api, auth,
-  }), [state, setRows, fulfill, reset, api, auth]);
+    setRows, fulfill, reset, api, auth, portal,
+  }), [state, setRows, fulfill, reset, api, auth, portal]);
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 

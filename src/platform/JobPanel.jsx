@@ -224,7 +224,7 @@ export function JobPanel({ row: r, rows, open, closed, onClose, onOpen, onViewAl
       {b?.note ? <div className="note">{b.note}</div> : null}
       <div className="reprow">{rep?.id
         ? <><Icon name="doc" size={14} /><b>Report received</b>{rep.shop?.name ? <>{" "}<span className="sub">{`from ${rep.shop.name}`}</span></> : null}{" "}<span className="sub">{`${fmt(rep.at)}${rep.filename ? ` · ${rep.filename}` : ""}`}</span>
-            <a className="btn sm" href={`${PORTAL}/reports/${rep.id}`} target="_blank" rel="noopener" onClick={e => { stay(e); onOpenPortal(); }}>Open</a></>
+            <a className="btn sm" href={`${PORTAL}/reports/${rep.id}`} target="_blank" rel="noopener" onClick={e => { stay(e); onOpenPortal(`/reports/${rep.id}`, {report: rep.id}); }}>Open</a></>
         : <><Icon name="doc" size={14} /><span className="sub">No report yet</span></>}</div>
     </>);
   };

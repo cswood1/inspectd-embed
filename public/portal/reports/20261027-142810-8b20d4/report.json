@@ -1,0 +1,941 @@
+{
+ "id": "20261027-142810-8b20d4",
+ "filename": "Chevrolet_240702_inspection.pdf",
+ "uploaded_at": "2026-11-06T03:15:28+00:00",
+ "size": 8303380,
+ "llm_error": "",
+ "scanned": false,
+ "vehicle": {
+  "vin": "1G1ZG5STXRF240702",
+  "year": "2024",
+  "make": "Chevrolet",
+  "model": "Malibu",
+  "mileage": "20612",
+  "color": "White",
+  "interior_color": "Black",
+  "interior_material": "Cloth",
+  "engine": "4 Cylinder",
+  "transmission": "Automatic",
+  "drivetrain": "Front Wheel Drive",
+  "fuel": "Gas"
+ },
+ "inspection": {
+  "report_id": "20261027-142810-8b20d4",
+  "date": "2025-08-11",
+  "location": "Concan, TX, 78838",
+  "customer": "Meridian Fleet Services"
+ },
+ "findings": [
+  {
+   "item": "Road Test",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Yes"
+  },
+  {
+   "item": "Engine Starting Easily",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine running well after Started",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Transmission performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Wheel Bearing Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Braking Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Suspension Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Steering Performance and Alignment",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Tire Pressure System (TPMS)",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Computer Diagnosis/OBD2",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Back-Up Camera",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Wiper Blades",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Windshield Washer",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Body Panel Alignment",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Scratches",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Paint Condition",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Seals",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Rust",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Exterior Lights",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Door Mirrors",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Bumpers",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Side Moldings",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Underbody/Frame Condition",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Glass",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dings",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dents",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Steering Wheel",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Horn",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cruise Control",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Seat Condition",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Seat Belts",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Clock",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radio/Navigation/DVD",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Inner Door Panels",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "Mild scuffing on the left front door most likely from pushing the door open with one&rsquo;s foot. I think a good cleaning and PDI would take care of the dirt.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Power Locks",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Window Switches",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Center Console",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dash",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dash Lights Working",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Air Conditioning",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Heater",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Rear Defroster",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Carpet",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Floor Mats",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Signs of Smoking?",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cup Holders",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Headliner",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Blower Motor",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Instrument Cluster/Gauges",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Unusual Odors",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Window Function",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Interior Trim",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Sun Visors",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Air Filter",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Battery Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Charging System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cooling Fan Condition Mechanical/Electronic",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radiator Cap Sealing Properly",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Hoses and Clamps Age/Cracking",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radiator Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Coolant Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Coolant Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Belts",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Steering System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine Oil Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine Oil Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Transmission Fluid Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Brake System Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Brake Fluid Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Muffler System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "CV Boots and Joints",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Shocks and bushings Condition. Leaking?",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Ball Joints and Tie Rods",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Key Fob",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Spare Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "",
+   "page": null,
+   "raw_status": "Yes"
+  },
+  {
+   "item": "Driver's Front Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Continental 245/45R18, 8/32 tread, wheel: Curb Rash",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Passenger's Front Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Continental 245/45R18, 8/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Driver's 1st Axle Outer Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Continental 245/45R18, 8/32 tread, wheel: Curb Rash",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Passenger's 1st Axle Outer Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Continental 245/45R18, 8/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  }
+ ],
+ "notes": [],
+ "ratings": [
+  {
+   "name": "NAAA Paint & Body Rating",
+   "value": "4.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Interior Rating",
+   "value": "4.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Frame/Unibody Rating",
+   "value": "4.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Mechanical Rating",
+   "value": "4.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Tires Rating",
+   "value": "3.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Rating",
+   "value": "4.4",
+   "scale": "5"
+  }
+ ],
+ "summaries": [
+  {
+   "section": "Exterior",
+   "text": "The vehicles exterior looks good. The panels align properly. the glass is intact. The left front and rear wheels show curb rash."
+  },
+  {
+   "section": "Interior",
+   "text": "Mild scuffing on the left front door most likely from pushing the door open with one&rsquo;s foot. I think a good cleaning and PDI would take care of the dirt."
+  },
+  {
+   "section": "Road test",
+   "text": "The engine starts, runs and idles. The test drive was taken. It lasted 6 miles at speeds up to 70 mph no fluid leaks."
+  }
+ ],
+ "images": [
+  {
+   "index": 1,
+   "page": 4,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-001.webp",
+   "caption": "",
+   "thumb": "thumb-001.webp"
+  },
+  {
+   "index": 2,
+   "page": 9,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-002.webp",
+   "caption": "",
+   "thumb": "thumb-002.webp"
+  },
+  {
+   "index": 3,
+   "page": 10,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-003.webp",
+   "caption": "",
+   "thumb": "thumb-003.webp"
+  },
+  {
+   "index": 4,
+   "page": 11,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-004.webp",
+   "caption": "",
+   "thumb": "thumb-004.webp"
+  },
+  {
+   "index": 5,
+   "page": 12,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-005.webp",
+   "caption": "",
+   "thumb": "thumb-005.webp"
+  },
+  {
+   "index": 6,
+   "page": 13,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-006.webp",
+   "caption": "",
+   "thumb": "thumb-006.webp"
+  },
+  {
+   "index": 7,
+   "page": 14,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-007.webp",
+   "caption": "",
+   "thumb": "thumb-007.webp"
+  },
+  {
+   "index": 8,
+   "page": 15,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-008.webp",
+   "caption": "",
+   "thumb": "thumb-008.webp"
+  },
+  {
+   "index": 9,
+   "page": 16,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-009.webp",
+   "caption": "",
+   "thumb": "thumb-009.webp"
+  },
+  {
+   "index": 10,
+   "page": 17,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-010.webp",
+   "caption": "",
+   "thumb": "thumb-010.webp"
+  },
+  {
+   "index": 11,
+   "page": 18,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-011.webp",
+   "caption": "",
+   "thumb": "thumb-011.webp"
+  },
+  {
+   "index": 12,
+   "page": 19,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-012.webp",
+   "caption": "",
+   "thumb": "thumb-012.webp"
+  },
+  {
+   "index": 13,
+   "page": 20,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-013.webp",
+   "caption": "",
+   "thumb": "thumb-013.webp"
+  },
+  {
+   "index": 14,
+   "page": 21,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-014.webp",
+   "caption": "",
+   "thumb": "thumb-014.webp"
+  },
+  {
+   "index": 15,
+   "page": 22,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-015.webp",
+   "caption": "",
+   "thumb": "thumb-015.webp"
+  },
+  {
+   "index": 16,
+   "page": 23,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-016.webp",
+   "caption": "",
+   "thumb": "thumb-016.webp"
+  },
+  {
+   "index": 17,
+   "page": 24,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-017.webp",
+   "caption": "",
+   "thumb": "thumb-017.webp"
+  },
+  {
+   "index": 18,
+   "page": 25,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-018.webp",
+   "caption": "",
+   "thumb": "thumb-018.webp"
+  },
+  {
+   "index": 19,
+   "page": 26,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-019.webp",
+   "caption": "",
+   "thumb": "thumb-019.webp"
+  },
+  {
+   "index": 20,
+   "page": 27,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-020.webp",
+   "caption": "",
+   "thumb": "thumb-020.webp"
+  },
+  {
+   "index": 21,
+   "page": 28,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-021.webp",
+   "caption": "",
+   "thumb": "thumb-021.webp"
+  },
+  {
+   "index": 22,
+   "page": 29,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-022.webp",
+   "caption": "Explore maintenance, repair and inspection services here.",
+   "thumb": "thumb-022.webp"
+  }
+ ],
+ "pages": 30,
+ "source": "layout",
+ "summary": {
+  "pass": 78,
+  "fail": 0,
+  "attention": 1,
+  "na": 0,
+  "unknown": 0,
+  "total": 79
+ }
+}

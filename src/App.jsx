@@ -10,7 +10,7 @@ import { EnterprisePortal } from "./EnterprisePortal.jsx";
 import { ProviderPortal } from "./ProviderPortal.jsx";
 import { InternalRequests } from "./InternalRequests.jsx";
 import { Console } from "./platform/Console.jsx";
-import { ClientPortal } from "./platform/ClientPortal.jsx";
+import { ClientPortal, portalAt } from "./platform/ClientPortal.jsx";
 import { gridBg } from "./AccessGate.jsx";
 
 /* ---- routing model --------------------------------------------- */
@@ -241,8 +241,8 @@ export default function App() {
       <div className="relative flex-1 overflow-hidden">
         <div className="h-full overflow-auto">
           {view === "home" && <Homepage onGo={go} />}
-          {view === "platform-ops" && <Console onOpenPortal={() => go("platform-portal")} onExit={() => go("home")} />}
-          {view === "platform-portal" && <ClientPortal />}
+          {view === "platform-ops" && <Console onOpenPortal={(path, opts) => { if (path) portalAt(path, opts); go("platform-portal"); }} onExit={() => go("home")} />}
+          {view === "platform-portal" && <ClientPortal onExit={() => go("home")} />}
           {view === "platform-enterprise" && <EnterprisePortal onExit={() => go("home")} />}
           {view === "platform-provider" && <ProviderPortal onExit={() => go("home")} />}
           {view === "platform-internal" && <InternalRequests />}
