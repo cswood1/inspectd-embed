@@ -6,7 +6,8 @@
  * for a bulk upload, the per-row errors.
  */
 import { ApiError, createAuth } from "./authServer.js";
-import { PROVIDER_TERMS_VERSION, jobRef } from "./seed.js";
+import { PROVIDER_TERMS_VERSION, jobRef, payoutAt } from "./seed.js";
+import { INSPECTION_TYPES, VEHICLE_CLASSES, classifyInspection, classifyClass, inspectionLabel, classLabel, subtypesOf } from "./jobModel.js";
 import { vinCheck } from "./vin.js";
 
 const nowIso = () => new Date().toISOString().replace(/\.\d{3}Z$/, "+00:00");
@@ -18,20 +19,11 @@ export const STAGES = ["received", "dispatching", "confirmed", "complete", "canc
 const STAGE_LABELS = {received: "Received", dispatching: "Dispatching", confirmed: "Confirmed", complete: "Complete", canceled: "Canceled"};
 const ROLE_LABEL = {OWNER: "Owner", ADMIN: "Admin", USER: "User", SUPER: "Inspectd team"};
 
-/* ---- the taxonomy and the form (common/taxonomy.py, requests/store.py) ---- */
+/* ---- the taxonomy and the form (jobModel.js; requests/store.py) ---- */
 
-export const INSPECTION_TYPES = ["pre-purchase", "lease-end", "warranty", "auction-listing", "auction-arbitration", "other"];
-// what the request store accepts: the current types and the consumer-era ones still on old rows
-const STORE_TYPES = ["pre-purchase", "lease-end", "warranty", "auction-listing", "auction-arbitration", "state-safety", "emissions", "general", "other"];
-export const DESIGNATIONS = ["standard", "high-end", "exotic", "classic", "ev"];
-const TYPE_ALIASES = {"pre purchase": "pre-purchase", prepurchase: "pre-purchase", ppi: "pre-purchase", "lease end": "lease-end", "lease-return": "lease-end",
-  "lease return": "lease-end", auction: "auction-listing", listing: "auction-listing", arbitration: "auction-arbitration", "auction arbitration": "auction-arbitration", "auction listing": "auction-listing"};
-const DESIG_ALIASES = {"high end": "high-end", highend: "high-end", luxury: "high-end", electric: "ev", "e.v.": "ev", std: "standard", normal: "standard", regular: "standard"};
-const norm = v => String(v ?? "").trim().toLowerCase().replace(/_/g, " ").replace(/-/g, " ").split(/\s+/).filter(Boolean).join(" ");
-const normalizeType = v => { const n = norm(v); if (!n) return null; const h = n.replace(/ /g, "-"); return INSPECTION_TYPES.includes(h) ? h : TYPE_ALIASES[n] || null; };
-const normalizeDesig = v => { const n = norm(v); if (!n) return "standard"; const h = n.replace(/ /g, "-"); return DESIGNATIONS.includes(h) ? h : DESIG_ALIASES[n] || null; };
+const TYPE_KEYS = INSPECTION_TYPES.map(([k]) => k), CLASS_KEYS = VEHICLE_CLASSES.map(([k]) => k);
 
-const FIELDS = ["name", "email", "phone", "year", "make", "model", "vin", "inspection_type", "designation", "address", "city", "state", "zip", "notes"];
+const FIELDS = ["name", "email", "phone", "year", "make", "model", "vin", "vehicle_class", "inspection_type", "inspection_subtype", "address", "city", "state", "zip", "notes"];
 const REQUIRED = ["name", "email", "address", "city", "state", "zip", "inspection_type"];
 const ZIP = /^\d{5}(-\d{4})?$/;
 // store.validate_form: the form as it is kept, or the fields that are missing or invalid
@@ -41,10 +33,10 @@ function validateForm(form){
   const problems = REQUIRED.filter(k => !c[k]);
   if (c.zip && !ZIP.test(c.zip)) problems.push("zip");
   if (c.email && !c.email.includes("@")) problems.push("email");
-  c.inspection_type = c.inspection_type.toLowerCase();
-  if (c.inspection_type && !STORE_TYPES.includes(c.inspection_type)) problems.push("inspection_type");
-  c.designation = c.designation.toLowerCase().replace(/ /g, "-").replace(/_/g, "-");
-  if (c.designation && !DESIGNATIONS.includes(c.designation)) problems.push("designation");
+  if (c.inspection_type && !TYPE_KEYS.includes(c.inspection_type)) problems.push("inspection_type");
+  if (c.inspection_subtype && !subtypesOf(c.inspection_type).some(([k]) => k === c.inspection_subtype)) problems.push("inspection_subtype");
+  c.inspection_subtype = c.inspection_subtype || null;
+  if (!CLASS_KEYS.includes(c.vehicle_class)) problems.push("vehicle_class");
   if (problems.length) throw new ApiError("Missing or invalid: " + [...new Set(problems)].join(", "));
   return c;
 }
@@ -59,13 +51,14 @@ function intakeProblem(row, defaults = null){
   const all = [...missing, ...contact];
   return all.length ? "Missing or invalid: " + all.join(", ") : null;
 }
-// jobs_service._classify: canonical type and designation, or what is wrong
+// jobs_service._classify: canonical type, subtype and vehicle class, or what is wrong. The old type names and
+// "designation" are still read, so older lists import.
 function classify(row){
-  const t = normalizeType(row.inspection_type || "pre-purchase");
-  if (!t) return `Unknown inspection type '${row.inspection_type}' (use one of: ${INSPECTION_TYPES.join(", ")})`;
-  const d = normalizeDesig(row.designation);
-  if (!d) return `Unknown designation '${row.designation}' (use one of: ${DESIGNATIONS.join(", ")})`;
-  row.inspection_type = t; row.designation = d;
+  const t = classifyInspection(row.inspection_type, row.inspection_subtype);
+  if (!t) return `Unknown inspection type '${[row.inspection_type, row.inspection_subtype].filter(Boolean).join(" / ")}' (use one of: ${TYPE_KEYS.join(", ")}, with a subtype where it has one)`;
+  const c = classifyClass(row.vehicle_class || row.designation);
+  if (!c) return `Unknown vehicle class '${row.vehicle_class || row.designation}' (use one of: ${CLASS_KEYS.join(", ")})`;
+  Object.assign(row, t); row.vehicle_class = c; delete row.designation;
   return null;
 }
 
@@ -73,17 +66,31 @@ function classify(row){
 
 const shopCard = s => s && (s.name || "").trim() ? Object.fromEntries(["name", "phone", "email", "address", "website", "hours"].map(k => [k, String(s[k] || "")])) : null;
 const STAGE_ORDER = ["received", "dispatching", "confirmed", "complete", "canceled"];
+/**
+ * The stage a customer sees for a job's status. A New job is still "Received" until providers are being found
+ * for it; from then on, and while its link is live, it is "Dispatching". Claimed reads as "Confirmed".
+ */
+export function portalStage(r){
+  if (r.status === "new") return r.search ? "dispatching" : "received";
+  return {dispatching: "dispatching", claimed: "confirmed", complete: "complete", canceled: "canceled"}[r.status] || "received";
+}
+const HISTORY_STAGE = {new: "received", dispatching: "dispatching", claimed: "confirmed", complete: "complete", canceled: "canceled"};
 function historyOf(r){
-  const meta = r.meta || {}, seen = {};
-  for (const h of meta.history || []) if (h.stage && h.at) seen[h.stage] = h.at;
+  const meta = r.meta || {}, seen = {}, stage = portalStage(r);
+  for (const h of meta.history || []) { const s = HISTORY_STAGE[h.stage]; if (s && h.at) seen[s] = h.at; }
   seen.received ??= r.created_at;
-  if ((r.status === "confirmed" || r.status === "complete") && !seen.confirmed) {
+  // dispatching began when providers were first looked for, or when the link went live, whichever came first
+  const started = r.search?.started_at;
+  if (started && stage !== "received" && (!seen.dispatching || started < seen.dispatching)) seen.dispatching = started;
+  if ((stage === "confirmed" || stage === "complete") && !seen.confirmed) {
     const claim = meta.inspect?.claim || {}, at = meta.booking?.booked_at || (claim.status === "claimed" ? claim.at : null);
     if (at) seen.confirmed = at;
   }
-  if (r.status === "complete" && !seen.complete && meta.report?.at) seen.complete = meta.report.at;
-  if (r.status === "canceled" && !seen.canceled && meta.canceled?.at) seen.canceled = meta.canceled.at;
-  return STAGE_ORDER.filter(s => seen[s]).map(s => ({stage: s, at: seen[s]}));
+  if (stage === "complete" && !seen.complete && meta.report?.at) seen.complete = meta.report.at;
+  if (stage === "canceled" && !seen.canceled && meta.canceled?.at) seen.canceled = meta.canceled.at;
+  // only the stages up to where the job is now (a reset job starts over)
+  const upto = stage === "canceled" ? STAGE_ORDER : STAGE_ORDER.slice(0, STAGE_ORDER.indexOf(stage) + 1);
+  return upto.filter(s => seen[s]).map(s => ({stage: s, at: seen[s]}));
 }
 // views.booked_provider, of which the client keeps only the time
 function scheduledAt(r){
@@ -97,11 +104,12 @@ export function clientView(r, reports = []){
     const ours = reports.filter(x => x.request_id === r.id).sort((a, b) => (b.uploaded_at || "").localeCompare(a.uploaded_at || ""))[0];
     if (ours && (!r.org_id || r.org_id === ours.org_id)) report = {id: ours.id, at: ours.uploaded_at || "", filename: ours.filename || "", from_records: true};
   }
-  return {id: r.id, stage: r.status, stage_label: STAGE_LABELS[r.status], created_at: r.created_at, updated_at: r.updated_at, form: r.form,
-          org_id: r.org_id, user_id: r.user_id, shops_found: r.lookup === "done" ? shops.length : null, lookup_pending: r.lookup === "none" || r.lookup === "running",
+  const stage = portalStage(r);
+  return {id: r.id, stage, stage_label: STAGE_LABELS[stage], created_at: r.created_at, updated_at: r.updated_at, form: r.form,
+          org_id: r.org_id, user_id: r.user_id, shops_found: r.search?.state === "done" ? shops.length : null, lookup_pending: !r.search || r.search.state === "running",
           report, history: historyOf(r), can_cancel: canCancel(r), canceled: r.meta?.canceled || null, scheduled_at: scheduledAt(r)};
 }
-const canCancel = r => ["received", "dispatching"].includes(r.status) && !r.meta?.report?.id;
+const canCancel = r => ["new", "dispatching"].includes(r.status) && !r.meta?.report?.id;
 
 /* ---- the portal server ---------------------------------------------------- */
 
@@ -129,7 +137,8 @@ export function createPortal(state){
     return doc;
   };
   const recipient = r => ((r.user_id && state.users.find(u => u.id === r.user_id)?.email) || r.form?.email || "").trim();
-  const byToken = token => { const r = token && state.rows.find(x => x.meta?.inspect?.token === token); if (!r) throw fail(404, "This link is not valid. Ask your contact for a new one."); return r; };
+  // a link turned off (a reset job's old link) is no longer valid
+  const byToken = token => { const r = token && state.rows.find(x => x.meta?.inspect?.token === token && !x.meta.inspect.off_at); if (!r) throw fail(404, "This link is not valid. Ask your contact for a new one."); return r; };
   const linkClaim = r => r.meta?.inspect?.token ? (r.meta.inspect.claim || {status: "offered", at: r.meta.inspect.made_at || ""}) : null;
   // booking._instance: what the page behind the link may see; the customer stays anonymous to the provider
   const instance = r => {
@@ -139,13 +148,14 @@ export function createPortal(state){
     return {request_id: r.id, status: r.status, shop, site: Object.values(site).some(Boolean) ? site : null, title_status: rv.title_status || "", damage: rv.damage || [],
             mileage: rv.mileage ?? null, seller: rv.seller || "", claim: linkClaim(r) || {status: "offered"},
             vehicle: [f.year, f.make, f.model].filter(Boolean).join(" ") || "the vehicle", vin: f.vin || "", year: f.year || "", make: f.make || "", model: f.model || "",
-            inspection_type: f.inspection_type, designation: f.designation || "", location: [f.address, f.city, f.state, f.zip].filter(Boolean).join(", "),
+            inspection_type: f.inspection_type, inspection_subtype: f.inspection_subtype || "", inspection: inspectionLabel(f),
+            vehicle_class: f.vehicle_class || "standard", vehicle_class_label: classLabel(f.vehicle_class || "standard"), payout_cents: r.payout_cents ?? null, location: [f.address, f.city, f.state, f.zip].filter(Boolean).join(", "),
             onsite: {phone: f.phone || "", note: b.note || ""}, contact_phone: f.phone || "", scheduled_at: b.scheduled_at || "", provider: shop?.name || "",
             note: b.note || "", report_id: rep.id || "", uploaded_at: rep.at || "",
             terms: {url: "", version: PROVIDER_TERMS_VERSION, summary: "By claiming this job you agree to the Inspectd provider terms, including that Inspectd may keep, alter, own and freely use the completed report."}};
   };
-  const newRow = (form, org, ts, meta) => ({id: hex(12), created_at: ts, updated_at: ts, status: "received", lookup: "none", error: null, notes: "",
-    form, result: null, meta, org_id: org.id, user_id: me.id, org: {id: org.id, name: org.name}, partner: null, inspect_url: null, inspect_shop: null, inspect_claim: null});
+  const newRow = (form, org, ts, meta) => ({id: hex(12), created_at: ts, updated_at: ts, status: "new", search: null, notes: "",
+    payout_cents: payoutAt(form.zip, form.vehicle_class), form, result: null, meta, org_id: org.id, user_id: me.id, org: {id: org.id, name: org.name}, partner: null, inspect_url: null, inspect_shop: null, inspect_claim: null});
 
   return {
     // GET /api/me
@@ -219,7 +229,7 @@ export function createPortal(state){
       if (r.status === "complete" && (Date.now() - Date.parse(r.meta?.report?.at || "")) / 864e5 > 14) throw fail(410, "This job is closed. Contact Inspectd if you need anything about it.");
       return instance(r);
     },
-    // POST /api/inspect/{token}/claim: the provider takes the job and accepts the terms; a claimed job is confirmed
+    // POST /api/inspect/{token}/claim: the provider takes the job and accepts the terms; the job is Claimed
     claim(token, acceptTerms){
       const r = byToken(token);
       if (r.status === "canceled") throw fail(409, "This job was canceled");
@@ -228,7 +238,7 @@ export function createPortal(state){
       if (current.status === "rejected") throw fail(409, "This job was declined from this link. Ask your contact for a new one.");
       if (!acceptTerms) throw fail(422, "Accept the terms to claim this job");
       const at = nowIso(), claim = {status: "claimed", at, terms: {version: PROVIDER_TERMS_VERSION, accepted_at: at}};
-      const status = ["received", "dispatching"].includes(r.status) ? "confirmed" : r.status;
+      const status = ["new", "dispatching"].includes(r.status) ? "claimed" : r.status;
       let meta = {...r.meta, inspect: {...(r.meta.inspect || {}), claim}};
       if (status !== r.status) {   // the business is told an inspector is scheduled (client.status_changed)
         meta.history = [...(r.meta.history || []), {stage: status, at}];
@@ -238,7 +248,8 @@ export function createPortal(state){
       const next = {...r, status, updated_at: at, meta, inspect_claim: claim};
       return {state: withState({rows: state.rows.map(x => x.id === r.id ? next : x)}), out: {ok: true, claim, status}};
     },
-    // POST /api/inspect/{token}/reject: the provider passes; the job itself is unchanged
+    // POST /api/inspect/{token}/reject: the provider passes and says why. The job itself is unchanged: its link stays
+    // live for other providers and the status stays as it was (open dispatch; see docs/platform/decisions.md)
     reject(token, reason = ""){
       const r = byToken(token);
       if ((linkClaim(r) || {}).status === "claimed") throw fail(409, "This job is already claimed from this link");
@@ -314,7 +325,7 @@ export function createPortal(state){
       const r = state.rows.find(x => x.id === id);
       if (!r || !r.org_id || !actorRole(r.org_id)) throw fail(404, "No such job");
       if (r.status === "canceled") return {state, out: {...clientView(r, state.reports), already: true}};
-      if (!["received", "dispatching"].includes(r.status)) throw fail(409, "An inspector has already been booked for this job; ask Inspectd to cancel it");
+      if (!["new", "dispatching"].includes(r.status)) throw fail(409, "An inspector has already been booked for this job; ask Inspectd to cancel it");
       if (!canCancel(r)) throw fail(409, "An inspector is already booked for this request, so it can no longer be canceled here. Contact the Inspectd team and they will sort it out.");
       const at = nowIso(), canceled = {at, by: me.name || me.email, by_id: me.id, reason: String(reason || "").trim().slice(0, 300)};
       const next = {...r, status: "canceled", updated_at: at, meta: {...r.meta, canceled, history: [...(r.meta?.history || []), {stage: "canceled", at}]}};

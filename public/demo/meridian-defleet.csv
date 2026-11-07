@@ -1,13 +1,13 @@
-year,make,model,vin,inspection_type,designation,address,city,state,zip,notes,name,email,phone
-2023,Ford,Escape,1FMCU9G60PU431207,auction-listing,standard,3200 W Airport Fwy,Irving,TX,75038,"De-fleet batch 11-B. Row C, keys at the lot office.",Dana Whitfield,dana.whitfield@meridianfleet.com,(214) 555-0131
-2023,Toyota,Camry,4T1G11AKXPU284611,auction-listing,standard,3200 W Airport Fwy,Irving,TX,75038,"De-fleet batch 11-B. Row C, keys at the lot office.",Dana Whitfield,dana.whitfield@meridianfleet.com,(214) 555-0131
-2022,Chevrolet,Malibu,1G1ZD5ST6NF197320,auction-listing,standard,3200 W Airport Fwy,Irving,TX,75038,De-fleet batch 11-B. Row D.,Dana Whitfield,dana.whitfield@meridianfleet.com,(214) 555-0131
-2023,Chevrolet,Bolt EV,1G1FY6S02P4118954,lease-end,ev,6100 W Plano Pkwy,Plano,TX,75024,Charge to 80% before photos; cable in the trunk.,Dana Whitfield,dana.whitfield@meridianfleet.com,(214) 555-0131
-2023,Nissan,Sentra,3N1AB8CV1PY236745,auction-listing,standard,6100 W Plano Pkwy,Plano,TX,75024,,Dana Whitfield,dana.whitfield@meridianfleet.com,(214) 555-0131
-2024,Kia,Forte,3KPF24AD2RE305582,auction-listing,standard,6100 W Plano Pkwy,Plano,TX,75024,,Dana Whitfield,dana.whitfield@meridianfleet.com,(214) 555-0131
-2022,Jeep,Cherokee,1C4PJMDX8ND542019,lease-end,standard,180 Peachtree St NW,Atlanta,GA,30303,Lessee return. Small dent on the rear hatch noted at drop-off.,Luis Ortega,luis.ortega@meridianfleet.com,(404) 555-0147
-2023,Hyundai,Sonata,5NPEG4JA4PH387164,auction-listing,standard,180 Peachtree St NW,Atlanta,GA,30303,,Luis Ortega,luis.ortega@meridianfleet.com,(404) 555-0147
-2023,Nissan,Rogue,5N1BT3BB2PC412893,auction-listing,standard,180 Peachtree St NW,Atlanta,GA,30303,De-fleet batch 11-B. Level 2 of the garage.,Luis Ortega,luis.ortega@meridianfleet.com,(404) 555-0147
-2022,Kia,Soul,KNDJ23AU0N7463028,auction-listing,standard,800 Whitlock Ave NW,Marietta,GA,30060,,Luis Ortega,luis.ortega@meridianfleet.com,(404) 555-0147
-2023,Toyota,Highlander,5TDGZRBH2PS152476,lease-end,standard,800 Whitlock Ave NW,Marietta,GA,30060,Third-row seat latch reported sticky.,Luis Ortega,luis.ortega@meridianfleet.com,(404) 555-0147
-2022,Ford,Mustang,1FA6P8TH0N5268391,auction-listing,standard,800 Whitlock Ave NW,Marietta,GA,30060,,Luis Ortega,luis.ortega@meridianfleet.com,(404) 555-0147
+year,make,model,vin,vehicle_class,inspection_type,inspection_subtype,address,city,state,zip,notes,name,email,phone
+2023,Ford,Escape,1FMCU9G60PU431207,standard,condition,fleet,3200 W Airport Fwy,Irving,TX,75038,"De-fleet batch 11-B. Row C, keys at the lot office.",Dana Whitfield,dana.whitfield@meridianfleet.com,(214) 555-0131
+2023,Toyota,Camry,4T1G11AKXPU284611,standard,condition,fleet,3200 W Airport Fwy,Irving,TX,75038,"De-fleet batch 11-B. Row C, keys at the lot office.",Dana Whitfield,dana.whitfield@meridianfleet.com,(214) 555-0131
+2022,Chevrolet,Malibu,1G1ZD5ST6NF197320,standard,condition,fleet,3200 W Airport Fwy,Irving,TX,75038,De-fleet batch 11-B. Row D.,Dana Whitfield,dana.whitfield@meridianfleet.com,(214) 555-0131
+2023,Chevrolet,Bolt EV,1G1FY6S02P4118954,ev,condition,lease-return,6100 W Plano Pkwy,Plano,TX,75024,Charge to 80% before photos; cable in the trunk.,Dana Whitfield,dana.whitfield@meridianfleet.com,(214) 555-0131
+2023,Nissan,Sentra,3N1AB8CV1PY236745,standard,condition,fleet,6100 W Plano Pkwy,Plano,TX,75024,,Dana Whitfield,dana.whitfield@meridianfleet.com,(214) 555-0131
+2024,Kia,Forte,3KPF24AD2RE305582,standard,condition,fleet,6100 W Plano Pkwy,Plano,TX,75024,,Dana Whitfield,dana.whitfield@meridianfleet.com,(214) 555-0131
+2022,Jeep,Cherokee,1C4PJMDX8ND542019,standard,condition,lease-return,180 Peachtree St NW,Atlanta,GA,30303,Lessee return. Small dent on the rear hatch noted at drop-off.,Luis Ortega,luis.ortega@meridianfleet.com,(404) 555-0147
+2023,Hyundai,Sonata,5NPEG4JA4PH387164,standard,condition,fleet,180 Peachtree St NW,Atlanta,GA,30303,,Luis Ortega,luis.ortega@meridianfleet.com,(404) 555-0147
+2023,Nissan,Rogue,5N1BT3BB2PC412893,standard,condition,fleet,180 Peachtree St NW,Atlanta,GA,30303,De-fleet batch 11-B. Level 2 of the garage.,Luis Ortega,luis.ortega@meridianfleet.com,(404) 555-0147
+2022,Kia,Soul,KNDJ23AU0N7463028,standard,condition,fleet,800 Whitlock Ave NW,Marietta,GA,30060,,Luis Ortega,luis.ortega@meridianfleet.com,(404) 555-0147
+2023,Toyota,Highlander,5TDGZRBH2PS152476,standard,condition,lease-return,800 Whitlock Ave NW,Marietta,GA,30060,Third-row seat latch reported sticky.,Luis Ortega,luis.ortega@meridianfleet.com,(404) 555-0147
+2022,Ford,Mustang,1FA6P8TH0N5268391,standard,condition,fleet,800 Whitlock Ave NW,Marietta,GA,30060,,Luis Ortega,luis.ortega@meridianfleet.com,(404) 555-0147

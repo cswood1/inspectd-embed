@@ -54,7 +54,7 @@ function facts(j){
   return [["Vehicle", j.vehicle], ["VIN", j.vin], ["Title", j.title_status], ["Odometer (listing)", miles(j.mileage)], ["Where", j.location],
           [privateSeller ? "Seller" : "At the lot", site.name],
           [privateSeller ? "Seller's phone" : "Ask for", [privateSeller ? "" : site.contact_name, site.contact_phone].filter(Boolean).join(" · ")],
-          ["Inspection", (j.inspection_type || "").replace("-", " ")], ["When", j.scheduled_at], ["Customer", j.customer], ["Customer's phone", j.contact_phone]]
+          ["Inspection", j.inspection], ["Vehicle class", j.vehicle_class !== "standard" ? j.vehicle_class_label : ""], ["When", j.scheduled_at], ["Customer", j.customer], ["Customer's phone", j.contact_phone]]
     .filter(([, v]) => v).map(([k, v]) => <div key={k}><small>{k}</small><span>{v}</span></div>);
 }
 

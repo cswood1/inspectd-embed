@@ -2,6 +2,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useR
 import { buildSeed, lookupFor, SEED_VERSION, jobRef, inspectLink } from "./seed.js";
 import { createAuth, ApiError } from "./authServer.js";
 import { createPortal } from "./portalServer.js";
+import { isClosed } from "./jobModel.js";
 
 export { ApiError };
 
@@ -44,7 +45,7 @@ const SHOP_KEYS = ["name", "phone", "email", "address", "website", "hours"];
 const shopCard = s => s && (s.name || "").trim() ? Object.fromEntries(SHOP_KEYS.map(k => [k, String(s[k] || "")])) : null;
 const veh = (f, none) => [f.year, f.make, f.model].filter(Boolean).join(" ") || none;
 const locationString = f => [f.address, f.city, f.state, f.zip].filter(Boolean).join(", ");
-const TOLD_ON = ["confirmed", "complete"];
+const TOLD_ON = ["claimed", "complete"];
 const CANCELED = "This request was canceled; no inspector is booked or linked for it";
 
 // views.public: the link fields the console reads, derived from meta.inspect
@@ -60,8 +61,9 @@ function update(r, {status, notes, result, meta} = {}){
   if (next !== r.status) newMeta.history = [...(r.meta?.history || []), {stage: next, at: nowIso()}];
   return present({...r, status: next, notes: notes ?? r.notes, result: result ?? r.result, meta: newMeta, updated_at: nowIso()});
 }
-// store.set_inspect_token: a fresh link is a fresh offer
-const setInspectToken = (r, shop) => update(r, {meta: {inspect: {token: b64url(24), made_at: nowIso(), shop: shop || null, claim: {status: "offered", at: nowIso()}}}});
+// store.set_inspect_token: a fresh link is a fresh offer. A New job's link going live makes it Dispatching.
+const setInspectToken = (r, shop) => update(r, {status: r.status === "new" ? "dispatching" : r.status,
+  meta: {inspect: {token: b64url(24), made_at: nowIso(), shop: shop || null, claim: {status: "offered", at: nowIso()}}}});
 const mail = (to, subject, extra = {}) => ({to, subject, at: nowIso(), sent: true, id: `${hex(8)}-${hex(4)}-${hex(4)}-${hex(4)}-${hex(12)}`, ...extra});
 const withLog = (r, meta, entry) => entry ? {...(meta || {}), emails: [...(r.meta?.emails || []), entry]} : meta;
 const preview = (r, status, meta) => ({...r, status: status || r.status, meta: {...r.meta, ...(meta || {})}});
@@ -70,25 +72,26 @@ export function createServer(state){
   const me = state.users.find(u => u.id === state.meId);
   // client.recipient: the workspace account that filed it, else the email on the form
   const recipient = r => ((r.user_id && state.users.find(u => u.id === r.user_id)?.email) || r.form?.email || "").trim();
-  // client.status_changed: at most one email, when the stage moves onto confirmed or complete
+  // client.status_changed: at most one email, when the job moves onto claimed or complete
   const statusChanged = (before, after) => {
     if (after.status === before || !TOLD_ON.includes(after.status)) return null;
     const to = recipient(after); if (!to) return null;
     const v = veh(after.form, "your vehicle"), ref = jobRef(after.id);
-    return after.status === "confirmed" ? mail(to, `Inspection confirmed: ${v} (${ref})`, {kind: "confirmed"})
+    return after.status === "claimed" ? mail(to, `Inspection confirmed: ${v} (${ref})`, {kind: "confirmed"})
                                         : mail(to, `Inspection report ready: ${v} (${ref})`, {kind: "complete"});
   };
-  // router.tell_inspector_canceled: a booked inspector is told a confirmed job is off
+  // router.tell_inspector_canceled: a booked inspector is told a claimed job is off
   const tellInspectorCanceled = (r, was) => {
     const to = r.meta?.booking?.provider?.email;
-    if (was !== "confirmed" || r.status !== "canceled" || !to) return r;
+    if (was !== "claimed" || r.status !== "canceled" || !to) return r;
     const f = r.form;
     return update(r, {meta: {emails: [...(r.meta?.emails || []), mail(to, `Inspection canceled: ${veh(f, "a vehicle")} in ${f.city || locationString(f)}`, {kind: "inspector_canceled"})]}});
   };
   const linkShop = r => shopCard(r.meta?.inspect?.shop);
 
   return {
-    // PATCH /api/requests/{id}: status, notes, per-shop flags
+    // PATCH /api/requests/{id}: status, notes, per-shop flags. Any status may follow any other, so a canceled
+    // job can go back to New (part 2's Reset also turns its old link off: meta.inspect.off_at).
     patch(r, body){
       const was = r.status;
       let result = null;
@@ -103,7 +106,7 @@ export function createServer(state){
       if (TOLD_ON.includes(body.status) && body.status !== r.status) meta = withLog(r, meta, statusChanged(r.status, preview(r, body.status, meta)));
       return tellInspectorCanceled(update(r, {status: body.status, notes: body.notes, result, meta}), was);
     },
-    // POST /api/requests/{id}/booking: who is coming and when; confirmed; the link minted when needed
+    // POST /api/requests/{id}/booking: who is coming and when; claimed; the link minted when needed
     book(r, body){
       if (r.status === "canceled") throw new ApiError(CANCELED);
       const provider = Object.fromEntries(SHOP_KEYS.map(k => [k, String(body.provider?.[k] || "").trim()]));
@@ -118,7 +121,7 @@ export function createServer(state){
       const minted = !!(body.new_link || changed || !r.meta?.inspect?.token);
       if (minted) r = setInspectToken(r, provider);
       const meta = {booking};
-      r = update(r, {status: "confirmed", result, meta: withLog(r, meta, statusChanged(r.status, preview(r, "confirmed", meta)))});
+      r = update(r, {status: "claimed", result, meta: withLog(r, meta, statusChanged(r.status, preview(r, "claimed", meta)))});
       let email = null;
       if (minted && provider.email) {
         const f = r.form;
@@ -176,34 +179,31 @@ export function PlatformStoreProvider({ children }){
   const patchRow = useCallback((id, fn) => setRows(rows => rows.map(r => r.id === id ? fn(r) : r)), [setRows]);
   const row = id => live.current.rows.find(r => r.id === id);
 
-  // the lookup finishing: a fresh call sheet replaces the old one (the agent's answer, located and sorted)
+  // the search finishing: a fresh call sheet replaces the old one (the agent's answer, located and sorted)
   const finish = useCallback(id => {
     timers.current.delete(id);
-    patchRow(id, r => r.lookup !== "running" ? r : {...r, lookup: "done", error: null, updated_at: nowIso(), result: lookupFor(r, r.updated_at)});
+    patchRow(id, r => r.search?.state !== "running" ? r : {...r, search: {...r.search, state: "done", error: null}, updated_at: nowIso(), result: lookupFor(r, r.updated_at)});
   }, [patchRow]);
   const schedule = useCallback((id, ms) => {
     clearTimeout(timers.current.get(id));
     timers.current.set(id, setTimeout(() => finish(id), Math.max(0, ms)));
   }, [finish]);
 
-  /** Start the lookup. Like store.set_lookup("running"): the old call sheet stays until the new one
-   *  lands, and a job that was merely received moves to dispatching, stamped in its history. */
+  /** Start finding providers. The old call sheet stays until the new one lands. Whether providers have been
+   *  found is a detail of the job (r.search), not its status: the job stays New until its link goes live. */
   const fulfill = useCallback(id => {
     const at = nowIso();
     patchRow(id, r => {
-      if (r.lookup === "running" || r.status === "complete" || r.status === "canceled") return r;
-      const moved = r.status === "received";
-      const history = r.meta?.history || [];
-      return {...r, lookup: "running", error: null, updated_at: at, status: moved ? "dispatching" : r.status,
-              meta: {...r.meta, history: moved && !history.some(h => h.stage === "dispatching") ? [...history, {stage: "dispatching", at}] : history}};
+      if (r.search?.state === "running" || isClosed(r)) return r;
+      return {...r, search: {state: "running", started_at: r.search?.started_at || at, at, error: null}, updated_at: at};
     });
     schedule(id, LOOKUP_MS);
   }, [patchRow, schedule]);
 
   // a lookup still running when the page was left finishes where it would have
   useEffect(() => {
-    for (const r of state.rows) if (r.lookup === "running" && !timers.current.has(r.id))
-      schedule(r.id, LOOKUP_MS - (Date.now() - new Date(r.updated_at).getTime()));
+    for (const r of state.rows) if (r.search?.state === "running" && !timers.current.has(r.id))
+      schedule(r.id, LOOKUP_MS - (Date.now() - new Date(r.search.at).getTime()));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => () => { for (const t of timers.current.values()) clearTimeout(t); }, []);

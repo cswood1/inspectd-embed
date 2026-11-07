@@ -1,6 +1,6 @@
 // Derived views over the request list: pure functions, no DOM. Used by the sidebar counts and several sections.
 // Ported from inspection-requests/ui/shared/data.js (renamed: src/data.js is the external surfaces' mock data).
-import { isClosed } from "./ui.jsx";
+import { isClosed, STATUSES } from "./jobModel.js";
 
 // the same shop found on several jobs is one provider; website, then phone, then name identifies it
 export const shopKey = sh => (sh.website || sh.phone || sh.name || "").toLowerCase().replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "") || (sh.name || "").toLowerCase();
@@ -32,7 +32,7 @@ export function allCustomers(rows){
 }
 
 // what a customer's requests add up to: [status, count] per status they have, in pipeline order
-const STATUS_ORDER = ["received", "dispatching", "confirmed", "complete", "canceled"];
+const STATUS_ORDER = STATUSES.map(([k]) => k);
 export const statusBreakdown = counts => STATUS_ORDER.filter(k => counts[k]).map(k => [k, counts[k]]);
 
 export const dupEmails = rows => { const c = {}; rows.forEach(r => { const e = r.form.email.toLowerCase(); c[e] = (c[e] || 0) + 1; }); return new Set(Object.keys(c).filter(e => c[e] > 1)); };
@@ -41,5 +41,5 @@ export const dupEmails = rows => { const c = {}; rows.forEach(r => { const e = r
 export const navCounts = rows => ({
   jobs: rows.filter(r => !isClosed(r)).length, closed: rows.filter(isClosed).length,
   providers: allProviders(rows).length, customers: allCustomers(rows).length,
-  reports: rows.filter(r => r.status === "confirmed" || r.status === "complete").length,
+  reports: rows.filter(r => r.status === "claimed" || r.status === "complete").length,
 });

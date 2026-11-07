@@ -1,7 +1,8 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
 import { PORTAL, inspectLink } from "./seed.js";
-import { TYPES, DESIGNATIONS, STATUS, LOOKUP, fmt, where, vehicle, isClosed, Icon, CSelect, anySelectOpen, useToast, useAsk } from "./ui.jsx";
+import { STATUS, fmt, where, vehicle, isClosed, Icon, CSelect, useToast, useAsk } from "./ui.jsx";
+import { STATUSES, inspectionLabel, classLabel, dollars } from "./jobModel.js";
 
 /*
  * The job detail slide-over: renderOver() and its helpers from inspection-requests/ui/shared/board.js,
@@ -16,6 +17,9 @@ import { TYPES, DESIGNATIONS, STATUS, LOOKUP, fmt, where, vehicle, isClosed, Ico
 // Who the job is for: a workspace's request is the business's; a walk-in is the person.
 export const requester = r => r.org ? {name: r.org.name, sub: r.form.email, business: true} : {name: r.form.name, sub: r.form.email, business: false};
 const CLAIM = {offered: ["gray", "Offered"], claimed: ["green", "Claimed"], rejected: ["red", "Declined"]};
+// whether providers have been found: a detail of the job, not its status
+const searchPill = r => !r.search ? ["gray", "Not searched"] : r.search.state === "running" ? ["blue", "Searching"]
+  : r.search.state === "failed" ? ["red", "Failed"] : ["green", `${(r.result?.shops || []).length} found`];
 // the provider fields the call sheet can fill in; everything but the name is optional
 const BFIELDS = [["name", "Company or inspector", "c2", ""], ["phone", "Phone", "", "optional"], ["email", "Email", "", "optional · we send them the link"],
                  ["address", "Address", "c2", "optional"], ["website", "Website", "", "optional"], ["hours", "Hours", "", "optional"]];
@@ -111,10 +115,11 @@ export function JobPanel({ row: r, rows, open, closed, onClose, onOpen, onViewAl
   </>);
   if (!r) return shell(
     <div className="ohead"><div className="ht"><h2></h2><p></p></div>
-      <button className="btn primary" disabled><Icon name="search" size={14} /> Fulfill</button>
+      <button className="btn primary" disabled><Icon name="search" size={14} /> Find providers</button>
       <button className="btn icon" title="Close" ref={closeRef} onClick={onClose}><Icon name="x" /></button></div>);
 
-  const f = r.form, w = requester(r), [hue, label] = STATUS[r.status] || ["gray", r.status], [lhue, llabel] = LOOKUP[r.lookup] || ["gray", r.lookup];
+  const f = r.form, w = requester(r), [hue, label] = STATUS[r.status] || ["gray", r.status], [lhue, llabel] = searchPill(r);
+  const searching = r.search?.state === "running";
   const cx = r.meta?.canceled, b = r.meta?.booking, rep = r.meta?.report, claim = r.inspect_claim;
   const shop = unlinked ? null : r.inspect_shop, url = unlinked || !r.meta?.inspect?.token ? null : inspectLink(r.meta.inspect.token);
   const shops = r.result?.shops || [], res = r.result, booked = b?.provider;
@@ -218,7 +223,7 @@ export function JobPanel({ row: r, rows, open, closed, onClose, onOpen, onViewAl
       who = opts.length
         ? <div className="linkrow"><CSelect label="Shop this link is for" value={linkPick ?? opts[0][0]} onChange={setLinkPick} options={opts.map(([value, n]) => ({value, label: n}))} />
             <button className="btn primary sm" id="bkmake" disabled={making} onClick={makeLink}>Make the job link</button></div>
-        : <p className="bnone">No one yet. Run the lookup or book someone, then make their job link.</p>;
+        : <p className="bnone">No one yet. Find providers or book someone, then make their job link.</p>;
     }
     const p = b?.provider || {};
     return (<>{head}{who}
@@ -233,27 +238,28 @@ export function JobPanel({ row: r, rows, open, closed, onClose, onOpen, onViewAl
   };
 
   const em = r.meta?.emails || [];
-  const fbLabel = r.lookup === "running" ? "Researching" : r.lookup === "none" ? "Fulfill" : "Run again";
+  const fbLabel = searching ? "Searching" : !r.search ? "Find providers" : "Search again";
   return shell(<>
     <div className="ohead">
       <div className="ht"><h2 id="otitle">{w.name}</h2><p id="osub">{`${vehicle(f)}, ${where(f)} `}<span className={`pill ${hue}`} style={{ marginLeft: 6 }}>{label}</span></p></div>
-      <button className="btn primary" id="fulfillbtn" disabled={r.lookup === "running" || isClosed(r)} onClick={() => { fulfill(r.id); toast("Looking up shops"); }}><Icon name="search" size={14} />{" " + fbLabel}</button>
+      <button className="btn primary" id="fulfillbtn" disabled={searching || isClosed(r)} onClick={() => { fulfill(r.id); toast("Finding providers"); }}><Icon name="search" size={14} />{" " + fbLabel}</button>
       <button className="btn icon" id="closebtn" title="Close" ref={closeRef} onClick={onClose}><Icon name="x" /></button>
     </div>
     <div className="obody" id="obody" ref={body}>
       {cx ? <div className="callout" style={{ margin: "10px 0 0" }}><Icon name="x" size={14} /><span><b>Canceled</b>{` ${fmt(cx.at)}${cx.by ? ` by ${cx.by}` : ""}${cx.reason ? ` · ${cx.reason}` : ""}`}</span></div> : null}
-      {/* status and lookup, one bar */}
+      {/* status and the provider search, one bar */}
       <div className="statusbar">
         <span className="outc"><CSelect className={r.status} label="Status" value={r.status} onChange={v => patch({status: v}, "Status saved")}
-          options={Object.entries(STATUS).map(([k, [, t]]) => ({value: k, label: t}))} /></span>
-        <span className="lk"><small>Lookup</small><span className={`pill ${lhue}`} title={r.lookup === "failed" && r.error ? r.error : undefined}>{llabel}</span></span>
+          options={STATUSES.map(([k, t]) => ({value: k, label: t}))} /></span>
+        <span className="lk"><small>Providers</small><span className={`pill ${lhue}`} title={r.search?.state === "failed" && r.search.error ? r.search.error : undefined}>{llabel}</span></span>
         <span className="mono id">{r.id}</span>
       </div>
       {/* job */}
       <Sec title="Job" />
       <div className="facts">
         <Fact k="Requested by" v={r.org ? f.name : ""} /><Fact k="Email" v={f.email} /><Fact k="Phone" v={f.phone} />
-        <Fact k="Type" v={(TYPES[f.inspection_type] || f.inspection_type) + (f.designation && f.designation !== "standard" ? ` · ${DESIGNATIONS[f.designation] || f.designation}` : "")} />
+        <Fact k="Inspection" v={inspectionLabel(f)} /><Fact k="Vehicle class" v={classLabel(f.vehicle_class || "standard")} />
+        <Fact k="Payout" v={r.payout_cents != null ? dollars(r.payout_cents) : ""} />
         <Fact k="VIN" v={f.vin} /><Fact k="Address" v={[f.address, f.city, f.state, f.zip].filter(Boolean).join(", ")} />
         <Fact k="Partner" v={r.partner ? r.partner.name : ""} /><Fact k="Received" v={fmt(r.created_at)} />
       </div>
@@ -274,9 +280,9 @@ export function JobPanel({ row: r, rows, open, closed, onClose, onOpen, onViewAl
       {provider()}
       {/* call sheet */}
       <Sec title="Call sheet" right={shops.length ? <button className="btn sm" id="copyall" onClick={copySheet}><Icon name="copy" size={14} /> Copy</button> : null} />
-      {r.lookup === "running" ? <div className="busy"><span className="spin"></span> Finding inspectors near {where(f)}. One to three minutes.</div>
-        : r.lookup === "failed" ? <div className="fail">{r.error || "Lookup failed. Run it again."}</div>
-        : r.lookup === "none" ? <p className="bnone">{isClosed(r) ? "Never run." : "Not run yet."}</p>
+      {searching ? <div className="busy"><span className="spin"></span> Finding inspectors near {where(f)}. One to three minutes.</div>
+        : r.search?.state === "failed" ? <div className="fail">{r.search.error || "The search failed. Run it again."}</div>
+        : !r.search ? <p className="bnone">{isClosed(r) ? "Never searched." : "Not searched yet."}</p>
         : !shops.length ? <p className="bnone">No inspectors confirmed for this area. Try a bigger radius or run again.</p> : null}
       {res?.summary && shops.length ? <p className="bnone">{res.summary}</p> : null}
       {shops.map((s, i) => {

@@ -1,33 +1,34 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
 import { dupEmails } from "./derive.js";
-import { TYPES, DESIGNATIONS, STATUS, LOOKUP, fmt, where, vehicle, isClosed, Icon, Who, DesigTag, Sk, SkelRows, SkelCards, CSelect, PageDock, paged, useToast, anySelectOpen } from "./ui.jsx";
+import { STATUS, received, vehicle, isClosed, Icon, Who, ClassTag, Sk, SkelRows, SkelCards, CSelect, PageDock, paged, anySelectOpen } from "./ui.jsx";
+import { INSPECTION_TYPES, STATUSES, NEXT_STEP, typeLabel, inspectionLabel, dollars } from "./jobModel.js";
 import { JobPanel, requester } from "./JobPanel.jsx";
 
 /*
- * The jobs board: status cards, search and filters, the sortable table. Ported from
- * inspection-requests/ui/shared/board.js, mounted as Open jobs or Closed jobs. A row opens the job
- * detail slide-over (JobPanel.jsx), as openOver/closeOver do.
+ * The jobs board: status cards, search and an inspection-type filter, the sortable table. Mounted as
+ * Open jobs or Closed jobs. A row, or its next-step button, opens the job panel (JobPanel.jsx).
  */
 
-const COLS = [["name", "Customer"], ["vehicle", "Vehicle"], ["where", "Location"], ["type", "Type"], ["status", "Status"], ["lookup", "Lookup"], ["shops", "Shops"], ["created_at", "Received"]];
-const colVal = (r, k) => ({name: requester(r).name.toLowerCase(), vehicle: vehicle(r.form).toLowerCase(), where: where(r.form).toLowerCase(), type: r.form.inspection_type,
-  status: r.status, lookup: r.lookup, shops: r.result ? r.result.shops.length : -1, created_at: r.created_at})[k];
+const COLS = [["name", "Customer"], ["vehicle", "Vehicle"], ["where", "Location"], ["type", "Inspection"], ["payout", "Payout"], ["status", "Status"], ["created_at", "Received"]];
+const STATUS_ORDER = STATUSES.map(([k]) => k);
+const place = f => [f.city, (f.state || "").toUpperCase()].filter(Boolean).join(", ");
+const colVal = (r, k) => ({name: requester(r).name.toLowerCase(), vehicle: vehicle(r.form).toLowerCase(), where: place(r.form).toLowerCase(), type: typeLabel(r.form.inspection_type),
+  payout: r.payout_cents ?? -1, status: STATUS_ORDER.indexOf(r.status), created_at: r.created_at})[k];
 // the cards along the top: the statuses this board holds, and a card for all of them
-const OPEN_CARDS = [["all", "All open"], ["received", "Received"], ["dispatching", "Dispatching"], ["confirmed", "Confirmed"]];
+const OPEN_CARDS = [["all", "All open"], ["new", "New"], ["dispatching", "Dispatching"], ["claimed", "Claimed"]];
 const CLOSED_CARDS = [["all", "All closed"], ["complete", "Complete"], ["canceled", "Canceled"]];
 const VIEW = {
-  open: ["Open jobs", "Requests still being worked, newest first. New requests are looked up automatically and come back with nearby mobile inspectors."],
-  closed: ["Closed jobs", "Complete and canceled jobs. Reopen one by changing its status in the detail panel."],
+  open: ["Open jobs", "Jobs still being worked, newest first. New jobs need providers; Dispatching jobs have a live job link; Claimed jobs have a provider."],
+  closed: ["Closed jobs", "Complete and canceled jobs. A canceled job can be reset to New and dispatched again."],
 };
 
 export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", initialOpen = null }){
   const closed = mode === "closed";
-  const { rows, fulfill } = usePlatform();
-  const toast = useToast();
+  const { rows } = usePlatform();
   const [filter, setFilter] = useState("all");
   const [q, setQ] = useState(initialQ);   // ?q= lands with the search already filled in (customers link here)
-  const [jf, setJf] = useState({type: "", designation: "", state: ""});   // filters beyond the status cards and search
+  const [jf, setJf] = useState({type: ""});   // the filter beyond the status cards and search
   const [sortKey, setSortKey] = useState("created_at"), [sortDir, setSortDir] = useState(-1);
   const [page, setPage] = useState(0);
   const [openId, setOpenId] = useState(null);
@@ -44,26 +45,23 @@ export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", in
 
   // a chosen filter stays chosen even when nothing matches it any more, or the board would quietly widen itself
   const opts = (label, values, fmtv, cur) => [{value: "", label}, ...(cur && !values.includes(cur) ? [...values, cur] : values).map(v => ({value: v, label: fmtv ? fmtv(v) : v}))];
-  const typeOpts = opts("Any type", [...new Set(pool.map(r => r.form.inspection_type))].sort(), v => TYPES[v] || v, jf.type);
-  const desigOpts = opts("Any vehicle", [...new Set(pool.map(r => r.form.designation || "standard"))].sort(), v => DESIGNATIONS[v] || v, jf.designation);
-  const stateOpts = opts("Any state", [...new Set(pool.map(r => (r.form.state || "").toUpperCase()).filter(Boolean))].sort(), null, jf.state);
-  const statusOpts = [{value: "", label: "Any status"}, ...cards.map(([k]) => k).filter(k => k !== "all").map(k => ({value: k, label: STATUS[k]?.[1] || k}))];
+  const typeOpts = opts("Any type", INSPECTION_TYPES.map(([k]) => k), typeLabel, jf.type);
 
   const counts = {all: pool.length}; pool.forEach(r => { counts[r.status] = (counts[r.status] || 0) + 1; });
   const dups = dupEmails(rows);
   const ql = q.trim().toLowerCase();
-  const hay = r => [r.form.name, r.form.email, r.form.phone, vehicle(r.form), where(r.form), r.form.vin, r.id, r.notes, r.org?.name].join(" ").toLowerCase();
-  const list = pool.filter(r => (filter === "all" || r.status === filter) && (!jf.type || r.form.inspection_type === jf.type) && (!jf.designation || (r.form.designation || "standard") === jf.designation)
-      && (!jf.state || (r.form.state || "").toUpperCase() === jf.state) && (!ql || hay(r).includes(ql)))
+  const hay = r => [r.form.name, r.form.email, r.form.phone, vehicle(r.form), place(r.form), r.form.zip, r.form.vin, inspectionLabel(r.form), r.id, r.notes, r.org?.name].join(" ").toLowerCase();
+  const list = pool.filter(r => (filter === "all" || r.status === filter) && (!jf.type || r.form.inspection_type === jf.type) && (!ql || hay(r).includes(ql)))
     .sort((a, b) => { const x = colVal(a, sortKey), y = colVal(b, sortKey); return (x < y ? -1 : x > y ? 1 : 0) * sortDir; });
   const pg = list.length ? paged(list, page) : null;
-  const anyFilter = jf.type || jf.designation || jf.state || filter !== "all" || ql;
+  const anyFilter = jf.type || filter !== "all" || ql;
 
   const pickCard = k => { setFilter(k); setPage(0); };
   const setJ = (k, v) => { setJf(f => ({...f, [k]: v})); setPage(0); };
-  const clearAll = () => { setJf({type: "", designation: "", state: ""}); setFilter("all"); setQ(""); setPage(0); };
+  const clearAll = () => { setJf({type: ""}); setFilter("all"); setQ(""); setPage(0); };
   const sortBy = k => { if (sortKey === k) setSortDir(d => -d); else { setSortKey(k); setSortDir(k === "created_at" ? -1 : 1); } setPage(0); };
-  const run = (e, id) => { e.stopPropagation(); fulfill(id); toast("Looking up shops"); };
+  // every next step opens the job panel for now; part 2 makes "Find providers" and "Reset" act inside it
+  const step = (e, id) => { e.stopPropagation(); openOver(id); };
 
   /* ---- job detail ---- */
   const openOver = id => {
@@ -91,7 +89,7 @@ export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", in
     return () => document.removeEventListener("keydown", onKey);
   });
   // "view all": the board again, filtered by that customer, as /dashboard?q=... mounts it
-  const viewAll = value => { setOpenId(null); returnFocus.current = null; setJf({type: "", designation: "", state: ""}); setFilter("all");
+  const viewAll = value => { setOpenId(null); returnFocus.current = null; setJf({type: ""}); setFilter("all");
     setSortKey("created_at"); setSortDir(-1); setPage(0); setQ(value); };
   const unlink = id => setUnlinked(s => new Set(s).add(id));
   const relink = id => setUnlinked(s => { const n = new Set(s); n.delete(id); return n; });
@@ -113,11 +111,8 @@ export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", in
           ))}
         </div>
         <div className="toolbar">
-          <div className="search"><Icon name="search" size={14} /><input type="search" ref={searchBox} placeholder="Search name, email, vehicle, city" autoComplete="off" value={q} onChange={e => { setQ(e.target.value); setPage(0); }} /></div>
-          <CSelect className={`fsel${filter !== "all" ? " on" : ""}`} label="Status" options={statusOpts} value={filter === "all" ? "" : filter} onChange={v => pickCard(v || "all")} />
+          <div className="search"><Icon name="search" size={14} /><input type="search" ref={searchBox} placeholder="Search customer, vehicle, VIN, city" autoComplete="off" value={q} onChange={e => { setQ(e.target.value); setPage(0); }} /></div>
           <CSelect className={`fsel${jf.type ? " on" : ""}`} label="Inspection type" options={typeOpts} value={jf.type} onChange={v => setJ("type", v)} />
-          <CSelect className={`fsel${jf.designation ? " on" : ""}`} label="Vehicle designation" options={desigOpts} value={jf.designation} onChange={v => setJ("designation", v)} />
-          <CSelect className={`fsel${jf.state ? " on" : ""}`} label="State" options={stateOpts} value={jf.state} onChange={v => setJ("state", v)} />
           <button className={`btn sm${anyFilter ? "" : " hide"}`} onClick={clearAll}>Clear filters</button>
           <span className="chip">{loaded ? `${list.length} of ${pool.length}` : <Sk w={54} h={12} />}</span>
         </div>
@@ -127,14 +122,14 @@ export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", in
           : !list.length ? (
             <div className="empty"><b>{pool.length ? "Nothing matches" : (closed ? "No closed jobs yet" : "No open jobs")}</b>{pool.length ? "" : (closed ? "Complete and canceled jobs land here." : "Requests arrive from the client portal.")}</div>
           ) : (
-            <table>
+            <table className="board">
               <thead><tr>
                 {COLS.map(([k, t]) => <th key={k} className={`sortable ${sortKey === k ? "on" : ""}`} onClick={() => sortBy(k)}>{t}<span className="arrow">{sortKey === k ? (sortDir > 0 ? "▲" : "▼") : ""}</span></th>)}
                 <th className="r"></th>
               </tr></thead>
               <tbody>
                 {pg.slice.map(r => {
-                  const f = r.form, [hue, label] = STATUS[r.status] || ["gray", r.status], [lhue, llabel] = LOOKUP[r.lookup] || ["gray", r.lookup], done = isClosed(r);
+                  const f = r.form, [hue, label] = STATUS[r.status] || ["gray", r.status], next = NEXT_STEP[r.status] || "View";
                   // a walk-in customer submitting twice is worth a flag; a workspace sending a batch is not
                   const dup = !r.org && dups.has(f.email.toLowerCase())
                     ? <Icon name="warn" size={14} className="warnico" role="img" aria-label="Another request uses this email"><title>Another request uses this email</title></Icon> : null;
@@ -142,18 +137,17 @@ export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", in
                   return (
                     <tr key={r.id} className={`row st-${r.status} ${r.id === openId ? "on" : ""}`} data-id={r.id} onClick={() => openOver(r.id)}>
                       <td><Who name={w.name} email={w.sub} extra={dup} /></td>
-                      <td>{vehicle(f)}</td>
-                      <td className="sub">{where(f)}</td>
-                      <td className="sub">{TYPES[f.inspection_type] || f.inspection_type}<DesigTag d={f.designation} /></td>
+                      <td className="nowrap">{vehicle(f)}<ClassTag c={f.vehicle_class} /></td>
+                      <td className="sub nowrap">{place(f)}</td>
+                      <td className="sub nowrap">{typeLabel(f.inspection_type)}</td>
+                      <td className="nowrap">{r.payout_cents != null ? dollars(r.payout_cents) : ""}</td>
                       <td><span className={`pill ${hue}`}>{label}</span></td>
-                      <td>{r.lookup === "none" && done ? null : <span className={`pill ${lhue}`}>{llabel}</span>}</td>
-                      <td className="sub">{r.result ? r.result.shops.length : ""}</td>
-                      <td className="sub">{fmt(r.created_at)}</td>
-                      <td className="r">{done ? null : (
-                        <button className={`btn sm ${r.lookup === "none" ? "primary" : ""} rowact`} data-id={r.id} disabled={r.lookup === "running"} onClick={e => run(e, r.id)}>
-                          {r.lookup === "running" ? <><span className="spin"></span> Researching</> : r.lookup === "none" ? <><Icon name="search" size={13} /> Fulfill</> : <><Icon name="refresh" size={13} /> Run again</>}
+                      <td className="sub nowrap" title={new Date(r.created_at).toLocaleString()}>{received(r.created_at)}</td>
+                      <td className="r">
+                        <button className={`btn sm ${r.status === "new" ? "primary" : ""} rowact`} data-id={r.id} onClick={e => step(e, r.id)}>
+                          {next}
                         </button>
-                      )}</td>
+                      </td>
                     </tr>
                   );
                 })}

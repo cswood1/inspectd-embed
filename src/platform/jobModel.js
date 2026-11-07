@@ -1,0 +1,103 @@
+/*
+ * The job's vocabulary, in one place: inspection type and subtype, vehicle class, status, and the
+ * provider payout. The console, the client portal and the seed all read these. See
+ * docs/platform/decisions.md for why each is the way it is.
+ */
+
+/* ---- inspection type and subtype ---------------------------------- */
+
+// [key, label, subtypes as [key, label]]; a type with no subtypes takes none
+export const INSPECTION_TYPES = [
+  ["consumer", "Consumer", [["pre-purchase", "Pre-purchase"], ["post-purchase", "Post-purchase"]]],
+  ["condition", "Condition Report", [["fleet", "Fleet"], ["lease-return", "Lease return"], ["general", "General"]]],
+  ["arbitration", "Arbitration", []],
+];
+const TYPE = Object.fromEntries(INSPECTION_TYPES.map(([k, label, subs]) => [k, {label, subs: Object.fromEntries(subs)}]));
+export const typeLabel = t => TYPE[t]?.label || t || "";
+export const subtypeLabel = (t, s) => TYPE[t]?.subs[s] || s || "";
+export const subtypesOf = t => INSPECTION_TYPES.find(([k]) => k === t)?.[2] || [];
+// the first subtype is what a type means when none is given
+export const defaultSubtype = t => subtypesOf(t)[0]?.[0] || null;
+/** "Consumer · Pre-purchase", or "Arbitration" */
+export const inspectionLabel = f => [typeLabel(f.inspection_type), f.inspection_subtype ? subtypeLabel(f.inspection_type, f.inspection_subtype) : ""].filter(Boolean).join(" · ");
+/** what the inspection is, in a phrase: the subtype when there is one ("Pre-purchase"), else the type */
+export const inspectionShort = f => f.inspection_subtype ? subtypeLabel(f.inspection_type, f.inspection_subtype) : typeLabel(f.inspection_type);
+
+const words = v => String(v ?? "").trim().toLowerCase().replace(/[_-]+/g, " ").replace(/\s+/g, " ");
+const slug = v => words(v).replace(/ /g, "-");
+// a subtype named on its own says which type it belongs to; the old type names map onto the new ones
+const BY_SUBTYPE = Object.fromEntries(INSPECTION_TYPES.flatMap(([t, , subs]) => subs.map(([s]) => [s, [t, s]])));
+const TYPE_ALIASES = {
+  "condition-report": "condition", condition: "condition", consumer: "consumer", arbitration: "arbitration",
+  ppi: ["consumer", "pre-purchase"], prepurchase: ["consumer", "pre-purchase"], postpurchase: ["consumer", "post-purchase"],
+  // the old type list
+  "lease-end": ["condition", "lease-return"], "lease-return": ["condition", "lease-return"], "auction-listing": ["condition", "general"], auction: ["condition", "general"],
+  listing: ["condition", "general"], "auction-arbitration": ["arbitration", null], warranty: ["condition", "general"], other: ["condition", "general"],
+  "de-fleet": ["condition", "fleet"], defleet: ["condition", "fleet"], "state-safety": ["condition", "general"], emissions: ["condition", "general"],
+};
+/**
+ * The canonical type and subtype for what a form or a spreadsheet row says, or null when it can't be read.
+ * Takes a type ("consumer"), a subtype on its own ("pre-purchase"), or one of the old type names
+ * ("lease-end", "auction-listing"), with an optional subtype beside it. Blank means Consumer, Pre-purchase.
+ */
+export function classifyInspection(type, subtype){
+  const t = slug(type), s = slug(subtype);
+  let out;
+  if (!t) out = s ? BY_SUBTYPE[s] || null : ["consumer", "pre-purchase"];
+  else if (TYPE[t]) out = [t, null];
+  else if (BY_SUBTYPE[t]) out = BY_SUBTYPE[t];
+  else { const a = TYPE_ALIASES[t]; out = a ? (Array.isArray(a) ? a : [a, null]) : null; }
+  if (!out) return null;
+  let [kt, ks] = out;
+  if (s && !(t && BY_SUBTYPE[t])) {   // a subtype given beside the type must belong to it
+    if (!TYPE[kt].subs[s]) return null;
+    ks = s;
+  }
+  if (!ks) ks = defaultSubtype(kt);
+  return {inspection_type: kt, inspection_subtype: ks};
+}
+
+/* ---- vehicle class -------------------------------------------------- */
+
+// a property of the vehicle, whoever orders the inspection: it sets the payout, and later which providers suit it
+export const VEHICLE_CLASSES = [["standard", "Standard"], ["ev", "EV"], ["exotic", "Exotic"]];
+const CLASS = Object.fromEntries(VEHICLE_CLASSES);
+export const classLabel = c => CLASS[c] || c || "";
+const CLASS_ALIASES = {electric: "ev", "e v": "ev", "high end": "exotic", highend: "exotic", luxury: "exotic", classic: "exotic", collector: "exotic",
+                       std: "standard", normal: "standard", regular: "standard"};
+/** The canonical class, "standard" when blank, or null when it can't be read. High-end and classic are Exotic. */
+export function classifyClass(v){
+  const w = words(v); if (!w) return "standard";
+  return CLASS[w] ? w : CLASS_ALIASES[w] || CLASS_ALIASES[w.replace(/\./g, "")] || null;
+}
+
+/* ---- status ----------------------------------------------------------- */
+
+// [key, label, pill hue, meaning]
+export const STATUSES = [
+  ["new", "New", "gray", "Received; providers can be found for it"],
+  ["dispatching", "Dispatching", "amber", "The job link is live"],
+  ["claimed", "Claimed", "blue", "A provider claimed it"],
+  ["complete", "Complete", "green", "The provider's report is submitted"],
+  ["canceled", "Canceled", "red", "Stopped"],
+];
+export const STATUS = Object.fromEntries(STATUSES.map(([k, label, hue]) => [k, [hue, label]]));
+export const OPEN_STATUSES = ["new", "dispatching", "claimed"];
+export const CLOSED_STATUSES = ["complete", "canceled"];
+export const isClosed = r => CLOSED_STATUSES.includes(r.status);
+// the button on a job's row: its next step
+export const NEXT_STEP = {new: "Find providers", dispatching: "View", claimed: "View", complete: "View report", canceled: "Reset"};
+
+/* ---- provider payout ---------------------------------------------------- */
+
+// Made up for now; real pricing replaces this one function.
+const PAYOUT_BY_TIER = {1: 10500, 2: 11500, 3: 13000, 4: 14500, 5: 16000};
+const CLASS_ADD = {standard: 0, ev: 1000, exotic: 2500};
+export const PAYOUT_CAP = 18500;
+export const DEFAULT_TIER = 2;   // a ZIP with no known price tier
+/** The provider's payout in cents for a job in a ZIP of this price tier, for this class of vehicle. */
+export function payoutFor(tier, vehicleClass){
+  const base = PAYOUT_BY_TIER[tier] ?? PAYOUT_BY_TIER[DEFAULT_TIER];
+  return Math.min(base + (CLASS_ADD[vehicleClass] || 0), PAYOUT_CAP);
+}
+export const dollars = cents => "$" + Math.round((cents || 0) / 100).toLocaleString("en-US");
