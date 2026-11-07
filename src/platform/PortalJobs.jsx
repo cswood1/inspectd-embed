@@ -349,7 +349,9 @@ export function Job({ id, ctx }){
       <div className="cols2" id="jobCols">
         <div className="kv"><h3>Inspection</h3><div className="none" style={ink}>{
           canceled ? "No inspection will take place; the request was canceled."
-          : j.stage === "confirmed" ? <><b>{when ? `Scheduled for ${when}` : "Scheduled"}</b><p style={sub}>{`An Inspectd inspector will call ${f.name || "your contact"} before arriving. Questions or changes go through Inspectd, not the inspector.`}</p></>
+          : j.stage === "confirmed" ? (when
+            ? <><b>{`Scheduled for ${when}`}</b><p style={sub}>{`An Inspectd inspector will call ${f.name || "your contact"} before arriving. Questions or changes go through Inspectd, not the inspector.`}</p></>
+            : <><b>Inspector confirmed</b><p style={sub}>{`The inspector will call ${f.name || "your contact"} to set a time. Questions or changes go through Inspectd, not the inspector.`}</p></>)
           : j.stage === "complete" ? <><b>Done</b><p style={sub}>{`${when ? `Inspected ${when}. ` : ""}The report is delivered on the right.`}</p></>
           : j.stage === "dispatching" ? "We are contacting mobile inspectors near the car. The confirmed time appears here."
           : "We are about to start dispatching an inspector. The confirmed time appears here."}</div></div>

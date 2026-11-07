@@ -5,12 +5,14 @@ import { isClosed, STATUSES } from "./jobModel.js";
 // the same shop found on several jobs is one provider; website, then phone, then name identifies it
 export const shopKey = sh => (sh.website || sh.phone || sh.name || "").toLowerCase().replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "") || (sh.name || "").toLowerCase();
 
+// every provider the searches have found, with how many jobs found them and how many of those jobs' links they claimed
 export function allProviders(rows){
-  const map = new Map();
+  const map = new Map(), claims = {};
+  for (const r of rows) { const c = r.meta?.link?.claim; if (c?.company) { const n = c.company.trim().toLowerCase(); claims[n] = (claims[n] || 0) + 1; } }
   for (const r of rows) for (const sh of (r.result?.shops || [])) {
     const k = shopKey(sh); if (!k) continue;
-    const e = map.get(k) || {...sh, jobs: 0, contacted: false, booked: false, last: r.created_at};
-    e.jobs++; e.contacted = e.contacted || !!sh.contacted; e.booked = e.booked || !!sh.booked; if (r.created_at > e.last) e.last = r.created_at;
+    const e = map.get(k) || {...sh, jobs: 0, claimed: claims[(sh.name || "").trim().toLowerCase()] || 0, last: r.created_at};
+    e.jobs++; if (r.created_at > e.last) e.last = r.created_at;
     for (const f of ["phone", "website", "email", "address", "rating", "hours"]) if (!e[f] && sh[f]) e[f] = sh[f];
     map.set(k, e);
   }

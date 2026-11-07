@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { buildSeed, lookupFor, SEED_VERSION, jobRef, inspectLink } from "./seed.js";
+import { buildSeed, lookupFor, SEED_VERSION, jobRef } from "./seed.js";
 import { createAuth, ApiError } from "./authServer.js";
 import { createPortal } from "./portalServer.js";
 import { isClosed } from "./jobModel.js";
@@ -40,126 +40,75 @@ function save(state){
 
 /* ---- the server's side, as pure functions on a record ------------- */
 
-const SHOP_KEYS = ["name", "phone", "email", "address", "website", "hours"];
-// views.shop_card: the contact fields only, and only when there is a name
-const shopCard = s => s && (s.name || "").trim() ? Object.fromEntries(SHOP_KEYS.map(k => [k, String(s[k] || "")])) : null;
 const veh = (f, none) => [f.year, f.make, f.model].filter(Boolean).join(" ") || none;
 const locationString = f => [f.address, f.city, f.state, f.zip].filter(Boolean).join(", ");
-const TOLD_ON = ["claimed", "complete"];
-const CANCELED = "This request was canceled; no inspector is booked or linked for it";
 
-// views.public: the link fields the console reads, derived from meta.inspect
-function present(r){
-  const inspect = r.meta?.inspect || {};
-  return {...r, inspect_url: inspect.token ? inspectLink(inspect.token) : null, inspect_shop: shopCard(inspect.shop),
-          inspect_claim: inspect.token ? (inspect.claim || {status: "offered", at: inspect.made_at || ""}) : null};
-}
-// store.update: status, notes, result, a shallow meta merge; a change of stage goes into the history
+// store.update: status, notes, result, a shallow meta merge; a change of status goes into the history
 function update(r, {status, notes, result, meta} = {}){
   const newMeta = {...r.meta, ...(meta || {})};
   const next = status ?? r.status;
   if (next !== r.status) newMeta.history = [...(r.meta?.history || []), {stage: next, at: nowIso()}];
-  return present({...r, status: next, notes: notes ?? r.notes, result: result ?? r.result, meta: newMeta, updated_at: nowIso()});
+  return {...r, status: next, notes: notes ?? r.notes, result: result ?? r.result, meta: newMeta, updated_at: nowIso()};
 }
-// store.set_inspect_token: a fresh link is a fresh offer. A New job's link going live makes it Dispatching.
-const setInspectToken = (r, shop) => update(r, {status: r.status === "new" ? "dispatching" : r.status,
-  meta: {inspect: {token: b64url(24), made_at: nowIso(), shop: shop || null, claim: {status: "offered", at: nowIso()}}}});
 const mail = (to, subject, extra = {}) => ({to, subject, at: nowIso(), sent: true, id: `${hex(8)}-${hex(4)}-${hex(4)}-${hex(4)}-${hex(12)}`, ...extra});
-const withLog = (r, meta, entry) => entry ? {...(meta || {}), emails: [...(r.meta?.emails || []), entry]} : meta;
-const preview = (r, status, meta) => ({...r, status: status || r.status, meta: {...r.meta, ...(meta || {})}});
+const withMail = (r, entry) => entry ? {...r, meta: {...r.meta, emails: [...(r.meta?.emails || []), entry]}} : r;
 
 export function createServer(state){
   const me = state.users.find(u => u.id === state.meId);
+  const who = me.name || me.email;
   // client.recipient: the workspace account that filed it, else the email on the form
   const recipient = r => ((r.user_id && state.users.find(u => u.id === r.user_id)?.email) || r.form?.email || "").trim();
-  // client.status_changed: at most one email, when the job moves onto claimed or complete
-  const statusChanged = (before, after) => {
-    if (after.status === before || !TOLD_ON.includes(after.status)) return null;
-    const to = recipient(after); if (!to) return null;
-    const v = veh(after.form, "your vehicle"), ref = jobRef(after.id);
-    return after.status === "claimed" ? mail(to, `Inspection confirmed: ${v} (${ref})`, {kind: "confirmed"})
-                                        : mail(to, `Inspection report ready: ${v} (${ref})`, {kind: "complete"});
-  };
-  // router.tell_inspector_canceled: a booked inspector is told a claimed job is off
-  const tellInspectorCanceled = (r, was) => {
-    const to = r.meta?.booking?.provider?.email;
-    if (was !== "claimed" || r.status !== "canceled" || !to) return r;
+  // the provider who claimed it is told, when they left an email, that a claimed job is off
+  const tellClaimer = (r, was) => {
+    const to = r.meta?.link?.claim?.email;
+    if (was !== "claimed" || !to) return r;
     const f = r.form;
-    return update(r, {meta: {emails: [...(r.meta?.emails || []), mail(to, `Inspection canceled: ${veh(f, "a vehicle")} in ${f.city || locationString(f)}`, {kind: "inspector_canceled"})]}});
+    return withMail(r, mail(to, `Inspection canceled: ${veh(f, "a vehicle")} in ${f.city || locationString(f)}`, {kind: "inspector_canceled"}));
   };
-  const linkShop = r => shopCard(r.meta?.inspect?.shop);
+  const cancelChange = reason => ({canceled: {at: nowIso(), by: who, by_id: me.id, reason: String(reason || "").trim().slice(0, 300)}});
 
   return {
-    // PATCH /api/requests/{id}: status, notes, per-shop flags. Any status may follow any other, so a canceled
-    // job can go back to New (part 2's Reset also turns its old link off: meta.inspect.off_at).
+    // PATCH /api/requests/{id}: the team's internal notes
     patch(r, body){
+      return update(r, {notes: body.notes});
+    },
+    // POST /api/requests/{id}/link: the job's one link, open to every provider it is shared with. A New job goes to Dispatching.
+    createLink(r){
+      if (r.status !== "new") throw new ApiError("A job link can be created while the job is New");
+      if (r.meta?.link && !r.meta.link.off_at) throw new ApiError("This job already has a live link");
+      const link = {token: b64url(24), created_at: nowIso(), created_by: who, off_at: null, views: [], declines: [], claim: null};
+      return update(r, {status: "dispatching", meta: {link}});
+    },
+    // POST /api/requests/{id}/cancel: stopped, with a reason. A paid job is refunded and the customer told, as before.
+    cancel(r, body = {}){
+      if (r.status === "canceled") throw new ApiError("This job is already canceled");
+      if (r.status === "complete") throw new ApiError("A complete job can't be canceled");
+      const order = r.meta?.order || {};
+      if (order.payment_intent && order.amount_cents && !r.meta?.refund) return this.refund(r, body);
       const was = r.status;
-      let result = null;
-      if (body.shops && r.result) {
-        result = {...r.result, shops: r.result.shops.map((s, i) => {
-          const flags = body.shops[i]; if (!flags) return s;
-          return {...s, ...Object.fromEntries(["contacted", "booked"].filter(k => k in flags).map(k => [k, !!flags[k]]))};
-        })};
-      }
-      let meta = null;
-      if (body.status === "canceled" && r.status !== "canceled") meta = {canceled: {at: nowIso(), by: me.name || me.email, by_id: me.id, reason: String(body.reason || "").trim().slice(0, 300)}};
-      if (TOLD_ON.includes(body.status) && body.status !== r.status) meta = withLog(r, meta, statusChanged(r.status, preview(r, body.status, meta)));
-      return tellInspectorCanceled(update(r, {status: body.status, notes: body.notes, result, meta}), was);
+      return tellClaimer(update(r, {status: "canceled", meta: cancelChange(body.reason)}), was);
     },
-    // POST /api/requests/{id}/booking: who is coming and when; claimed; the link minted when needed
-    book(r, body){
-      if (r.status === "canceled") throw new ApiError(CANCELED);
-      const provider = Object.fromEntries(SHOP_KEYS.map(k => [k, String(body.provider?.[k] || "").trim()]));
-      if (!provider.name) throw new ApiError("Who is doing the inspection? A provider name is required");
-      const booking = {provider, inspector: String(body.inspector || "").trim(), scheduled_at: String(body.scheduled_at || "").trim(),
-                       note: String(body.note || "").trim(), booked_by: me.name || me.email, booked_at: nowIso()};
-      let result = null;
-      if (body.shop_index !== undefined && body.shop_index !== null && r.result)   // the shop the team picked is the one marked booked
-        result = {...r.result, shops: r.result.shops.map((s, i) => ({...s, booked: i === +body.shop_index}))};
-      const current = linkShop(r);
-      const changed = current !== null && current.name.trim().toLowerCase() !== provider.name.trim().toLowerCase();
-      const minted = !!(body.new_link || changed || !r.meta?.inspect?.token);
-      if (minted) r = setInspectToken(r, provider);
-      const meta = {booking};
-      r = update(r, {status: "claimed", result, meta: withLog(r, meta, statusChanged(r.status, preview(r, "claimed", meta)))});
-      let email = null;
-      if (minted && provider.email) {
-        const f = r.form;
-        email = mail(provider.email, `Inspection booked: ${veh(f, "a vehicle")} in ${f.city || locationString(f)}`);
-        r = update(r, {meta: {emails: [...(r.meta?.emails || []), {...email, kind: "inspector_booking"}]}});
-      }
-      return {row: r, email};
-    },
-    // POST /api/requests/{id}/inspect-link: a link for a call-sheet shop, or the booked provider
-    makeLink(r, body){
-      if (r.status === "canceled") throw new ApiError(CANCELED);
-      let shop = null;
-      if (body.shop_index !== undefined && body.shop_index !== null) {
-        shop = (r.result?.shops || [])[+body.shop_index];
-        if (!shop) throw new ApiError("No such shop on this job's call sheet");
-      } else shop = body.shop;
-      shop = shopCard(shop);
-      if (!shop) throw new ApiError("Which shop is this link for? Pick one from the call sheet or give a name");
-      const current = linkShop(r);
-      return current && current.name.trim().toLowerCase() === shop.name.trim().toLowerCase() ? r : setInspectToken(r, shop);
-    },
-    // POST /api/requests/{id}/booking/link: a fresh link for the same shop
-    newLink(r){
-      if (r.status === "canceled") throw new ApiError(CANCELED);
-      return setInspectToken(r, linkShop(r));
+    // POST /api/requests/{id}/reset: a canceled job goes back to New. Its link is turned off (the page says the job is
+    // no longer available) and kept with the job; the provider results stay, so it can be dispatched again.
+    reset(r){
+      if (r.status !== "canceled") throw new ApiError("Only a canceled job can be reset");
+      const at = nowIso(), link = r.meta?.link;
+      const meta = {link: null, resets: [...(r.meta?.resets || []), {at, by: who, by_id: me.id, canceled: r.meta?.canceled || null}], canceled: null,
+                    past_links: link ? [...(r.meta?.past_links || []), {...link, off_at: at}] : (r.meta?.past_links || [])};
+      return update(r, {status: "new", meta});
     },
     // POST /api/requests/{id}/refund: the job's own share refunded, the job canceled, the customer told
     refund(r, body){
       const order = r.meta?.order || {};
       if (r.meta?.refund) throw new ApiError("This job was already refunded");
       if (!order.payment_intent || !order.amount_cents) throw new ApiError("Nothing was paid for this job, so there is nothing to refund");
-      const at = nowIso(), by = me.name || me.email;
-      const change = {refund: {id: "re_" + alnum(24), status: "succeeded", amount_cents: +order.amount_cents, at, by, by_id: me.id}};
-      if (r.status !== "canceled") change.canceled = {at, by, by_id: me.id, reason: String(body.reason || "").trim().slice(0, 300)};
+      const at = nowIso();
+      const change = {refund: {id: "re_" + alnum(24), status: "succeeded", amount_cents: +order.amount_cents, at, by: who, by_id: me.id}};
+      if (r.status !== "canceled") Object.assign(change, cancelChange(body.reason));
       const to = recipient(r);
       if (to) change.emails = [...(r.meta?.emails || []), mail(to, `Inspection canceled and refunded: ${veh(r.form, "your vehicle")} (${jobRef(r.id)})`, {kind: "refunded"})];
       const was = r.status;
-      return tellInspectorCanceled(update(r, {status: "canceled", meta: change}), was);
+      return tellClaimer(update(r, {status: "canceled", meta: change}), was);
     },
   };
 }
@@ -173,6 +122,16 @@ export function PlatformStoreProvider({ children }){
   const live = useRef(state);            // the latest state, so a write that follows another in the same tick sees it
   const timers = useRef(new Map());
   useEffect(() => { save(state); }, [state]);
+  // another tab wrote the list (a provider claiming on the job link, say): take it, so this tab's next save can't undo it
+  useEffect(() => {
+    const onStorage = e => {
+      if (e.key !== STORAGE_KEY || !e.newValue) return;
+      try { const next = JSON.parse(e.newValue); if (next?.version === SEED_VERSION && Array.isArray(next.rows)) { live.current = next; setState(next); } }
+      catch { /* a half-written value: the next write brings it */ }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
 
   const commit = useCallback(fn => { live.current = fn(live.current); setState(live.current); return live.current; }, []);
   const setRows = useCallback(rows => commit(s => ({...s, rows: typeof rows === "function" ? rows(s.rows) : rows})), [commit]);
@@ -182,20 +141,21 @@ export function PlatformStoreProvider({ children }){
   // the search finishing: a fresh call sheet replaces the old one (the agent's answer, located and sorted)
   const finish = useCallback(id => {
     timers.current.delete(id);
-    patchRow(id, r => r.search?.state !== "running" ? r : {...r, search: {...r.search, state: "done", error: null}, updated_at: nowIso(), result: lookupFor(r, r.updated_at)});
+    patchRow(id, r => r.search?.state !== "running" ? r : {...r, search: {...r.search, state: "done", done_at: nowIso(), error: null}, updated_at: nowIso(), result: lookupFor(r, r.updated_at)});
   }, [patchRow]);
   const schedule = useCallback((id, ms) => {
     clearTimeout(timers.current.get(id));
     timers.current.set(id, setTimeout(() => finish(id), Math.max(0, ms)));
   }, [finish]);
 
-  /** Start finding providers. The old call sheet stays until the new one lands. Whether providers have been
-   *  found is a detail of the job (r.search), not its status: the job stays New until its link goes live. */
-  const fulfill = useCallback(id => {
+  /** Start finding providers. The old results stay until the new ones land. Whether providers have been
+   *  found is a detail of the job (r.search), not its status: the job stays New until its link goes live.
+   *  `by` is who started it, for the job's activity ("Automatic" when a request arrives). */
+  const fulfill = useCallback((id, by = "") => {
     const at = nowIso();
     patchRow(id, r => {
       if (r.search?.state === "running" || isClosed(r)) return r;
-      return {...r, search: {state: "running", started_at: r.search?.started_at || at, at, error: null}, updated_at: at};
+      return {...r, search: {state: "running", started_at: r.search?.started_at || at, at, by, error: null}, updated_at: at};
     });
     schedule(id, LOOKUP_MS);
   }, [patchRow, schedule]);
@@ -218,12 +178,10 @@ export function PlatformStoreProvider({ children }){
   }, [patchRow]);
   const api = useMemo(() => ({
     patch: (id, body) => call(id, (s, r) => s.patch(r, body)),
-    book: (id, body) => call(id, (s, r) => s.book(r, body)),
-    makeLink: (id, body) => call(id, (s, r) => s.makeLink(r, body)),
-    newLink: id => call(id, (s, r) => s.newLink(r)),
-    refund: (id, body = {}) => call(id, (s, r) => s.refund(r, body)),
-    remove: id => { if (!row(id)) throw new ApiError("No such request"); setRows(rows => rows.filter(r => r.id !== id)); },
-  }), [call, setRows]);
+    createLink: id => call(id, (s, r) => s.createLink(r)),
+    cancel: (id, body = {}) => call(id, (s, r) => s.cancel(r, body)),
+    reset: id => call(id, (s, r) => s.reset(r)),
+  }), [call]);
 
   // the auth service (authServer.js): reads answer from the latest state; writes store what they leave
   const auth = useMemo(() => {
@@ -237,7 +195,7 @@ export function PlatformStoreProvider({ children }){
   }, [commit]);
 
   // the client portal's server (portalServer.js). A request it creates starts its lookup by itself,
-  // as portal.py does when the agent is on: the same simulated lookup the console's Fulfill runs.
+  // as portal.py does when the agent is on: the same simulated search as the console's Find providers.
   const portal = useMemo(() => {
     const read = name => (...args) => createPortal(live.current)[name](...args);
     const write = name => (...args) => { const { state: next, out } = createPortal(live.current)[name](...args); commit(() => next); return out; };
@@ -246,9 +204,9 @@ export function PlatformStoreProvider({ children }){
       report: read("report"), reportOrg: read("reportOrg"), shared: read("shared"), team: read("team"), inspection: read("inspection"),
       chooseWorkspace: write("chooseWorkspace"), cancelJob: write("cancelJob"), deleteReport: write("deleteReport"),
       teamWrite: (name, ...args) => write("teamWrite")(name, ...args), rename: write("rename"),
-      claim: write("claim"), reject: write("reject"),
-      createJob: body => { const out = write("createJob")(body); fulfill(out.id); return out; },
-      createBulk: body => { const out = write("createBulk")(body); out.created.forEach(r => fulfill(r.id)); return out; },
+      view: write("view"), claim: write("claim"), reject: write("reject"),
+      createJob: body => { const out = write("createJob")(body); fulfill(out.id, "Automatic"); return out; },
+      createBulk: body => { const out = write("createBulk")(body); out.created.forEach(r => fulfill(r.id, "Automatic")); return out; },
     };
   }, [commit, fulfill]);
 
