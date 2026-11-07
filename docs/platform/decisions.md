@@ -43,7 +43,31 @@ or two: what was decided and, where it isn't obvious, why. Newest at the bottom 
   with neither, Dallas is the last resort. The call sheet says the providers come from another area, and how far
   away it is. Before this, a portal request outside the seed's ZIPs crashed the search and left it running for good.
 
-## For part 2
+## The job panel and open dispatch (ops board, part 2)
 
-- **Payout is the single provider figure everywhere.** The panel's Order block will show only what the customer
-  paid, and no longer the quote's own "Inspector payout" split.
+- **One job link per job, open to everyone it is shared with.** A job has at most one live link, and the link isn't
+  tied to a provider. Anyone with it sees the job; the first to claim gets it, and from then on the link shows the job
+  as taken to everyone else. Creating the link moves a New job to Dispatching; a claim moves it to Claimed; a decline
+  changes nothing. It replaces the clone's per-provider links, Book form and Change.
+- **The link keeps its own record** (`meta.link`): when and by whom it was created, each view, each decline (reason,
+  and who if they said), and the claim (name, company, phone, optional email, when, terms accepted).
+- **`provider_id: null` on every claim and decline**, reserved for linking them to a provider record later.
+- **The page knows who it is talking to by a per-browser id**, since providers have no accounts. The browser that
+  claimed sees the upload step; one that declined sees "You declined"; everyone else sees the job as taken once claimed.
+  A view is recorded once per page load.
+- **The console's "Open" is a preview.** It opens the link with `?preview=1`: the page looks the same but records
+  nothing, and claiming and declining are turned off.
+- **Payout is the single provider figure everywhere.** The panel's Order block shows only what the customer paid
+  (and any refund); the quote's own "Inspector payout" split is gone.
+- **Cancel is one action.** "Cancel job" asks for a reason; a job the customer paid for is refunded and the customer
+  emailed, as before. If the provider who claimed it left an email, they are told it's off.
+- **Reset puts a canceled job back to New.** The old link is turned off and kept in `meta.past_links` (its page says
+  the job is no longer available), the cancellation moves into `meta.resets`, and the provider results stay so the job
+  can be dispatched again. A refunded job keeps its refund record and isn't charged again.
+- **Activity is derived, not logged.** The panel's timeline is built from what the job already stores (`activity.js`).
+- **Scheduled times.** Nothing sets a visit time now that Book is gone. The seed's claimed and complete jobs keep theirs
+  as `meta.scheduled_at`, which the portal shows; a new claim shows "The inspector will call to set a time."
+- **Gone with the old model:** the provider booking email, the per-shop Contacted and Booked flags (the Providers
+  section now counts the links each provider claimed), the free status dropdown, and Delete request.
+- **The board's buttons do their work.** "Find providers" opens the panel and starts a search when none has run (or the
+  last one failed); "Reset" opens the panel with the reset confirm.

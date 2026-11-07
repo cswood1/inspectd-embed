@@ -35,10 +35,9 @@ export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", in
   // the panel keeps the last job drawn after it closes, as Kavin's does: it slides out with its content,
   // and the next job opens in the same body, scrolled where the last one was left
   const [shownId, setShownId] = useState(null);
-  // "Change" blanks a job's link on this page only, as Kavin's does; nothing is saved, and Refresh brings it back
-  const [unlinked, setUnlinked] = useState(() => new Set());
+  // what a next-step button asked the panel to do as it opens: start the search, or ask to reset
+  const [intent, setIntent] = useState(null);
   const returnFocus = useRef(null), closeBtn = useRef(null), searchBox = useRef(null);
-  useEffect(() => { if (!loaded) setUnlinked(new Set()); }, [loaded]);
 
   const pool = useMemo(() => loaded ? rows.filter(r => closed ? isClosed(r) : !isClosed(r)) : [], [rows, loaded, closed]);
   const cards = closed ? CLOSED_CARDS : OPEN_CARDS;
@@ -60,8 +59,9 @@ export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", in
   const setJ = (k, v) => { setJf(f => ({...f, [k]: v})); setPage(0); };
   const clearAll = () => { setJf({type: ""}); setFilter("all"); setQ(""); setPage(0); };
   const sortBy = k => { if (sortKey === k) setSortDir(d => -d); else { setSortKey(k); setSortDir(k === "created_at" ? -1 : 1); } setPage(0); };
-  // every next step opens the job panel for now; part 2 makes "Find providers" and "Reset" act inside it
-  const step = (e, id) => { e.stopPropagation(); openOver(id); };
+  // the next-step button: "Find providers" opens the panel and starts the search, "Reset" opens it with the confirm
+  const STEP_ACTION = {new: "search", canceled: "reset"};
+  const step = (e, r) => { e.stopPropagation(); openOver(r.id); if (STEP_ACTION[r.status]) setIntent({id: r.id, action: STEP_ACTION[r.status], n: Date.now()}); };
 
   /* ---- job detail ---- */
   const openOver = id => {
@@ -91,8 +91,6 @@ export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", in
   // "view all": the board again, filtered by that customer, as /dashboard?q=... mounts it
   const viewAll = value => { setOpenId(null); returnFocus.current = null; setJf({type: ""}); setFilter("all");
     setSortKey("created_at"); setSortDir(-1); setPage(0); setQ(value); };
-  const unlink = id => setUnlinked(s => new Set(s).add(id));
-  const relink = id => setUnlinked(s => { const n = new Set(s); n.delete(id); return n; });
 
   const [title, intro] = VIEW[mode];
   return (
@@ -144,7 +142,7 @@ export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", in
                       <td><span className={`pill ${hue}`}>{label}</span></td>
                       <td className="sub nowrap" title={new Date(r.created_at).toLocaleString()}>{received(r.created_at)}</td>
                       <td className="r">
-                        <button className={`btn sm ${r.status === "new" ? "primary" : ""} rowact`} data-id={r.id} onClick={e => step(e, r.id)}>
+                        <button className={`btn sm ${r.status === "new" ? "primary" : ""} rowact`} data-id={r.id} onClick={e => step(e, r)}>
                           {next}
                         </button>
                       </td>
@@ -156,9 +154,8 @@ export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", in
           )}
       </div>
       <PageDock pg={pg} rowSelector=".tablewrap tbody tr.row" onChange={d => setPage(p => p + d)} />
-      <JobPanel row={rows.find(r => r.id === shownId) || null} rows={rows} open={!!openId} closed={closed} closeRef={closeBtn}
-        onClose={closeOver} onOpen={openOver} onViewAll={viewAll} onOpenPortal={onOpenPortal}
-        unlinked={shownId ? unlinked.has(shownId) : false} onUnlink={() => unlink(shownId)} onRelink={() => relink(shownId)} />
+      <JobPanel row={rows.find(r => r.id === shownId) || null} rows={rows} open={!!openId} closeRef={closeBtn} intent={intent}
+        onClose={closeOver} onViewAll={viewAll} onOpenPortal={onOpenPortal} />
     </>
   );
 }

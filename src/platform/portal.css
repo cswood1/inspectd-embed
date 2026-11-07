@@ -632,6 +632,12 @@
 .ipp .jobfacts small{font-size:11px;font-weight:600;color:var(--deco);letter-spacing:.03em;text-transform:uppercase}
 .ipp .jobfacts span{font-size:14px;font-weight:600;overflow-wrap:anywhere}
 .ipp .inote{margin-top:18px;border:1px solid var(--line);background:var(--well);border-radius:5px;padding:11px 14px;font-size:13px;line-height:1.55}
+/* the claim form on the job link: who is claiming, then the terms */
+.ipp .ifields{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px 14px}
+.ipp .iff{display:flex;flex-direction:column;gap:4px;min-width:0} .ipp .iff.wide{grid-column:1/-1}
+.ipp .iff > span{font-size:12px;font-weight:600;color:var(--ink)} .ipp .iff > span i{font-style:normal;font-weight:500;color:var(--deco)}
+.ipp .iff input{background:#fff;width:100%;box-sizing:border-box}
+.ipp .ipreview{margin-bottom:12px;font-size:12.5px;color:#7a4b0b;background:#fff6e6;border:1px solid #f6d7a6;border-radius:5px;padding:8px 12px}
 .ipp .idamage{margin-top:18px;border:1px solid #f6c08c;background:#fff7ed;border-radius:5px;padding:12px 14px;font-size:13px;line-height:1.55}
 .ipp .idamage b{display:block;font-weight:650;margin-bottom:6px}
 .ipp .idamage ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}

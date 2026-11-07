@@ -10,7 +10,8 @@ import { ReportView } from "./ReportView.jsx";
  *
  *  /r/<token>        the customer's report (inspection-dashboard ui/share-client): the portal's viewer,
  *                    told it is public, under a plain Inspectd bar, in the dark colours of share-client/style.css
- *  /inspect/<token>  the inspector's page (ui/inspect-client): the job behind their booking link
+ *  /inspect/<token>  the inspector's page (ui/inspect-client): the job behind its one job link, open to every
+ *                    provider it was shared with; the first to claim gets it
  *
  * On the inspector's page, Kavin's shows the job and an upload. Claiming and declining are routes of the
  * request service (requests/booking.py: POST /inspect/{token}/claim and /reject) with no controls on his
@@ -83,11 +84,30 @@ export function InspectPage({ token }){
   );
 }
 
+// This browser's id on job links: how the page knows who claimed or declined, without an account. Kept in the browser.
+const VIEWER_KEY = "inspectd_link_viewer";
+function viewerId(){
+  try { let v = localStorage.getItem(VIEWER_KEY); if (!v) { v = "v_" + Array.from(crypto.getRandomValues(new Uint8Array(5)), b => b.toString(16).padStart(2, "0")).join(""); localStorage.setItem(VIEWER_KEY, v); } return v; }
+  catch { return ""; }
+}
+// one view per page load, even when React mounts the page twice in development
+const viewed = new Set();
+
 function InspectBody({ token }){
   const { portal, rows } = usePlatform();
-  const { notify, ask } = useNotices();
-  const [loaded, setLoaded] = useState(false), [terms, setTerms] = useState(false), [termsErr, setTermsErr] = useState(""), [busy, setBusy] = useState(false), [drag, setDrag] = useState(false);
+  const { notify } = useNotices();
+  // ?preview=1: the console's "Open". The page renders the same but records nothing, and claiming and declining are off.
+  const preview = new URLSearchParams(window.location.search).has("preview");
+  const viewer = useRef(viewerId()).current;
+  const [loaded, setLoaded] = useState(false), [terms, setTerms] = useState(false), [err, setErr] = useState(""), [busy, setBusy] = useState(false), [drag, setDrag] = useState(false);
+  const [who, setWho] = useState({name: "", company: "", phone: "", email: ""});
+  const [declining, setDeclining] = useState(false), [why, setWhy] = useState({reason: "", name: ""});
   useEffect(() => { const t = setTimeout(() => setLoaded(true), 300); return () => clearTimeout(t); }, []);
+  useEffect(() => {
+    if (preview || viewed.has(token)) return;
+    viewed.add(token);
+    try { portal.view(token, viewer); } catch { /* a bad or closed link records nothing */ }
+  }, [token]);
   void rows;   // re-read when the console changes the job
 
   if (!loaded) return (
@@ -95,61 +115,77 @@ function InspectBody({ token }){
       <div className="jobfacts">{Array.from({length: 4}, (_, i) => <div key={i}><Sk w={56} h={9} /><Sk w={110} h={14} /></div>)}</div><Sk w="100%" h={120} /></div>
   );
   let job;
-  try { job = portal.inspection(token); }
-  catch (e) {   // a canceled or long-closed job (410) is not a bad link: its own words, and no new link to ask for
+  try { job = portal.inspection(token, preview ? "" : viewer); }
+  catch (e) {   // a canceled, reset or long-closed job (410) is not a bad link: its own words, and no new link to ask for
     const gone = e.status === 410;
-    return <div className="icard"><h1>{gone ? "This job is no longer open" : "This upload link is not valid"}</h1>
-      <p className="lead">{e.message}{gone ? "" : " Ask whoever booked the inspection to send you a new link."}</p></div>;
+    return <div className="icard"><h1>{gone ? "This job is no longer available" : "This link is not valid"}</h1>
+      <p className="lead">{e.message}{gone ? "" : " Ask whoever sent it to you for a new link."}</p></div>;
   }
-  const claim = job.claim?.status || "offered", done = !!job.report_id;
+  const done = !!job.report_id;
+  const previewNote = preview ? <p className="ipreview">Preview from the Inspectd console. Nothing on this page is recorded, and claiming and declining are turned off.</p> : null;
+  const foot = <p className="ifoot">This page is only for this inspection. Nothing else about the customer is shared.</p>;
 
-  // the added controls (booking.py's claim and reject): offered, the page asks first
+  // claim and decline (booking.py's routes): the first provider to claim gets the job
   const doClaim = () => {
-    if (!terms) { setTermsErr("Accept the terms to claim this job."); return; }
+    const missing = ["name", "company", "phone"].filter(k => !who[k].trim());
+    if (missing.length) { setErr(`Please give your ${missing.join(", ")}.`); return; }
+    if (!terms) { setErr("Accept the terms to claim this job."); return; }
     setBusy(true);
-    try { portal.claim(token, true); notify("Job claimed", "It is yours. Upload the report here when the inspection is done.", "blue", 5000); }
-    catch (e) { notify("Could not claim the job", e.message, "red"); }
+    try { portal.claim(token, {...who, accept_terms: true}, viewer); setErr(""); notify("Job claimed", "It is yours. Upload the report here when the inspection is done.", "blue", 5000); }
+    catch (e) { setErr(e.message); notify("Could not claim the job", e.message, "red"); }
     finally { setBusy(false); }
   };
-  const doReject = async () => {
-    const reason = await ask({title: "Decline this job?", text: "Inspectd finds another inspector. You can say why, if you like.", input: {label: "Reason (optional)", placeholder: "e.g. Not available that day", maxlength: 300}, ok: "Decline job", danger: true});
-    if (reason === null) return;
-    try { portal.reject(token, reason); notify("Job declined", "Thanks for letting us know.", "blue", 5000); }
+  const doReject = () => {
+    try { portal.reject(token, why, viewer); notify("Job declined", "Thanks for letting us know.", "blue", 5000); }
     catch (e) { notify("Could not decline the job", e.message, "red"); }
   };
   // the upload itself is not part of this demo (docs/platform-iteration-notes.md)
   const noUpload = e => { e.preventDefault(); setDrag(false); notify("Uploads aren't available in this demo", "In the live app the PDF becomes the customer's report here. This demo's reports were converted ahead of time.", "blue", 6000); };
 
-  if (claim === "rejected") return (<>
+  if (job.you === "declined") return (<>{previewNote}
     <div className="icard"><h1>You declined this job</h1>
-      <p className="lead">{`Thanks for letting us know${job.claim.at ? ` (${fmtWhen(job.claim.at)})` : ""}. Inspectd is finding another inspector. If that was a mistake, ask your contact for a new link.`}</p>
-      <div className="jobfacts">{facts(job)}</div></div>
-    <p className="ifoot">This page is only for this inspection. Nothing else about the customer is shared.</p>
+      <p className="lead">{`Thanks for letting us know${job.declined_at ? ` (${fmtWhen(job.declined_at)})` : ""}. Inspectd is finding another inspector.`}</p>
+      <div className="jobfacts">{facts(job)}</div></div>{foot}
+  </>);
+  if (job.taken) return (<>{previewNote}
+    <div className="icard"><h1>This job has been taken</h1>
+      <p className="lead">Another provider claimed this job. Thanks for looking; Inspectd will send you the next one near you.</p>
+      <div className="jobfacts">{facts(job)}</div></div>{foot}
   </>);
 
-  const offered = claim !== "claimed" && !done;
-  return (<>
+  const offered = job.you !== "claimed";
+  const field = (k, label, opt) => (
+    <label className="iff"><span>{label}{opt ? <i> optional</i> : null}</span>
+      <input id={`claim_${k}`} value={who[k]} disabled={preview} onChange={e => { setWho(w => ({...w, [k]: e.target.value})); setErr(""); }} autoComplete={k === "company" ? "organization" : k === "phone" ? "tel" : k} /></label>);
+  return (<>{previewNote}
     <div className="icard">
-      <h1>{done ? "Report received" : offered ? "Inspection job offered" : "Upload your inspection report"}</h1>
+      <h1>{done ? "Report received" : offered ? "Inspection job available" : "Upload your inspection report"}</h1>
       <p className="lead">{done
         ? `Thanks. ${job.customer || "The customer"} can read it now. Uploaded ${fmtWhen(job.uploaded_at)}.`
         : offered
-          ? `${job.provider ? job.provider + " is" : "You are"} asked to inspect this vehicle${job.customer ? ` for ${job.customer}` : ""}. Claim the job to take it, or decline it so Inspectd can book someone else.`
-          : `${job.provider ? job.provider + " is" : "You are"} booked to inspect this vehicle${job.customer ? ` for ${job.customer}` : ""}. When you are done, drop your report PDF here and we turn it into a readable report for them.`}</p>
+          ? "This inspection is open to the providers Inspectd sent it to. The first to claim it gets the job; decline it if you can't take it."
+          : `${job.provider ? job.provider + " has" : "You have"} claimed this job. When you are done, drop your report PDF here and we turn it into a readable report for the customer.`}</p>
       <div className="jobfacts">{facts(job)}</div>
       <Damage j={job} />
       {job.note ? <div className="inote">{job.note}</div> : null}
       {done ? <div className="idone"><Svg src={CHECK} /><div><b>Delivered</b><p>Uploaded the wrong file? Drop the right one below and it replaces the report.</p></div></div> : null}
       {offered ? (
         <div className="inote" id="claimBox">
-          <label style={{ display: "flex", gap: 8, alignItems: "flex-start", cursor: "pointer" }}>
-            <input type="checkbox" id="acceptTerms" checked={terms} onChange={e => { setTerms(e.target.checked); setTermsErr(""); }} style={{ marginTop: 3 }} />
+          <div className="ifields">{field("name", "Your name")}{field("company", "Company")}{field("phone", "Phone")}{field("email", "Email", true)}</div>
+          <label style={{ display: "flex", gap: 8, alignItems: "flex-start", cursor: "pointer", marginTop: 12 }}>
+            <input type="checkbox" id="acceptTerms" checked={terms} disabled={preview} onChange={e => { setTerms(e.target.checked); setErr(""); }} style={{ marginTop: 3 }} />
             <span>{job.terms?.summary}</span></label>
           <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginTop: 12 }}>
-            <button className="btn primary" type="button" id="claimBtn" disabled={busy} onClick={doClaim}>Claim this job</button>
-            <button className="btn" type="button" id="rejectBtn" disabled={busy} onClick={doReject}>Decline</button>
-            {termsErr ? <span className="err" style={{ color: "var(--red)", fontSize: 13 }}>{termsErr}</span> : null}
+            <button className="btn primary" type="button" id="claimBtn" disabled={busy || preview} onClick={doClaim}>Claim this job</button>
+            <button className="btn" type="button" id="rejectBtn" disabled={busy || preview} onClick={() => setDeclining(d => !d)}>Decline</button>
+            {err ? <span className="err" style={{ color: "var(--red)", fontSize: 13 }}>{err}</span> : null}
           </div>
+          {declining ? (
+            <div className="ifields" id="declineBox" style={{ marginTop: 14 }}>
+              <label className="iff wide"><span>Why are you passing? <i>optional</i></span><input id="decline_reason" maxLength={300} placeholder="e.g. Not available that day" value={why.reason} onChange={e => setWhy(w => ({...w, reason: e.target.value}))} /></label>
+              <label className="iff"><span>Your name or company <i>optional</i></span><input id="decline_name" maxLength={120} value={why.name} onChange={e => setWhy(w => ({...w, name: e.target.value}))} /></label>
+              <div className="iff"><span>&nbsp;</span><button className="btn danger" type="button" id="declineBtn" onClick={doReject}>Decline job</button></div>
+            </div>) : null}
         </div>
       ) : (
         <label className={`idrop${drag ? " drag" : ""}`} id="drop" onClick={noUpload}
@@ -161,6 +197,6 @@ function InspectBody({ token }){
         </label>
       )}
     </div>
-    <p className="ifoot">This page is only for this inspection. Nothing else about the customer is shared.</p>
+    {foot}
   </>);
 }

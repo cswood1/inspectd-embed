@@ -1,5 +1,10 @@
 # Platform iteration notes
 
+> **Historical record.** This file records the clone of Kavin's apps and the fixes made after it. Some of
+> what it describes is gone: the clone's per-provider job links, the booking form and "Change" no longer
+> exist (each job now has one link, open to every provider). Current decisions live in
+> [docs/platform/decisions.md](platform/decisions.md).
+
 Behaviours in Kavin's console that the clone in `src/platform/` mirrors for fidelity but that we
 intend to revisit, and (under "Fixed after the clone") the ones since changed. Each entry says what
 happens and why it matters. Later steps add to this list.

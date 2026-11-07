@@ -241,9 +241,9 @@ export function Settings({ onOpenPortal }){
       <div className="sechead"><h2>This deployment</h2><span className="secnote">What is switched on for this installation, and the addresses customers use.</span></div>
       {/* the plain-language version; the setting that switches each one lives in the tooltip, not the page */}
       <div className="cols" id="system">
-        <div className="kv"><h3>Shop lookup</h3><dl>
+        <div className="kv"><h3>Provider search</h3><dl>
           <dt>Status</dt><dd title="OPENAI_API_KEY">{onOff(meta.agent_enabled)}{" "}<span className="sub">{meta.agent_enabled ? "New requests are looked up automatically" : "Requests are still collected; no shops are found for them"}</span></dd>
-          <dt>Runs</dt><dd>When a request arrives, and again from a job's Fulfill button</dd>
+          <dt>Runs</dt><dd>When a request arrives, and again from a job's Find providers</dd>
         </dl></div>
         <div className="kv"><h3>Email</h3><dl>
           <dt>Status</dt><dd title="RESEND_API_KEY">{onOff(meta.mail_enabled)}{" "}<span className="sub">{meta.mail_enabled

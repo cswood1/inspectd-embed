@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
 import { allProviders, allCustomers, statusBreakdown } from "./derive.js";
-import { STATUS, fmt, where, vehicle, isClosed, tint, Icon, Who, Pill, Sk, SkelRows, PageDock, paged, flag } from "./ui.jsx";
+import { STATUS, fmt, where, vehicle, isClosed, tint, Icon, Who, Pill, Sk, SkelRows, PageDock, paged } from "./ui.jsx";
 
 /*
  * Providers, Customers and Reports: ports of inspection-requests/ui/{providers,customers,reports}-client.
@@ -16,7 +16,7 @@ const firstPhone = t => (String(t || "").match(/\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d
 const host = u => String(u || "").match(/https?:\/\/[^\s)]+/) ? String(u).match(/https?:\/\/[^\s)]+/)[0] : (String(u || "").split(/\s/)[0] || "");
 const ratingNum = t => { const m = String(t || "").match(/\b([0-5](?:\.\d)?)\s*(?:\/\s*5|stars?|★)?/i); return m && /\d/.test(m[1]) && (/\/\s*5|star|★|rating|google|yelp/i.test(t) || String(t).trim().length < 6) ? m[1] : ""; };
 const splitName = n => { const m = String(n || "").split(/\s+[—–-]\s+|\s+\(/); return [m[0] || "Unnamed", m.length > 1 ? String(n).slice(m[0].length).replace(/^\s*[—–-]\s*|^\s*\(|\)\s*$/g, "") : ""]; };
-const P_HEADS = ["Provider", "Location", "Phone", "Website", "Rating", "Jobs", "Status"];
+const P_HEADS = ["Provider", "Location", "Phone", "Website", "Rating", "Jobs", "Claimed"];
 
 export function Providers({ loaded }){
   const { rows } = usePlatform();
@@ -27,7 +27,7 @@ export function Providers({ loaded }){
   const pg = paged(matched, page, PAGE_LIMIT);
   let body;
   if (!loaded) body = <div className="tablewrap"><SkelRows n={7} heads={P_HEADS} extraCls="ptable" /></div>;
-  else if (!all.length) body = <div className="empty"><b>No providers yet</b>Run a lookup on a job and the shops it finds will appear here.</div>;
+  else if (!all.length) body = <div className="empty"><b>No providers yet</b>Find providers for a job and the ones it finds appear here.</div>;
   else if (!matched.length) body = <div className="empty"><b>Nothing matches</b></div>;
   else body = (
     <div className="tablewrap"><table className="ptable">
@@ -44,13 +44,13 @@ export function Providers({ loaded }){
             <td className="sub">{site ? <a href={site} target="_blank" rel="noopener" onClick={stay}>{site.replace(/^https?:\/\/(www\.)?/, "").replace(/\/.*$/, "")}</a> : null}</td>
             <td className="sub" title={p.rating || ""}>{rating ? <b>{rating}</b> : (p.rating ? "n/a" : "")}</td>
             <td className="sub">{p.jobs}</td>
-            <td title={p.booked ? "Booked on at least one job" : p.contacted ? "Contacted on at least one job" : ""}>{flag(p.booked, "Booked", "blue") || flag(p.contacted, "Contacted", "amber") || ""}</td>
+            <td className="sub" title={p.claimed ? `Claimed ${p.claimed} job link${p.claimed === 1 ? "" : "s"}` : ""}>{p.claimed || ""}</td>
           </tr>);
       })}</tbody>
     </table></div>
   );
   return (<>
-    <div className="pad greet"><div className="gt"><h1>Providers</h1><p>Every inspection shop and mobile inspector the lookup has found so far, across all jobs. Contacted and booked flags carry over from the jobs.</p></div></div>
+    <div className="pad greet"><div className="gt"><h1>Providers</h1><p>Every inspection shop and mobile inspector the provider searches have found so far, across all jobs, and how many job links each has claimed.</p></div></div>
     <div className="pad"><div className="toolbar"><div className="search"><Icon name="search" size={14} /><input id="pq" type="search" placeholder="Search shop, city, phone" autoComplete="off" value={pq} onChange={e => { setPq(e.target.value); setPage(0); }} /></div>
       <span className="chip" id="pcount">{loaded ? `${matched.length} of ${all.length}` : <Sk w={54} h={12} />}</span></div></div>
     <div id="providers">{body}</div>
@@ -96,7 +96,7 @@ export function Customers({ loaded, onNavigate }){
   </>);
 }
 
-/* ---- Reports: jobs that reached a booking or were completed, newest change first ---- */
+/* ---- Reports: jobs a provider claimed, or that were completed, newest change first ---- */
 
 const R_HEADS = ["Customer", "Vehicle", "Location", "Status", "Provider", "Updated"];
 
@@ -110,18 +110,18 @@ export function Reports({ loaded, onNavigate, onOpenPortal }){
   else if (!list.length) body = <div className="empty"><b>No claimed jobs yet</b>Once a provider claims a job it shows up here, and its report once it lands.</div>;
   else body = (
     <table><thead><tr>{R_HEADS.map(h => <th key={h}>{h}</th>)}</tr></thead><tbody>{pg.slice.map(r => {
-      const [hue, label] = STATUS[r.status] || ["gray", r.status], booked = (r.result?.shops || []).find(s => s.booked);
+      const [hue, label] = STATUS[r.status] || ["gray", r.status], claim = r.meta?.link?.claim;
       return (
         // a row opens the job on its board
         <tr key={r.id} className="row" data-id={r.id} onClick={() => onNavigate(isClosed(r) ? "closed" : "jobs", {open: r.id})}>
           <td><Who name={r.org ? r.org.name : r.form.name} email={r.form.email} /></td>
           <td>{vehicle(r.form)}</td><td className="sub">{where(r.form)}</td><td><Pill hue={hue}>{label}</Pill></td>
-          <td className="sub">{booked?.name || ""}</td><td className="sub">{fmt(r.updated_at)}</td>
+          <td className="sub">{claim ? claim.company || claim.name : ""}</td><td className="sub">{fmt(r.updated_at)}</td>
         </tr>);
     })}</tbody></table>
   );
   return (<>
-    <div className="pad greet"><div className="gt"><h1>Reports</h1><p>Jobs that reached a booking or were completed. Normalized inspection reports are produced in the <a className="plainlink" id="reportsLink" href="#" target="_blank" rel="noopener" onClick={e => { stay(e); onOpenPortal("/reports"); }}>report dashboard</a> for now; linking them to jobs here is the next step.</p></div></div>
+    <div className="pad greet"><div className="gt"><h1>Reports</h1><p>Jobs a provider claimed, or that were completed. Normalized inspection reports are produced in the <a className="plainlink" id="reportsLink" href="#" target="_blank" rel="noopener" onClick={e => { stay(e); onOpenPortal("/reports"); }}>report dashboard</a> for now; linking them to jobs here is the next step.</p></div></div>
     <div className="tablewrap" id="reports">{body}</div>
     <PageDock pg={loaded && list.length ? pg : null} rowSelector="#reports tbody tr" onChange={d => setPage(pg.page + d)} />
   </>);

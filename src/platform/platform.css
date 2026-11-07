@@ -433,3 +433,32 @@
 .ip .dlg .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
 @keyframes ip-veilin{from{opacity:0}to{opacity:1}}
 @keyframes ip-dlgin{from{opacity:0;transform:translateY(6px) scale(.985)}to{opacity:1;transform:none}}
+
+/* ---- the job panel, built around the job's next actions (ops part 2) ---- */
+.ip .ohead h2 .vtag{font-size:12px;vertical-align:2px}
+.ip .ohead .opay{margin-left:10px;font-weight:600;color:var(--ink)}
+.ip .facts.dense{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 18px;padding:6px 0 8px}
+.ip .facts.dense .wide{grid-column:span 2}
+.ip .facts.dense span{font-size:13px}
+.ip .linkbtn{background:none;border:0;padding:0;margin-top:8px;font:inherit;font-size:12.5px;font-weight:600;color:var(--blue);cursor:pointer}
+.ip .linkbtn:hover{text-decoration:underline}
+.ip .pempty{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:2px 0}
+.ip .psum{font-size:12.5px;color:var(--sub);padding:2px 0 6px;line-height:1.5}
+.ip .plist{border:1px solid var(--line);border-radius:5px}
+.ip .prow{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) auto;gap:10px;align-items:center;padding:7px 12px;font-size:12.5px;border-top:1px solid var(--line)}
+.ip .prow:first-child{border-top:0}
+.ip .prow b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ip .prow .sub{color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ip .prow .pc{display:flex;gap:10px;white-space:nowrap} .ip .prow .pc a{color:var(--blue)}
+.ip .lstats{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--sub);padding:8px 2px 0}
+.ip .lstats .declines summary{cursor:pointer;color:var(--amber);font-weight:600}
+.ip .lstats .declines ul{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:4px;color:var(--ink)}
+.ip .lstats .declines li b{font-weight:600}
+.ip .claimed{display:flex;align-items:flex-start;gap:8px;margin-top:10px;border:1px solid #96c8ec;background:#f4f9fd;border-radius:5px;padding:9px 12px;font-size:12.5px;color:var(--ink)}
+.ip .claimed > svg{color:var(--blue-d);flex:none;margin-top:2px} .ip .claimed b{font-weight:650;color:var(--blue-d)} .ip .claimed .sub{color:var(--sub)}
+.ip .activity{list-style:none;margin:2px 0 0;padding:0;font-size:12.5px;border-left:2px solid var(--line)}
+.ip .activity li{display:grid;grid-template-columns:118px 1fr;gap:10px;padding:4px 0 4px 12px}
+.ip .activity .when{color:var(--deco);white-space:nowrap} .ip .activity b{font-weight:600} .ip .activity .sub{color:var(--sub)}
+.ip .activity .det{display:block;color:var(--sub)}
+.ip textarea.internal.small{min-height:64px;font-size:12.5px}
+.ip .pactions{display:flex;justify-content:flex-end;gap:8px;margin-top:26px;padding-top:16px;border-top:1px solid var(--line)}

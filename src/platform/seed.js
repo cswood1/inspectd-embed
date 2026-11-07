@@ -181,7 +181,7 @@ export function lookupFor(row, attempt = 0){
 
 /* ---- people ------------------------------------------------------- */
 
-export const SEED_VERSION = 6;   // bump when the seed changes shape: a stored older seed is replaced
+export const SEED_VERSION = 7;   // bump when the seed changes shape: a stored older seed is replaced
 export const PORTAL = "https://portal.inspectd.com";
 // The links the demo hands out (an inspector's job link) are built on the page's own origin, so a copied link opens
 // inside the demo, on localhost, a preview or staging alike. Invitation links stay on PORTAL: the demo has no invite page.
@@ -299,7 +299,12 @@ const J = [
 ];
 
 const INSPECTORS = ["Ray Delgado", "Megan Shore", "Victor Nunez", "Paige Holloway", "Sam Okafor", "Erin Castillo", "Grant Weller"];
-const BOOK_NOTES = ["They will call 30 minutes before arriving.", "Keys at the lot office; ask for the attendant.", "", "The inspector needs about an hour with the car."];
+// the providers who passed on a Dispatching job's link: [job model, [reason, name from the call sheet's shop n, or null]]
+const DECLINES = {
+  "Elantra": [["Booked solid through next week, sorry.", 0]],
+  "Huracan EVO": [["Not equipped for lift-system checks on exotics.", 1], ["Out of town until the 20th.", null]],
+  "Tahoe": [["Can't get to downtown Denver before Friday.", 2]],
+};
 const shopCard = s => s ? Object.fromEntries(["name", "phone", "email", "address", "website", "hours"].map(k => [k, s[k] || ""])) : null;
 const when = ms => { const d = new Date(ms), o = k => d.toLocaleString("en-US", k); return `${o({weekday: "short"})} ${o({month: "short"})} ${d.getDate()}, ${o({hour: "numeric", minute: "2-digit"})}`; };
 
@@ -324,7 +329,7 @@ export function buildSeed(now = Date.now()){
       // a workspace files from the client portal, one car or a list; a walk-in pays on the public form
       result: null, meta: {emails: [], history: [{stage: "new", at: iso(created)}], ...(u ? {source: x.batch ? "portal-bulk" : "portal"} : {})},
       org_id: u ? orgs[u.org].id : null, user_id: u ? u.id : null, org: u ? orgs[u.org] : null,
-      partner: null, inspect_url: null, inspect_shop: null, inspect_claim: null,
+      partner: null,
     };
     const m = row.meta, veh = `${year} ${make} ${model}`;
     let t = created;
@@ -358,28 +363,30 @@ export function buildSeed(now = Date.now()){
     if (x.report) return reportFlow(row, x, created, {step, mail, iso, cam, r, now, veh, place, DAY, HOUR, t: () => t, setT: v => { t = v; }});
     row.result = lookupFor(row); step(0.05);
     const shops = row.result.shops;
-    for (const i of x.contacted || []) if (shops[i]) shops[i].contacted = true;
 
-    // the job link going live makes the job Dispatching
-    const link = (shop, claim) => {
-      const token = pick(r, URLSAFE, 32);
-      m.inspect = {token, made_at: step(1.5, "dispatching"), shop: shopCard(shop), claim};
-      row.inspect_url = inspectLink(token); row.inspect_shop = shopCard(shop); row.inspect_claim = claim;
-    };
-    if (x.link === "offered" || (status === "dispatching" && !x.link)) { shops[0].contacted = true; link(shops[0], {status: "offered", at: iso(t + 1.5 * HOUR)}); }
-    if (x.link === "rejected") { link(shops[0], null); const at = step(3); row.inspect_claim = m.inspect.claim = {status: "rejected", at, reason: "Booked solid through next week, sorry."}; }
+    // the job link: one per job, shared with every provider on the list; going live makes the job Dispatching
+    if (status === "new") return row;
+    const views = hashStr(row.form.vin) % (status === "dispatching" ? 5 : 3) + 1;
+    if (status === "dispatching" || x.link) {
+      const at = step(1.5, "dispatching");
+      m.link = newLink(r, at, cam);
+      seedViews(m.link, r, Date.parse(at), Math.min(now, Date.parse(at) + 30 * HOUR), status === "canceled" ? 2 : views, iso);
+      (DECLINES[model] || []).forEach(([reason, who], i) => {
+        const v = m.link.views[i] || m.link.views[0];
+        m.link.declines.push({at: iso(Date.parse(v.at) + 12 * 60e3), reason, name: who === null ? "" : shops[who]?.name || "", viewer: v.viewer, provider_id: null});
+      });
+    }
 
     if (status === "claimed" || status === "complete") {
-      const s = shops[0]; s.contacted = s.booked = true;
-      const booked_at = step(status === "complete" ? 20 : 26);
+      const s = shops[0];
+      const linked = step(status === "complete" ? 20 : 26, "dispatching");
       const visit = status === "complete" ? t + 46 * HOUR : now + (1 + n % 3) * DAY;
       const slot = new Date(visit); slot.setHours([9, 10, 13, 15][n % 4], n % 2 ? 30 : 0, 0, 0);
-      m.booking = {provider: shopCard(s), inspector: INSPECTORS[n % INSPECTORS.length], scheduled_at: when(slot.getTime()), note: BOOK_NOTES[n % BOOK_NOTES.length], booked_by: cam.name, booked_at};
-      mail(s.email, `Inspection booked: ${veh} in ${place.city}`, booked_at, {kind: "inspector_booking"});
-      m.history.push({stage: "dispatching", at: booked_at});
+      m.scheduled_at = when(slot.getTime());   // the visit time the seed's bookings had; nothing sets one now
+      m.link = newLink(r, linked, cam);
       const claimAt = step(2, "claimed");
-      m.inspect = {token: pick(r, URLSAFE, 32), made_at: booked_at, shop: shopCard(s), claim: {status: "claimed", at: claimAt, terms: {version: PROVIDER_TERMS_VERSION, accepted_at: claimAt}}};
-      row.inspect_url = inspectLink(m.inspect.token); row.inspect_shop = m.inspect.shop; row.inspect_claim = m.inspect.claim;
+      seedViews(m.link, r, Date.parse(linked), Date.parse(claimAt), views, iso);
+      m.link.claim = claimOf(m.link, claimAt, INSPECTORS[n % INSPECTORS.length], s.name, s.phone, n % 2 ? s.email : "");
       mail(row.form.email, `Inspection confirmed: ${veh} (${jobRef(row.id)})`, claimAt, {kind: "confirmed"});
       if (status === "complete") {
         t = slot.getTime() + 3 * HOUR;
@@ -483,18 +490,20 @@ function buildAuth(now, jobOrgs, jobUsers, cam){
 // day, and its report back three hours later, with the history, booking, claim and emails Kavin's server keeps.
 function reportFlow(row, x, created, k){
   const m = row.meta, rep = REPORT_INDEX[x.report];
-  const shop = {...LEMON_SQUAD, lat: null, lon: null, miles: null, contacted: true, booked: true};
+  const shop = {...LEMON_SQUAD, lat: null, lon: null, miles: null};
   row.result = {shops: [shop], summary: `Lemon Squad covers ${k.place.city}, ${k.place.state} with a mobile inspector who comes to the vehicle.`, origin: [k.place.lat, k.place.lon]};
   k.step(0.05);
   const visit = new Date(k.now - x.inspected * k.DAY); visit.setHours(10, 0, 0, 0);
-  const booked_at = k.iso(created + (visit.getTime() - created) * 0.45);
-  k.setT(Date.parse(booked_at));
-  m.booking = {provider: shopCard(shop), inspector: "", scheduled_at: when(visit.getTime()), note: "", booked_by: k.cam.name, booked_at};
-  row.updated_at = booked_at;
-  m.history.push({stage: "dispatching", at: booked_at});
+  const linked = k.iso(created + (visit.getTime() - created) * 0.45);
+  k.setT(Date.parse(linked));
+  m.scheduled_at = when(visit.getTime());
+  row.updated_at = linked;
+  m.history.push({stage: "dispatching", at: linked});
+  m.link = newLink(k.r, linked, k.cam);
   const claimAt = k.step(2, "claimed");
-  m.inspect = {token: pick(k.r, URLSAFE, 32), made_at: booked_at, shop: shopCard(shop), claim: {status: "claimed", at: claimAt, terms: {version: PROVIDER_TERMS_VERSION, accepted_at: claimAt}}};
-  row.inspect_url = inspectLink(m.inspect.token); row.inspect_shop = m.inspect.shop; row.inspect_claim = m.inspect.claim;
+  seedViews(m.link, k.r, Date.parse(linked), Date.parse(claimAt), hashStr(rep.id) % 3 + 1, k.iso);
+  // Lemon Squad claims through its dispatcher; no phone or email of theirs is invented here
+  m.link.claim = claimOf(m.link, claimAt, INSPECTORS[hashStr(rep.id) % INSPECTORS.length], LEMON_SQUAD.name, "", "");
   k.mail(row.form.email, `Inspection confirmed: ${k.veh} (${jobRef(row.id)})`, claimAt, {kind: "confirmed"});
   k.setT(visit.getTime() + 3 * k.HOUR);
   const at = k.step(0, "complete");
@@ -502,6 +511,17 @@ function reportFlow(row, x, created, k){
   k.mail(row.form.email, `Inspection report ready: ${k.veh} (${jobRef(row.id)})`, at, {kind: "complete"});
   return row;
 }
+
+/* ---- the job link: one per job, open to every provider it is shared with ---- */
+
+const newLink = (r, at, by) => ({token: pick(r, URLSAFE, 32), created_at: at, created_by: by.name, off_at: null, views: [], declines: [], claim: null});
+// n views between two moments, each from a browser of its own
+function seedViews(link, r, from, to, n, iso){
+  for (let i = 0; i < n; i++) link.views.push({at: iso(from + (to - from) * (i + 1) / (n + 1)), viewer: "v_" + pick(r, HEX, 10)});
+}
+// the claim comes from the browser that viewed it last
+const claimOf = (link, at, name, company, phone, email) => ({at, name, company, phone, email, viewer: link.views.at(-1)?.viewer || "", provider_id: null,
+  terms: {version: PROVIDER_TERMS_VERSION, accepted_at: at}});
 
 /* ---- inspection reports (apps/reports_service): one per finished job ---- */
 
