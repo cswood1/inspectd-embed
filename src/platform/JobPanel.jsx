@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
 import { PORTAL, inspectLink } from "./seed.js";
 import { STATUS, fmt, vehicle, isClosed, Icon, ClassTag, useToast, useAsk } from "./ui.jsx";
-import { inspectionLabel, classLabel, dollars } from "./jobModel.js";
+import { inspectionLabel, classLabel, dollars, plannedLabel } from "./jobModel.js";
 import { activityOf } from "./activity.js";
 
 /*
@@ -136,7 +136,7 @@ export function JobPanel({ row: r, rows, open, onClose, onOpenPortal, onViewAll,
           : <span>No declines</span>}
       </div>
       {c ? <div className="claimed" id="claimline"><Icon name="check" size={14} /><span><b>{`Claimed by ${c.name}${c.company ? `, ${c.company}` : ""}`}</b>
-        {` · ${fmt(c.at)}`}{c.phone ? ` · ${c.phone}` : ""}{c.email ? ` · ${c.email}` : ""}<span className="sub">{` · terms v${c.terms?.version || "1"} accepted`}</span></span></div> : null}
+        {c.proposed_time ? ` · plans ${plannedLabel(c.proposed_time)}` : ""}{` · claimed ${fmt(c.at)}`}{c.phone ? ` · ${c.phone}` : ""}{c.email ? ` · ${c.email}` : ""}<span className="sub">{` · terms v${c.terms?.version || "1"} accepted`}</span></span></div> : null}
       {r.status === "canceled" ? <p className="bnone">The job is canceled, so the link shows it as canceled. Reset turns it off.</p> : null}
       {earlier}
     </>);

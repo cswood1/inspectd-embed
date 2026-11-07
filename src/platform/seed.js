@@ -181,7 +181,7 @@ export function lookupFor(row, attempt = 0){
 
 /* ---- people ------------------------------------------------------- */
 
-export const SEED_VERSION = 7;   // bump when the seed changes shape: a stored older seed is replaced
+export const SEED_VERSION = 8;   // bump when the seed changes shape: a stored older seed is replaced
 export const PORTAL = "https://portal.inspectd.com";
 // The links the demo hands out (an inspector's job link) are built on the page's own origin, so a copied link opens
 // inside the demo, on localhost, a preview or staging alike. Invitation links stay on PORTAL: the demo has no invite page.
@@ -386,7 +386,7 @@ export function buildSeed(now = Date.now()){
       m.link = newLink(r, linked, cam);
       const claimAt = step(2, "claimed");
       seedViews(m.link, r, Date.parse(linked), Date.parse(claimAt), views, iso);
-      m.link.claim = claimOf(m.link, claimAt, INSPECTORS[n % INSPECTORS.length], s.name, s.phone, n % 2 ? s.email : "");
+      m.link.claim = claimOf(m.link, claimAt, INSPECTORS[n % INSPECTORS.length], s.name, s.phone, n % 2 ? s.email : "", slot.getTime());
       mail(row.form.email, `Inspection confirmed: ${veh} (${jobRef(row.id)})`, claimAt, {kind: "confirmed"});
       if (status === "complete") {
         t = slot.getTime() + 3 * HOUR;
@@ -503,7 +503,7 @@ function reportFlow(row, x, created, k){
   const claimAt = k.step(2, "claimed");
   seedViews(m.link, k.r, Date.parse(linked), Date.parse(claimAt), hashStr(rep.id) % 3 + 1, k.iso);
   // Lemon Squad claims through its dispatcher; no phone or email of theirs is invented here
-  m.link.claim = claimOf(m.link, claimAt, INSPECTORS[hashStr(rep.id) % INSPECTORS.length], LEMON_SQUAD.name, "", "");
+  m.link.claim = claimOf(m.link, claimAt, INSPECTORS[hashStr(rep.id) % INSPECTORS.length], LEMON_SQUAD.name, "", "", visit.getTime());
   k.mail(row.form.email, `Inspection confirmed: ${k.veh} (${jobRef(row.id)})`, claimAt, {kind: "confirmed"});
   k.setT(visit.getTime() + 3 * k.HOUR);
   const at = k.step(0, "complete");
@@ -519,9 +519,11 @@ const newLink = (r, at, by) => ({token: pick(r, URLSAFE, 32), created_at: at, cr
 function seedViews(link, r, from, to, n, iso){
   for (let i = 0; i < n; i++) link.views.push({at: iso(from + (to - from) * (i + 1) / (n + 1)), viewer: "v_" + pick(r, HEX, 10)});
 }
-// the claim comes from the browser that viewed it last
-const claimOf = (link, at, name, company, phone, email) => ({at, name, company, phone, email, viewer: link.views.at(-1)?.viewer || "", provider_id: null,
-  terms: {version: PROVIDER_TERMS_VERSION, accepted_at: at}});
+// the claim comes from the browser that viewed it last, proposing the day and part of the day of the seeded visit
+const claimOf = (link, at, name, company, phone, email, visit) => ({at, name, company, phone, email, viewer: link.views.at(-1)?.viewer || "", provider_id: null,
+  terms: {version: PROVIDER_TERMS_VERSION, accepted_at: at}, proposed_time: proposedOf(visit)});
+const proposedOf = ms => { const d = new Date(ms), p = n => String(n).padStart(2, "0"), h = d.getHours();
+  return {date: `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`, window: h < 12 ? "morning" : h < 17 ? "afternoon" : "evening"}; };
 
 /* ---- inspection reports (apps/reports_service): one per finished job ---- */
 

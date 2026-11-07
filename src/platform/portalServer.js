@@ -7,7 +7,8 @@
  */
 import { ApiError, createAuth } from "./authServer.js";
 import { PROVIDER_TERMS_VERSION, jobRef, payoutAt } from "./seed.js";
-import { INSPECTION_TYPES, VEHICLE_CLASSES, classifyInspection, classifyClass, inspectionLabel, classLabel, subtypesOf } from "./jobModel.js";
+import { INSPECTION_TYPES, VEHICLE_CLASSES, classifyInspection, classifyClass, inspectionLabel, classLabel, subtypesOf,
+         requirementsFor, TIME_WINDOWS, PROPOSE_DAYS, plannedLabel, DECLINE_REASONS } from "./jobModel.js";
 import { vinCheck } from "./vin.js";
 
 const nowIso = () => new Date().toISOString().replace(/\.\d{3}Z$/, "+00:00");
@@ -93,7 +94,9 @@ function historyOf(r){
   return upto.filter(s => seen[s]).map(s => ({stage: s, at: seen[s]}));
 }
 // when the inspection is set for, once a provider has claimed it: only the seed's jobs carry one for now
-const scheduledAt = r => r.meta?.link?.claim ? r.meta?.scheduled_at || "" : "";
+// When the inspection is planned, once a provider has claimed it: the seed's exact visit time where it has one, else the
+// day and part of the day the provider proposed. The inspector's call to the on-site contact confirms it.
+const plannedOf = r => { const c = r.meta?.link?.claim; return c ? r.meta?.scheduled_at || plannedLabel(c.proposed_time) : ""; };
 // who claimed the job, as a shop card: their company, else their name
 const claimShop = r => { const c = r.meta?.link?.claim; return c ? {name: c.company || c.name, phone: c.phone, email: c.email} : null; };
 export function clientView(r, reports = []){
@@ -106,7 +109,7 @@ export function clientView(r, reports = []){
   const stage = portalStage(r);
   return {id: r.id, stage, stage_label: STAGE_LABELS[stage], created_at: r.created_at, updated_at: r.updated_at, form: r.form,
           org_id: r.org_id, user_id: r.user_id, shops_found: r.search?.state === "done" ? shops.length : null, lookup_pending: !r.search || r.search.state === "running",
-          report, history: historyOf(r), can_cancel: canCancel(r), canceled: r.meta?.canceled || null, scheduled_at: scheduledAt(r)};
+          report, history: historyOf(r), can_cancel: canCancel(r), canceled: r.meta?.canceled || null, scheduled_at: plannedOf(r), planned: plannedOf(r)};
 }
 const canCancel = r => ["new", "dispatching"].includes(r.status) && !r.meta?.report?.id;
 
@@ -148,20 +151,31 @@ export function createPortal(state){
   const save = next => withState({rows: state.rows.map(x => x.id === next.id ? next : x)});
   // booking._instance: what the page behind the link may see; the customer stays anonymous to the provider.
   // `viewer` is the browser asking: the claimer sees the job as theirs, a decliner as declined, anyone else as taken once claimed.
+  // What the job card may show, and in which state, for the browser asking (`viewer`). Before a claim it shows what a
+  // provider needs to decide: payout, vehicle, inspection and what the report covers, city and state, the customer's
+  // notes. The address, the on-site contact and the lot's contact are for the provider who claimed it.
   const instance = (r, viewer) => {
     const f = r.form, link = r.meta.link, rep = r.meta?.report || {}, rv = r.meta?.revroom || {}, lot = rv.location || {}, c = link.claim;
-    const site = {name: lot.name || "", contact_name: lot.contact_name || "", contact_phone: lot.contact_phone || ""};
     const mine = !!(c && viewer && c.viewer === viewer), declined = !c && !!viewer && link.declines.some(d => d.viewer === viewer);
-    return {request_id: r.id, status: r.status, site: Object.values(site).some(Boolean) ? site : null, title_status: rv.title_status || "", damage: rv.damage || [],
-            mileage: rv.mileage ?? null, seller: rv.seller || "",
-            you: mine ? "claimed" : declined ? "declined" : null, taken: !!c && !mine,
-            claim: mine ? {at: c.at, name: c.name, company: c.company} : null, declined_at: declined ? link.declines.filter(d => d.viewer === viewer).at(-1).at : null,
-            vehicle: [f.year, f.make, f.model].filter(Boolean).join(" ") || "the vehicle", vin: f.vin || "", year: f.year || "", make: f.make || "", model: f.model || "",
-            inspection_type: f.inspection_type, inspection_subtype: f.inspection_subtype || "", inspection: inspectionLabel(f),
-            vehicle_class: f.vehicle_class || "standard", vehicle_class_label: classLabel(f.vehicle_class || "standard"), payout_cents: r.payout_cents ?? null, location: [f.address, f.city, f.state, f.zip].filter(Boolean).join(", "),
-            onsite: {phone: f.phone || "", note: ""}, contact_phone: f.phone || "", scheduled_at: mine ? r.meta?.scheduled_at || "" : "", provider: mine ? c.company || c.name : "",
-            note: "", report_id: mine ? rep.id || "" : "", uploaded_at: mine ? rep.at || "" : "",
-            terms: {url: "", version: PROVIDER_TERMS_VERSION, summary: "By claiming this job you agree to the Inspectd provider terms, including that Inspectd may keep, alter, own and freely use the completed report."}};
+    const state = r.status === "complete" ? "complete" : mine ? "claimed" : c ? "taken" : declined ? "declined" : "open";
+    const site = {name: lot.name || "", contact_name: lot.contact_name || "", contact_phone: lot.contact_phone || ""};
+    return {
+      request_id: r.id, state, payout_cents: r.payout_cents ?? null,
+      vehicle: [f.year, f.make, f.model].filter(Boolean).join(" ") || "Vehicle", vehicle_class: f.vehicle_class || "standard", vehicle_class_label: classLabel(f.vehicle_class || "standard"),
+      inspection: inspectionLabel(f), requirements: requirementsFor(f), where: [f.city, (f.state || "").toUpperCase()].filter(Boolean).join(", "),
+      notes: f.notes || "", timeframe: f.timeframe || "",
+      listing: rv.title_status || rv.damage?.length ? {title_status: rv.title_status || "", mileage: rv.mileage ?? null, damage: rv.damage || []} : null,
+      declined_at: declined ? link.declines.filter(d => d.viewer === viewer).at(-1).at : null,
+      uploaded_at: r.status === "complete" ? rep.at || "" : "",
+      terms: {url: "", version: PROVIDER_TERMS_VERSION, summary: "By claiming this job you agree to the Inspectd provider terms, including that Inspectd may keep, alter, own and freely use the completed report."},
+      ...(mine ? {
+        claim: {at: c.at, name: c.name, company: c.company, proposed_time: c.proposed_time || null},
+        planned: r.meta?.scheduled_at || plannedLabel(c.proposed_time),
+        vin: f.vin || "", address: [f.address, f.city, f.state, f.zip].filter(Boolean).join(", "),
+        contact: {name: f.name || "", phone: f.phone || ""},
+        site: Object.values(site).some(Boolean) ? site : null,
+      } : {}),
+    };
   };
   const newRow = (form, org, ts, meta) => ({id: hex(12), created_at: ts, updated_at: ts, status: "new", search: null, notes: "",
     payout_cents: payoutAt(form.zip, form.vehicle_class), form, result: null, meta, org_id: org.id, user_id: me.id, org: {id: org.id, name: org.name}, partner: null});
@@ -232,10 +246,18 @@ export function createPortal(state){
     },
 
     /* ---- the inspector's page, /inspect/<token> (requests/booking.py) ---- */
+    // GET /api/inspect/{token}: the job card. A link a reset turned off, or a canceled job, is "gone": a short message
+    // with the vehicle, rather than an error.
     inspection(token, viewer = ""){
-      const r = byToken(token);
-      if (r.status === "canceled") throw fail(410, "This inspection was canceled. You don't need to go out for it.");
-      if (r.status === "complete" && (Date.now() - Date.parse(r.meta?.report?.at || "")) / 864e5 > 14) throw fail(410, "This job is closed. Contact Inspectd if you need anything about it.");
+      const r = token && state.rows.find(x => x.meta?.link?.token === token || (x.meta?.past_links || []).some(l => l.token === token));
+      if (!r) throw fail(404, "This link is not valid. Ask whoever sent it to you for a new one.");
+      const off = r.meta.link?.token !== token || !!r.meta.link.off_at;
+      if (off || r.status === "canceled") {
+        const f = r.form;
+        return {state: "gone", why: off ? "reset" : "canceled", request_id: r.id, vehicle: [f.year, f.make, f.model].filter(Boolean).join(" ") || "Vehicle",
+                vehicle_class: f.vehicle_class || "standard", vehicle_class_label: classLabel(f.vehicle_class || "standard"),
+                inspection: inspectionLabel(f), where: [f.city, (f.state || "").toUpperCase()].filter(Boolean).join(", ")};
+      }
       return instance(r, viewer);
     },
     // a provider opened the link: one view per page load. The console's "Open" is a preview and never calls this.
@@ -257,10 +279,14 @@ export function createPortal(state){
       const missing = ["name", "company", "phone"].filter(k => !v(k));
       if (missing.length) throw fail(422, `Please give your ${missing.join(", ")}`);
       if (v("email") && !v("email").includes("@")) throw fail(422, "That email doesn't look right");
+      const pt = body.proposed_time || {}, day = /^\d{4}-\d{2}-\d{2}$/.test(pt.date || "") ? new Date(`${pt.date}T00:00:00`) : null;
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      if (!day || isNaN(day) || !TIME_WINDOWS.some(([k]) => k === pt.window)) throw fail(422, "Say when you can inspect it: a date and morning, afternoon or evening");
+      if (day < today || (day - today) / 864e5 > PROPOSE_DAYS) throw fail(422, `Pick a date from today to ${PROPOSE_DAYS} days out`);
       if (!body.accept_terms) throw fail(422, "Accept the terms to claim this job");
       const at = nowIso();
       const claim = {at, name: v("name"), company: v("company"), phone: v("phone"), email: v("email"), viewer: String(viewer || ""), provider_id: null,
-                     terms: {version: PROVIDER_TERMS_VERSION, accepted_at: at}};
+                     terms: {version: PROVIDER_TERMS_VERSION, accepted_at: at}, proposed_time: {date: pt.date, window: pt.window}};
       const status = ["new", "dispatching"].includes(r.status) ? "claimed" : r.status;
       const meta = {...r.meta};
       if (status !== r.status) {   // the business is told an inspector is confirmed (client.status_changed)
@@ -276,6 +302,7 @@ export function createPortal(state){
     reject(token, body = {}, viewer = ""){
       const r = byToken(token), link = r.meta.link;
       if (link.claim && viewer && link.claim.viewer === viewer) throw fail(409, "You claimed this job; ask Inspectd if you can no longer do it");
+      if (!DECLINE_REASONS.includes(body.reason)) throw fail(422, "Pick a reason from the list");   // the card's short list
       const decline = {at: nowIso(), reason: String(body.reason || "").trim().slice(0, 300), name: String(body.name || "").trim().slice(0, 120), viewer: String(viewer || ""), provider_id: null};
       const next = putLink({...r, updated_at: decline.at}, {...link, declines: [...link.declines, decline]});
       return {state: save(next), out: {ok: true, status: r.status}};

@@ -3,6 +3,8 @@
  * stores (its history, search, links, report, cancellation, resets), so there is no separate log to keep.
  */
 
+import { plannedLabel } from "./jobModel.js";
+
 const money = c => "$" + ((c || 0) / 100).toFixed(2);
 
 /** [{at, what, who, detail}] in time order */
@@ -26,7 +28,8 @@ export function activityOf(r){
       add(last, `Link viewed ${link.views.length} time${link.views.length === 1 ? "" : "s"}`, "", link.views.length > 1 ? `last ${new Date(last).toLocaleString([], {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"})}` : "");
     }
     for (const d of link.declines) add(d.at, "Declined", d.name || "A provider", d.reason);
-    if (link.claim) add(link.claim.at, "Claimed", [link.claim.name, link.claim.company].filter(Boolean).join(", "), link.claim.phone);
+    if (link.claim) add(link.claim.at, "Claimed", [link.claim.name, link.claim.company].filter(Boolean).join(", "),
+      [link.claim.proposed_time ? `Plans ${plannedLabel(link.claim.proposed_time)}` : "", link.claim.phone].filter(Boolean).join(" · "));
     if (link.off_at) add(link.off_at, "Link turned off");
   }
   if (m.report?.at) add(m.report.at, "Report submitted", m.link?.claim?.company || m.report.shop?.name || "");
