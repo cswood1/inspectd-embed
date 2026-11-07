@@ -103,11 +103,11 @@ const R_HEADS = ["Customer", "Vehicle", "Location", "Status", "Provider", "Updat
 export function Reports({ loaded, onNavigate, onOpenPortal }){
   const { rows } = usePlatform();
   const [page, setPage] = useState(0);
-  const list = loaded ? rows.filter(r => r.status === "confirmed" || r.status === "complete").sort((a, b) => b.updated_at.localeCompare(a.updated_at)) : [];
+  const list = loaded ? rows.filter(r => r.status === "claimed" || r.status === "complete").sort((a, b) => b.updated_at.localeCompare(a.updated_at)) : [];
   const pg = paged(list, page);
   let body;
   if (!loaded) body = <SkelRows n={5} heads={R_HEADS} />;
-  else if (!list.length) body = <div className="empty"><b>No confirmed jobs yet</b>Once an inspection is confirmed it shows up here, and its report once it lands.</div>;
+  else if (!list.length) body = <div className="empty"><b>No claimed jobs yet</b>Once a provider claims a job it shows up here, and its report once it lands.</div>;
   else body = (
     <table><thead><tr>{R_HEADS.map(h => <th key={h}>{h}</th>)}</tr></thead><tbody>{pg.slice.map(r => {
       const [hue, label] = STATUS[r.status] || ["gray", r.status], booked = (r.result?.shops || []).find(s => s.booked);

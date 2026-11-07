@@ -78,7 +78,7 @@ export function Vehicles({ ctx, expand = false }){
         </summary>
         {g.jobs.length ? <div className="vjobs">{[...open, ...g.jobs.filter(j => j.stage === "complete")].map(j => (
           <a key={j.id} className="vjob" href={`/jobs/${j.id}`} onClick={e => { e.preventDefault(); ctx.navigate(`/jobs/${j.id}`); }}><span className="mono">{jobRef(j.id)}</span><span className={`pill ${j.stage === "complete" ? "gray" : "blue"}`}>{j.stage_label || j.stage}</span>
-            <span className="sub">{[j.form?.inspection_type, j.form?.city].filter(Boolean).join(" · ")}</span><span className="sub">{fmtDate((j.created_at || "").slice(0, 10))}</span></a>))}</div> : null}
+            <span className="sub">{[j.form ? STAGE.short(j.form) : "", j.form?.city].filter(Boolean).join(" · ")}</span><span className="sub">{fmtDate((j.created_at || "").slice(0, 10))}</span></a>))}</div> : null}
         {n ? <ReportRows rows={g.reports} onOpen={id => ctx.navigate(`/reports/${id}`)} /> : <div className="vempty">No report yet for this vehicle.</div>}
       </details>);
   });

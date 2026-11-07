@@ -10,6 +10,8 @@
  */
 import { DEALER } from "../data.js";
 import { REPORT_INDEX } from "./reportIndex.js";
+import { payoutFor } from "./jobModel.js";
+import zipDb from "us-zips";
 
 /* ---- deterministic ids ----------------------------------------- */
 
@@ -76,6 +78,8 @@ export function quote(zip, partnerShareBps = 0){
   return {zip, tier: ZIPS[zip].tier, label: t.label, price_cents: t.price_cents, currency: "usd", take_bps: t.take_bps,
           platform_fee_cents: fee, provider_payout_cents: t.price_cents - fee, partner_share_bps: partnerShareBps, partner_share_cents: share};
 }
+/** The provider's payout for a job at this ZIP, by its price tier and the vehicle's class (jobModel.payoutFor). */
+export const payoutAt = (zip, vehicleClass) => payoutFor(ZIPS[zip]?.tier, vehicleClass);
 const miles = (a, b) => { const R = 3958.8, rad = d => d * Math.PI / 180, dLat = rad(b.lat - a.lat), dLon = rad(b.lon - a.lon);
   const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLon / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(h)); };
 
@@ -120,28 +124,64 @@ export const PROVIDERS = P.map(([zip, name, address, phone, domain, hours, servi
   distance: coverage, notes, mobile: !address, sources: [`https://www.${domain}`, `https://www.${domain}/${address ? "inspections" : "service-area"}`],
 }));
 
-/** What a lookup finds for a job: the nearest providers in Kavin's shop shape, located shops by measured
- *  distance first and mobile inspectors after them (research/geo.py locate). `attempt` varies a rerun. */
+/* ---- where a job is, for any ZIP ------------------------------------ */
+
+// The metros the seed has providers in, each by its center ZIP. Every provider belongs to the metro in its state.
+const METROS = ["75201", "30303", "37203", "80202"].map(zip => ({zip, ...ZIPS[zip]}));
+// approximate geographic center of each state, for a ZIP that us-zips doesn't know
+const STATE_CENTERS = {AL: [32.8, -86.8], AK: [61.4, -152.3], AZ: [34.2, -111.7], AR: [34.9, -92.4], CA: [37.2, -119.5], CO: [39.0, -105.5], CT: [41.6, -72.7],
+  DE: [39.0, -75.5], DC: [38.9, -77.0], FL: [28.6, -82.4], GA: [32.7, -83.4], HI: [20.8, -156.3], ID: [44.4, -114.6], IL: [40.0, -89.2], IN: [39.9, -86.3],
+  IA: [42.1, -93.5], KS: [38.5, -98.4], KY: [37.5, -85.3], LA: [31.1, -92.0], ME: [45.4, -69.2], MD: [39.0, -76.8], MA: [42.3, -71.8], MI: [44.3, -85.4],
+  MN: [46.3, -94.3], MS: [32.7, -89.7], MO: [38.4, -92.5], MT: [47.0, -109.6], NE: [41.5, -99.8], NV: [39.3, -116.6], NH: [43.7, -71.6], NJ: [40.2, -74.7],
+  NM: [34.4, -106.1], NY: [42.9, -75.5], NC: [35.6, -79.4], ND: [47.5, -100.5], OH: [40.3, -82.8], OK: [35.6, -97.5], OR: [43.9, -120.6], PA: [40.9, -77.8],
+  RI: [41.7, -71.5], SC: [33.9, -80.9], SD: [44.4, -100.2], TN: [35.9, -86.4], TX: [31.5, -99.3], UT: [39.3, -111.7], VT: [44.1, -72.7], VA: [37.5, -78.9],
+  WA: [47.4, -120.5], WV: [38.6, -80.6], WI: [44.6, -89.9], WY: [43.0, -107.6]};
+/** Where a job is: the seed's own ZIP, else us-zips' centroid, else the state's center, else Dallas as a last resort. */
+export function placeOf(zip, state){
+  const z = String(zip || "").slice(0, 5);
+  if (ZIPS[z]) return {lat: ZIPS[z].lat, lon: ZIPS[z].lon, from: "seed"};
+  const rec = zipDb[z];
+  if (rec) return {lat: rec.latitude, lon: rec.longitude, from: "zip"};
+  const c = STATE_CENTERS[String(state || "").trim().toUpperCase()];
+  if (c) return {lat: c[0], lon: c[1], from: "state"};
+  return {lat: METROS[0].lat, lon: METROS[0].lon, from: "default"};
+}
+
+/**
+ * What a provider search finds for a job: the nearest providers in Kavin's shop shape, located shops by measured
+ * distance first and mobile inspectors after them (research/geo.py locate). A job in one of the seed's own ZIPs
+ * searches every provider; anywhere else falls back to the providers of the nearest seeded metro, so the search
+ * always finishes with someone. `attempt` varies a rerun.
+ */
 export function lookupFor(row, attempt = 0){
-  const z = ZIPS[row.form.zip], origin = {lat: z.lat, lon: z.lon};
+  const f = row.form, origin = placeOf(f.zip, f.state);
+  const metro = ZIPS[String(f.zip || "").slice(0, 5)] ? null : METROS.map(m => ({...m, d: miles(origin, m)})).sort((a, b) => a.d - b.d)[0];
+  const pool = metro ? PROVIDERS.filter(p => ZIPS[p.zip].state === metro.state) : PROVIDERS;
   const n = 4 + hashStr(row.id + ":" + attempt) % 4;   // 4 to 7
-  const near = PROVIDERS.map(p => ({p, d: miles(origin, ZIPS[p.zip])})).sort((a, b) => a.d - b.d).slice(0, n);
+  const near = pool.map(p => ({p, d: miles(origin, ZIPS[p.zip])})).sort((a, b) => a.d - b.d).slice(0, n);
   const shops = near.map(({p, d}) => {
     const {zip, ...shop} = p;
     const at = ZIPS[zip], m = shop.address ? Math.round(Math.max(d, 0.6 + (hashStr(shop.name) % 30) / 10) * 10) / 10 : null;
     return {...shop, lat: shop.address ? at.lat : null, lon: shop.address ? at.lon : null, miles: m, distance: m === null ? shop.distance : `${m} mi`};
   }).sort((a, b) => (a.miles === null) - (b.miles === null) || (a.miles ?? 0) - (b.miles ?? 0));
   const mobile = shops.filter(s => s.mobile).length;
+  const here = [f.city, (f.state || "").toUpperCase()].filter(Boolean).join(", ") || `ZIP ${f.zip}`;
+  const how = mobile === shops.length ? "All of them are mobile and come to the vehicle." : `${mobile} ${mobile === 1 ? "is" : "are"} mobile and ${mobile === 1 ? "comes" : "come"} to the vehicle; ${shops.length - mobile} ${shops.length - mobile === 1 ? "works" : "work"} from a shop and will also travel.`;
   return {
     shops,
-    summary: `${shops.length} inspectors cover ${z.city}, ${z.state}. ${mobile === shops.length ? "All of them are mobile and come to the vehicle." : `${mobile} are mobile and come to the vehicle; ${shops.length - mobile} work from a shop nearby and will also travel.`}`,
-    origin: [z.lat, z.lon],
+    summary: metro && origin.from === "default"
+      ? `We couldn't place ${here} on the map, so these are ${shops.length} inspectors in the ${metro.city} area. ${how}`
+      : metro
+      ? `No inspectors on file near ${here} yet. The nearest are ${shops.length} in the ${metro.city} area, about ${Math.round(metro.d).toLocaleString()} miles away. ${how}`
+      : `${shops.length} inspectors cover ${here}. ${how.replace("from a shop and", "from a shop nearby and")}`,
+    origin: [origin.lat, origin.lon],
+    ...(metro ? {fallback: {metro: metro.city, state: metro.state, miles: Math.round(metro.d), located_by: origin.from}} : {}),
   };
 }
 
 /* ---- people ------------------------------------------------------- */
 
-export const SEED_VERSION = 5;   // bump when the seed changes shape: a stored older seed is replaced
+export const SEED_VERSION = 6;   // bump when the seed changes shape: a stored older seed is replaced
 export const PORTAL = "https://portal.inspectd.com";
 // The links the demo hands out (an inspector's job link) are built on the page's own origin, so a copied link opens
 // inside the demo, on localhost, a preview or staging alike. Invitation links stay on PORTAL: the demo has no invite page.
@@ -193,64 +233,69 @@ export const LEMON_SQUAD = {name: "Lemon Squad", address: "", phone: "", website
   services: "Pre-purchase, lease return, condition reports", rating: "", distance: "Mobile, nationwide network",
   notes: "Inspector dispatched to the vehicle; the report comes back through the job link.", mobile: true, sources: ["https://www.lemonsquad.com"]};
 
-// [report id (tools/report-conversion/manifest.json), who, street, type, class, created days ago, inspected days ago, form notes]
+// [report id (tools/report-conversion/manifest.json), who, street, [type, subtype], class, created days ago, inspected days ago, form notes]
 // Each job takes its report's car, VIN and city, so the job and its report always agree.
+const CR = t => ["condition", t], CONSUMER = t => ["consumer", t], ARB = ["arbitration", null];
 export const REPORT_JOBS = [
-  ["20261021-161204-3c9e1a", "dana", "1220 Hwy 72 E", "lease-end", "standard", 18, 15, "Lease return from our north Alabama pool."],
-  ["20261027-142810-8b20d4", "luis", "2950 FM 1050", "general", "standard", 12, 9, ""],
-  ["20261023-174533-e15f07", "jordan", "23000 Eureka Rd", "general", "standard", 16, 13, "Subscription return. Member reported a rattle from the rear on rough roads."],
-  ["20261028-120952-5a7c31", "mei", "3500 Jerome Ave", "pre-purchase", "standard", 10, 8, "High-mileage unit; deciding whether it goes to retail or auction."],
-  ["20261017-153340-c4d812", "rachel", "140 Englar Rd", "lease-end", "standard", 21, 19, ""],
-  ["20261024-131125-0f6be9", "andre", "1250 S Old Woodward Ave", "auction-listing", "high-end", 14, 12, "Lease return headed to the online auction. Listing photos needed."],
-  ["20261025-160218-92ad4e", "tom", "1700 Shattuck Ave", "pre-purchase", "high-end", 13, 11, "Out-of-state buy. We need the full condition report before we bid."],
-  ["20261014-145907-d73b05", "tom", "2300 Cordelia Rd", "auction-arbitration", "standard", 24, 22, "Arbitration claim: front bumper and grille damage not disclosed at sale."],
-  ["20261022-171446-6e48c0", "rafael", "15000 Valley Blvd", "pre-purchase", "high-end", 17, 14, "Buying from a private seller sight unseen. Please look hard at leaks and the interior."],
-  ["20261029-130637-a91f2c", "omar", "3300 G St", "pre-purchase", "high-end", 9, 7, "The seller says it was garage kept. I would like that confirmed."],
+  ["20261021-161204-3c9e1a", "dana", "1220 Hwy 72 E", CR("lease-return"), "standard", 18, 15, "Lease return from our north Alabama pool."],
+  ["20261027-142810-8b20d4", "luis", "2950 FM 1050", CR("fleet"), "standard", 12, 9, ""],
+  ["20261023-174533-e15f07", "jordan", "23000 Eureka Rd", CR("fleet"), "standard", 16, 13, "Subscription return. Member reported a rattle from the rear on rough roads."],
+  ["20261028-120952-5a7c31", "mei", "3500 Jerome Ave", CONSUMER("pre-purchase"), "standard", 10, 8, "High-mileage unit; deciding whether it goes to retail or auction."],
+  ["20261017-153340-c4d812", "rachel", "140 Englar Rd", CR("lease-return"), "standard", 21, 19, ""],
+  ["20261024-131125-0f6be9", "andre", "1250 S Old Woodward Ave", CR("lease-return"), "exotic", 14, 12, "Lease return headed to the online auction. Listing photos needed."],
+  ["20261025-160218-92ad4e", "tom", "1700 Shattuck Ave", CONSUMER("pre-purchase"), "exotic", 13, 11, "Out-of-state buy. We need the full condition report before we bid."],
+  ["20261014-145907-d73b05", "tom", "2300 Cordelia Rd", ARB, "standard", 24, 22, "Arbitration claim: front bumper and grille damage not disclosed at sale."],
+  ["20261022-171446-6e48c0", "rafael", "15000 Valley Blvd", CONSUMER("pre-purchase"), "exotic", 17, 14, "Buying from a private seller sight unseen. Please look hard at leaks and the interior."],
+  ["20261029-130637-a91f2c", "omar", "3300 G St", CONSUMER("pre-purchase"), "exotic", 9, 7, "The seller says it was garage kept. I would like that confirmed."],
 ];
-function reportJob([id, who, street, type, desig, created, inspected, notes]){
+function reportJob([id, who, street, type, cls, created, inspected, notes]){
   const rep = REPORT_INDEX[id], v = rep.vehicle, zip = rep.inspection.location.match(/(\d{5})\s*$/)[1];
-  return [who, zip, street, [+v.year, v.make, v.model, null, null], type, desig, "complete", "done", created, {report: id, vin: v.vin, inspected, notes}];
+  return [who, zip, street, [+v.year, v.make, v.model, null, null], type, cls, "complete", "done", created, {report: id, vin: v.vin, inspected, notes}];
 }
 
-// [who, zip, street, [year, make, model, vin prefix, plant], type, designation, status, lookup, days ago, extras]
-// who: a user key (a workspace request) or a walk-in key. extras: form notes, internal notes, batch, link, contacted...
+// [who, zip, street, [year, make, model, vin prefix, plant], [type, subtype], vehicle class, status, providers search, days ago, extras]
+// who: a user key (a workspace request) or a walk-in key. search: null (not started), "done" or "failed".
+// extras: form notes, internal notes, batch, link ("offered" or "rejected"; every Dispatching job has a live one), contacted...
+const PRE = CONSUMER("pre-purchase"), POST = CONSUMER("post-purchase"), FLEET = CR("fleet"), LEASE = CR("lease-return"), GENERAL = CR("general");
 const J = [
-  // received: not looked up yet
-  ["dana", "75038", "3200 W Airport Fwy", [2024, "Toyota", "Camry", "4T1C11AK", "U"], "general", "standard", "received", "none", 0.12, {notes: "De-fleet batch. Row C at our Irving lot; keys at the front desk."}],
-  ["andre", "30009", "11720 Amber Park Dr", [2023, "Nissan", "Rogue", "5N1BT3BB", "C"], "lease-end", "standard", "received", "none", 0.38, {}],
-  ["aisha", "80226", "1420 S Teller St", [2022, "Tesla", "Model Y", "7SAYGDEE", "F"], "pre-purchase", "ev", "received", "none", 0.66, {notes: "Private sale. I'd like a battery health number before I pay."}],
-  // dispatching
-  ["dana", "75024", "6100 W Plano Pkwy", [2023, "Chevrolet", "Malibu", "1G1ZD5ST", "F"], "general", "standard", "dispatching", "done", 2.6, {batch: "m-dfw", contacted: [0], inotes: "Called Prairie Line, they can do Thursday morning. Waiting on Dana to confirm lot access."}],
-  ["luis", "30303", "180 Peachtree St NW", [2023, "Ford", "Explorer", "1FMSK8DH", "G"], "lease-end", "standard", "dispatching", "done", 1.5, {}],
-  ["luis", "37203", "1 Music Sq W", [2022, "Jeep", "Grand Cherokee", "1C4RJHBG", "8"], "general", "standard", "dispatching", "failed", 1.8, {}],
-  ["dana", "80202", "1701 Wynkoop St", [2023, "Chevrolet", "Tahoe", "1GNSKNKD", "R"], "general", "standard", "dispatching", "done", 2.3, {contacted: [0, 1]}],
-  ["dana", "75034", "8800 Gaylord Pkwy", [2024, "Kia", "Forte", "3KPF24AD", "E"], "general", "standard", "dispatching", "done", 2.6, {batch: "m-dfw", link: "offered"}],
-  ["jordan", "75201", "2000 Ross Ave", [2023, "Tesla", "Model 3", "5YJ3E1EA", "F"], "general", "ev", "dispatching", "done", 1.1, {notes: "Subscriber return at 41k miles. Battery health report needed."}],
-  ["mei", "30030", "250 E Ponce de Leon Ave", [2022, "Honda", "CR-V", "7FARW2H5", "E"], "pre-purchase", "standard", "dispatching", "done", 3.0, {contacted: [0], inotes: "Left voicemail with two. Decatur Square said they can do it this week."}],
-  ["jordan", "75038", "5215 N O'Connor Blvd", [2023, "Hyundai", "Elantra", "KMHLM4AG", "U"], "general", "standard", "dispatching", "done", 3.4, {link: "rejected", contacted: [0]}],
-  ["tom", "80226", "7400 W Colfax Ave", [2023, "Toyota", "RAV4", "2T3P1RFV", "W"], "pre-purchase", "standard", "dispatching", "done", 4.1, {}],
-  ["rachel", "37027", "330 Franklin Rd", [2022, "BMW", "X5", "5UXCR6C0", "9"], "lease-end", "high-end", "dispatching", "done", 2.0, {notes: "Lease return. Lessee reports a curb-rashed wheel; please photograph all four."}],
-  ["rachel", "37064", "1800 Galleria Blvd", [2023, "Mercedes-Benz", "GLE 350", "4JGFB4KB", "A"], "auction-listing", "high-end", "dispatching", "done", 3.7, {contacted: [0]}],
-  ["andre", "30303", "55 Trinity Ave SW", [2022, "Nissan", "Altima", "1N4BL4DV", "N"], "lease-end", "standard", "dispatching", "done", 5.2, {}],
-  ["tom", "80011", DEALER.address, [2021, "Ford", "F-150", "1FTFW1E5", "F"], "pre-purchase", "standard", "dispatching", "done", 1.6, {inotes: "Crestview wants it before Saturday's sale."}],
-  ["tom", "80120", "8501 W Bowles Ave", [2022, "Lamborghini", "Huracan EVO", "ZHWUF5ZF", "L"], "auction-arbitration", "exotic", "dispatching", "done", 0.9, {link: "offered", notes: "Arbitration claim: buyer reports a front lift system fault not disclosed at sale. Need a documented check before the arbitration deadline."}],
-  ["marcus", "75201", "2525 McKinnon St", [2019, "Lexus", "RX 350", "2T2BZMCA", "C"], "pre-purchase", "standard", "dispatching", "done", 2.2, {}],
-  ["marcus", "75034", "4800 Main St", [2020, "Honda", "Accord", "1HGCV1F3", "A"], "pre-purchase", "standard", "dispatching", "done", 1.9, {held: true, name: "Marc Hale", notes: "Second car I'm looking at. Seller is free after 5pm."}],
-  ["elena", "30030", "128 Sycamore St", [2021, "Subaru", "Outback", "4S4BTACC", "3"], "pre-purchase", "standard", "dispatching", "done", 4.4, {contacted: [0]}],
-  ["jasmine", "37129", "1950 Old Fort Pkwy", [2020, "Honda", "Civic", "2HGFC2F6", "H"], "pre-purchase", "standard", "dispatching", "done", 1.3, {partner: "rebuildr", notes: "Want to know the repair quality on the front end before I buy."}],
-  // confirmed: booked, the inspector's link claimed
-  ["luis", "37129", "2635 Medical Center Pkwy", [2023, "Chevrolet", "Equinox", "3GNAXKEG", "S"], "general", "standard", "confirmed", "done", 5.8, {inotes: "Booked. Lot attendant knows to expect them."}],
-  ["dana", "80226", "14500 W Colfax Ave", [2023, "Ford", "Mustang Mach-E", "3FMTK3SU", "M"], "lease-end", "ev", "confirmed", "done", 6.4, {notes: "Lease end. Check the charge port door and the glass roof for chips."}],
-  ["jordan", "75024", "5800 Tennyson Pkwy", [2023, "Chrysler", "Pacifica", "2C4RC1BG", "R"], "general", "standard", "confirmed", "done", 6.9, {}],
-  ["rachel", "37203", "150 3rd Ave S", [2021, "Cadillac", "Escalade", "1GYS4BKL", "R"], "auction-listing", "high-end", "confirmed", "done", 7.5, {}],
-  ["tom", "80202", "1225 17th St", [2023, "Hyundai", "Ioniq 5", "KM8KN4AE", "U"], "pre-purchase", "ev", "confirmed", "done", 4.8, {}],
-  ["kevin", "37027", "9040 Carothers Pkwy", [1989, "Porsche", "911 Carrera", "WP0AB091", "S"], "pre-purchase", "classic", "confirmed", "done", 5.1, {notes: "Seller claims original paint. A paint meter reading on every panel and a compression test, please."}],
-  ["mei", "30009", "3000 Old Alabama Rd", [2022, "Jeep", "Wrangler", "1C4HJXEG", "W"], "pre-purchase", "standard", "confirmed", "done", 8.2, {}],
+  // new: not searched yet
+  ["dana", "75038", "3200 W Airport Fwy", [2024, "Toyota", "Camry", "4T1C11AK", "U"], FLEET, "standard", "new", null, 0.12, {notes: "De-fleet batch. Row C at our Irving lot; keys at the front desk."}],
+  ["andre", "30009", "11720 Amber Park Dr", [2023, "Nissan", "Rogue", "5N1BT3BB", "C"], LEASE, "standard", "new", null, 0.38, {}],
+  ["aisha", "80226", "1420 S Teller St", [2022, "Tesla", "Model Y", "7SAYGDEE", "F"], PRE, "ev", "new", null, 0.66, {notes: "Private sale. I'd like a battery health number before I pay."}],
+  // new: providers found (or the search failed), no link out yet
+  ["dana", "75024", "6100 W Plano Pkwy", [2023, "Chevrolet", "Malibu", "1G1ZD5ST", "F"], FLEET, "standard", "new", "done", 2.6, {batch: "m-dfw", contacted: [0], inotes: "Called Prairie Line, they can do Thursday morning. Waiting on Dana to confirm lot access."}],
+  ["luis", "37203", "1 Music Sq W", [2022, "Jeep", "Grand Cherokee", "1C4RJHBG", "8"], FLEET, "standard", "new", "failed", 1.8, {}],
+  ["mei", "30030", "250 E Ponce de Leon Ave", [2022, "Honda", "CR-V", "7FARW2H5", "E"], PRE, "standard", "new", "done", 3.0, {contacted: [0], inotes: "Left voicemail with two. Decatur Square said they can do it this week."}],
+  ["rachel", "37064", "1800 Galleria Blvd", [2023, "Mercedes-Benz", "GLE 350", "4JGFB4KB", "A"], GENERAL, "exotic", "new", "done", 3.7, {contacted: [0]}],
+  ["marcus", "75201", "2525 McKinnon St", [2019, "Lexus", "RX 350", "2T2BZMCA", "C"], POST, "standard", "new", "done", 2.2, {notes: "Bought it last week. I want to know what I'm dealing with before the return window closes."}],
+  ["marcus", "75034", "4800 Main St", [2020, "Honda", "Accord", "1HGCV1F3", "A"], PRE, "standard", "new", "done", 1.9, {held: true, name: "Marc Hale", notes: "Second car I'm looking at. Seller is free after 5pm."}],
+  // dispatching: the job link is live
+  ["luis", "30303", "180 Peachtree St NW", [2023, "Ford", "Explorer", "1FMSK8DH", "G"], LEASE, "standard", "dispatching", "done", 1.5, {}],
+  ["dana", "80202", "1701 Wynkoop St", [2023, "Chevrolet", "Tahoe", "1GNSKNKD", "R"], FLEET, "standard", "dispatching", "done", 2.3, {contacted: [0, 1]}],
+  ["dana", "75034", "8800 Gaylord Pkwy", [2024, "Kia", "Forte", "3KPF24AD", "E"], FLEET, "standard", "dispatching", "done", 2.6, {batch: "m-dfw"}],
+  ["jordan", "75201", "2000 Ross Ave", [2023, "Tesla", "Model 3", "5YJ3E1EA", "F"], FLEET, "ev", "dispatching", "done", 1.1, {notes: "Subscriber return at 41k miles. Battery health report needed."}],
+  // a provider declined; the link stays live for the others, so the job stays Dispatching
+  ["jordan", "75038", "5215 N O'Connor Blvd", [2023, "Hyundai", "Elantra", "KMHLM4AG", "U"], FLEET, "standard", "dispatching", "done", 3.4, {link: "rejected", contacted: [0]}],
+  ["rachel", "37027", "330 Franklin Rd", [2022, "BMW", "X5", "5UXCR6C0", "9"], LEASE, "exotic", "dispatching", "done", 2.0, {notes: "Lease return. Lessee reports a curb-rashed wheel; please photograph all four."}],
+  ["tom", "80011", DEALER.address, [2021, "Ford", "F-150", "1FTFW1E5", "F"], PRE, "standard", "dispatching", "done", 1.6, {inotes: "Crestview wants it before Saturday's sale."}],
+  ["tom", "80120", "8501 W Bowles Ave", [2022, "Lamborghini", "Huracan EVO", "ZHWUF5ZF", "L"], ARB, "exotic", "dispatching", "done", 0.9, {notes: "Arbitration claim: buyer reports a front lift system fault not disclosed at sale. Need a documented check before the arbitration deadline."}],
+  ["elena", "30030", "128 Sycamore St", [2021, "Subaru", "Outback", "4S4BTACC", "3"], POST, "standard", "dispatching", "done", 4.4, {contacted: [0], notes: "Bought from a private seller. The check engine light came on two days later."}],
+  ["jasmine", "37129", "1950 Old Fort Pkwy", [2020, "Honda", "Civic", "2HGFC2F6", "H"], PRE, "standard", "dispatching", "done", 1.3, {partner: "rebuildr", notes: "Want to know the repair quality on the front end before I buy."}],
+  // claimed: booked, the job link claimed
+  ["luis", "37129", "2635 Medical Center Pkwy", [2023, "Chevrolet", "Equinox", "3GNAXKEG", "S"], FLEET, "standard", "claimed", "done", 5.8, {inotes: "Booked. Lot attendant knows to expect them."}],
+  ["dana", "80226", "14500 W Colfax Ave", [2023, "Ford", "Mustang Mach-E", "3FMTK3SU", "M"], LEASE, "ev", "claimed", "done", 6.4, {notes: "Lease end. Check the charge port door and the glass roof for chips."}],
+  ["jordan", "75024", "5800 Tennyson Pkwy", [2023, "Chrysler", "Pacifica", "2C4RC1BG", "R"], FLEET, "standard", "claimed", "done", 6.9, {}],
+  ["rachel", "37203", "150 3rd Ave S", [2021, "Cadillac", "Escalade", "1GYS4BKL", "R"], GENERAL, "exotic", "claimed", "done", 7.5, {}],
+  ["tom", "80202", "1225 17th St", [2023, "Hyundai", "Ioniq 5", "KM8KN4AE", "U"], PRE, "ev", "claimed", "done", 4.8, {}],
+  ["kevin", "37027", "9040 Carothers Pkwy", [1989, "Porsche", "911 Carrera", "WP0AB091", "S"], PRE, "exotic", "claimed", "done", 5.1, {notes: "Seller claims original paint. A paint meter reading on every panel and a compression test, please."}],
+  ["mei", "30009", "3000 Old Alabama Rd", [2022, "Jeep", "Wrangler", "1C4HJXEG", "W"], PRE, "standard", "claimed", "done", 8.2, {}],
   // complete: one job per real report, the car and the place as the report has them (REPORT_JOBS)
   ...REPORT_JOBS.map(reportJob),
   // canceled
-  ["brian", "30060", "560 Powder Springs St", [2018, "Mazda", "CX-5", "JM3KFBCM", "0"], "pre-purchase", "standard", "canceled", "done", 9, {refund: true, reason: "Customer bought a different vehicle"}],
-  ["jordan", "75034", "3201 Dallas Pkwy", [2021, "Nissan", "Rogue", "5N1AT3AA", "C"], "general", "standard", "canceled", "done", 11, {reason: "Vehicle sold before the inspection"}],
+  ["brian", "30060", "560 Powder Springs St", [2018, "Mazda", "CX-5", "JM3KFBCM", "0"], PRE, "standard", "canceled", "done", 9, {refund: true, reason: "Customer bought a different vehicle"}],
+  ["jordan", "75034", "3201 Dallas Pkwy", [2021, "Nissan", "Rogue", "5N1AT3AA", "C"], FLEET, "standard", "canceled", "done", 11, {reason: "Vehicle sold before the inspection"}],
+  ["andre", "30303", "55 Trinity Ave SW", [2022, "Nissan", "Altima", "1N4BL4DV", "N"], LEASE, "standard", "canceled", "done", 5.2, {link: "offered", reason: "The lessee bought the car out at lease end"}],
+  ["tom", "80226", "7400 W Colfax Ave", [2023, "Toyota", "RAV4", "2T3P1RFV", "W"], PRE, "standard", "canceled", "done", 4.1, {reason: "The deal fell through; the car went to another buyer"}],
 ];
 
 const INSPECTORS = ["Ray Delgado", "Megan Shore", "Victor Nunez", "Paige Holloway", "Sam Okafor", "Erin Castillo", "Grant Weller"];
@@ -267,17 +312,17 @@ export function buildSeed(now = Date.now()){
   const cam = {...CAM, id: id12()};
   const batches = {};
 
-  const rows = J.map(([who, zip, street, [year, make, model, prefix, plant], type, designation, status, lookup, days, x], n) => {
+  const rows = J.map(([who, zip, street, [year, make, model, prefix, plant], [type, subtype], vehicle_class, status, search, days, x], n) => {
     const u = users[who], w = WALKINS[who], place = ZIPS[zip];
     const created = batches[x.batch] ?? (now - days * DAY - (n % 5) * 7 * 60e3);
     if (x.batch) batches[x.batch] = created;
     const row = {
-      id: id12(), created_at: iso(created), updated_at: iso(created), status, lookup, error: null, notes: x.inotes || "",
+      id: id12(), created_at: iso(created), updated_at: iso(created), status, search: null, notes: x.inotes || "", payout_cents: payoutAt(zip, vehicle_class),
       form: {name: u ? u.name : (x.name || w[0]), email: u ? u.email : w[1], phone: u ? u.phone : w[2], year: String(year), make, model,
-             vin: x.vin || vin(prefix, year, plant, String(100000 + Math.floor(r() * 899999))), inspection_type: type, designation,
+             vin: x.vin || vin(prefix, year, plant, String(100000 + Math.floor(r() * 899999))), vehicle_class, inspection_type: type, inspection_subtype: subtype,
              address: street, city: place.city, state: place.state, zip, notes: x.notes || ""},
       // a workspace files from the client portal, one car or a list; a walk-in pays on the public form
-      result: null, meta: {emails: [], history: [{stage: "received", at: iso(created)}], ...(u ? {source: x.batch ? "portal-bulk" : "portal"} : {})},
+      result: null, meta: {emails: [], history: [{stage: "new", at: iso(created)}], ...(u ? {source: x.batch ? "portal-bulk" : "portal"} : {})},
       org_id: u ? orgs[u.org].id : null, user_id: u ? u.id : null, org: u ? orgs[u.org] : null,
       partner: null, inspect_url: null, inspect_shop: null, inspect_claim: null,
     };
@@ -304,32 +349,35 @@ export function buildSeed(now = Date.now()){
                                odometer_at_damage: 31870, notes: "Repaired at a certified body shop; state rebuilt inspection passed."}]};
       }
     }
-    if (status === "received") return row;
+    if (!search) return row;
 
-    // the lookup: started minutes after it arrived, which moved it to dispatching
-    step(0.2, "dispatching");
-    if (lookup === "failed") { row.error = "Shop lookup timed out twice. Please run it again."; m.lookup = {timeouts: 2}; step(0.5); return row; }
+    // finding providers: started minutes after it arrived. A detail of the job; the status stays New.
+    const started = step(0.2);
+    row.search = {state: "done", started_at: started, at: started, error: null};
+    if (search === "failed") { row.search = {...row.search, state: "failed", error: "Provider search timed out twice. Please run it again."}; m.lookup = {timeouts: 2}; step(0.5); return row; }
     if (x.report) return reportFlow(row, x, created, {step, mail, iso, cam, r, now, veh, place, DAY, HOUR, t: () => t, setT: v => { t = v; }});
     row.result = lookupFor(row); step(0.05);
     const shops = row.result.shops;
     for (const i of x.contacted || []) if (shops[i]) shops[i].contacted = true;
 
+    // the job link going live makes the job Dispatching
     const link = (shop, claim) => {
       const token = pick(r, URLSAFE, 32);
-      m.inspect = {token, made_at: step(1.5), shop: shopCard(shop), claim};
+      m.inspect = {token, made_at: step(1.5, "dispatching"), shop: shopCard(shop), claim};
       row.inspect_url = inspectLink(token); row.inspect_shop = shopCard(shop); row.inspect_claim = claim;
     };
-    if (x.link === "offered") { shops[0].contacted = true; link(shops[0], {status: "offered", at: iso(t + 1.5 * HOUR)}); }
+    if (x.link === "offered" || (status === "dispatching" && !x.link)) { shops[0].contacted = true; link(shops[0], {status: "offered", at: iso(t + 1.5 * HOUR)}); }
     if (x.link === "rejected") { link(shops[0], null); const at = step(3); row.inspect_claim = m.inspect.claim = {status: "rejected", at, reason: "Booked solid through next week, sorry."}; }
 
-    if (status === "confirmed" || status === "complete") {
+    if (status === "claimed" || status === "complete") {
       const s = shops[0]; s.contacted = s.booked = true;
       const booked_at = step(status === "complete" ? 20 : 26);
       const visit = status === "complete" ? t + 46 * HOUR : now + (1 + n % 3) * DAY;
       const slot = new Date(visit); slot.setHours([9, 10, 13, 15][n % 4], n % 2 ? 30 : 0, 0, 0);
       m.booking = {provider: shopCard(s), inspector: INSPECTORS[n % INSPECTORS.length], scheduled_at: when(slot.getTime()), note: BOOK_NOTES[n % BOOK_NOTES.length], booked_by: cam.name, booked_at};
       mail(s.email, `Inspection booked: ${veh} in ${place.city}`, booked_at, {kind: "inspector_booking"});
-      const claimAt = step(2, "confirmed");
+      m.history.push({stage: "dispatching", at: booked_at});
+      const claimAt = step(2, "claimed");
       m.inspect = {token: pick(r, URLSAFE, 32), made_at: booked_at, shop: shopCard(s), claim: {status: "claimed", at: claimAt, terms: {version: PROVIDER_TERMS_VERSION, accepted_at: claimAt}}};
       row.inspect_url = inspectLink(m.inspect.token); row.inspect_shop = m.inspect.shop; row.inspect_claim = m.inspect.claim;
       mail(row.form.email, `Inspection confirmed: ${veh} (${jobRef(row.id)})`, claimAt, {kind: "confirmed"});
@@ -443,7 +491,8 @@ function reportFlow(row, x, created, k){
   k.setT(Date.parse(booked_at));
   m.booking = {provider: shopCard(shop), inspector: "", scheduled_at: when(visit.getTime()), note: "", booked_by: k.cam.name, booked_at};
   row.updated_at = booked_at;
-  const claimAt = k.step(2, "confirmed");
+  m.history.push({stage: "dispatching", at: booked_at});
+  const claimAt = k.step(2, "claimed");
   m.inspect = {token: pick(k.r, URLSAFE, 32), made_at: booked_at, shop: shopCard(shop), claim: {status: "claimed", at: claimAt, terms: {version: PROVIDER_TERMS_VERSION, accepted_at: claimAt}}};
   row.inspect_url = inspectLink(m.inspect.token); row.inspect_shop = m.inspect.shop; row.inspect_claim = m.inspect.claim;
   k.mail(row.form.email, `Inspection confirmed: ${k.veh} (${jobRef(row.id)})`, claimAt, {kind: "confirmed"});

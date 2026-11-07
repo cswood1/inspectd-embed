@@ -9,25 +9,27 @@ import React, { createContext, useCallback, useContext, useEffect, useLayoutEffe
 
 /* ---- vocabulary ------------------------------------------------ */
 
-// what a business asks for; the last four are the consumer-era types, kept so old jobs still read
-export const TYPES = {"pre-purchase": "Pre-purchase", "lease-end": "Lease end", warranty: "Warranty", "auction-listing": "Auction listing", "auction-arbitration": "Auction arbitration",
-                      "state-safety": "State safety", emissions: "Emissions", general: "General", other: "Other"};
-export const DESIGNATIONS = {standard: "Standard", "high-end": "High-end", exotic: "Exotic", classic: "Classic", ev: "EV"};
-export const STATUS = {received: ["gray", "Received"], dispatching: ["amber", "Dispatching"], confirmed: ["blue", "Confirmed"], complete: ["green", "Complete"], canceled: ["red", "Canceled"]};
-export const LOOKUP = {none: ["gray", "Not run"], running: ["blue", "Researching"], done: ["green", "Fulfilled"], failed: ["red", "Failed"]};
+// the job's vocabulary lives in jobModel.js; the status pills and the open/closed split are re-exported for the console
+export { STATUS, isClosed } from "./jobModel.js";
 export const ROLE = {OWNER: ["blue", "Owner"], ADMIN: ["green", "Admin"], USER: ["gray", "User"]};
-export const isClosed = r => r.status === "complete" || r.status === "canceled";
 
 /* ---- formatting ------------------------------------------------ */
 
+/** When a job came in, short: "2h ago" (or "15m ago") within the last day, else "Nov 6". */
+export const received = (iso, now = Date.now()) => {
+  const d = new Date(iso); if (isNaN(d)) return "";
+  const mins = Math.floor((now - d) / 60e3);
+  if (mins < 1440) return mins < 1 ? "Just now" : mins < 60 ? `${mins}m ago` : `${Math.floor(mins / 60)}h ago`;
+  return d.toLocaleDateString("en-US", {month: "short", day: "numeric"});
+};
 export const fmt = iso => { const d = new Date(iso); return isNaN(d) ? "" : d.toLocaleString([], {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"}); };
 export const tint = s => { let h = 0; for (const c of String(s || "")) h = (h * 31 + c.charCodeAt(0)) >>> 0; return `hsl(${h % 360} 45% 88%)`; };
 export const where = f => [f.city, f.state, f.zip].filter(Boolean).join(", ");
 export const vehicle = f => [f.year, f.make, f.model].filter(Boolean).join(" ") || "Vehicle not given";
 
 export const Pill = ({ hue, children, ...rest }) => <span className={`pill ${hue}`} {...rest}>{children}</span>;
-// a designation worth showing: anything other than the default
-export const DesigTag = ({ d }) => d && d !== "standard" ? <span className="pill gray desig">{DESIGNATIONS[d] || d}</span> : null;
+// a quiet tag after the vehicle, only for a class worth noticing (EV, Exotic)
+export const ClassTag = ({ c }) => c === "ev" || c === "exotic" ? <span className="vtag">{c === "ev" ? "EV" : "Exotic"}</span> : null;
 
 // avatar + name + email cell; `extra` lands after the email
 export const Who = ({ name, email, extra = null }) => (

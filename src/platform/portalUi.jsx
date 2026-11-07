@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { inspectionLabel, inspectionShort, classLabel } from "./jobModel.js";
 
 /*
  * The client portal's primitives, ported from inspection-dashboard/ui/shared/shell.js and
@@ -40,9 +41,6 @@ export const SECTIONS = [["Inspections", [["overview", "Overview", "/", I.home],
 
 /* ---- vocabulary (jobs-client/shared.js) ------------------------------ */
 
-const TYPE_LABEL = {"pre-purchase": "Pre-purchase", "lease-end": "Lease end", warranty: "Warranty", "auction-listing": "Auction listing", "auction-arbitration": "Auction arbitration", other: "Other"};
-const LEGACY_TYPE_LABEL = {"state-safety": "State safety (legacy)", emissions: "Emissions (legacy)", general: "General (legacy)"};
-const DESIGNATION_LABEL = {standard: "Standard", "high-end": "High-end", exotic: "Exotic", classic: "Classic", ev: "EV"};
 const STAGE_ALIAS = {finding: "dispatching", booked: "confirmed", cancelled: "canceled"};   // older request-service names
 const STAGES = {
   received: {label: "Received", pill: "gray", d: "We have the request"},
@@ -55,8 +53,9 @@ export const STAGE = {
   ...STAGES,
   key: s => STAGE_ALIAS[s] || s || "received",
   of: s => STAGES[STAGE.key(s)] || {label: String(s || "").replace(/[_-]+/g, " ").replace(/^\w/, c => c.toUpperCase()) || "Unknown", pill: "gray", d: ""},
-  type: t => (TYPE_LABEL[t] || LEGACY_TYPE_LABEL[t] || t || ""),
-  designation: d => (DESIGNATION_LABEL[d] || d || ""),
+  type: f => inspectionLabel(f || {}),          // "Consumer · Pre-purchase" (jobModel.js)
+  short: f => inspectionShort(f || {}),         // "Pre-purchase", or "Arbitration"
+  vclass: c => classLabel(c || "standard"),
 };
 export const vehicleOf = f => [f.year, f.make, f.model].filter(Boolean).join(" ") || "Vehicle not given";
 export const whereOf = f => [f.city, f.state, f.zip].filter(Boolean).join(", ");

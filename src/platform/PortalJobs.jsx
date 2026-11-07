@@ -4,6 +4,7 @@ import { CSelect, PageDock } from "./ui.jsx";
 import { Svg, I, STAGE, vehicleOf, whereOf, fmtWhen, openByVin, jobRef, Sk, SkelRows, useNotices, useLoaded } from "./portalUi.jsx";
 import { vinCheck, vinLookup } from "./vin.js";
 import { readTable, writeTable } from "./xlsx.js";
+import { INSPECTION_TYPES, VEHICLE_CLASSES, subtypesOf, defaultSubtype, classifyInspection, classifyClass } from "./jobModel.js";
 
 /*
  * The portal's job pages, ported from inspection-dashboard/ui/jobs-client: the Jobs list (client.js),
@@ -44,7 +45,7 @@ export function Jobs({ ctx }){
           <tr key={j.id} className="row" data-id={j.id} onClick={() => ctx.navigate(`/jobs/${j.id}`)}>
             <td className="jobref"><span className="mono" title={j.id}>{jobRef(j.id)}</span></td>
             <td><div className="who"><span className="av" style={{ background: "#e9edf2" }}>{((j.form.make || "?").trim()[0] || "?").toUpperCase()}</span><span className="tx"><b>{vehicleOf(j.form)}</b>
-              <span>{`${STAGE.type(j.form.inspection_type)}${j.form.designation && j.form.designation !== "standard" ? " · " + STAGE.designation(j.form.designation) : ""}${j.form.vin ? " · " + j.form.vin : ""}`}</span></span></div></td>
+              <span>{`${STAGE.type(j.form)}${j.form.vehicle_class && j.form.vehicle_class !== "standard" ? " · " + STAGE.vclass(j.form.vehicle_class) : ""}${j.form.vin ? " · " + j.form.vin : ""}`}</span></span></div></td>
             <td className="sub">{whereOf(j.form)}</td><td><span className={`pill ${STAGE.of(j.stage).pill}`}>{STAGE.of(j.stage).label}</span></td>
             <td className="sub">{j.scheduled_at && j.stage !== "canceled" ? (fmtWhen(j.scheduled_at) || j.scheduled_at) : (j.stage === "dispatching" ? "Dispatching" : "")}</td>
             <td className="sub">{j.report ? <a href={`/reports/${j.report.id}`} onClick={e => stay(e, ctx, `/reports/${j.report.id}`)}>Open</a> : ""}</td><td className="sub">{fmtWhen(j.created_at)}</td>
@@ -69,15 +70,14 @@ export function Jobs({ ctx }){
 
 /* ---- New inspection request ---- */
 
-const TYPES = [["pre-purchase", "Pre-purchase"], ["lease-end", "Lease end"], ["warranty", "Warranty"], ["auction-listing", "Auction listing"], ["auction-arbitration", "Auction arbitration"], ["other", "Other"]];
-const CLASSES = [["standard", "Standard"], ["high-end", "High-end"], ["exotic", "Exotic"], ["classic", "Classic"], ["ev", "EV"]];
 
 export function NewJob({ ctx }){
   const { portal } = usePlatform();
   const { notify, progressToast, ask } = useNotices();
   const me = portal.me(), open = openByVin(portal.listJobs().requests);   // to notice a second request for the same car
   const form = useRef(null), vinEl = useRef(null), lastLookup = useRef("");
-  const [type, setType] = useState("pre-purchase"), [desig, setDesig] = useState("standard");
+  const [type, setTypeOnly] = useState("consumer"), [subtype, setSubtype] = useState(defaultSubtype("consumer")), [vclass, setVclass] = useState("standard");
+  const setType = t => { setTypeOnly(t); setSubtype(defaultSubtype(t)); };   // a new type starts on its first subtype
   const [bad, setBad] = useState(new Set()), [vinState, setVinState] = useState({cls: "", hint: "", hintCls: "hint"});
   const [err, setErr] = useState(""), [sending, setSending] = useState(false);
   const field = id => form.current.querySelector("#" + id);
@@ -101,7 +101,7 @@ export function NewJob({ ctx }){
   const submit = async e => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form.current).entries());
-    data.inspection_type = type; data.designation = desig;
+    data.inspection_type = type; data.inspection_subtype = subtype || ""; data.vehicle_class = vclass;
     data.state = (data.state || "").toUpperCase();
     const missing = ["address", "city", "state", "zip", "name", "email", "phone"].filter(k => !(data[k] || "").trim() || (k === "email" && !data.email.includes("@")) || (k === "zip" && !/^\d{5}(-\d{4})?$/.test(data.zip.trim())) || (k === "phone" && data.phone.replace(/\D/g, "").length < 7));
     setBad(new Set(missing));
@@ -129,8 +129,10 @@ export function NewJob({ ctx }){
           <div className="f c3"><label htmlFor="model">Model</label><input id="model" name="model" placeholder="Civic" /></div>
           <div className="f c3"><label htmlFor="vin">VIN <i>optional</i></label><input id="vin" name="vin" ref={vinEl} className={vinState.cls || "mono"} maxLength="20" placeholder="17 characters" autoComplete="off" spellCheck="false"
             onInput={onVinInput} onBlur={onVinBlur} /><small className={vinState.hintCls} id="vinHint">{vinState.hint}</small></div>
-          <div className="f c3"><label htmlFor="inspection_type">Inspection type</label><CSelect value={type} onChange={setType} options={TYPES.map(([value, label]) => ({value, label}))} /></div>
-          <div className="f c3"><label htmlFor="designation">Vehicle class <i>affects who we send and the price</i></label><CSelect value={desig} onChange={setDesig} options={CLASSES.map(([value, label]) => ({value, label}))} /></div>
+          <div className="f c3"><label htmlFor="vehicle_class">Vehicle class <i>affects who we send and the price</i></label><CSelect value={vclass} onChange={setVclass} options={VEHICLE_CLASSES.map(([value, label]) => ({value, label}))} /></div>
+          <div className="f c3"><label htmlFor="inspection_type">Inspection type</label><CSelect value={type} onChange={setType} options={INSPECTION_TYPES.map(([value, label]) => ({value, label}))} /></div>
+          {subtypesOf(type).length ? <div className="f c3"><label htmlFor="inspection_subtype">{type === "consumer" ? "Before or after the purchase" : "Kind of report"}</label>
+            <CSelect value={subtype} onChange={setSubtype} options={subtypesOf(type).map(([value, label]) => ({value, label}))} /></div> : null}
         </div></section>
         <section className="fs"><div className="fsh"><span className="fsi"><img src="/portal/icons/location.png" alt="" width="30" height="30" /></span><div><h2>Where is the car</h2><p>The inspector drives to it, so we need the exact address, plus anything that helps them get to the car.</p></div></div><div className="grid6">
           <div className="f c6"><label htmlFor="address">Street address</label><input id="address" name="address" className={cls("address")} autoComplete="off" placeholder="1200 Congress Ave" required /></div>
@@ -152,20 +154,19 @@ export function NewJob({ ctx }){
 
 /* ---- Upload a list: many requests at once, from a CSV, an Excel file or pasted rows ---- */
 
-export const COLUMNS = ["year", "make", "model", "vin", "inspection_type", "designation", "address", "city", "state", "zip", "notes", "name", "email", "phone"];
+export const COLUMNS = ["year", "make", "model", "vin", "vehicle_class", "inspection_type", "inspection_subtype", "address", "city", "state", "zip", "notes", "name", "email", "phone"];
 const EXAMPLE_ROWS = [
-  ["2019", "Honda", "Civic", "1HGCM82633A004352", "pre-purchase", "standard", "1200 Congress Ave", "Austin", "TX", "78701", "", "", "", ""],
-  ["2021", "Toyota", "Camry", "", "auction-listing", "high-end", "4500 N Lamar Blvd", "Austin", "TX", "78756", "Keys at the front desk", "", "", ""],
-  ["2017", "Ford", "F-150", "", "pre-purchase", "standard", "201 E Main St", "Round Rock", "TX", "78664", "", "", "", ""],
+  ["2019", "Honda", "Civic", "1HGCM82633A004352", "standard", "consumer", "pre-purchase", "1200 Congress Ave", "Austin", "TX", "78701", "", "", "", ""],
+  ["2023", "Tesla", "Model 3", "", "ev", "condition", "lease-return", "4500 N Lamar Blvd", "Austin", "TX", "78756", "Keys at the front desk", "", "", ""],
+  ["2017", "Ford", "F-150", "", "standard", "arbitration", "", "201 E Main St", "Round Rock", "TX", "78664", "", "", "", ""],
 ];
 const ZIP = /^\d{5}(-\d{4})?$/;
-const ALIAS = {type: "inspection_type", inspection: "inspection_type", class: "designation", "vehicle class": "designation", category: "designation", tier: "designation", street: "address", postal: "zip", zipcode: "zip", note: "notes", contact: "name", tel: "phone", telephone: "phone", "vin number": "vin"};
-const BTYPES = {"pre-purchase": 1, "lease-end": 1, warranty: 1, "auction-listing": 1, "auction-arbitration": 1, other: 1};
-const TYPE_ALIAS = {"pre purchase": "pre-purchase", prepurchase: "pre-purchase", ppi: "pre-purchase", "lease end": "lease-end", "lease return": "lease-end", "lease-return": "lease-end", auction: "auction-listing", listing: "auction-listing", "auction listing": "auction-listing", arbitration: "auction-arbitration", "auction arbitration": "auction-arbitration"};
-const BDESIG = {standard: 1, "high-end": 1, exotic: 1, classic: 1, ev: 1};
-const DESIG_ALIAS = {"high end": "high-end", highend: "high-end", luxury: "high-end", electric: "ev", std: "standard", normal: "standard", regular: "standard"};
-const canonType = v => { const n = String(v || "").trim().toLowerCase().replace(/_/g, " ").replace(/\s+/g, " "); if (!n) return "pre-purchase"; const h = n.replace(/ /g, "-"); return BTYPES[h] ? h : (TYPE_ALIAS[n] || null); };
-const canonDesig = v => { const n = String(v || "").trim().toLowerCase().replace(/_/g, " ").replace(/\s+/g, " "); if (!n) return "standard"; const h = n.replace(/ /g, "-"); return BDESIG[h] ? h : (DESIG_ALIAS[n] || null); };
+// other names a column goes by; "designation" is the old name of vehicle_class, so older lists still import
+const ALIAS = {type: "inspection_type", inspection: "inspection_type", subtype: "inspection_subtype", "inspection subtype": "inspection_subtype",
+  class: "vehicle_class", "vehicle class": "vehicle_class", designation: "vehicle_class", category: "vehicle_class", tier: "vehicle_class", street: "address", postal: "zip", zipcode: "zip", note: "notes", contact: "name", tel: "phone", telephone: "phone", "vin number": "vin"};
+// the type and class columns take the new values, and the old ones as aliases (jobModel.classifyInspection, classifyClass)
+const TYPE_HELP = INSPECTION_TYPES.map(([k, , subs]) => subs.length ? `${k} (${subs.map(([s]) => s).join(", ")})` : k).join(", ");
+const CLASS_HELP = VEHICLE_CLASSES.map(([k]) => k).join(", ");
 const MAX = 200;
 // a small CSV reader: quotes, escaped quotes, commas or tabs, CR/LF line ends
 export function parseCsv(text){
@@ -192,11 +193,11 @@ function check(r, d){
   const p = [], name = r.name || d.name, email = r.email || d.email, phone = r.phone || d.phone;
   if (!name) p.push("name"); if (!email || !email.includes("@")) p.push("email"); if (!phone || phone.replace(/\D/g, "").length < 7) p.push("phone");
   if (!r.address) p.push("address"); if (!r.city) p.push("city"); if (!r.state) p.push("state"); if (!r.zip || !ZIP.test(r.zip)) p.push("zip");
-  const ct = canonType(r.inspection_type); if (ct) r.inspection_type = ct;
-  const cd = canonDesig(r.designation); if (cd) r.designation = cd;
+  const ct = classifyInspection(r.inspection_type, r.inspection_subtype); if (ct) Object.assign(r, ct);
+  const cd = classifyClass(r.vehicle_class); if (cd) r.vehicle_class = cd;
   return p;
 }
-const SHOW = ["year", "make", "model", "vin", "inspection_type", "designation", "address", "city", "state", "zip", "name", "email"];
+const SHOW = ["year", "make", "model", "vin", "vehicle_class", "inspection_type", "inspection_subtype", "address", "city", "state", "zip", "name", "email"];
 
 export function BulkJobs({ ctx }){
   const { portal } = usePlatform();
@@ -211,8 +212,8 @@ export function BulkJobs({ ctx }){
   rows.forEach((r, i) => {
     const p = check(r, contact); if (p.length) problems[i] = "Missing or invalid: " + p.join(", ");
     if ((r.vin || "").trim()) { const v = vinCheck(r.vin); if (!v.ok) skips[i] = "Invalid VIN: " + v.reason; else { r.vin = v.vin; const d = open[v.vin]; if (d) skips[i] = `Already requested as ${jobRef(d.id)} (${STAGE.of(d.stage).label}); cancel that job first if this is a new inspection`; } }
-    if (!skips[i] && !canonType(r.inspection_type)) skips[i] = `Unknown inspection type "${r.inspection_type}"; use ${Object.keys(BTYPES).join(", ")}`;
-    if (!skips[i] && !canonDesig(r.designation)) skips[i] = `Unknown designation "${r.designation}"; use ${Object.keys(BDESIG).join(", ")}`;
+    if (!skips[i] && !classifyInspection(r.inspection_type, r.inspection_subtype)) skips[i] = `Unknown inspection type "${[r.inspection_type, r.inspection_subtype].filter(Boolean).join(" / ")}"; use ${TYPE_HELP}`;
+    if (!skips[i] && !classifyClass(r.vehicle_class)) skips[i] = `Unknown vehicle class "${r.vehicle_class}"; use ${CLASS_HELP}`;
   });
   serverErrors.forEach(e => { problems[e.row - 1] = e.error; });
   const bad = Object.keys(problems).length, skip = Object.keys(skips).length, n = rows.length, sendable = n - skip;
@@ -255,8 +256,8 @@ export function BulkJobs({ ctx }){
       setSending(false);
     }
   };
-  const xlsxTemplate = e => { e.preventDefault(); download(writeTable([COLUMNS, ...EXAMPLE_ROWS], "Requests", [7, 10, 10, 20, 18, 12, 22, 14, 6, 8, 26, 16, 24, 14]), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "inspection-requests.xlsx"); };
-  const csvTemplate = () => download(COLUMNS.join(",") + "\n2019,Honda,Civic,,pre-purchase,,1200 Congress Ave,Austin,TX,78701,,,,\n", "text/csv", "inspection-requests.csv");
+  const xlsxTemplate = e => { e.preventDefault(); download(writeTable([COLUMNS, ...EXAMPLE_ROWS], "Requests", [7, 10, 10, 20, 12, 16, 16, 22, 14, 6, 8, 26, 16, 24, 14]), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "inspection-requests.xlsx"); };
+  const csvTemplate = () => download(COLUMNS.join(",") + "\n2019,Honda,Civic,,standard,consumer,pre-purchase,1200 Congress Ave,Austin,TX,78701,,,,\n", "text/csv", "inspection-requests.csv");
   const setC = k => e => setContact(c => ({...c, [k]: e.target.value}));
   return (
     <section className="pad"><div className="narrow wide">
@@ -266,7 +267,7 @@ export function BulkJobs({ ctx }){
         <label className={`drop${drag ? " drag" : ""}`} id="drop" htmlFor="csvFile" onDragOver={e => { e.preventDefault(); setDrag(true); }} onDragLeave={() => setDrag(false)}
           onDrop={e => { e.preventDefault(); setDrag(false); const f = e.dataTransfer.files[0]; if (f) loadFile(f); }}>
           <input type="file" id="csvFile" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" className="hide" onChange={e => { const f = e.target.files[0]; if (f) loadFile(f); e.target.value = ""; }} />
-          <b>Drop an Excel or CSV file here, or click to choose</b><span>Columns: year, make, model, vin, inspection_type, designation, address, city, state, zip, notes, name, email, phone. Street address, city, state and ZIP are required, and so is an on-site contact (name, email, phone: per row, or once for the whole list below). Everything else is optional. Types: pre-purchase, lease-end, warranty, auction-listing, auction-arbitration, other. Designation: standard (default), high-end, exotic, classic, ev.</span></label>
+          <b>Drop an Excel or CSV file here, or click to choose</b><span>{`Columns: ${COLUMNS.join(", ")}. Street address, city, state and ZIP are required, and so is an on-site contact (name, email, phone: per row, or once for the whole list below). Everything else is optional. Inspection type, with its subtype: ${TYPE_HELP}; a subtype on its own also works, and blank means consumer pre-purchase. Vehicle class: standard (default), ev, exotic. Older lists with the previous type names or a designation column still import.`}</span></label>
         <div><label htmlFor="csvText">Or paste rows</label><textarea id="csvText" ref={text} placeholder={"year,make,model,address,city,state,zip\n2019,Honda,Civic,1200 Congress Ave,Austin,TX,78701\n2021,Toyota,Camry,2100 Ross Ave,Dallas,TX,75201"}></textarea>
           <div className="formfoot" style={{ marginTop: 8 }}><button className="btn sm" id="parseBtn" onClick={() => load(parseCsv(text.current.value), "the pasted text")}>Preview</button></div></div>
       </div>
@@ -323,13 +324,13 @@ export function Job({ id, ctx }){
   );
   const f = j.form, canceled = j.stage === "canceled", idx = canceled ? -1 : Math.max(0, ORDER.indexOf(j.stage));
   const reached = Object.fromEntries((j.history || []).map(h => [STAGE.key(h.stage), h.at]));   // when each stage was reached
-  const lead = `${STAGE.type(f.inspection_type)} inspection near ${whereOf(f)}. ` + (canceled
+  const lead = `${STAGE.short(f)} inspection near ${whereOf(f)}. ` + (canceled
     ? "This request was canceled before an inspector was confirmed. Nothing further will happen; submit a new request if you still need the car inspected."
     : ["We have your request and will start dispatching a mobile inspector shortly.",
        "We are dispatching: contacting mobile inspectors near the car and confirming one for you.",
        "An inspector is confirmed. The scheduled time is below.",
        "The inspection is done. The report lands under Reports when it is ready."][idx]);
-  const facts = [["Reference", `${jobRef(j.id)} · ${j.id}`, "mono"], ["Type", STAGE.type(f.inspection_type)], ["Vehicle class", STAGE.designation(f.designation || "standard")], ["Location", [f.address, f.city, f.state, f.zip].filter(Boolean).join(", ")],
+  const facts = [["Reference", `${jobRef(j.id)} · ${j.id}`, "mono"], ["Inspection", STAGE.type(f)], ["Vehicle class", STAGE.vclass(f.vehicle_class)], ["Location", [f.address, f.city, f.state, f.zip].filter(Boolean).join(", ")],
     ["VIN", f.vin, "mono"], ["Contact", [f.name, f.phone].filter(Boolean).join(" · ")], ["Requested", fmtWhen(j.created_at)], ["Last update", fmtWhen(j.updated_at)]].filter(([, v]) => v);
   const rep = canceled ? null : j.report, when = j.scheduled_at ? (fmtWhen(j.scheduled_at) || j.scheduled_at) : "";
   const sub = {margin: "6px 0 0", color: "var(--sub)"}, ink = {color: "var(--ink)"};

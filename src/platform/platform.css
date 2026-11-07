@@ -142,7 +142,7 @@
 .ip td{padding:0 12px;height:56px;border-bottom:1px solid var(--line);vertical-align:middle}
 .ip tr.row{cursor:pointer;transition:background .13s ease-out} .ip tr.row:hover{background:var(--well)}
 .ip tr.row.st-dispatching{background:#fffbf3;box-shadow:inset 3px 0 0 #f6c08c} .ip tr.row.st-dispatching:hover{background:#fff6e6}
-.ip tr.row.st-confirmed{background:#f5faff;box-shadow:inset 3px 0 0 #96c8ec} .ip tr.row.st-confirmed:hover{background:#eaf4fd}
+.ip tr.row.st-claimed{background:#f5faff;box-shadow:inset 3px 0 0 #96c8ec} .ip tr.row.st-claimed:hover{background:#eaf4fd}
 .ip tr.row.st-complete{background:#f5fcf7;box-shadow:inset 3px 0 0 #94d3ac} .ip tr.row.st-complete:hover{background:#e9f7ee}
 .ip tr.row.st-canceled{color:var(--sub);box-shadow:inset 3px 0 0 #f4b4b4}   /* pulled: greyed, with a red edge so it is not mistaken for complete */
 .ip tr.row.on{background:var(--blue-t)}
@@ -339,15 +339,23 @@
 .ip .linkfor{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px}
 .ip .linkfor svg{color:var(--sub)} .ip .linkfor b{font-weight:600} .ip .linkfor .btn{margin-left:auto}
 .ip .linkrow select{min-width:220px}
-/* the vehicle designation, beside the inspection type */
-.ip .pill.desig{margin-left:6px;font-size:10.5px}
+/* the vehicle class after the vehicle, only for EV and Exotic: quiet, not a pill */
+.ip .vtag{margin-left:6px;font-size:11px;font-weight:600;color:var(--sub);letter-spacing:.02em;white-space:nowrap}
+/* the board's one-line cells, and its next-step button */
+.ip td.nowrap{white-space:nowrap}
+.ip td .rowact{min-width:96px;justify-content:center;white-space:nowrap}
+/* the board keeps every row on one line: a long customer name or email is cut short (the full one is in the panel) */
+.ip table.board th:not(:first-child),.ip table.board td:not(:first-child){padding-left:10px}
+.ip table.board th:not(:last-child),.ip table.board td:not(:last-child){padding-right:10px}
+.ip table.board .who .tx{max-width:160px}
+.ip table.board .who .tx b,.ip table.board .who .tx > span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* the job detail, tightened: a status bar, then four sections */
 .ip .statusbar{display:flex;align-items:center;gap:14px;padding:12px 0 2px;flex-wrap:wrap}
 .ip .statusbar .lk{display:inline-flex;align-items:center;gap:6px} .ip .statusbar .lk small{font-size:11px;font-weight:600;color:var(--deco);text-transform:uppercase;letter-spacing:.03em}
 .ip .statusbar .id{margin-left:auto;font-size:11.5px;color:var(--deco)}
 .ip .outc .csel.dispatching{background:#ffe3c7;border-color:#f6c08c;color:#9d500a} .ip .outc .csel.dispatching > svg{color:#9d500a}
-.ip .outc .csel.confirmed{background:#cfe7f9;border-color:#96c8ec;color:#15619f} .ip .outc .csel.confirmed > svg{color:#15619f}
+.ip .outc .csel.claimed{background:#cfe7f9;border-color:#96c8ec;color:#15619f} .ip .outc .csel.claimed > svg{color:#15619f}
 .ip .outc .csel.complete{background:#d2eedd;border-color:#94d3ac;color:#166b36} .ip .outc .csel.complete > svg{color:#166b36}
 .ip .outc .csel.canceled{background:#fde2e1;border-color:#f4b4b4;color:#9f2a25} .ip .outc .csel.canceled > svg{color:#9f2a25}
 .ip .facts.tight{padding:10px 0 2px}
