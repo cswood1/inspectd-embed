@@ -40,14 +40,14 @@ export function Jobs({ ctx }){
   else {
     pg = paged(shown, page);
     table = (
-      <div className="tablewrap listgap"><table className="rtable"><thead><tr><th>Job</th><th>Vehicle</th><th>Where</th><th>Stage</th><th>Scheduled</th><th>Report</th><th>Requested</th></tr></thead><tbody>
+      <div className="tablewrap listgap"><table className="rtable"><thead><tr><th>Job</th><th>Vehicle</th><th>Where</th><th>Stage</th><th>Planned</th><th>Report</th><th>Requested</th></tr></thead><tbody>
         {pg.slice.map(j => (
           <tr key={j.id} className="row" data-id={j.id} onClick={() => ctx.navigate(`/jobs/${j.id}`)}>
             <td className="jobref"><span className="mono" title={j.id}>{jobRef(j.id)}</span></td>
             <td><div className="who"><span className="av" style={{ background: "#e9edf2" }}>{((j.form.make || "?").trim()[0] || "?").toUpperCase()}</span><span className="tx"><b>{vehicleOf(j.form)}</b>
               <span>{`${STAGE.type(j.form)}${j.form.vehicle_class && j.form.vehicle_class !== "standard" ? " · " + STAGE.vclass(j.form.vehicle_class) : ""}${j.form.vin ? " · " + j.form.vin : ""}`}</span></span></div></td>
             <td className="sub">{whereOf(j.form)}</td><td><span className={`pill ${STAGE.of(j.stage).pill}`}>{STAGE.of(j.stage).label}</span></td>
-            <td className="sub">{j.scheduled_at && j.stage !== "canceled" ? (fmtWhen(j.scheduled_at) || j.scheduled_at) : (j.stage === "dispatching" ? "Dispatching" : "")}</td>
+            <td className="sub">{j.planned && j.stage !== "canceled" ? j.planned : (j.stage === "dispatching" ? "Dispatching" : "")}</td>
             <td className="sub">{j.report ? <a href={`/reports/${j.report.id}`} onClick={e => stay(e, ctx, `/reports/${j.report.id}`)}>Open</a> : ""}</td><td className="sub">{fmtWhen(j.created_at)}</td>
           </tr>))}
       </tbody></table></div>
@@ -328,11 +328,11 @@ export function Job({ id, ctx }){
     ? "This request was canceled before an inspector was confirmed. Nothing further will happen; submit a new request if you still need the car inspected."
     : ["We have your request and will start dispatching a mobile inspector shortly.",
        "We are dispatching: contacting mobile inspectors near the car and confirming one for you.",
-       "An inspector is confirmed. The scheduled time is below.",
+       "An inspector is confirmed. The planned time is below.",
        "The inspection is done. The report lands under Reports when it is ready."][idx]);
   const facts = [["Reference", `${jobRef(j.id)} · ${j.id}`, "mono"], ["Inspection", STAGE.type(f)], ["Vehicle class", STAGE.vclass(f.vehicle_class)], ["Location", [f.address, f.city, f.state, f.zip].filter(Boolean).join(", ")],
     ["VIN", f.vin, "mono"], ["Contact", [f.name, f.phone].filter(Boolean).join(" · ")], ["Requested", fmtWhen(j.created_at)], ["Last update", fmtWhen(j.updated_at)]].filter(([, v]) => v);
-  const rep = canceled ? null : j.report, when = j.scheduled_at ? (fmtWhen(j.scheduled_at) || j.scheduled_at) : "";
+  const rep = canceled ? null : j.report, when = j.planned || "";   // the provider's proposed day and part of day, or the seed's visit time
   const sub = {margin: "6px 0 0", color: "var(--sub)"}, ink = {color: "var(--ink)"};
   // the reason the request was withdrawn with is canceled.reason (Kavin's page read cancel_reason, which is never sent)
   return (
@@ -349,9 +349,7 @@ export function Job({ id, ctx }){
       <div className="cols2" id="jobCols">
         <div className="kv"><h3>Inspection</h3><div className="none" style={ink}>{
           canceled ? "No inspection will take place; the request was canceled."
-          : j.stage === "confirmed" ? (when
-            ? <><b>{`Scheduled for ${when}`}</b><p style={sub}>{`An Inspectd inspector will call ${f.name || "your contact"} before arriving. Questions or changes go through Inspectd, not the inspector.`}</p></>
-            : <><b>Inspector confirmed</b><p style={sub}>{`The inspector will call ${f.name || "your contact"} to set a time. Questions or changes go through Inspectd, not the inspector.`}</p></>)
+          : j.stage === "confirmed" ? <><b>{when ? `Planned for ${when}.` : "Inspector confirmed."}</b><p style={sub}>{`The inspector will call ${f.name || "your on-site contact"} to confirm arrival and access. Questions or changes go through Inspectd, not the inspector.`}</p></>
           : j.stage === "complete" ? <><b>Done</b><p style={sub}>{`${when ? `Inspected ${when}. ` : ""}The report is delivered on the right.`}</p></>
           : j.stage === "dispatching" ? "We are contacting mobile inspectors near the car. The confirmed time appears here."
           : "We are about to start dispatching an inspector. The confirmed time appears here."}</div></div>

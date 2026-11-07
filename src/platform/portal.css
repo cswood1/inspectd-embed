@@ -618,41 +618,13 @@
 }
 
 /* ===== inspect-client/style.css ===== */
-/* The inspector's upload page: public, one column, no sidebar. The link in their booking is the only credential. */
+/* The provider's job card page (/inspect/<token>): its bar and frame. The card itself is jobcard.css. */
 .ipp.inspect{background:var(--well)}
 .ipp .ibar{display:flex;align-items:center;gap:10px;padding:14px 20px;background:#fff;border-bottom:1px solid var(--line)}
 .ipp .ibar .logo{width:24px;height:24px;display:block;flex:none}
 .ipp .ibar b{font-size:15px;font-weight:700}
 .ipp .iwrap{max-width:680px;margin:0 auto;padding:34px 20px 80px}
-.ipp .icard{background:#fff;border:1px solid var(--line);border-radius:6px;padding:24px;box-shadow:0 1px 2px rgba(16,24,40,.05)}
-.ipp .icard h1{font-size:22px;font-weight:700;letter-spacing:-.01em}
-.ipp .icard .lead{color:var(--sub);margin-top:6px;line-height:1.6}
-.ipp .jobfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px 24px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
-.ipp .jobfacts div{display:flex;flex-direction:column;gap:2px;min-width:0}
-.ipp .jobfacts small{font-size:11px;font-weight:600;color:var(--deco);letter-spacing:.03em;text-transform:uppercase}
-.ipp .jobfacts span{font-size:14px;font-weight:600;overflow-wrap:anywhere}
-.ipp .inote{margin-top:18px;border:1px solid var(--line);background:var(--well);border-radius:5px;padding:11px 14px;font-size:13px;line-height:1.55}
-/* the claim form on the job link: who is claiming, then the terms */
-.ipp .ifields{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px 14px}
-.ipp .iff{display:flex;flex-direction:column;gap:4px;min-width:0} .ipp .iff.wide{grid-column:1/-1}
-.ipp .iff > span{font-size:12px;font-weight:600;color:var(--ink)} .ipp .iff > span i{font-style:normal;font-weight:500;color:var(--deco)}
-.ipp .iff input{background:#fff;width:100%;box-sizing:border-box}
-.ipp .ipreview{margin-bottom:12px;font-size:12.5px;color:#7a4b0b;background:#fff6e6;border:1px solid #f6d7a6;border-radius:5px;padding:8px 12px}
-.ipp .idamage{margin-top:18px;border:1px solid #f6c08c;background:#fff7ed;border-radius:5px;padding:12px 14px;font-size:13px;line-height:1.55}
-.ipp .idamage b{display:block;font-weight:650;margin-bottom:6px}
-.ipp .idamage ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
-.ipp .idamage li span{font-weight:600} .ipp .idamage em{font-style:normal;color:#b45309;font-weight:600}
-.ipp .idamage p{color:var(--sub);margin-top:2px}
-.ipp .idrop{display:block;margin-top:20px;border:1px dashed #cfd3d9;border-radius:6px;padding:36px 20px;text-align:center;background:var(--well);cursor:pointer;
-  transition:background .13s ease-out,border-color .13s ease-out}
-.ipp .idrop:hover{background:var(--hover)} .ipp .idrop.drag{border-color:#67a5d8;background:var(--blue-t)} .ipp .idrop.busy{pointer-events:none;opacity:.7}
-.ipp .idrop b{display:block;font-size:15px;font-weight:650;margin-bottom:4px} .ipp .idrop p{color:var(--sub);font-size:13px}
-.ipp .idrop .btn{margin-top:14px}
-.ipp .idone{display:flex;gap:12px;align-items:flex-start;margin-top:20px;border:1px solid #94d3ac;background:#f5fcf7;border-radius:6px;padding:16px}
-.ipp .idone svg{color:var(--green);flex:none;margin-top:2px}
-.ipp .idone b{display:block;font-size:15px;font-weight:650;margin-bottom:2px} .ipp .idone p{color:var(--sub);font-size:13px;line-height:1.55}
-.ipp .ifoot{color:var(--sub);font-size:12.5px;text-align:center;margin-top:18px}
-@media (max-width:560px){.ipp .iwrap{padding:20px 14px 60px} .ipp .icard{padding:18px}}
+@media (max-width:560px){.ipp .iwrap{padding:20px 14px 60px}}
 
 /* ===== added after the clone (docs/platform-iteration-notes.md, "Fixed after the clone"): styles Kavin's markup
    asks for and no stylesheet of his gives, drawn from his own tokens and components. ===== */

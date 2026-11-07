@@ -101,3 +101,74 @@ export function payoutFor(tier, vehicleClass){
   return Math.min(base + (CLASS_ADD[vehicleClass] || 0), PAYOUT_CAP);
 }
 export const dollars = cents => "$" + Math.round((cents || 0) / 100).toLocaleString("en-US");
+
+/* ---- what the report must cover ----------------------------------------- */
+
+// What the provider's report covers for each type and subtype: the content, not how to inspect, and no photo
+// minimums (providers' tools differ; Prism normalizes what they send). The vehicle's class adds its own items.
+const REQUIREMENTS = {
+  "consumer/pre-purchase": [
+    "Exterior and interior condition, with photos of each area",
+    "Engine bay and undercarriage: leaks, rust, damage",
+    "Tires and brakes",
+    "Diagnostic scan results, with any codes",
+    "Road test, where the seller allows it",
+  ],
+  "consumer/post-purchase": [
+    "Exterior and interior condition, with photos of each area",
+    "Engine bay and undercarriage: leaks, rust, damage",
+    "Tires and brakes",
+    "Diagnostic scan results, with any codes",
+    "Anything that should be raised with the seller, clearly flagged",
+  ],
+  "condition/fleet": [
+    "VIN and odometer",
+    "Exterior damage by panel, with photos",
+    "Interior condition",
+    "Tire condition",
+    "Warning lights and diagnostic scan results",
+  ],
+  "condition/lease-return": [
+    "VIN and odometer",
+    "Exterior damage by panel, with photos, including glass and wheels",
+    "Interior condition: stains, tears, odors",
+    "Tire condition",
+    "Keys and accessories present",
+  ],
+  "condition/general": [
+    "VIN and odometer",
+    "Exterior and interior condition, with photos",
+    "Tire condition",
+    "Warning lights and diagnostic scan results",
+  ],
+  "arbitration": [
+    "VIN and odometer, with dated photos",
+    "The disputed item, documented with close-ups and a written description",
+    "Diagnostic scan results",
+    "Signs of prior repair or damage",
+    "No repairs or adjustments made during the inspection",
+  ],
+};
+const CLASS_REQUIREMENTS = {
+  ev: ["Battery health report", "Charge port condition", "Any high-voltage warnings"],
+  exotic: ["Paint readings by panel", "Close-ups of wheels, carbon and trim"],
+};
+/** What the report must cover for this job: its type and subtype's list, then its vehicle class's additions. */
+export function requirementsFor(f){
+  const base = REQUIREMENTS[f.inspection_subtype ? `${f.inspection_type}/${f.inspection_subtype}` : f.inspection_type]
+    || REQUIREMENTS[`${f.inspection_type}/${defaultSubtype(f.inspection_type)}`] || [];
+  return [...base, ...(CLASS_REQUIREMENTS[f.vehicle_class] || [])];
+}
+
+/* ---- when the provider can inspect, and why they pass ----------------------- */
+
+// A claim proposes a date and a part of the day; the inspector's call to the on-site contact confirms the time.
+export const TIME_WINDOWS = [["morning", "Morning"], ["afternoon", "Afternoon"], ["evening", "Evening"]];
+export const PROPOSE_DAYS = 30;   // how far ahead a claim may propose
+/** "Thu Nov 12, morning" for {date: "2026-11-12", window: "morning"} */
+export function plannedLabel(p){
+  if (!p?.date) return "";
+  const [y, m, d] = p.date.split("-").map(Number), day = new Date(y, m - 1, d);
+  return `${day.toLocaleDateString("en-US", {weekday: "short", month: "short", day: "numeric"}).replace(",", "")}${p.window ? `, ${p.window}` : ""}`;
+}
+export const DECLINE_REASONS = ["Not available in time", "Too far away", "Payout too low", "Not equipped for this vehicle or inspection", "Other"];

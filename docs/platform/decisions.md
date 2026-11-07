@@ -66,8 +66,32 @@ or two: what was decided and, where it isn't obvious, why. Newest at the bottom 
   can be dispatched again. A refunded job keeps its refund record and isn't charged again.
 - **Activity is derived, not logged.** The panel's timeline is built from what the job already stores (`activity.js`).
 - **Scheduled times.** Nothing sets a visit time now that Book is gone. The seed's claimed and complete jobs keep theirs
-  as `meta.scheduled_at`, which the portal shows; a new claim shows "The inspector will call to set a time."
+  as `meta.scheduled_at`, which the portal shows. (Part 3 adds the proposed time to every claim.)
 - **Gone with the old model:** the provider booking email, the per-shop Contacted and Booked flags (the Providers
   section now counts the links each provider claimed), the free status dropdown, and Delete request.
 - **The board's buttons do their work.** "Find providers" opens the panel and starts a search when none has run (or the
   last one failed); "Reset" opens the panel with the reset confirm.
+
+## The provider's job card (ops board, part 3)
+
+- **Phone first.** `/inspect/<token>` is a single column with large tap targets, the deciding facts first, and Claim
+  and Decline pinned to the bottom of a phone screen; on desktop it is a centered card (`JobCard.jsx`).
+- **The card has one state per viewer:** Open (anyone, before a claim), Claimed by you, Taken, You declined, No longer
+  available (reset or canceled), Complete. Preview (`?preview=1`) always renders the Open card with the actions off.
+- **Before a claim, the card shows what a provider needs to decide:** payout ("Paid when your report is accepted"),
+  vehicle and class, inspection and what the report covers, city and state, the customer's notes and any listing
+  facts. The full address, the on-site contact and the lot's contact are only for the provider who claimed it.
+- **Requirements describe what the report covers, not how to inspect.** Four to five items per type and subtype,
+  plus EV and Exotic additions (`requirementsFor` in `jobModel.js`). There are no photo minimums: providers' tools
+  differ, and Prism normalizes what they send.
+- **Scheduling.** A claim proposes a date (today to 30 days out) and morning, afternoon or evening, stored as
+  `meta.link.claim.proposed_time`. After claiming, the inspector calls the on-site contact to confirm arrival and
+  access: the proposed time is the plan, the call confirms it. The console's panel and activity show it with the claim;
+  the portal shows "Planned for Thu Nov 12, morning. The inspector will call [contact] to confirm arrival and access."
+  Seeded jobs keep their exact times, worded the same way.
+- **Declines pick a reason from a short list** (not available in time, too far away, payout too low, not equipped,
+  other) plus an optional name.
+- **The claimer's checklist ticks stay in their browser**, per link; they are never sent.
+- **A complete job reads "Complete" at any age**; the clone's 14-day "job is closed" message is gone.
+- **Not yet:** a request has no timeframe field, so the card's timeframe line shows only when one exists. Report upload
+  still shows the demo notice; Prism ingest comes next.
