@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AiMark } from "./AiMark.jsx";
+import { FLAG_TONE } from "./portalUi.jsx";
 
 /*
  * The Inspectd AI card at the top of the report viewer: the report's insight (tools/report-conversion/insight.py),
@@ -23,12 +23,12 @@ export function InsightCard({ insight, thumb, onJump, onPhoto }){
   const flags = Object.entries(insight.flags || {}).filter(([, f]) => f.value).map(([k]) => k);
   const fails = key.filter(k => k.status === "fail").length, att = key.length - fails;
   return (
-    <section className="ai-card" id="aiCard" aria-label="Inspectd AI">
-      <header className="ai-head"><AiMark size={20} label /></header>
+    <section className="ai-card" id="aiCard" aria-label="Summary">
+      <header className="ai-head"><h2>Summary</h2></header>
       {insight.summary?.text ? <p className="ai-sum" id="aiSummary">{insight.summary.text}</p> : null}
 
       <div className="ai-flags" id="aiFlags">
-        {flags.length ? flags.map(k => <span key={k} className={`ai-chip ${k}`}>{FLAG_LABEL[k] || k}</span>)
+        {flags.length ? flags.map(k => <span key={k} className={`flagdot ${FLAG_TONE[k]}`}>{FLAG_LABEL[k] || k}</span>)
           : <span className="ai-none">No warning lights, prior repair, leaks or structural concerns found</span>}
       </div>
 
@@ -52,6 +52,7 @@ export function InsightCard({ insight, thumb, onJump, onPhoto }){
         ) : <p className="ai-none">Nothing in the checklist was graded fail or attention.</p>}
         {key.length > TOP ? <button type="button" className="linkbtn" id="aiAll" onClick={() => setAll(a => !a)}>{all ? "Show fewer" : `Show all ${key.length}`}</button> : null}
       </div>
+      <p className="ai-foot">Written by Inspectd AI from the inspection record.</p>
     </section>
   );
 }

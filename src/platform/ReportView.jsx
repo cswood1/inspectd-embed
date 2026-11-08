@@ -139,12 +139,11 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
   function configBody(r){
     const v = kv(r.vehicle || {}, ORDER_V), i = kv(r.inspection || {}, ORDER_I, ["inspector"]);
     const pv = r.vehicle_in_pdf;
-    const about = [r.pages ? plural(r.pages, "page") : "", r.uploaded_at ? "uploaded " + fmtDate(r.uploaded_at) : ""].filter(Boolean).join(" · ");
     return (<>
       {pv ? <p className="cr-odd">{`The inspector's PDF names ${[pv.year, pv.make, pv.model, pv.trim].filter(Boolean).join(" ") || "another vehicle"}`}{pv.vin ? <>{" (VIN "}<span className="mono">{pv.vin}</span>{")"}</> : null}{". This report is filed under the car above."}</p> : null}
       <div className="cr-kv">
         <div><h3>Vehicle</h3>{v.length ? <dl>{v}</dl> : <p className="none">Not listed in this report.</p>}</div>
-        <div><h3>Inspection</h3>{i.length ? <dl>{i}</dl> : <p className="none">Not listed in this report.</p>}{about ? <p className="cr-about">{`Report PDF: ${about}`}</p> : null}</div>
+        <div><h3>Inspection</h3>{i.length ? <dl>{i}</dl> : <p className="none">Not listed in this report.</p>}</div>
       </div>
     </>);
   }
@@ -215,16 +214,11 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
     return () => document.removeEventListener("keydown", onKey);
   });
 
-  // ---------- print, delete, the PDF ----------
+  // ---------- the browser's own print (sections open), the PDF ----------
   const printPrep = () => { sectionsEl.current?.querySelectorAll("details").forEach(d => d.open = true); heroEl.current?.setAttribute("data-printed", new Date().toLocaleString()); };
   useEffect(() => { window.addEventListener("beforeprint", printPrep); return () => window.removeEventListener("beforeprint", printPrep); }, []);
-  const del = async () => {
-    if (!current || !await ask({title: "Delete this report?", text: `"${title(current)}" and its extracted photos are removed for everyone in the workspace.`, ok: "Delete report", danger: true})) return;
-    try { portal.deleteReport(current.id); notify("Report deleted", title(current), "blue", 4000); ctx.refreshCounts(); ctx.navigate("/reports"); }
-    catch (e) { notify("Delete failed", e.message, "red"); }
-  };
   // the inspector's original PDF is not part of this demo (docs/platform-iteration-notes.md)
-  const pdf = e => { e.preventDefault(); notify("The original PDF isn't available", "This demo keeps the report, not the inspector's PDF. Print saves the report as a PDF.", "blue", 5000); };
+  const pdf = e => { e.preventDefault(); notify("The original PDF isn't available", "This demo keeps the report, not the inspector's PDF.", "blue", 5000); };
   const copyVin = async () => { try { await navigator.clipboard.writeText(current.vehicle.vin); setCopied(true); setTimeout(() => setCopied(false), 1600); } catch { /* the browser refused the clipboard */ } };
 
   const r = current, v = r?.vehicle || {}, i = r?.inspection || {};
@@ -236,6 +230,11 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
     if (i.date) facts.push(["Inspected", <span>{fmtDate(i.date)}</span>]);
     if (r.request_id && !isPublic) facts.push(["Job", <a href={`/jobs/${r.request_id}`} className="mono" onClick={e => { stay(e); ctx.navigate(`/jobs/${r.request_id}`); }}>{jobRef(r.request_id)}</a>]);
   }
+  // the same car's other reports in this workspace, and any job for it still in progress (not on the share page)
+  const vin = (v.vin || "").toUpperCase();
+  const others = r && !isPublic && vin ? portal.reports().reports.filter(x => x.id !== r.id && (x.vehicle?.vin || "").toUpperCase() === vin)
+    .sort((a, b) => (b.inspection?.date || "").localeCompare(a.inspection?.date || "")) : [];
+  const open = r && !isPublic && vin ? portal.listJobs().requests.filter(j => (j.form?.vin || "").toUpperCase() === vin && !["complete", "canceled"].includes(j.stage) && j.id !== r.request_id) : [];
   const c = r ? counts() : null, list = r ? sections() : [];
   const hits = r ? (r.findings || []).filter(shown).length : 0;
   const im = lbOpen ? ims[photo] : null;
@@ -245,40 +244,35 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
         <div className="cr-hero-in pad">
           <div className="cr-hero-top">
             {!isPublic ? <a className="backlink" href="/reports" id="dBack" onClick={e => { stay(e); ctx.navigate("/reports"); }}><Svg src='<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg>' />All reports</a> : null}
-            <div className="actions">
-              <button className="btn sm" id="dPrint" type="button" title="Print, or save as PDF from the print dialog" onClick={() => { printPrep(); window.print(); }}>Print</button>
-              {!isPublic ? <button className="btn sm danger" id="dDelete" type="button" onClick={del}>
-                <Svg src='<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h10M6 4V2.5h4V4M4.5 4l.6 9h5.8l.6-9"/></svg>' />Delete</button> : null}
-            </div>
           </div>
-          <h1 id="dTitle">{missing ? "Report not found" : r ? ([v.year, v.make, v.model].filter(Boolean).join(" ") || title(r)) : ""}</h1>
+          <h1 id="dTitle">{missing ? "Report not found" : r ? title(r) : ""}</h1>
           <p className="cr-sub" id="dSub">{missing && isPublic ? <>{"This link isn't valid or was withdrawn. "}<a href="/find-my-report" onClick={stay}>Lost your link? Get it again</a>.</> : r ? [v.trim, v.engine, v.transmission, v.drivetrain, v.fuel].filter(Boolean).join(" · ") : ""}</p>
           <div className="cr-facts" id="dMeta">{facts.map(([k, val]) => <div key={k}><small>{k}</small><p>{val}</p></div>)}</div>
+          {r && !isPublic && (others.length || open.length) ? <p className="cr-also" id="alsoLine">
+            {others.length ? <>{"Also inspected "}{others.map((o, n) => <React.Fragment key={o.id}>{n ? ", " : ""}<a href={`/reports/${o.id}`} data-report={o.id} onClick={e => { stay(e); ctx.navigate(`/reports/${o.id}`); }}>{fmtDate(o.inspection?.date)}</a></React.Fragment>)}</> : null}
+            {others.length && open.length ? " · " : ""}
+            {open.length ? <>{"In progress: "}{open.map((j, n) => <React.Fragment key={j.id}>{n ? ", " : ""}<a href={`/jobs/${j.id}`} className="mono" data-job={j.id} onClick={e => { stay(e); ctx.navigate(`/jobs/${j.id}`); }}>{jobRef(j.id)}</a></React.Fragment>)}</> : null}
+          </p> : null}
         </div>
       </header>
 
       <div className="cr-ribbon pad" id="ribbon">
-        <button className={`rb pass${filter === "pass" ? " on" : ""}`} id="rbPass" data-f="pass" type="button" disabled={c ? !c.pass : undefined} onClick={() => pick("pass")}>{c ? <><Svg src={ICON.check} />{`${plural(c.pass, "checkpoint")} passed`}</> : null}</button>
-        <button className={`rb issues${c && !c.issues ? " none" : ""}${filter === "issues" ? " on" : ""}`} id="rbIssues" data-f="issues" type="button" disabled={c ? !c.issues : undefined} onClick={() => pick("issues")}>{c ? (c.issues ? <><Svg src={ICON.warn} />{`${plural(c.issues, "issue")} detected`}</> : <><Svg src={ICON.check} />No issues detected</>) : null}</button>
-        <button className={`rb all${filter === "all" ? " on" : ""}`} id="rbAll" data-f="all" type="button" onClick={() => pick("all")}>View all</button>
+        <button className={`rb pass${filter === "pass" ? " on" : ""}`} id="rbPass" data-f="pass" type="button" disabled={c ? !c.pass : undefined} onClick={() => pick(filter === "pass" ? "all" : "pass")}>{c ? <><Svg src={ICON.check} />{`${plural(c.pass, "checkpoint")} passed`}</> : null}</button>
+        <button className={`rb issues${c && !c.issues ? " none" : ""}${filter === "issues" ? " on" : ""}`} id="rbIssues" data-f="issues" type="button" disabled={c ? !c.issues : undefined} onClick={() => pick(filter === "issues" ? "all" : "issues")}>{c ? (c.issues ? <><Svg src={ICON.warn} />{`${plural(c.issues, "issue")} detected`}</> : <><Svg src={ICON.check} />No issues detected</>) : null}</button>
         <a className="rb listing" id="dListing" target="_blank" rel="noopener" hidden>
           <Svg src='<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h4v4"/><path d="M13 3L7.5 8.5"/><path d="M11 9.5V13H3V5h3.5"/></svg>' />View original listing</a>
         <a className="rb" id="dPdf" href={r ? `/api/reports/${r.id}/pdf` : "#"} download onClick={pdf} hidden={r ? r.view === "listing" : undefined}>
           <Svg src='<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v8"/><path d="M5 8l3 3 3-3"/><path d="M3 13h10"/></svg>' />Download PDF</a>
-        <label className="cr-search"><i aria-hidden="true"></i><input id="q" type="search" placeholder="Search report…" aria-label="Search the report" autoComplete="off" onChange={onSearch} /></label>
+        <label className="cr-search"><input id="q" type="search" placeholder="Search report…" aria-label="Search the report" autoComplete="off" onChange={onSearch} /></label>
       </div>
 
       <div className="pad skel" aria-hidden="true">
-        <div className="row" style={{ gridTemplateColumns: "minmax(240px,300px) minmax(0,1fr)" }}>
-          <div className="sk" style={{ height: 320 }}></div>
+        <div className="row">
           <div><div className="sk" style={{ height: 28, width: 220 }}></div><div className="sk" style={{ height: 140, marginTop: 16 }}></div><div className="sk" style={{ height: 28, width: 180, marginTop: 28 }}></div><div className="sk" style={{ height: 28, width: 200, marginTop: 28 }}></div></div>
         </div>
       </div>
 
       <div className="cr-body pad">
-        <aside className="cr-nav" aria-label="Report sections"><p className="cr-navt">Vehicle summary</p><nav id="crNav" ref={navEl} key={`n${gen}`}>
-          {list.map(s => <a key={s.id} href={`#${s.id}`} data-sec={s.id} className={s.hidden ? "dim" : ""} onClick={e => { stay(e); indexClick(s.id); }}><i className={`dot ${s.tone}`}></i><span>{s.title}</span><b className={s.tone}>{s.meta}</b></a>)}
-        </nav></aside>
         <div className="cr-main">
           {showAi(r) ? <InsightCard key={r.id} insight={r.insight} onJump={jumpTo}
             thumb={n => { const p = ims.find(x => x.index === n); return p ? thumbUrl(p) : null; }}
@@ -290,7 +284,7 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
               <details key={s.id} className="cr-sec" id={s.id} open={s.open || expandAll}>
                 <summary><h2>{s.title}</h2>{s.cat ? <span className={`cnt ${s.tone}`}>{s.meta}</span> : null}<Svg src={CHEV} /></summary>
                 <div className="cr-secbody">{s.body}</div>
-              </details>)) : <div className="cr-empty"><b>Nothing matches</b>Try another word, or View all.</div>) : null}
+              </details>)) : <div className="cr-empty"><b>Nothing matches</b>Try another word.</div>) : null}
           </div>
         </div>
       </div>

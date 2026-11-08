@@ -12,6 +12,7 @@
  *   select(ws, {kind: "flag", key: "tires"})    // {label, unit, count, rows}: what a click lists
  */
 import { METRO_CENTERS, ZIPS } from "./seed.js";
+import { vehicleName } from "./vehicleName.js";
 
 export const FLAGS = [["warning_lights", "Warning lights or codes"], ["tires", "Tire concerns"], ["prior_repair", "Prior repair or paint"],
   ["leaks", "Leaks"], ["rust_corrosion", "Rust beyond surface"], ["structural", "Structural or frame concerns"]];
@@ -49,7 +50,7 @@ const dayOf = s => Date.parse(String(s || "").slice(0, 10) + "T12:00:00");
 export function workspaceData(rows, now = Date.now()){
   const inspections = rows.map(r => {
     const o = r.insight_overview || {}, v = r.vehicle || {}, place = placeOf(r.inspection?.location);
-    return {id: r.id, vin: (v.vin || "").toUpperCase() || r.id, vehicle: [v.year, v.make, v.model].filter(Boolean).join(" ") || "Vehicle",
+    return {id: r.id, vin: (v.vin || "").toUpperCase() || r.id, vehicle: vehicleName(v) || "Vehicle",
             date: r.inspection?.date || (r.uploaded_at || "").slice(0, 10), location: r.inspection?.location || "", place,
             flags: o.flags || {}, surface_rust: !!o.surface_rust, issues: o.issues || [], first_sentence: o.first_sentence || "",
             fail: r.summary?.fail || 0, attention: r.summary?.attention || 0};

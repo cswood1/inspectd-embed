@@ -211,7 +211,8 @@ or two: what was decided and, where it isn't obvious, why. Newest at the bottom 
   Every summary was fact-checked: every number against the record, length, no counts in the lead, banned words
   (should, needs, recommend, replace, cost, buy, avoid, worth, great, excellent and similar) and jargon, the lead
   against the failures and flags, then each claim read against the record by a second reader.
-- **The card shows on a business's reports only**: Condition Report and Arbitration (Meridian Fleet Services, Crestview
+- **The card shows on a business's reports only** (titled "Summary" since polish round 1, with "Written by Inspectd AI
+  from the inspection record." at its foot, and no mark): Condition Report and Arbitration (Meridian Fleet Services, Crestview
   Denver). Consumer-type reports (Inspectd Consumers, and ReBuilt Autos' shoppers) don't show it yet, and neither does
   the public share page. A report row carries its job's inspection type so the viewer can tell. The card sits at the
   top of the report's main column: the summary, the true flags as chips (or "No warning lights, prior repair, leaks or
@@ -220,14 +221,14 @@ or two: what was decided and, where it isn't obvious, why. Newest at the bottom 
   next page but leave clipped glyphs of it at the foot of the page, which the reader had taken for labels
   ("Instrument Cl", "Underbody/Frame C", "I") with garbled statuses. The reader now drops those fragments and joins a
   label that continues on the next page. Four reports were affected and re-converted with their photo picks.
-- **The Inspectd AI mark is one component** (`AiMark.jsx`), so the step-3 sidebar uses the same one. Each report's
+- ~~**The Inspectd AI mark is one component** (`AiMark.jsx`).~~ *Replaced (polish round 1): no mark anywhere.* Each report's
   flags and issue counts are also in `reportIndex.js` (`insight_overview`) for the step-3 overview.
 
 ## Inspectd AI: the workspace overview (AI layer, step 3)
 
-- **An "Inspectd AI" item in the portal sidebar, for fleet and dealer workspaces only** (Meridian Fleet Services,
-  Crestview Denver), with the AI mark toned down. In Inspectd Consumers and ReBuilt Autos it isn't in the sidebar, and
-  `/ai` shows the Overview. The page (`/ai`) is an overview across the workspace's reports; step 4 adds the chat.
+- ~~**An "Inspectd AI" item in the portal sidebar, for fleet and dealer workspaces only**, with the AI mark, and a page
+  at `/ai`.~~ *Replaced (polish round 1): the overview lives at the top of Reports in fleet and dealer workspaces; `/ai`
+  redirects to Reports; the AI mark is gone. See "Simplicity".*
 - **Computed in the browser from the records, with no AI.** `aiOverview.js` turns the workspace's report rows (their
   dates and locations, and each report's `insight_overview` in `reportIndex.js`: flags, surface rust, key issues as
   `[section, item, status, consumable, underbody]`, and the summary's first sentence) into every figure, and every
@@ -256,6 +257,52 @@ or two: what was decided and, where it isn't obvious, why. Newest at the bottom 
 - **By location: within 60 miles of a metro's center counts under the metro** (Denver, Dallas, Atlanta, Nashville,
   Salt Lake City; centers exported from the seed as `METRO_CENTERS`); everything else is one "Elsewhere" row that
   expands to its cities. Each place shows its inspections and the share of them with any flag.
-- **Every figure opens the vehicles behind it** (`VehicleList.jsx`, reusable): "Tire concerns · 17 vehicles" with a
-  Clear button, then vehicle, VIN, city, date, flag chips and the summary's first sentence; a row opens the report.
-  It opens under the headline cards, one list at a time.
+- ~~**Every figure opens the vehicles behind it** (`VehicleList.jsx`).~~ *Replaced (polish round 1): every figure
+  filters the one report list on Reports (`ReportRows`), under "Tire concerns · 17 vehicles" with Clear; a vehicle filter
+  lists each vehicle's latest report. `VehicleList.jsx` is gone; step 4's answers use the same list.*
+
+## Simplicity (standing, from polish round 1)
+
+- **Less is more.** Every element on a business customer's screens has to help them decide something; everything else
+  goes. Sophisticated, utilitarian, direct.
+- **AI is woven into the screens people already use**, not given its own tab, and not decorated: no mark, no sparkle,
+  no gradient. The overview's figures and flags sit at the top of Reports; a report's AI summary is titled "Summary" with
+  one quiet line saying Inspectd AI wrote it from the record.
+- **Restraint over ornament.** The lift comes from type, numbers, spacing and one accent: hairline dividers over
+  bordered boxes, a colored dot (not a colored border) where a status needs color, tabular figures on every number,
+  sentence-case labels (no uppercase letter-spacing), no letter avatars, no count badges, no duplicate actions.
+- **One accent: teal `#00807f`** (the logo's teal, darkened from `#00c8c8` to read on white), only for links, selected
+  states and focus rings, with `#e6f5f5` as the selected wash. **Primary buttons are ink** (`#111827`) with white text.
+- **Status colors carry meaning, never decoration:** red `#b02318` / `#fdecea` (fail, and the warning-lights, leaks and
+  structural flags), amber `#9d500a` / `#fff3e6` (attention, and the other flags), green `#1c7a3f` / `#e9f6ee` (pass).
+  A stage like "Dispatching" or a role like "Admin" is neutral.
+- **Six neutrals and nothing else:** ink `#111827`, body `#374151`, muted `#6b7280`, faint `#9aa1ac`, hairline `#e5e7eb`,
+  wash `#f9fafb` (plus white). All of these are CSS variables at the top of `portal.css`, with Kavin's names mapped onto
+  them, so the design pass changes them in one place. The customer's share page keeps its own dark theme.
+- **The type scale:** page title 24/600; section title 15/600; body and table text 14/400; labels (field names, column
+  heads) 12/500 muted, sentence case; secondary text 12.5/400 muted; figures 28/600 (the strip) and 20/600 (small),
+  tabular; the report's vehicle title 36/700, the only 700. Weights are 400, 500 and 600.
+
+**What polish round 1 changed in the portal**
+- **Pages:** Jobs, Reports, Team, Settings, and the New inspection request button. No Overview (its request block,
+  explainer cards and recent reports are all covered by the button, Jobs and Reports), no Vehicles, no Invoices (Billing
+  is a section of Settings), no Inspectd AI page.
+- **Routing:** `/` lands on Reports in fleet and dealer workspaces and on Jobs in Inspectd Consumers and ReBuilt Autos;
+  `/ai` and `/vehicles` redirect to Reports; `/invoices` to `/settings#billing`; an unknown path to the landing page.
+- **Reports:** in fleet and dealer workspaces, the figure strip (Vehicles, Reports, Last 30 days, Flagged, With a
+  failure) and the flag filters with the surface-rust line; any of them filters the list below, with a visible label
+  and Clear. "List | Breakdown" (List by default): Breakdown holds Most common issues, Issues by area, By location and
+  Inspected more than once, and anything clicked there switches back to List, filtered. One search field (VIN, make,
+  model). The list: vehicle and VIN, city, inspected, findings, and (business) flags as dots. Consumer and marketplace
+  workspaces get the plain list. Step 4's "Ask about your reports" bar goes at the top.
+- **What the Vehicles page did, now:** a car's other inspections are an "Also inspected <date>" line on its report, and
+  a job still in progress for it is "In progress: J-…" on the same line (neither on the share page); jobs without a
+  report yet are on Jobs, which searches by VIN.
+- **The report:** full width, the collapsible section headers are the navigation (no section index); no Print or
+  Delete (on the share page too); Download PDF stays; the counts toggle their filter (no "View all").
+- **Jobs and a job:** one stage filter (the chips with counts; no stage cards); a row names its inspection type only when
+  it differs from the workspace's usual type; no "Dispatching" in Planned; the job page has no stage or reference pill,
+  the reference without the internal id, no "Next" labels, and "Updated" only when it differs from Requested.
+- **Sidebar, Team, Settings:** the workspace switcher shows the name only (staff still switch); the user tile shows name
+  and email; Team has no meta line or role helper; Settings drops the workspace address, the member count and the
+  workspaces list.

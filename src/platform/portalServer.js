@@ -110,7 +110,9 @@ export function clientView(r, reports = []){
     if (ours && (!r.org_id || r.org_id === ours.org_id)) report = {id: ours.id, at: ours.uploaded_at || "", filename: ours.filename || "", from_records: true};
   }
   const stage = portalStage(r);
-  return {id: r.id, stage, stage_label: STAGE_LABELS[stage], created_at: r.created_at, updated_at: r.updated_at, form: r.form,
+  // a job with a report is named as its report names the car (vehicleName.js): the form carries the report's trim
+  const trim = report ? reports.find(x => x.id === report.id)?.vehicle?.trim : "";
+  return {id: r.id, stage, stage_label: STAGE_LABELS[stage], created_at: r.created_at, updated_at: r.updated_at, form: trim && !r.form.trim ? {...r.form, trim} : r.form,
           org_id: r.org_id, user_id: r.user_id, shops_found: r.search?.state === "done" ? shops.length : null, lookup_pending: !r.search || r.search.state === "running",
           report, history: historyOf(r), can_cancel: canCancel(r), canceled: r.meta?.canceled || null, scheduled_at: plannedOf(r), planned: plannedOf(r)};
 }
