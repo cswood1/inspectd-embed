@@ -749,5 +749,165 @@
   "unknown": 0,
   "total": 77
  },
- "photo_count": 67
+ "photo_count": 67,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 63,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Engine Oil Leaks",
+    "note": "Noticed a seepage on the oil cap where it sits on the top of the engine, see pictures.",
+    "photo": 23,
+    "consumable": false
+   },
+   {
+    "finding": 12,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Body Panel Alignment",
+    "note": "The hood between both fenders is not aligned properly",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 13,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos. The exterior of the vehicle was very dusty at time of inspection. This can hide minor imperfections.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 14,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "The vehicle repaint shows dust under the paint, some orange peel, and signs of poor prep. This is sub-par workmanship.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 19,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Bumpers",
+    "note": "The front bumper shows signs of repaint with minor imperfections and is not mounted properly",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 22,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dings",
+    "note": "The vehicle shows minor miscellaneous dings around the body.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 27,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats. Normal for mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 31,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner driver door panel show heavy wear. See pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 32,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Power Locks",
+    "note": "The power lock switch unlocks and locks all doors but the passenger door.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 40,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "The carpet shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 43,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Headliner",
+    "note": "headliner shows wear and is dirty, just probably needs a good cleaning.",
+    "photo": null,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": true,
+    "evidence": [
+     {
+      "source": "summary:Overall",
+      "text": "While on the test drive i had two warning lights that appeared on the gouge cluster (please see pictures) they revolve around the front parking sensors in the vehicle and i can not confirm if they just need realigned or if they work at all."
+     }
+    ]
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 75
+     }
+    ]
+   },
+   "leaks": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 63
+     },
+     {
+      "source": "summary:Overall",
+      "text": "The engine bay was dirty and there appears to be oil seepage out of the oil cap on top of the engine (see pictures) it was low on Washer fluid but all other levels including the radiator appeared to be toped off."
+     }
+    ]
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "summary": {
+   "text": "Several items to note: oil seepage at the oil cap, a severe pull left at highway speed and two parking-sensor warning lights. The sides and front were repainted with an uneven finish; the hood and front bumper are misaligned.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

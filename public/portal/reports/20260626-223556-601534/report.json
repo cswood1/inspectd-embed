@@ -743,5 +743,157 @@
   "unknown": 0,
   "total": 79
  },
- "photo_count": 99
+ "photo_count": 99,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 15,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc of scratches around the vehicle.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 18,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of surface rust.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 22,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Bumpers",
+    "note": "The front bumpers under tray has some scratches. There is a small chip and scratches around the vehicle.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 26,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dings",
+    "note": "There are two dings located in each of thew front doors pillar trims.",
+    "photo": 80,
+    "consumable": false
+   },
+   {
+    "finding": 31,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is wear to the seats. There is a small scratch on the front passenger seat as well.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 36,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 39,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Center Console",
+    "note": "The center console shows wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 54,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 74,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Key Fob",
+    "note": "Only one key fob was shown during inspection.",
+    "photo": null,
+    "consumable": true
+   },
+   {
+    "finding": 46,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Floor Mats",
+    "note": "The floor mats are dirty.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 75
+     },
+     {
+      "finding": 77
+     },
+     {
+      "finding": 78
+     }
+    ]
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 18
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The underside shows areas of surface rust."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Mostly clean, though three of four tires are low on tread and all wheels have curb rash. Also minor scratches, dings, surface rust underneath, seat wear and only one key fob.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

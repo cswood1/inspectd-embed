@@ -755,5 +755,138 @@
   "unknown": 0,
   "total": 79
  },
- "photo_count": 77
+ "photo_count": 77,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 8,
+    "status": "fail",
+    "section": "Road Test",
+    "item": "Tire Pressure System (TPMS)",
+    "note": "The tire pressure monitoring light is on. This could be as simple as a tire that is low on air or it could be something else. Each tire has a battery operated sensor. If a battery has failed, the sensor will need replacement. Other issues that may cause this light to come on but these are the two most common ones. This will need further diagnosis.",
+    "photo": 61,
+    "consumable": false
+   },
+   {
+    "finding": 64,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Engine Oil Condition",
+    "note": "The engine oil is dirty and should be changed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 14,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 15,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "The paint shows some wear and tear that is consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 23,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Glass",
+    "note": "The windshield has minor miscellaneous road debris imprints and a small star on driver's side.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 24,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dings",
+    "note": "The vehicle shows minor miscellaneous dings around the body.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 33,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Radio/Navigation/DVD",
+    "note": "Standard Encore radio package, navigation option not installed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 43,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "The carpet shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 50,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Unusual Odors",
+    "note": "There is a musty smell inside the vehicle.",
+    "photo": null,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 8
+     },
+     {
+      "source": "summary:Road Test",
+      "text": "The tire pressure monitoring light is on."
+     }
+    ]
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "summary": {
+   "text": "Several items to note: the tire pressure warning light is on, there is a small star chip on the windshield and a musty smell inside, and the engine oil is dirty. Also minor scratches, dings and paint wear.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

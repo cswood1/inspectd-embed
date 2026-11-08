@@ -786,5 +786,143 @@
   "unknown": 0,
   "total": 84
  },
- "photo_count": 74
+ "photo_count": 74,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "The exterior of the vehicle was very dirty at time of inspection. This can hide imperfections. There are misc scratches and chips around the vehicle. Normal for mileage and most too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 17,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "The paint shows some wear and tear that is consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 19,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of minor surface rust. See pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 23,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Bumpers",
+    "note": "The front and rear bumpers show signs of wear and tear consistent with the age and mileage of the vehicle.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 25,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Glass",
+    "note": "The windshield has miscellaneous stone chips.",
+    "photo": 12,
+    "consumable": false
+   },
+   {
+    "finding": 31,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is wear to the seats, stains present. Normal for mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 36,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 45,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "The carpet shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 52,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Unusual Odors",
+    "note": "There is an air freshener installed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 55,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 19
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Clean overall: scratches and chips, windshield stone chips, minor surface rust underneath and some seat stains. There were no leaks or diagnostic codes, and it drove well.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

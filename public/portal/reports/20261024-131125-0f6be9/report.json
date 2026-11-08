@@ -1543,5 +1543,120 @@
   "na": 0,
   "unknown": 0,
   "total": 86
+ },
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 70,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Transmission Fluid Condition",
+    "note": "Due to the vehicle having a sealed transmission unit, I was unable to check the level or condition of the transmission fluid.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 76,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Muffler System",
+    "note": "There are minor surface rust on some of the exhaust system flanges and welds.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 32,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats. Minor creasing and dirt smudge observed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 37,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 46,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "Observed some possible animal fur on some parts of the carpet.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 55,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 76
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "There are minor surface rust on some of the exhaust system flanges and welds."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Clean overall: only minor scratches, light seat wear, minor surface rust on the exhaust and possible animal fur on the carpet. There were no leaks or diagnostic codes, and it drove well.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
  }
 }

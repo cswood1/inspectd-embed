@@ -783,5 +783,120 @@
   "unknown": 0,
   "total": 84
  },
- "photo_count": 89
+ "photo_count": 89,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 14,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc of small light scratches around the vehicle.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 15,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "The exterior was dirty at the time of the inspection which can hide any minor imperfections.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 17,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of surface rust.",
+    "photo": 9,
+    "consumable": false
+   },
+   {
+    "finding": 30,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "The seats are dirty with some wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 35,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 53,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 45,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Floor Mats",
+    "note": "The floor mats are dirty.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 17
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The underside shows areas of surface rust."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Clean overall: light scratches, surface rust underneath, and dirty, worn seats and interior trim. The exterior was dirty at inspection, which can hide minor marks.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

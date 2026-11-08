@@ -811,5 +811,151 @@
   "unknown": 0,
   "total": 86
  },
- "photo_count": 167
+ "photo_count": 167,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 72,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Brake System Condition",
+    "note": "The brake rotors are showing signs of rust.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 76,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Muffler System",
+    "note": "The exhaust shows some surface rust throughout, but at this time has no leaks and sounds good.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos. These are more obvious on the driver's side.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 19,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of surface rust. See pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 29,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "There is a dent on the passenger side quarter panel.",
+    "photo": 97,
+    "consumable": false
+   },
+   {
+    "finding": 33,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats. Normal for mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 38,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels, steering wheel, glove box, and center console show signs of wear.",
+    "photo": null,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 82
+     },
+     {
+      "finding": 83
+     },
+     {
+      "finding": 84
+     },
+     {
+      "finding": 85
+     },
+     {
+      "source": "summary:Tire",
+      "text": "The tires of the vehicle have a tread depth of 4/32, indicating that they will need to be replaced."
+     }
+    ]
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 19
+     },
+     {
+      "finding": 72
+     },
+     {
+      "finding": 76
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The underside shows areas of surface rust."
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "The brake rotors are showing signs of rust."
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "The exhaust shows some surface rust throughout, but at this time has no leaks and sounds good."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Mostly clean: the tires are worn to 4/32 and there is a dent on the passenger-side quarter panel. Also rust on the brake rotors, surface rust underneath and on the exhaust, scratches and light interior wear.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

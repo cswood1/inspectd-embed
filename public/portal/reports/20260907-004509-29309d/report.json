@@ -800,5 +800,145 @@
   "unknown": 0,
   "total": 84
  },
- "photo_count": 70
+ "photo_count": 70,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 74,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Muffler System",
+    "note": "Exhaust shows some surface rust.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are scratches around the vehicle. Normal for mileage and most too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 17,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "The paint shows some wear and tear that is consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 19,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of surface rust. See pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 27,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "Dent observed on the driver-side roof rail pic 16.",
+    "photo": 16,
+    "consumable": false
+   },
+   {
+    "finding": 31,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is wear to the seats. Normal for mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 36,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 54,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows wear consistent with",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 78,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Key Fob",
+    "note": "Only one key fob was shown during inspection.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 19
+     },
+     {
+      "finding": 74
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The underside shows areas of surface rust."
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "Exhaust shows some surface rust."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Mostly clean: a dent on the driver-side roof rail, plus scratches, surface rust and seat wear. No diagnostic codes; aftermarket parts include tires, a bed cover, side steps, tint and a plug-in device that appears to be a GPS tracker.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

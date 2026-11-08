@@ -1,7 +1,7 @@
 {
  "id": "20260925-132536-f0ec0b",
  "filename": "Ford_F12548_inspection.pdf",
- "uploaded_at": "2026-11-08T18:59:15+00:00",
+ "uploaded_at": "2026-11-08T19:37:36+00:00",
  "size": 100197459,
  "llm_error": "",
  "scanned": false,
@@ -443,14 +443,6 @@
    "raw_status": "Good"
   },
   {
-   "item": "I",
-   "status": "attention",
-   "section": "Interior",
-   "notes": "",
-   "page": null,
-   "raw_status": "t"
-  },
-  {
    "item": "Instrument Cluster/Gauges",
    "status": "pass",
    "section": "Interior",
@@ -810,10 +802,274 @@
  "summary": {
   "pass": 65,
   "fail": 2,
-  "attention": 19,
+  "attention": 18,
   "na": 0,
   "unknown": 0,
-  "total": 86
+  "total": 85
  },
- "photo_count": 216
+ "photo_count": 216,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 64,
+    "status": "fail",
+    "section": "Mechanical",
+    "item": "Coolant Condition",
+    "note": "The engine coolant level is low, with no obvious external coolant leaks the system should be topped off and pressure tested for internal or external leaks.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 50,
+    "status": "fail",
+    "section": "Interior",
+    "item": "Headliner",
+    "note": "The sunglass compartment was broken when the client had the windshield replaced.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 75,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Muffler System",
+    "note": "Exhaust shows some surface rust, but at this time has no leaks and sounds good.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 6,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Wheel Bearing Performance",
+    "note": "There is a growling noise while driving that is suspiciously similar to a bearing growl. The tires are admittedly loud, but the tire noise is notably different, Further diagnosis is needed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 10,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Tire Pressure System (TPMS)",
+    "note": "The TPMS light is on, Further diagnosis is needed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 11,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Computer Diagnosis/OBD2",
+    "note": "I hooked up my Scan Tool to the computer system and found several codes across multiple systems. See pictures of more descriptive information. More diagnoses are needed.",
+    "photo": 3,
+    "consumable": false
+   },
+   {
+    "finding": 82,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Passenger's Front Tire",
+    "note": "Goodyear Wrangler 275/55R20, 9/32 tread, wheel: Curb Rash",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 83,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Driver's 1st Axle Outer Tire",
+    "note": "Goodyear Wrangler 275/55R20, 7/32 tread, wheel: Curb Rash",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 84,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Passenger's 1st Axle Outer Tire",
+    "note": "Goodyear Wrangler 275/55R20, 7/32 tread, wheel: Curb Rash",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 17,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "The paint shows some wear and tear that is consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 21,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Power Sunroof",
+    "note": "The sunroof only achieves the vent position and gets jammed when commanded to open, Further diagnosis is needed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 27,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dings",
+    "note": "There is one minor ding on the tailgate.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 29,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Steering Wheel",
+    "note": "The steering wheel shows wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 32,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats. Normal for mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 37,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 42,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Dash Lights Working",
+    "note": "The TPMS warning light is illuminated, Further diagnosis is needed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 46,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "The carpet shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 55,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows normal wear consistent with age and mileage. There's scratches on some parts of interior trim.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 13,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Wiper Blades",
+    "note": "The wipers are worn and should be replaced.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 10
+     },
+     {
+      "finding": 11
+     },
+     {
+      "finding": 42
+     },
+     {
+      "source": "summary:Interior",
+      "text": "The TPMS warning light is illuminated, Further diagnosis is needed."
+     },
+     {
+      "source": "summary:Road Test",
+      "text": "The TPMS light is on, Further diagnosis is needed."
+     },
+     {
+      "source": "summary:Road Test",
+      "text": "I hooked up my Scan Tool to the computer system and found several codes across multiple systems."
+     }
+    ]
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 82
+     },
+     {
+      "finding": 83
+     },
+     {
+      "finding": 84
+     }
+    ]
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 75
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "Exhaust shows some surface rust, but at this time has no leaks and sounds good."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Several items to note: low coolant with no visible leaks, a growl that may be a wheel bearing, a tire pressure warning light, diagnostic codes across several systems and a sunroof that jams. Also a broken sunglass holder.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

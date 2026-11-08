@@ -796,5 +796,157 @@
   "unknown": 0,
   "total": 84
  },
- "photo_count": 92
+ "photo_count": 92,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 67,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Engine Oil Condition",
+    "note": "The engine oil is dirty and should be changed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 76,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Shocks and bushings Condition. Leaking?",
+    "note": "When driving, there is a noticeable noise coming from the front end.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 77,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Ball Joints and Tie Rods",
+    "note": "When driving, there is a noticeable noise coming from the front end.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 8,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Suspension Performance",
+    "note": "When driving, there is a noticeable noise coming from the front end.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 17,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "Some areas of the paint are starting to fade.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 26,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dings",
+    "note": "The vehicle shows minor miscellaneous dings around the body.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 27,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "There is a dent on the rear left side near the gas door.",
+    "photo": 33,
+    "consumable": false
+   },
+   {
+    "finding": 31,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats. The interior of this vehicle needs to be cleaned.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 36,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 45,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "The carpet shows normal wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 46,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Floor Mats",
+    "note": "The floor mats are dirty.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "summary": {
+   "text": "Several items to note: a noticeable noise from the front end while driving, dirty engine oil and a dent near the gas door. Also scratches, dings, fading paint and a dirty interior; no diagnostic codes.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

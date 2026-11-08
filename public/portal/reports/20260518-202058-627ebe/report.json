@@ -743,5 +743,85 @@
   "unknown": 0,
   "total": 78
  },
- "photo_count": 68
+ "photo_count": 68,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 14,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 24,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dings",
+    "note": "The vehicle shows minor miscellaneous dings around the body.",
+    "photo": 36,
+    "consumable": false
+   },
+   {
+    "finding": 29,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "The seats show moderate wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 42,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "The carpet shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "summary": {
+   "text": "Clean overall: minor scratches and dings and moderate seat wear. It drove well, with no misfires or smoking.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

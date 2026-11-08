@@ -694,5 +694,148 @@
   "unknown": 0,
   "total": 71
  },
- "photo_count": 59
+ "photo_count": 59,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 17,
+    "status": "fail",
+    "section": "Exterior",
+    "item": "Glass",
+    "note": "The windshield has a crack and will need to be replaced.",
+    "photo": 53,
+    "consumable": false
+   },
+   {
+    "finding": 0,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Road Test",
+    "note": "The vehicle owner was not present and was not allowed to road test the vehicle, there was also a vehicle blocking in the vehicle.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 8,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "This vehicle has excessive scratches all over the exterior.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 9,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "The paint shows some wear and tear that is consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 15,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Side Moldings",
+    "note": "The side moldings on both sides show minor nicks and chips.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 19,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "There is a small dent on the left rear quarter panel.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 22,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "The seats show moderate wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 35,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "The carpet shows moderate wear from use.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 44,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 65,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Key Fob",
+    "note": "The key fob is broken where the key is no longer attached to the fob. The fob still works but turning the key alone in the ignition switch is difficult.",
+    "photo": null,
+    "consumable": true
+   },
+   {
+    "finding": 36,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Floor Mats",
+    "note": "There were no floor mats in the vehicle at the time of the inspection.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "summary": {
+   "text": "Several items to note: a cracked windshield, excessive scratches all over, a small dent on the left rear quarter panel and a broken key fob. It was not road tested, as the owner was absent and the car blocked in.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

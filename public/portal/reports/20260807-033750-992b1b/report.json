@@ -784,5 +784,156 @@
   "unknown": 0,
   "total": 82
  },
- "photo_count": 98
+ "photo_count": 98,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 10,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Tire Pressure System (TPMS)",
+    "note": "The TPMS light is illuminated on the dash.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 11,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Computer Diagnosis/OBD2",
+    "note": "The OBD scan detected multiple codes in the system. Please see the pictures for more diagnosis.",
+    "photo": 53,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "The vehicle's exterior was dusty during inspection, which can hide minor imperfections. However, there are still minor miscellaneous scratches around the vehicle most of them are too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 19,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows light surface rust.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 21,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Power Sunroof",
+    "note": "The sliding sunroof is aftermarket and works well.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 31,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 40,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Dash Lights Working",
+    "note": "The TPMS light is illuminated on the dash.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 43,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "The carpet shows normal wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 52,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows normal wear.",
+    "photo": null,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 10
+     },
+     {
+      "finding": 11
+     },
+     {
+      "finding": 40
+     },
+     {
+      "source": "summary:Interior",
+      "text": "The TPMS light is illuminated on the dash."
+     },
+     {
+      "source": "summary:Road Test",
+      "text": "The OBD scan detected multiple codes in the system."
+     }
+    ]
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 19
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The underside shows light surface rust."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Several items to note: multiple diagnostic codes and a tire pressure warning light, plus aftermarket modifications including a performance engine-computer module left unmounted in the footwell. Otherwise light surface rust and minor scratches; no leaks, and it drove well.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

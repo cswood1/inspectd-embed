@@ -763,5 +763,211 @@
   "unknown": 0,
   "total": 80
  },
- "photo_count": 67
+ "photo_count": 67,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 55,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Battery Condition",
+    "note": "The battery terminals are corroded. A battery service is recommend so the terminals can be cleaned.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 68,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Brake System Condition",
+    "note": "The brake rotors are showing signs of surface rust.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 70,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Muffler System",
+    "note": "Exhaust shows some surface rust, but at this time has no leaks and sounds good.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 8,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Tire Pressure System (TPMS)",
+    "note": "The TPMS (Tire Pressure Monitoring System) light is illuminated. Need further diagnosis.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 13,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Body Panel Alignment",
+    "note": "I noted that the front bumper is misaligned on the passenger side.",
+    "photo": 64,
+    "consumable": false
+   },
+   {
+    "finding": 14,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "The exterior of the vehicle was wet at time of inspection. This can hide minor imperfections. There are minor misc scratches around the vehicle. I observed that the rear bumper has two 2-inch scratches.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 15,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "I saw that the right rear quarter panel has filler in the panel and an unpainted area. Additionally, the right rear door has been repainted according to the paint gauge. I observed that the hood and rear bumper has stone chips.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 20,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Bumpers",
+    "note": "The front bumper has a gouge.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 25,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "I noticed that the left quarter panel has a dent.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 26,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Steering Wheel",
+    "note": "The steering wheel shows some wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 29,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "The seats show moderate wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 34,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 37,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Center Console",
+    "note": "The center console shows wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 52,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 74,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Key Fob",
+    "note": "The key fob is broken.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 8
+     }
+    ]
+   },
+   "prior_repair": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 15
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "According to the paint gauge, the right rear door has been repainted."
+     }
+    ]
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 68
+     },
+     {
+      "finding": 70
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "The brake rotors are displaying signs of surface rust."
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "The exhaust exhibits some surface rust, but currently, there are no leaks, and it sounds good."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Several items to note: a tire pressure warning light, plus prior bodywork with filler on the right rear quarter panel and a repainted rear door. Also a dent, a gouged and misaligned front bumper, and corroded battery terminals.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

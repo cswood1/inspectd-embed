@@ -1752,5 +1752,191 @@
   "na": 0,
   "unknown": 0,
   "total": 81
+ },
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 67,
+    "status": "fail",
+    "section": "Mechanical",
+    "item": "Engine Oil Leaks",
+    "note": "The underside has some wetness. I'm unable to determine if this is due to a leak, as no parts are being removed from the vehicle. Refer to picture 91.",
+    "photo": 91,
+    "consumable": false
+   },
+   {
+    "finding": 21,
+    "status": "fail",
+    "section": "Exterior",
+    "item": "Power Door Mirrors",
+    "note": "The left mirror housing is cracked at the base. Refer to pictures 16 and 20.",
+    "photo": 16,
+    "consumable": false
+   },
+   {
+    "finding": 22,
+    "status": "fail",
+    "section": "Exterior",
+    "item": "Bumpers",
+    "note": "The front bumper and grille have some cracks and are misaligned. Refer to pictures 22, 23, and 24.",
+    "photo": 22,
+    "consumable": false
+   },
+   {
+    "finding": 14,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Body Panel Alignment",
+    "note": "There is some general misalignment of the left side body panels.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 15,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "The vehicle's exterior was dusty during inspection, which can hide minor imperfections. However, there are still minor miscellaneous scratches around the vehicle. These scratches are normal for the vehicle's mileage, and most of them are too small to see in photos. There are scratches on the hood, front bumper, rear bumper, and left fenders.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "The right front fender has prior paint.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 27,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "The left side panels have multiple dents, including the rear fender, door, rocker panel,",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 31,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats. Normal for mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 40,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Dash",
+    "note": "The dash has a small, heavy scratch above the glove box. Refer to picture 61.",
+    "photo": 61,
+    "consumable": false
+   },
+   {
+    "finding": 45,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "The carpet shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 54,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 13,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Windshield Washer",
+    "note": "The washer fluid level is low.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 16
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The right front fender has prior paint."
+     }
+    ]
+   },
+   "tires": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 78
+     },
+     {
+      "finding": 79
+     },
+     {
+      "finding": 80
+     },
+     {
+      "source": "summary:Tire",
+      "text": "The left front tire has a low tread depth of 5/32nd, and others are worn with tread depths of 3/32nd to 4/32nd."
+     }
+    ]
+   },
+   "leaks": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 67
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "The underside has some wetness."
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "I'm unable to determine if this is due to a leak, as no parts are being removed from the vehicle."
+     }
+    ]
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "summary": {
+   "text": "Significant body damage: a cracked, misaligned front bumper and grille, a cracked left mirror, and dents and panel misalignment along the left side. Also wetness underneath, possibly a leak, worn tires (3/32 to 5/32) and prior fender paint.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
  }
 }

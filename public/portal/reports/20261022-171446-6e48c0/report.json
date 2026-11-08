@@ -1753,5 +1753,205 @@
   "na": 0,
   "unknown": 0,
   "total": 80
+ },
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 25,
+    "status": "fail",
+    "section": "Exterior",
+    "item": "Glass",
+    "note": "The windshield has a crack. Refer to picture 23.",
+    "photo": 23,
+    "consumable": false
+   },
+   {
+    "finding": 39,
+    "status": "fail",
+    "section": "Interior",
+    "item": "Dash",
+    "note": "The trim on the right side of the dash is missing. Refer to picture 53.",
+    "photo": 53,
+    "consumable": false
+   },
+   {
+    "finding": 48,
+    "status": "fail",
+    "section": "Interior",
+    "item": "Headliner",
+    "note": "The headliner on the rear right is torn and loose. Refer to picture 52.",
+    "photo": 52,
+    "consumable": false
+   },
+   {
+    "finding": 54,
+    "status": "fail",
+    "section": "Interior",
+    "item": "Sun Visors",
+    "note": "The sun visors have a broken cover, and the vanity lamp is not working. Refer to pictures 50 and 51.",
+    "photo": 50,
+    "consumable": false
+   },
+   {
+    "finding": 65,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Engine Oil Condition",
+    "note": "The engine oil fill and cap have some sludge and varnish. Refer to picture 75.",
+    "photo": 75,
+    "consumable": false
+   },
+   {
+    "finding": 68,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Brake System Condition",
+    "note": "The brake fluid looks old and dirty and should be flushed. Brake fluid has excessive water content.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos. There are light scratches on the left quarter panel.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 17,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "The vehicle is painted. The right rear bumper and right quarter panel have a paint mismatch.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 18,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Seals",
+    "note": "The seal on the windshield has some wear. Refer to picture 20.",
+    "photo": 20,
+    "consumable": false
+   },
+   {
+    "finding": 20,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Exterior Lights",
+    "note": "The fog lights and headlights are worn and foggy due to oxidation.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 27,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "There is a dent on the left quarter panel. Refer to picture 24.",
+    "photo": 24,
+    "consumable": false
+   },
+   {
+    "finding": 31,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats. Normal for mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 35,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "There is paint wear and chipping on the rear inner panel. Refer to picture 58.",
+    "photo": 58,
+    "consumable": false
+   },
+   {
+    "finding": 41,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Air Conditioning",
+    "note": "The A/C is not blowing as cold as it should. More diagnosis is needed. I also noted some compressor noises.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 53,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 14,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Windshield Washer",
+    "note": "The windshield washer does not work.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 17
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The vehicle is painted."
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The right rear bumper and right quarter panel have a paint mismatch."
+     }
+    ]
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "summary": {
+   "text": "Several items to note: a cracked windshield, a convertible top that did not close properly, weak A/C with compressor noise, old brake fluid with high water content and sludge at the oil fill. Also a torn headliner and paint mismatch.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
  }
 }

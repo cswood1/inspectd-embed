@@ -796,5 +796,242 @@
   "unknown": 0,
   "total": 84
  },
- "photo_count": 69
+ "photo_count": 69,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 20,
+    "status": "fail",
+    "section": "Exterior",
+    "item": "Power Sunroof",
+    "note": "Sun shade missing",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 43,
+    "status": "fail",
+    "section": "Interior",
+    "item": "Air Conditioning",
+    "note": "The A/C is not blowing cold and the compressor did not turn on. The A/C system is not functioning. Further diagnosis is necessary.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 50,
+    "status": "fail",
+    "section": "Interior",
+    "item": "Blower Motor",
+    "note": "The blower motor does not work.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 54,
+    "status": "fail",
+    "section": "Interior",
+    "item": "Sun Visors",
+    "note": "Right sun visor latch broken.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 75,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "CV Boots and Joints",
+    "note": "Left axle makes noise, outer CV boot split open.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 2,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Engine running well after Started",
+    "note": "Rpm's randomly gets stuck around 2-3 rpm. Requires further diagnosis.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 10,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Computer Diagnosis/OBD2",
+    "note": "Trouble codes found. See pictures.",
+    "photo": 66,
+    "consumable": false
+   },
+   {
+    "finding": 15,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "Rear bumper has been repainted. The paint shows some wear and tear that is consistent with age and mileage. Paint chips on hood.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 18,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of surface rust. See pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 22,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Bumpers",
+    "note": "Damage 12” on both front and rear bumpers. Rear bumper has been repainted.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 26,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Glass",
+    "note": "The windshield has miscellaneous stone chips.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 28,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "PDR on doors and fenders. Dent 1-2 on both right doors.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 32,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "Seats show signs of heavy usage. Wear and tear heavily visible. See pictures. Passenger front seat is damaged.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 37,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear consistent with age and mileage. Driver door arm rest worn, split. Right front door handle is peeling.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 44,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Heater",
+    "note": "The heater system is not blowing as hot as it should. This may be a sign that the thermostat has failed or is starting to fail. There are other more serious issues that could cause this as well. More diagnosis is necessary.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 49,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Headliner",
+    "note": "",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 53,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 10
+     },
+     {
+      "source": "summary:Road Test",
+      "text": "A scan of the vehicles on board diagnostic system found multiple codes, none power train related."
+     }
+    ]
+   },
+   "prior_repair": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 16
+     },
+     {
+      "finding": 22
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "Rear bumper has been repainted."
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "Rear bumper has been repainted."
+     }
+    ]
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 18
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The underside shows areas of surface rust."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Several items to note: the A/C and blower motor don't work, the heater is weak, engine RPM randomly sticks, a noisy axle has a split CV boot, and diagnostic codes are stored. Also bumper damage and heavy seat wear.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

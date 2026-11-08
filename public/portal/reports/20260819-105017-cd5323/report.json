@@ -785,5 +785,138 @@
   "unknown": 0,
   "total": 84
  },
- "photo_count": 80
+ "photo_count": 80,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 67,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Engine Oil Condition",
+    "note": "no dip stick so pulled the filler cap off",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 80,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Driver's Front Tire",
+    "note": "Continental 225/55R17, 5/32 tread, wheel: Curb Rash",
+    "photo": 22,
+    "consumable": false
+   },
+   {
+    "finding": 15,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 25,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dings",
+    "note": "The vehicle shows minor miscellaneous dings around the body.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 26,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "The vehicle has miscellaneous dents in varying sizes all around the exterior.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 30,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "driver's seat damage on lower part of the seat see photos",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 31,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Heated Seats",
+    "note": "driver's side worked good, passenger seat did not get hot",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 41,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Air Conditioning",
+    "note": "Did not get cold",
+    "photo": null,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 80
+     },
+     {
+      "finding": 81
+     },
+     {
+      "finding": 82
+     },
+     {
+      "finding": 83
+     },
+     {
+      "source": "summary:Overall",
+      "text": "The car also would need new tires as the tires are way under 4/32 and the wheels show curb damage and one center cap missing."
+     }
+    ]
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "summary": {
+   "text": "Several items to note: the air conditioning did not blow cold, the passenger heated seat did not heat, and the tires are worn. Also damage to the driver's seat, a broken dash vent, dents all around and curb rash.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

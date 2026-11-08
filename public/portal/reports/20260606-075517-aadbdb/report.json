@@ -715,5 +715,94 @@
   "unknown": 0,
   "total": 74
  },
- "photo_count": 126
+ "photo_count": 126,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 14,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Body Panel Alignment",
+    "note": "FRONT BUMPER FRONT END ISSUES MISALIGNED",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 15,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "SOME NORMAL WEAR AND TEAR NOTHING SERIOUS TO THE PAINTS",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 21,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Bumpers",
+    "note": "FRONT BUMPER FRONT END ISSUES MISALIGNED",
+    "photo": 50,
+    "consumable": false
+   },
+   {
+    "finding": 24,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dings",
+    "note": "SOME NORMAL WEAR AND TEAR NOTHING SERIOUS TO THE PAINTS",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 25,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "FOR THE MOST PART THE BODY IS 98% CLEAN",
+    "photo": null,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "summary": {
+   "text": "Mostly clean, apart from the front end: the bumper is misaligned and missing two small covers after the customer reported hitting a pole, and the hood is hard to close. No leaks or diagnostic codes were found.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

@@ -208,7 +208,7 @@ export function lookupFor(row, attempt = 0){
 
 /* ---- people ------------------------------------------------------- */
 
-export const SEED_VERSION = 11;   // bump when the seed changes shape: a stored older seed is replaced
+export const SEED_VERSION = 12;   // bump when the seed changes shape: a stored older seed is replaced
 export const PORTAL = "https://portal.inspectd.com";
 // The links the demo hands out (an inspector's job link) are built on the page's own origin, so a copied link opens
 // inside the demo, on localhost, a preview or staging alike. Invitation links stay on PORTAL: the demo has no invite page.
@@ -588,6 +588,8 @@ function buildReports(rows, inspectdOrgId){
     const rep = row.meta?.report, doc = rep?.id && REPORT_INDEX[rep.id]; if (!doc) continue;
     out.push({
       ...doc, uploaded_at: rep.at, request_id: row.id,
+      // what the job ordered: the viewer shows Inspectd AI only on a business's reports (not the Consumer type)
+      inspection_type: row.form.inspection_type, inspection_subtype: row.form.inspection_subtype,
       // every job has a workspace now; a job without one would be kept in Inspectd's own (reports_service DIRECT_ORG)
       org_id: row.org_id || inspectdOrgId,
       uploaded_by: null, uploaded_by_name: rep.shop?.name || "",                 // the inspector, through their job link

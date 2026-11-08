@@ -763,5 +763,121 @@
   "unknown": 0,
   "total": 80
  },
- "photo_count": 92
+ "photo_count": 92,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 65,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Engine Oil Condition",
+    "note": "The engine oil is dirty and should be changed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 68,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Brake System Condition",
+    "note": "The brake fluid level is low, no visible fluid leaks were found during inspection. This is an indication that the brake pad or shoe lining is getting low, the brakes should be serviced.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 8,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Suspension Performance",
+    "note": "There is a clunk noise coming from the rear of the vehicle while road testing. More diagnoses is needed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos. There is visible scratches on the drivers door.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 26,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Glass",
+    "note": "The windshield has miscellaneous stone chips.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 29,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Steering Wheel",
+    "note": "The steering wheel shows some wear and tear as seen in pics.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 32,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "Driver seat leather wrinkles / dirty stain / worn.",
+    "photo": 28,
+    "consumable": false
+   },
+   {
+    "finding": 36,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "summary": {
+   "text": "Several items to note: a clunk from the rear on the road test, low brake fluid that the inspector links to worn brake linings, and dirty engine oil. Also windshield stone chips, door scratches and a worn driver's seat.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

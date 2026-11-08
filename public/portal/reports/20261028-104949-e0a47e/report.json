@@ -787,5 +787,194 @@
   "unknown": 0,
   "total": 82
  },
- "photo_count": 111
+ "photo_count": 111,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 65,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Engine Oil Condition",
+    "note": "The engine oil is dirty and should be changed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 72,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Muffler System",
+    "note": "Surface rust can be found on some portions of the exhaust pipe, welds, and flanges which is a typical occurrence.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 14,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor miscellaneous scratches around the vehicle, normal for its mileage, and most are too small to see in photos. The exterior of the vehicle was slightly dusty at time of inspection. This can hide minor imperfections.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 17,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of surface rust. See pictures. I also noticed portions of rust on the engine bay.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 20,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Bumpers",
+    "note": "I noticed some scratches and stone chips on the front bumper. Also, the rear bumper shows scratches and damage. Refer to photo #91. I found some scrapes on the lower part of front bumper. Refer to photo #85.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 25,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "I noticed dent on the rear left fender. Also, the rear bumper shows dent. Refer to photo #87.",
+    "photo": 87,
+    "consumable": false
+   },
+   {
+    "finding": 26,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Steering Wheel",
+    "note": "I observed that the steering wheel shows wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 29,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats. Normal for mileage. I noticed minor stains on the seats.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 34,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "I observed some scuffed marks on the inner door panels.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 37,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Center Console",
+    "note": "The center console shows wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 43,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "The carpet shows normal wear and dirty.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 52,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim of the vehicle shows wear. I noticed stains on the bed of cargo area.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 76,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Key Fob",
+    "note": "Only one key fob was shown during inspection.",
+    "photo": null,
+    "consumable": true
+   },
+   {
+    "finding": 44,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Floor Mats",
+    "note": "The floor mats are dirty.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 17
+     },
+     {
+      "finding": 72
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The underside shows areas of surface rust."
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "I also noticed portions of rust on the engine bay."
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "Surface rust can be found on some portions of the exhaust pipe, welds, and flanges which is a typical occurrence."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Mostly clean: dents on the left rear fender and rear bumper, rear bumper damage and dirty engine oil. Also surface rust underneath, some rust in the engine bay, scratches and chips, a dirty, worn interior and one key fob.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }
