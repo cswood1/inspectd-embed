@@ -96,11 +96,11 @@ export function classifyClass(v){
 
 /* ---- status ----------------------------------------------------------- */
 
-// [key, label, pill hue, meaning]
+// [key, label, pill hue, meaning]. Stages are neutral; only Complete and Canceled carry a color ("Simplicity")
 export const STATUSES = [
   ["new", "New", "gray", "Received; providers can be found for it"],
-  ["dispatching", "Dispatching", "amber", "The job link is live"],
-  ["claimed", "Claimed", "blue", "A provider claimed it"],
+  ["dispatching", "Dispatching", "gray", "The job link is live"],
+  ["claimed", "Claimed", "gray", "A provider claimed it"],
   ["complete", "Complete", "green", "The provider's report is submitted"],
   ["canceled", "Canceled", "red", "Stopped"],
 ];
@@ -109,7 +109,8 @@ export const OPEN_STATUSES = ["new", "dispatching", "claimed"];
 export const CLOSED_STATUSES = ["complete", "canceled"];
 export const isClosed = r => CLOSED_STATUSES.includes(r.status);
 // the button on a job's row: its next step
-export const NEXT_STEP = {new: "Find providers", dispatching: "View", claimed: "View", complete: "View report", canceled: "Reset"};
+// the board's one button per row (Board.jsx): Dispatch a New job, Open any other, Reset to New a canceled one
+export const NEXT_STEP = {new: "Dispatch", dispatching: "Open", claimed: "Open", complete: "Open", canceled: "Reset to New"};
 
 /* ---- provider payout ---------------------------------------------------- */
 

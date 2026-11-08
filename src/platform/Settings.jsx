@@ -15,10 +15,10 @@ import { PORTAL } from "./seed.js";
 
 // key, label, and the one line that says what is in it
 const SECTIONS = [
-  ["workspaces", "Workspaces", "Clients and their teams"],
-  ["access", "Team access", "Who reaches this console"],
-  ["account", "Your account", "Your name and sign-in"],
-  ["system", "This deployment", "What is switched on"],
+  ["workspaces", "Workspaces"],
+  ["access", "Team access"],
+  ["account", "Your account"],
+  ["system", "This deployment"],
 ];
 const FETCH_MS = 300;
 const stay = e => e.preventDefault();
@@ -130,7 +130,7 @@ export function Settings({ onOpenPortal }){
         <div className="teambar">
           <CSelect label="Workspace" disabled={!orgsReady} value={orgsReady ? current : "loading"} onChange={pickOrg}
             options={orgsReady ? orgs.map(x => ({value: x.org.id, label: `${x.org.name} (${x.member_count})`})) : [{value: "loading", label: "Loading workspaces"}]} />
-          <span className="chip" id="orgmeta">{!team ? (orgsReady && !current ? "" : <Sk w={150} h={12} />) : o ? <><span className="mono">{`/${o.slug}`}</span>{` · created ${fmt(o.created_at)}`}</> : ""}</span>
+          <span className="chip" id="orgmeta">{!team ? (orgsReady && !current ? "" : <Sk w={150} h={12} />) : o ? `Created ${fmt(o.created_at)}` : ""}</span>
           <button className="btn sm" id="renamebtn" disabled={!orgsReady || !current} onClick={rename}>Rename</button>
           <span className="sp"></span>
           <span className="chip" id="orgempty">{orgsReady && !orgs.length ? "No workspaces yet. The first sign-up on the landing page creates one." : ""}</span>
@@ -140,7 +140,7 @@ export function Settings({ onOpenPortal }){
             <table className="team"><thead><tr><th>Member</th><th>Role</th><th>Joined</th><th>Sign-in</th><th className="r"></th></tr></thead><tbody>
               {mp.slice.map(m => (
                 <tr key={m.user.id}>
-                  <td><Who name={m.user.name} email={m.user.is_super ? `${m.user.email} ` : m.user.email} extra={m.user.is_super ? <Pill hue="blue">Inspectd team</Pill> : null} /></td>
+                  <td><Who name={m.user.name} email={m.user.email} /></td>
                   <td><CSelect className="rolesel" label="Role" value={m.role} onChange={v => setRole(m.user.id, v)} options={Object.entries(ROLE).map(([k, [, t]]) => ({value: k, label: t}))} /></td>
                   <td className="sub">{fmt(m.joined_at)}</td>
                   <td className="sub">{[m.user.has_password ? "Password" : "", m.user.google_linked ? "Google" : ""].filter(Boolean).join(", ") || "Not yet"}</td>
@@ -186,13 +186,12 @@ export function Settings({ onOpenPortal }){
         <p className="setnote">An address with an account gets access straight away; anyone else gets an invitation link, and their new account is on the team when they accept it.</p>
         <LinkNote note={supNote} toast={toast} />
         <div className="tablewrap" id="supers">
-          {!supers ? <SkelRows n={2} heads={["Person", "Access", "Joined", ""]} extraCls="team" /> : (
-            <table className="team"><thead><tr><th>Person</th><th>Access</th><th>Joined</th><th className="r"></th></tr></thead><tbody>
+          {!supers ? <SkelRows n={2} heads={["Person", "Joined", ""]} extraCls="team" /> : (
+            <table className="team"><thead><tr><th>Person</th><th>Joined</th><th className="r"></th></tr></thead><tbody>
               {supers.supers.map(u => {
                 const byServer = fixed.has((u.email || "").toLowerCase()), you = u.id === supers.me;
                 return (
-                  <tr key={u.id}><td><Who name={u.name} email={u.email + (you ? " · you" : "")} /></td>
-                    <td><Pill hue="blue">Inspectd team</Pill>{byServer ? <>{" "}<span className="sub">always on for this address</span></> : null}</td>
+                  <tr key={u.id}><td><Who name={u.name} email={[u.email, you ? "you" : "", byServer ? "always on for this address" : ""].filter(Boolean).join(" · ")} /></td>
                     <td className="sub">{fmt(u.created_at)}</td>
                     <td className="r">{you || byServer ? null : <button className="btn sm danger rmsuper" onClick={() => removeSuper(u.id, u.name || u.email)}><Icon name="trash" size={13} /> Remove</button>}</td></tr>);
               })}
@@ -224,7 +223,7 @@ export function Settings({ onOpenPortal }){
               <button className="btn primary sm" id="namesave" onClick={saveName}>Save</button><button className="btn sm" id="namecancel" onClick={() => setRenaming(false)}>Cancel</button>
             </>) : (<><span>{u.name || ""}</span><button className="btn sm" id="namebtn" onClick={() => { setNameDraft(u.name || ""); setRenaming(true); }}>Change</button></>)}</dd>
             <dt>Email</dt><dd>{u.email || ""}</dd>
-            <dt>Access</dt><dd>{u.is_super ? <Pill hue="blue">Inspectd team</Pill> : <Pill hue="gray">Client</Pill>}{" "}<span className="sub">{u.is_super ? "This console and every workspace" : "One workspace"}</span></dd>
+            <dt>Access</dt><dd>{u.is_super ? "Inspectd team" : "Client"}{" "}<span className="sub">{u.is_super ? "This console and every workspace" : "One workspace"}</span></dd>
           </dl></div>
           <div className="kv"><h3>Signing in</h3><dl>
             <dt>How</dt><dd>{how}</dd>
@@ -274,7 +273,7 @@ export function Settings({ onOpenPortal }){
     <div className="pad greet"><div className="gt"><h1>Settings</h1></div></div>
     <div className="pad setlayout">
       <nav className="subnav" id="subnav" aria-label="Settings sections">
-        {SECTIONS.map(([k, label, note]) => <a key={k} href={`#${k}`} data-k={k} className={k === pane ? "on" : ""} onClick={e => { stay(e); setPane(k); }}>{label}<small>{note}</small></a>)}
+        {SECTIONS.map(([k, label]) => <a key={k} href={`#${k}`} data-k={k} className={k === pane ? "on" : ""} onClick={e => { stay(e); setPane(k); }}>{label}</a>)}
       </nav>
       <div className="setmain">{workspaces()}{access()}{account()}{system()}</div>
     </div>

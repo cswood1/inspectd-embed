@@ -1,4 +1,6 @@
-import React, { createContext, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { vehicleName } from "./vehicleName.js";
+import { usePlatform } from "./PlatformStore.jsx";
 
 /*
  * Ported from inspection-requests/ui/shared/ui.js: vocabulary, formatting, the
@@ -11,7 +13,8 @@ import React, { createContext, useCallback, useContext, useEffect, useLayoutEffe
 
 // the job's vocabulary lives in jobModel.js; the status pills and the open/closed split are re-exported for the console
 export { STATUS, isClosed } from "./jobModel.js";
-export const ROLE = {OWNER: ["blue", "Owner"], ADMIN: ["green", "Admin"], USER: ["gray", "User"]};
+// a role is not a status: every role pill is neutral (docs/platform/decisions.md, "Simplicity")
+export const ROLE = {OWNER: ["gray", "Owner"], ADMIN: ["gray", "Admin"], USER: ["gray", "User"]};
 
 /* ---- formatting ------------------------------------------------ */
 
@@ -23,18 +26,24 @@ export const received = (iso, now = Date.now()) => {
   return d.toLocaleDateString("en-US", {month: "short", day: "numeric"});
 };
 export const fmt = iso => { const d = new Date(iso); return isNaN(d) ? "" : d.toLocaleString([], {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"}); };
-export const tint = s => { let h = 0; for (const c of String(s || "")) h = (h * 31 + c.charCodeAt(0)) >>> 0; return `hsl(${h % 360} 45% 88%)`; };
 export const where = f => [f.city, f.state, f.zip].filter(Boolean).join(", ");
-export const vehicle = f => [f.year, f.make, f.model].filter(Boolean).join(" ") || "Vehicle not given";
+// a vehicle's name, the same as everywhere else (vehicleName.js): year, make, model, and the trim when the record has one
+export const vehicle = f => vehicleName(f || {}) || "Vehicle not given";
+/** A job's vehicle, named as its report names the car: a job with a report borrows the report's trim, as the portal does.
+ *  useJobVehicle() hands back the function, reading the reports from the store. */
+export function useJobVehicle(){
+  const { reports } = usePlatform();
+  const trims = useMemo(() => new Map((reports || []).filter(x => x.vehicle?.trim).map(x => [x.id, x.vehicle.trim])), [reports]);
+  return useCallback(r => { const t = trims.get(r.meta?.report?.id); return vehicle(t && !r.form.trim ? {...r.form, trim: t} : r.form); }, [trims]);
+}
 
 export const Pill = ({ hue, children, ...rest }) => <span className={`pill ${hue}`} {...rest}>{children}</span>;
 // a quiet tag after the vehicle, only for a class worth noticing (EV, Exotic)
 export const ClassTag = ({ c }) => c === "ev" || c === "exotic" ? <span className="vtag">{c === "ev" ? "EV" : "Exotic"}</span> : null;
 
-// avatar + name + email cell; `extra` lands after the email
+// name + email cell, no letter avatar; `extra` lands after the email
 export const Who = ({ name, email, extra = null }) => (
   <div className="who">
-    <span className="av" style={{ background: tint(name) }}>{((name || "").trim()[0] || "?").toUpperCase()}</span>
     <span className="tx"><b>{name}</b><span>{email}{extra}</span></span>
   </div>
 );
@@ -66,6 +75,9 @@ const GLYPHS = {
   check: <path d="M3 8.5l3 3 7-7" {...s15} {...rr} />,
   doc: <><path d="M4 2h5l3 3v9H4z" {...s15} {...rr} /><path d="M9 2v3h3" {...s15} {...rr} /><path d="M6 9h4M6 11.5h4" {...s15} {...rr} /></>,
   gear: <><circle cx="8" cy="8" r="2.2" {...s15} /><path d="M8 1.8v1.7M8 12.5v1.7M1.8 8h1.7M12.5 8h1.7M3.6 3.6l1.2 1.2M11.2 11.2l1.2 1.2M12.4 3.6l-1.2 1.2M4.8 11.2l-1.2 1.2" {...s15} strokeLinecap="round" /></>,
+  // the board's Dispatch (a play triangle) and Open (a straight arrow right)
+  play: <path d="M5 3.2v9.6a.6.6 0 0 0 .92.5l7.3-4.8a.6.6 0 0 0 0-1L5.92 2.7A.6.6 0 0 0 5 3.2z" fill="currentColor" />,
+  next: <path d="M3 8h10M9 4l4 4-4 4" {...s15} {...rr} />,
   signout: <path d="M6 2.5H3.5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1H6M10 5l3 3-3 3M13 8H6.5" {...s15} {...rr} />,
 };
 // Kavin's icon(name, size): <svg width height><use href="#i-name"/></svg>, the symbol carrying a 16x16 viewBox

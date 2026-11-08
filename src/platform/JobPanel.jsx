@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
 import { PORTAL, inspectLink } from "./seed.js";
-import { STATUS, fmt, vehicle, isClosed, Icon, ClassTag, useToast, useAsk } from "./ui.jsx";
+import { fmt, useJobVehicle, isClosed, Icon, ClassTag, useToast, useAsk } from "./ui.jsx";
 import { inspectionLabel, classLabel, dollars, plannedLabel, isConsumer, orderedByOf, orderedByLabel } from "./jobModel.js";
 import { activityOf } from "./activity.js";
 
@@ -40,7 +40,8 @@ function Listing({ r }){
 
 export function JobPanel({ row: r, rows, open, onClose, onOpenPortal, onViewAll, intent, closeRef }){
   const { api, fulfill, me } = usePlatform();
-  const toast = useToast(), ask = useAsk();   // ask: the in-page confirm() and prompt() (ui.jsx Dialog)
+  const toast = useToast(), ask = useAsk();
+  const jobVehicle = useJobVehicle();   // named as the job's report names the car   // ask: the in-page confirm() and prompt() (ui.jsx Dialog)
   const over = useRef(null), body = useRef(null), notesTimer = useRef(null), handled = useRef(null);
   const [allShops, setAllShops] = useState(false), [busy, setBusy] = useState(false);
 
@@ -85,13 +86,13 @@ export function JobPanel({ row: r, rows, open, onClose, onOpenPortal, onViewAll,
   </>);
   if (!r) return shell(<div className="ohead"><div className="ht"><h2></h2><p></p></div><button className="btn icon" title="Close" ref={closeRef} onClick={onClose}><Icon name="x" /></button></div>);
 
-  const f = r.form, w = requester(r), [hue, label] = STATUS[r.status] || ["gray", r.status];
+  const f = r.form, w = requester(r);
   const m = r.meta || {}, link = m.link, rep = m.report, o = m.order, closed = isClosed(r);
   const onNotes = e => { const v = e.target.value; clearTimeout(notesTimer.current); notesTimer.current = setTimeout(() => { try { api.patch(r.id, {notes: v}); toast("Notes saved"); } catch (er) { fail(er); } }, 700); };
   const related = w.business ? rows.filter(x => x.id !== r.id && x.org?.id === r.org.id) : rows.filter(x => x.id !== r.id && isConsumer(x) && x.form.email.toLowerCase() === f.email.toLowerCase());
   const shops = r.result?.shops || [], shown = allShops ? shops : shops.slice(0, TOP);
   const copyContacts = () => {
-    const lines = [`Providers for ${vehicle(f)}, ${place(f)}`, ""];
+    const lines = [`Providers for ${jobVehicle(r)}, ${place(f)}`, ""];
     shops.forEach((s, i) => { lines.push(`${i + 1}. ${s.name} (${s.mobile ? "mobile" : "shop"}, ${s.distance || ""})`); [s.phone, s.email, s.website].filter(Boolean).forEach(v => lines.push(`   ${v}`)); });
     navigator.clipboard.writeText(lines.join("\n")).then(() => toast("Copied the contact list"), () => toast("Copy failed"));
   };
@@ -139,7 +140,7 @@ export function JobPanel({ row: r, rows, open, onClose, onOpenPortal, onViewAll,
           : <span>No declines</span>}
       </div>
       {c ? <div className="claimed" id="claimline"><Icon name="check" size={14} /><span><b>{`Claimed by ${c.name}${c.company ? `, ${c.company}` : ""}`}</b>
-        {c.proposed_time ? ` · plans ${plannedLabel(c.proposed_time)}` : ""}{` · claimed ${fmt(c.at)}`}{c.phone ? ` · ${c.phone}` : ""}{c.email ? ` · ${c.email}` : ""}<span className="sub">{` · terms v${c.terms?.version || "1"} accepted`}</span></span></div> : null}
+        {c.proposed_time ? ` · plans ${plannedLabel(c.proposed_time)}` : ""}{` · claimed ${fmt(c.at)}`}{c.phone ? ` · ${c.phone}` : ""}{c.email ? ` · ${c.email}` : ""}{" · Accepted terms"}</span></div> : null}
       {r.status === "canceled" ? <p className="bnone">The job is canceled, so the link shows it as canceled. Reset turns it off.</p> : null}
       {earlier}
     </>);
@@ -148,8 +149,8 @@ export function JobPanel({ row: r, rows, open, onClose, onOpenPortal, onViewAll,
   const act = activityOf(r);
   return shell(<>
     <div className="ohead">
-      <div className="ht"><h2 id="otitle">{vehicle(f)}<ClassTag c={f.vehicle_class} /></h2>
-        <p id="osub">{w.name}{" "}<span className={`pill ${hue}`} style={{ marginLeft: 6 }}>{label}</span><span className="opay">{r.payout_cents != null ? `${dollars(r.payout_cents)} payout` : ""}</span></p></div>
+      <div className="ht"><h2 id="otitle">{jobVehicle(r)}<ClassTag c={f.vehicle_class} /></h2>
+        <p id="osub">{w.name}<span className="opay">{r.payout_cents != null ? `${dollars(r.payout_cents)} payout` : ""}</span></p></div>
       <button className="btn icon" id="closebtn" title="Close" ref={closeRef} onClick={onClose}><Icon name="x" /></button>
     </div>
     <div className="obody" id="obody" ref={body}>

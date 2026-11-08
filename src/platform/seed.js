@@ -181,7 +181,12 @@ export function placeOf(zip, state){
  * metro's state searches that metro's providers; anywhere else falls back to the providers of the nearest seeded
  * metro, so the search always finishes with someone. `attempt` varies a rerun.
  */
-export function lookupFor(row, attempt = 0){
+/**
+ * A job's provider search: the nearest seed providers in its metro, plus every provider Inspectd staff added by hand
+ * for that metro (or for "National", which every search includes). `added` is the store's manual provider records.
+ * A hand-added provider has no address, so it is listed as mobile, covering its metro, like any other mobile result.
+ */
+export function lookupFor(row, attempt = 0, added = []){
   const f = row.form, origin = placeOf(f.zip, f.state), seeded = ZIPS[String(f.zip || "").slice(0, 5)];
   const local = seeded && METRO_OF_STATE[seeded.state] ? seeded.state : null;
   const metro = local ? null : METROS.map(m => ({...m, d: miles(origin, m)})).sort((a, b) => a.d - b.d)[0];
@@ -193,6 +198,10 @@ export function lookupFor(row, attempt = 0){
     const at = ZIPS[zip], m = shop.address ? Math.round(Math.max(d, 0.6 + (hashStr(shop.name) % 30) / 10) * 10) / 10 : null;
     return {...shop, lat: shop.address ? at.lat : null, lon: shop.address ? at.lon : null, miles: m, distance: m === null ? shop.distance : `${m} mi`};
   }).sort((a, b) => (a.miles === null) - (b.miles === null) || (a.miles ?? 0) - (b.miles ?? 0));
+  const metroName = local ? METRO_OF_STATE[local] : metro.city;
+  for (const p of added) if (p.source === "manual" && (p.metro === metroName || p.metro === "National"))
+    shops.push({name: p.name, address: "", phone: p.phone || "", website: p.website || "", email: "", hours: "", services: "", rating: "",
+                distance: p.metro === "National" ? "Mobile, nationwide" : `Mobile, covers the ${p.metro} area`, notes: "", mobile: true, sources: [], lat: null, lon: null, miles: null});
   const mobile = shops.filter(s => s.mobile).length;
   const here = [f.city, (f.state || "").toUpperCase()].filter(Boolean).join(", ") || `ZIP ${f.zip}`;
   const how = mobile === shops.length ? "All of them are mobile and come to the vehicle." : `${mobile} ${mobile === 1 ? "is" : "are"} mobile and ${mobile === 1 ? "comes" : "come"} to the vehicle; ${shops.length - mobile} ${shops.length - mobile === 1 ? "works" : "work"} from a shop and will also travel.`;
@@ -460,7 +469,8 @@ export function buildSeed(now = Date.now()){
   rows.sort((a, b) => b.created_at.localeCompare(a.created_at));   // the list comes newest first
   const auth = buildAuth(now, orgs, users, cam);
   return {version: SEED_VERSION, seededAt: new Date(now).toISOString(), rows, ...auth, meta: META,
-          reports: buildReports(rows, orgs.inspectd.id), portal: {orgId: orgs.meridian.id}};
+          reports: buildReports(rows, orgs.inspectd.id), portal: {orgId: orgs.meridian.id},
+          providers: []};   // provider records (contacts, hand-added providers): PlatformStore.jsx; none to start
 }
 
 /* ---- accounts, workspaces, roles and invitations (apps/auth/store.py) ---- */
