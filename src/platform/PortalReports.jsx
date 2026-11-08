@@ -3,6 +3,7 @@ import { usePlatform } from "./PlatformStore.jsx";
 import { PageDock, paged } from "./ui.jsx";
 import { Svg, I, title, fmtDate, SkelRows, ReportRows, useLoaded, FLAG_TONE, isBusiness } from "./portalUi.jsx";
 import { workspaceData, overview, commonIssues, select, filterTitle } from "./aiOverview.js";
+import { refHay } from "./jobRef.js";
 
 /*
  * Reports: the workspace's reports, one list. For a business (fleet or dealer) it opens with Inspectd AI's figures
@@ -30,7 +31,8 @@ export function Reports({ ctx }){
   const sel = ws && filter ? select(ws, filter) : null;
   const byId = new Map((all || []).map(r => [r.id, r]));
   const base = sel ? sel.rows.map(x => byId.get(x.id)).filter(Boolean) : (all || []);
-  const hay = r => [title(r), r.vehicle?.vin, r.vehicle?.make, r.vehicle?.model].join(" ").toLowerCase();
+  // the VIN, the car, and the job's references (ours in any case, with or without the dash, and the customer's own)
+  const hay = r => [title(r), r.vehicle?.vin, r.vehicle?.make, r.vehicle?.model, refHay(r.job_ref, r.customer_ref)].join(" ").toLowerCase();
   const list = base.filter(r => !q || hay(r).includes(q));
   const pg = paged(list, page);
   const pick = f => { setFilter(f); setView("list"); setPage(0); };
@@ -65,7 +67,7 @@ export function Reports({ ctx }){
     {view === "breakdown" && ws ? <Breakdown ws={ws} o={o} pick={pick} /> : (<>
       <section className="pad">
         <div className="listbar">
-          <div className="search"><Svg src={I.search} /><input id="rq" type="search" placeholder="Search VIN, make, model" autoComplete="off" aria-label="Search reports"
+          <div className="search"><Svg src={I.search} /><input id="rq" type="search" placeholder="Search VIN, make, model, reference" autoComplete="off" aria-label="Search reports"
             value={raw} onChange={e => { setRaw(e.target.value); setPage(0); }} /></div>
           {sel ? <span className="filterlabel" id="filterLabel"><b>{filterTitle(sel)}</b><button type="button" className="linkbtn" id="clearFilter" onClick={() => { setFilter(null); setPage(0); }}>Clear</button></span>
             : <span className="sub num" id="rcount">{all ? `${list.length} report${list.length === 1 ? "" : "s"}` : ""}</span>}

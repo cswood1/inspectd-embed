@@ -8,7 +8,7 @@ import { activityOf } from "./activity.js";
 /*
  * The job panel, built around what can be done with the job next: its details, the providers found for it,
  * its one job link (open dispatch: shared with every provider, the first to claim gets it), the report,
- * what has happened, internal notes, and Cancel or Reset at the bottom. See docs/platform/decisions.md.
+ * what has happened, internal notes, and Cancel or Reopen at the bottom. See docs/platform/decisions.md.
  *
  * position:fixed, so it anchors to the .ip pane (contain:layout) and never covers the dev bar.
  */
@@ -67,12 +67,12 @@ export function JobPanel({ row: r, rows, open, onClose, onOpenPortal, onViewAll,
     setBusy(false);
   };
   const reset = async () => {
-    const ok = await ask({title: "Reset this job to New?", text: `${r.meta?.link ? "Its job link is turned off, and anyone who opens it sees the job is no longer available. " : ""}The provider results are kept, so you can create a new link and dispatch it again.`, ok: "Reset job", cancel: "Keep it canceled"});
+    const ok = await ask({title: "Reopen this job?", text: `${r.meta?.link ? "Its job link is turned off, and anyone who opens it sees the job is no longer available. " : ""}The provider results are kept, so you can create a new link and dispatch it again.`, ok: "Reopen", cancel: "Keep it canceled"});
     if (!ok) return;
-    try { api.reset(r.id); toast("Job reset to New"); } catch (e) { fail(e); }
+    try { api.reset(r.id); toast("Job reopened"); } catch (e) { fail(e); }
   };
 
-  // the board's buttons: "Find providers" opens the panel and starts the search; "Reset" opens it with the confirm
+  // the board's buttons: Dispatch opens the panel and starts the search; Reopen opens it with the confirm
   useEffect(() => {
     if (!open || !r || !intent || intent.id !== r.id || handled.current === intent.n) return;
     handled.current = intent.n;
@@ -141,7 +141,7 @@ export function JobPanel({ row: r, rows, open, onClose, onOpenPortal, onViewAll,
       </div>
       {c ? <div className="claimed" id="claimline"><Icon name="check" size={14} /><span><b>{`Claimed by ${c.name}${c.company ? `, ${c.company}` : ""}`}</b>
         {c.proposed_time ? ` · plans ${plannedLabel(c.proposed_time)}` : ""}{` · claimed ${fmt(c.at)}`}{c.phone ? ` · ${c.phone}` : ""}{c.email ? ` · ${c.email}` : ""}{" · Accepted terms"}</span></div> : null}
-      {r.status === "canceled" ? <p className="bnone">The job is canceled, so the link shows it as canceled. Reset turns it off.</p> : null}
+      {r.status === "canceled" ? <p className="bnone">The job is canceled, so the link shows it as canceled. Reopen turns it off.</p> : null}
       {earlier}
     </>);
   };
@@ -150,7 +150,8 @@ export function JobPanel({ row: r, rows, open, onClose, onOpenPortal, onViewAll,
   return shell(<>
     <div className="ohead">
       <div className="ht"><h2 id="otitle">{jobVehicle(r)}<ClassTag c={f.vehicle_class} /></h2>
-        <p id="osub">{w.name}<span className="opay">{r.payout_cents != null ? `${dollars(r.payout_cents)} payout` : ""}</span></p></div>
+        <p id="osub"><span className="mono" id="oref">{r.ref}</span>{r.form.customer_ref ? <span className="cref" id="ocref">{r.form.customer_ref}</span> : null}
+          <span className="osep">{w.name}</span><span className="opay">{r.payout_cents != null ? `${dollars(r.payout_cents)} payout` : ""}</span></p></div>
       <button className="btn icon" id="closebtn" title="Close" ref={closeRef} onClick={onClose}><Icon name="x" /></button>
     </div>
     <div className="obody" id="obody" ref={body}>
@@ -159,7 +160,7 @@ export function JobPanel({ row: r, rows, open, onClose, onOpenPortal, onViewAll,
       <Sec title="Details" />
       <div className="facts dense">
         <Fact k="Inspection" v={inspectionLabel(f)} /><Fact k="Vehicle class" v={classLabel(f.vehicle_class || "standard")} /><Fact k="VIN" v={f.vin} />
-        <Fact k="Received" v={fmt(r.created_at)} />
+        <Fact k="Requested" v={fmt(r.created_at)} />
         <Fact k="Address" v={[f.address, f.city, f.state, f.zip].filter(Boolean).join(", ")} wide />
         <Fact k="On-site contact" v={[f.name, f.phone, f.email].filter(Boolean).join(" · ")} wide />
         <Fact k="Ordered by" v={orderedByText(r)} />
@@ -192,7 +193,7 @@ export function JobPanel({ row: r, rows, open, onClose, onOpenPortal, onViewAll,
       <textarea key={r.id} className="internal small" id="inotes" placeholder="Who you called, what they said" defaultValue={r.notes} onChange={onNotes}></textarea>
 
       <div className="pactions">
-        {r.status === "canceled" ? <button className="btn primary" id="resetbtn" onClick={reset}><Icon name="refresh" size={14} /> Reset</button>
+        {r.status === "canceled" ? <button className="btn primary" id="resetbtn" onClick={reset}><Icon name="refresh" size={14} /> Reopen</button>
           : !closed ? <button className="btn danger" id="cancelbtn" disabled={busy} onClick={cancel}><Icon name="x" size={14} /> Cancel job</button> : null}
       </div>
     </div>

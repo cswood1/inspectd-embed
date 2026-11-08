@@ -96,21 +96,22 @@ export function classifyClass(v){
 
 /* ---- status ----------------------------------------------------------- */
 
-// [key, label, pill hue, meaning]. Stages are neutral; only Complete and Canceled carry a color ("Simplicity")
+// [stored key, label, pill hue]: one vocabulary on every surface, the same words the client portal uses. Stages are
+// neutral; only Complete and Canceled carry a color. What each means: docs/platform/decisions.md, "Job statuses".
 export const STATUSES = [
-  ["new", "New", "gray", "Received; providers can be found for it"],
-  ["dispatching", "Dispatching", "gray", "The job link is live"],
-  ["claimed", "Claimed", "gray", "A provider claimed it"],
-  ["complete", "Complete", "green", "The provider's report is submitted"],
-  ["canceled", "Canceled", "red", "Stopped"],
+  ["new", "Submitted", "gray"],
+  ["dispatching", "Dispatching", "gray"],
+  ["claimed", "Claimed", "gray"],
+  ["complete", "Complete", "green"],
+  ["canceled", "Canceled", "red"],
 ];
 export const STATUS = Object.fromEntries(STATUSES.map(([k, label, hue]) => [k, [hue, label]]));
 export const OPEN_STATUSES = ["new", "dispatching", "claimed"];
 export const CLOSED_STATUSES = ["complete", "canceled"];
 export const isClosed = r => CLOSED_STATUSES.includes(r.status);
 // the button on a job's row: its next step
-// the board's one button per row (Board.jsx): Dispatch a New job, Open any other, Reset to New a canceled one
-export const NEXT_STEP = {new: "Dispatch", dispatching: "Open", claimed: "Open", complete: "Open", canceled: "Reset to New"};
+// the board's one button per row (Board.jsx): Dispatch a Submitted job, Open any other, Reopen a canceled one
+export const NEXT_STEP = {new: "Dispatch", dispatching: "Open", claimed: "Open", complete: "Open", canceled: "Reopen"};
 
 /* ---- provider payout ---------------------------------------------------- */
 

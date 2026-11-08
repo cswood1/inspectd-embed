@@ -84,7 +84,8 @@ function Shell({ onExit, onReload }){
   const [path0, setPath] = useState(lastPath);
   const [meReady, setMeReady] = useState(booted);
   const type = portal.me().account?.type;
-  const path = resolve(path0, type);   // "/" and the folded pages land where they now live
+  // "/" and the folded pages land where they now live; an old job link by internal id goes on to the job's reference
+  const path = resolve(path0, type, id => { try { return portal.getJob(id).ref; } catch { return ""; } });
   lastPath = path;
   const pane = useRef(null), scroller = useRef(null), first = useRef(true);
   const navigate = to => { if (to === path0) return; lastPath = to; setPath(to); };   // the #hash is kept, as location.hash is in nav.js

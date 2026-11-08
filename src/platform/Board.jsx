@@ -4,21 +4,22 @@ import { dupEmails } from "./derive.js";
 import { STATUS, received, useJobVehicle, isClosed, Icon, Who, ClassTag, SkelRows, CSelect, PageDock, paged, anySelectOpen } from "./ui.jsx";
 import { ORDERED_BY, STATUSES, NEXT_STEP, orderedByOf, orderedByLabel, isConsumer, inspectionLabel, dollars } from "./jobModel.js";
 import { JobPanel, requester } from "./JobPanel.jsx";
+import { refHay } from "./jobRef.js";
 
 /*
  * The jobs board: search, the status chips (with counts), an "ordered by" filter, the sortable table. Mounted as
  * Open jobs or Closed jobs. A row, or its one button in Actions, opens the job panel (JobPanel.jsx).
  */
 
-const COLS = [["name", "Customer"], ["vehicle", "Vehicle"], ["where", "Location"], ["ordered", "Ordered by"], ["payout", "Payout"], ["status", "Status"], ["created_at", "Received"]];
+const COLS = [["ref", "Job"], ["name", "Customer"], ["vehicle", "Vehicle"], ["where", "Location"], ["ordered", "Ordered by"], ["payout", "Payout"], ["status", "Status"], ["created_at", "Requested"]];
 const STATUS_ORDER = STATUSES.map(([k]) => k), ORDERED_ORDER = ORDERED_BY.map(([k]) => k);
 const place = f => [f.city, (f.state || "").toUpperCase()].filter(Boolean).join(", ");
-const colVal = (r, k, vehicle) => ({name: requester(r).name.toLowerCase(), vehicle: vehicle(r).toLowerCase(), where: place(r.form).toLowerCase(), ordered: ORDERED_ORDER.indexOf(orderedByOf(r)),
+const colVal = (r, k, vehicle) => ({ref: r.ref || "", name: requester(r).name.toLowerCase(), vehicle: vehicle(r).toLowerCase(), where: place(r.form).toLowerCase(), ordered: ORDERED_ORDER.indexOf(orderedByOf(r)),
   payout: r.payout_cents ?? -1, status: STATUS_ORDER.indexOf(r.status), created_at: r.created_at})[k];
 // the status chips: the statuses this board holds, and one for all of them
-const OPEN_CARDS = [["all", "All"], ["new", "New"], ["dispatching", "Dispatching"], ["claimed", "Claimed"]];
+const OPEN_CARDS = [["all", "All"], ["new", "Submitted"], ["dispatching", "Dispatching"], ["claimed", "Claimed"]];
 const CLOSED_CARDS = [["all", "All"], ["complete", "Complete"], ["canceled", "Canceled"]];
-// the one button per row: Dispatch ▸ (ink) on a New job, Reset to New on a canceled one, Open → on any other
+// the one button per row: Dispatch ▸ (ink) on a Submitted job, Reopen on a canceled one, Open → on any other
 const ACTION = {new: {icon: "play", primary: true}, canceled: {icon: "refresh"}};
 const VIEW = {open: "Open jobs", closed: "Closed jobs"};
 
@@ -49,7 +50,7 @@ export function Board({ mode, loaded, onOpenPortal, initialQ = "", initialOpen =
   const counts = {all: pool.length}; pool.forEach(r => { counts[r.status] = (counts[r.status] || 0) + 1; });
   const dups = dupEmails(rows);
   const ql = q.trim().toLowerCase();
-  const hay = r => [r.form.name, r.form.email, r.form.phone, vehicle(r), place(r.form), r.form.zip, r.form.vin, inspectionLabel(r.form), orderedByLabel(orderedByOf(r)), r.id, r.notes, isConsumer(r) ? "" : r.org?.name].join(" ").toLowerCase();
+  const hay = r => [r.form.name, r.form.email, r.form.phone, vehicle(r), place(r.form), r.form.zip, r.form.vin, inspectionLabel(r.form), orderedByLabel(orderedByOf(r)), refHay(r.ref, r.form.customer_ref), r.notes, isConsumer(r) ? "" : r.org?.name].join(" ").toLowerCase();
   const list = pool.filter(r => (filter === "all" || r.status === filter) && (!jf.ordered || orderedByOf(r) === jf.ordered) && (!ql || hay(r).includes(ql)))
     .sort((a, b) => { const x = colVal(a, sortKey, vehicle), y = colVal(b, sortKey, vehicle); return (x < y ? -1 : x > y ? 1 : 0) * sortDir; });
   const pg = list.length ? paged(list, page) : null;
@@ -59,7 +60,7 @@ export function Board({ mode, loaded, onOpenPortal, initialQ = "", initialOpen =
   const setJ = (k, v) => { setJf(f => ({...f, [k]: v})); setPage(0); };
   const clearAll = () => { setJf({ordered: ""}); setFilter("all"); setQ(""); setPage(0); };
   const sortBy = k => { if (sortKey === k) setSortDir(d => -d); else { setSortKey(k); setSortDir(k === "created_at" ? -1 : 1); } setPage(0); };
-  // the row's button: Dispatch opens the panel and starts the provider search, Reset to New opens it with the confirm
+  // the row's button: Dispatch opens the panel and starts the provider search, Reopen opens it with the confirm
   const STEP_ACTION = {new: "search", canceled: "reset"};
   const step = (e, r) => { e.stopPropagation(); openOver(r.id); if (STEP_ACTION[r.status]) setIntent({id: r.id, action: STEP_ACTION[r.status], n: Date.now()}); };
 
@@ -100,7 +101,7 @@ export function Board({ mode, loaded, onOpenPortal, initialQ = "", initialOpen =
       </div>
       <div className="pad">
         <div className="toolbar">
-          <div className="search"><Icon name="search" size={14} /><input type="search" ref={searchBox} placeholder="Search customer, vehicle, VIN, city" autoComplete="off" value={q} onChange={e => { setQ(e.target.value); setPage(0); }} /></div>
+          <div className="search"><Icon name="search" size={14} /><input type="search" ref={searchBox} placeholder="Search reference, customer, vehicle, VIN, city" autoComplete="off" value={q} onChange={e => { setQ(e.target.value); setPage(0); }} /></div>
           <div className="filters" id="statusChips" role="group" aria-label="Status">{cards.map(([k, t]) => (
             <button key={k} type="button" className={`fbtn${filter === k ? " on" : ""}`} data-status={k} aria-pressed={filter === k} disabled={!loaded} onClick={() => pickCard(k)}>
               {t}<span className="n">{loaded ? counts[k] || 0 : ""}</span></button>))}</div>
@@ -128,8 +129,9 @@ export function Board({ mode, loaded, onOpenPortal, initialQ = "", initialOpen =
                   const w = requester(r);
                   return (
                     <tr key={r.id} className={`row st-${r.status} ${r.id === openId ? "on" : ""}`} data-id={r.id} onClick={() => openOver(r.id)}>
+                      <td className="jobcell"><span className="mono">{r.ref}</span>{f.customer_ref ? <span className="cref">{f.customer_ref}</span> : null}</td>
                       <td><Who name={w.name} email={w.sub} extra={dup} /></td>
-                      <td className="nowrap">{vehicle(r)}<ClassTag c={f.vehicle_class} /></td>
+                      <td className="vehcell">{vehicle(r)}<ClassTag c={f.vehicle_class} /></td>
                       <td className="sub nowrap">{place(f)}</td>
                       <td className="sub nowrap">{orderedByLabel(orderedByOf(r))}</td>
                       <td className="nowrap">{r.payout_cents != null ? dollars(r.payout_cents) : ""}</td>

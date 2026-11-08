@@ -11,6 +11,8 @@
 import { DEALER } from "../data.js";
 import { REPORT_INDEX } from "./reportIndex.js";
 import { payoutFor } from "./jobModel.js";
+import { newRef } from "./jobRef.js";
+import { vehicleName } from "./vehicleName.js";
 import { REPORT_ZIPS, REPORT_PEOPLE, MORE_REPORT_JOBS } from "./reportJobs.js";
 import zipDb from "us-zips";
 
@@ -219,15 +221,15 @@ export function lookupFor(row, attempt = 0, added = []){
 
 /* ---- people ------------------------------------------------------- */
 
-export const SEED_VERSION = 13;   // bump when the seed changes shape: a stored older seed is replaced
+export const SEED_VERSION = 14;   // bump when the seed changes shape: a stored older seed is replaced
 export const PORTAL = "https://portal.inspectd.com";
 // The links the demo hands out (an inspector's job link) are built on the page's own origin, so a copied link opens
 // inside the demo, on localhost, a preview or staging alike. Invitation links stay on PORTAL: the demo has no invite page.
 export const linkOrigin = () => (typeof window !== "undefined" && window.location?.origin) || PORTAL;
 export const inspectLink = token => `${linkOrigin()}/inspect/${token}`;
 export const PROVIDER_TERMS_VERSION = "1";   // booking.provider_terms(): what a claim records
-// a job's reference in emails (mail._vehicle_and_ref)
-export const jobRef = id => `J-${id.slice(0, 6).toUpperCase()}`;
+// a customer email's subject: the job's status, the vehicle and the job's reference (docs/platform/decisions.md)
+export const mailSubject = (status, vehicle, ref) => `${status}: ${vehicle}${ref ? ` · ${ref}` : ""}`;
 export const CAM = {name: "Cam Wood", email: "cam@inspectd.com"};
 
 // [key, name, email domain, who orders (jobModel ORDERED_BY), headquarters]: the client portal's workspaces, one per
@@ -369,6 +371,8 @@ const when = ms => { const d = new Date(ms), o = k => d.toLocaleString("en-US", 
 /** The whole seed: the request list, and the workspaces and people behind it. */
 export function buildSeed(now = Date.now()){
   const r = rng(20261104), id12 = () => pick(r, HEX, 12), DAY = 864e5, HOUR = 36e5;
+  // the jobs' references come from a random stream of their own, so the rest of the seed (VINs, times) is unchanged
+  const refRand = rng(20261108), refs = new Set();
   const iso = ms => new Date(Math.min(ms, now)).toISOString().replace(/\.\d{3}Z$/, "+00:00");
   const orgs = Object.fromEntries(ORGS.map(([k, name, , type]) => [k, {id: id12(), name, type}]));
   const users = Object.fromEntries(Object.entries(USERS).map(([k, [org, name, local, phone]]) => [k, {id: id12(), org, name, phone, email: `${local}@${ORGS.find(o => o[0] === org)[2]}`}]));
@@ -382,26 +386,26 @@ export function buildSeed(now = Date.now()){
     const created = batches[x.batch] ?? (now - days * DAY - (n % 5) * 7 * 60e3);
     if (x.batch) batches[x.batch] = created;
     const row = {
-      id: id12(), created_at: iso(created), updated_at: iso(created), status, search: null, notes: x.inotes || "", payout_cents: payoutAt(zip, vehicle_class), ordered_by: org.type,
+      id: id12(), ref: newRef(refs, refRand), created_at: iso(created), updated_at: iso(created), status, search: null, notes: x.inotes || "", payout_cents: payoutAt(zip, vehicle_class), ordered_by: org.type,
       form: {name: u ? u.name : (x.name || w[0]), email: u ? u.email : w[1], phone: u ? u.phone : w[2], year: String(year), make, model,
              vin: x.vin || vin(prefix, year, plant, String(100000 + Math.floor(r() * 899999))), vehicle_class, inspection_type: type, inspection_subtype: subtype,
-             address: street, city: place.city, state: place.state, zip, notes: x.notes || ""},
+             address: street, city: place.city, state: place.state, zip, notes: x.notes || "", customer_ref: ""},
       // a business files from the client portal, one car or a list; a consumer pays on the public form, a shopper in the partner's embed
       result: null, meta: {emails: [], history: [{stage: "new", at: iso(created)}], source: u ? (x.batch ? "portal-bulk" : "portal") : p ? "embed" : "public"},
       org_id: org.id, user_id: u ? u.id : null, org: {...org},
       partner: null,
     };
-    const m = row.meta, veh = `${year} ${make} ${model}`;
+    const m = row.meta, veh = vehicleName({year, make, model, trim: x.report ? REPORT_INDEX[x.report].vehicle.trim : ""});
     let t = created;
     const step = (hours, stage) => { t += hours * HOUR; if (stage) m.history.push({stage, at: iso(t)}); row.updated_at = iso(t); return iso(t); };
     const mail = (to, subject, at, extra = {}) => m.emails.push({to, subject, at, sent: !x.held || to !== row.form.email, ...(x.held && to === row.form.email ? {error: `held: ${to} not on MAIL_ALLOWLIST`} : {id: [8, 4, 4, 4, 12].map(k => pick(r, HEX, k)).join("-")}), ...extra});
 
     // how it came in: a business sends a list and is told once; a consumer or a shopper pays at checkout
-    if (u) mail(u.email, x.batch ? "We received 2 inspection requests" : "We received 1 inspection request", row.created_at);
+    if (u) mail(u.email, mailSubject("Submitted", veh, row.ref), row.created_at);
     else {
       m.order = {...quote(zip, p ? p.share_bps : 0), checkout_id: pick(r, HEX, 16), session_id: "cs_test_" + pick(r, ALNUM, 58), payment_intent: "pi_" + pick(r, ALNUM, 24),
                  amount_cents: quote(zip).price_cents, livemode: false, paid_at: row.created_at};
-      mail(row.form.email, `We received your inspection request (${row.id})`, row.created_at);
+      mail(row.form.email, mailSubject("Submitted", veh, row.ref), row.created_at);
       if (p) {
         // the listing the shopper ordered from: what the embed handed over about the car
         const {share_bps, org: _org, listings, ...pub} = p, l = x.listing, d = l.damage[0];
@@ -446,12 +450,12 @@ export function buildSeed(now = Date.now()){
       const claimAt = step(2, "claimed");
       seedViews(m.link, r, Date.parse(linked), Date.parse(claimAt), views, iso);
       m.link.claim = claimOf(m.link, claimAt, INSPECTORS[n % INSPECTORS.length], s.name, s.phone, n % 2 ? s.email : "", slot.getTime());
-      mail(row.form.email, `Inspection confirmed: ${veh} (${jobRef(row.id)})`, claimAt, {kind: "confirmed"});
+      mail(row.form.email, mailSubject("Claimed", veh, row.ref), claimAt, {kind: "claimed"});
       if (status === "complete") {
         t = slot.getTime() + 3 * HOUR;
         const at = step(0, "complete");
         m.report = {id: reportId(at, id12()), at, filename: `${make.replace(/\W/g, "")}_${row.form.vin.slice(-6)}_inspection.pdf`, shop: shopCard(s)};
-        mail(row.form.email, `Inspection report ready: ${veh} (${jobRef(row.id)})`, at, {kind: "complete"});
+        mail(row.form.email, mailSubject("Complete", veh, row.ref), at, {kind: "complete"});
       }
     }
     if (status === "canceled") {
@@ -460,13 +464,21 @@ export function buildSeed(now = Date.now()){
       m.canceled = {at, by: by.name, by_id: by.id, reason: x.reason};
       if (x.refund) {
         m.refund = {id: "re_" + pick(r, ALNUM, 24), status: "succeeded", amount_cents: m.order.amount_cents, at, by: cam.name, by_id: cam.id};
-        mail(row.form.email, `Inspection canceled and refunded: ${veh} (${jobRef(row.id)})`, at, {kind: "refunded"});
+        mail(row.form.email, mailSubject("Canceled", veh, row.ref), at, {kind: "refunded"});
       }   // a workspace canceling its own job from the portal is not emailed (portal.cancel_request)
     }
     return row;
   });
 
   rows.sort((a, b) => b.created_at.localeCompare(a.created_at));   // the list comes newest first
+  // the customer's own reference on some business jobs: a fleet's unit number on most of Meridian's open jobs and a
+  // handful of its finished ones, a dealer's stock number on some of Crestview's (form.customer_ref, "Your reference")
+  const used = new Set(), unique = (base, k, span) => { let v = base + k % span; while (used.has(v)) v++; used.add(v); return v; };
+  for (const row of rows) {
+    const h = hashStr(row.form.vin), open = row.status !== "complete";
+    if (row.org.id === orgs.meridian.id && (open ? h % 4 !== 0 : h % 16 === 0)) row.form.customer_ref = `Unit ${unique(4100, h, 800)}`;
+    if (row.org.id === orgs.crestview.id && (open || h % 3 === 0)) row.form.customer_ref = `Stock 24-${unique(1000, h, 9000)}`;
+  }
   const auth = buildAuth(now, orgs, users, cam);
   return {version: SEED_VERSION, seededAt: new Date(now).toISOString(), rows, ...auth, meta: META,
           reports: buildReports(rows, orgs.inspectd.id), portal: {orgId: orgs.meridian.id},
@@ -562,11 +574,11 @@ function reportFlow(row, x, created, k){
   seedViews(m.link, k.r, Date.parse(linked), Date.parse(claimAt), hashStr(rep.id) % 3 + 1, k.iso);
   // Lemon Squad claims through its dispatcher; no phone or email of theirs is invented here
   m.link.claim = claimOf(m.link, claimAt, INSPECTORS[hashStr(rep.id) % INSPECTORS.length], LEMON_SQUAD.name, "", "", visit.getTime());
-  k.mail(row.form.email, `Inspection confirmed: ${k.veh} (${jobRef(row.id)})`, claimAt, {kind: "confirmed"});
+  k.mail(row.form.email, mailSubject("Claimed", k.veh, row.ref), claimAt, {kind: "claimed"});
   k.setT(visit.getTime() + 3 * k.HOUR);
   const at = k.step(0, "complete");
   m.report = {id: rep.id, at, filename: rep.filename, shop: shopCard(shop)};
-  k.mail(row.form.email, `Inspection report ready: ${k.veh} (${jobRef(row.id)})`, at, {kind: "complete"});
+  k.mail(row.form.email, mailSubject("Complete", k.veh, row.ref), at, {kind: "complete"});
   return row;
 }
 

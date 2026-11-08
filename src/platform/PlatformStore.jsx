@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { buildSeed, lookupFor, SEED_VERSION, jobRef } from "./seed.js";
+import { buildSeed, lookupFor, SEED_VERSION, mailSubject } from "./seed.js";
 import { createAuth, ApiError } from "./authServer.js";
 import { createPortal } from "./portalServer.js";
 import { isClosed } from "./jobModel.js";
@@ -67,7 +67,7 @@ export function createServer(state){
     const to = r.meta?.link?.claim?.email;
     if (was !== "claimed" || !to) return r;
     const f = r.form;
-    return withMail(r, mail(to, `Inspection canceled: ${veh(f, "a vehicle")} in ${f.city || locationString(f)}`, {kind: "inspector_canceled"}));
+    return withMail(r, mail(to, `${mailSubject("Canceled", veh(f, "a vehicle"), r.ref)} · ${f.city || locationString(f)}`, {kind: "inspector_canceled"}));
   };
   const cancelChange = reason => ({canceled: {at: nowIso(), by: who, by_id: me.id, reason: String(reason || "").trim().slice(0, 300)}});
 
@@ -76,9 +76,9 @@ export function createServer(state){
     patch(r, body){
       return update(r, {notes: body.notes});
     },
-    // POST /api/requests/{id}/link: the job's one link, open to every provider it is shared with. A New job goes to Dispatching.
+    // POST /api/requests/{id}/link: the job's one link, open to every provider it is shared with. A Submitted job goes to Dispatching.
     createLink(r){
-      if (r.status !== "new") throw new ApiError("A job link can be created while the job is New");
+      if (r.status !== "new") throw new ApiError("A job link can be created while the job is Submitted");
       if (r.meta?.link && !r.meta.link.off_at) throw new ApiError("This job already has a live link");
       const link = {token: b64url(24), created_at: nowIso(), created_by: who, off_at: null, views: [], declines: [], claim: null};
       return update(r, {status: "dispatching", meta: {link}});
@@ -92,14 +92,14 @@ export function createServer(state){
       const was = r.status;
       return tellClaimer(update(r, {status: "canceled", meta: cancelChange(body.reason)}), was);
     },
-    // POST /api/requests/{id}/reset: a canceled job goes back to New. Its link is turned off (the page says the job is
+    // POST /api/requests/{id}/reset: Reopen. A canceled job goes back to Submitted (status "new"). Its link is turned off (the page says the job is
     // no longer available) and kept with the job; the provider results stay, so it can be dispatched again.
     reset(r){
-      if (r.status !== "canceled") throw new ApiError("Only a canceled job can be reset");
+      if (r.status !== "canceled") throw new ApiError("Only a canceled job can be reopened");
       const at = nowIso(), link = r.meta?.link;
       const meta = {link: null, resets: [...(r.meta?.resets || []), {at, by: who, by_id: me.id, canceled: r.meta?.canceled || null}], canceled: null,
                     past_links: link ? [...(r.meta?.past_links || []), {...link, off_at: at}] : (r.meta?.past_links || [])};
-      return update(r, {status: "new", meta});
+      return update(r, {status: "new", meta});   // history records "new": Submitted again
     },
     // POST /api/requests/{id}/refund: the job's own share refunded, the job canceled, the customer told
     refund(r, body){
@@ -110,7 +110,7 @@ export function createServer(state){
       const change = {refund: {id: "re_" + alnum(24), status: "succeeded", amount_cents: +order.amount_cents, at, by: who, by_id: me.id}};
       if (r.status !== "canceled") Object.assign(change, cancelChange(body.reason));
       const to = recipient(r);
-      if (to) change.emails = [...(r.meta?.emails || []), mail(to, `Inspection canceled and refunded: ${veh(r.form, "your vehicle")} (${jobRef(r.id)})`, {kind: "refunded"})];
+      if (to) change.emails = [...(r.meta?.emails || []), mail(to, mailSubject("Canceled", veh(r.form, "your vehicle"), r.ref), {kind: "refunded"})];
       const was = r.status;
       return tellClaimer(update(r, {status: "canceled", meta: change}), was);
     },

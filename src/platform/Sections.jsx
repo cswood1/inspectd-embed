@@ -3,7 +3,7 @@ import { usePlatform } from "./PlatformStore.jsx";
 import { allProviders, allCustomers, shopKey } from "./derive.js";
 import { PROVIDER_METROS, providerMetro } from "./seed.js";
 import { orderedByLabel, isConsumer } from "./jobModel.js";
-import { fmt, where, useJobVehicle, isClosed, Icon, Who, SkelRows, CSelect, PageDock, paged, useToast } from "./ui.jsx";
+import { fmt, useJobVehicle, isClosed, Icon, Who, SkelRows, CSelect, PageDock, paged, useToast } from "./ui.jsx";
 
 /*
  * Providers, Customers and Reports: ports of inspection-requests/ui/{providers,customers,reports}-client.
@@ -182,7 +182,7 @@ export function Customers({ loaded, onNavigate }){
 /* ---- Reports: jobs that have a report, newest change first (a claimed job joins once its report lands) ---- */
 
 // no Status column: every job here has its report, so every one would read Complete
-const R_HEADS = ["Customer", "Vehicle", "Location", "Provider", "Updated"];
+const R_HEADS = ["Job", "Customer", "Vehicle", "Location", "Provider", "Updated"];
 
 export function Reports({ loaded, onNavigate, onOpenPortal }){
   const { rows } = usePlatform();
@@ -199,8 +199,9 @@ export function Reports({ loaded, onNavigate, onOpenPortal }){
       return (
         // a row opens the job on its board
         <tr key={r.id} className="row" data-id={r.id} onClick={() => onNavigate(isClosed(r) ? "closed" : "jobs", {open: r.id})}>
+          <td className="jobcell"><span className="mono">{r.ref}</span>{r.form.customer_ref ? <span className="cref">{r.form.customer_ref}</span> : null}</td>
           <td><Who name={!isConsumer(r) && r.org ? r.org.name : r.form.name} email={r.form.email} /></td>
-          <td>{vehicle(r)}</td><td className="sub">{where(r.form)}</td>
+          <td>{vehicle(r)}</td><td className="sub">{[r.form.city, (r.form.state || "").toUpperCase()].filter(Boolean).join(", ")}</td>
           <td className="sub">{claim ? claim.company || claim.name : ""}</td><td className="sub">{fmt(r.updated_at)}</td>
         </tr>);
     })}</tbody></table>
