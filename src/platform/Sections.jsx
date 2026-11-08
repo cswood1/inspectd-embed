@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
-import { allProviders, allCustomers, statusBreakdown } from "./derive.js";
-import { STATUS, fmt, where, vehicle, isClosed, tint, Icon, Who, Pill, Sk, SkelRows, PageDock, paged } from "./ui.jsx";
+import { allProviders, allCustomers } from "./derive.js";
+import { PROVIDER_METROS, providerMetro } from "./seed.js";
+import { orderedByLabel, isConsumer } from "./jobModel.js";
+import { STATUS, fmt, where, vehicle, isClosed, tint, Icon, Who, Pill, Sk, SkelRows, SkelCards, PageDock, paged } from "./ui.jsx";
 
 /*
  * Providers, Customers and Reports: ports of inspection-requests/ui/{providers,customers,reports}-client.
@@ -9,31 +11,21 @@ import { STATUS, fmt, where, vehicle, isClosed, tint, Icon, Who, Pill, Sk, SkelR
  */
 const stay = e => e.preventDefault();
 
-/* ---- Providers: every shop the lookups have found, one row per distinct shop, 50 per page ---- */
+/* ---- Providers: every shop the lookups have found, one row per distinct shop, in a block per metro ---- */
 
-const PAGE_LIMIT = 50;
 const firstPhone = t => (String(t || "").match(/\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/) || [""])[0];
 const host = u => String(u || "").match(/https?:\/\/[^\s)]+/) ? String(u).match(/https?:\/\/[^\s)]+/)[0] : (String(u || "").split(/\s/)[0] || "");
 const ratingNum = t => { const m = String(t || "").match(/\b([0-5](?:\.\d)?)\s*(?:\/\s*5|stars?|★)?/i); return m && /\d/.test(m[1]) && (/\/\s*5|star|★|rating|google|yelp/i.test(t) || String(t).trim().length < 6) ? m[1] : ""; };
 const splitName = n => { const m = String(n || "").split(/\s+[—–-]\s+|\s+\(/); return [m[0] || "Unnamed", m.length > 1 ? String(n).slice(m[0].length).replace(/^\s*[—–-]\s*|^\s*\(|\)\s*$/g, "") : ""]; };
 const P_HEADS = ["Provider", "Location", "Phone", "Website", "Rating", "Jobs", "Claimed"];
+const plural = (n, one, many = one + "s") => `${n} ${n === 1 ? one : many}`;
 
-export function Providers({ loaded }){
-  const { rows } = usePlatform();
-  const [pq, setPq] = useState(""), [page, setPage] = useState(0);
-  const q = pq.trim().toLowerCase();
-  const all = loaded ? allProviders(rows) : [], hay = p => [p.name, p.address, p.city, p.phone, p.website, p.email, p.services].join(" ").toLowerCase();
-  const matched = all.filter(p => !q || hay(p).includes(q));
-  const pg = paged(matched, page, PAGE_LIMIT);
-  let body;
-  if (!loaded) body = <div className="tablewrap"><SkelRows n={7} heads={P_HEADS} extraCls="ptable" /></div>;
-  else if (!all.length) body = <div className="empty"><b>No providers yet</b>Find providers for a job and the ones it finds appear here.</div>;
-  else if (!matched.length) body = <div className="empty"><b>Nothing matches</b></div>;
-  else body = (
+function ProviderTable({ list }){
+  return (
     <div className="tablewrap"><table className="ptable">
       <colgroup><col style={{ width: "34%" }} /><col style={{ width: "20%" }} /><col style={{ width: "12%" }} /><col style={{ width: "14%" }} /><col style={{ width: "6%" }} /><col style={{ width: "5%" }} /><col style={{ width: "9%" }} /></colgroup>
       <thead><tr>{P_HEADS.map(h => <th key={h}>{h}</th>)}</tr></thead>
-      <tbody>{pg.slice.map(p => {
+      <tbody>{list.map(p => {
         const [nm, tag] = splitName(p.name), phone = firstPhone(p.phone), site = host(p.website), rating = ratingNum(p.rating);
         const desc = tag || p.services || p.notes || "";
         return (
@@ -49,48 +41,85 @@ export function Providers({ loaded }){
       })}</tbody>
     </table></div>
   );
+}
+
+export function Providers({ loaded }){
+  const { rows } = usePlatform();
+  const [pq, setPq] = useState("");
+  const q = pq.trim().toLowerCase();
+  const all = loaded ? allProviders(rows) : [], hay = p => [p.name, p.address, p.city, p.phone, p.website, p.email, p.services, providerMetro(p)].join(" ").toLowerCase();
+  const matched = all.filter(p => !q || hay(p).includes(q));
+  // one block per metro, in a fixed order; a provider from nowhere the seed knows goes last, under Other
+  const blocks = [...PROVIDER_METROS, "Other"].map(metro => [metro, matched.filter(p => providerMetro(p) === metro)]).filter(([, list]) => list.length);
+  let body;
+  if (!loaded) body = <div className="tablewrap"><SkelRows n={7} heads={P_HEADS} extraCls="ptable" /></div>;
+  else if (!all.length) body = <div className="empty"><b>No providers yet</b>Find providers for a job and the ones it finds appear here.</div>;
+  else if (!matched.length) body = <div className="empty"><b>Nothing matches</b></div>;
+  else body = blocks.map(([metro, list]) => (
+    <section key={metro} className="metroblock" data-metro={metro}>
+      <div className="pad sechead"><h2>{metro}</h2><span className="secnote">{plural(list.length, "provider")}</span></div>
+      <ProviderTable list={list} />
+    </section>));
   return (<>
-    <div className="pad greet"><div className="gt"><h1>Providers</h1><p>Every inspection shop and mobile inspector the provider searches have found so far, across all jobs, and how many job links each has claimed.</p></div></div>
-    <div className="pad"><div className="toolbar"><div className="search"><Icon name="search" size={14} /><input id="pq" type="search" placeholder="Search shop, city, phone" autoComplete="off" value={pq} onChange={e => { setPq(e.target.value); setPage(0); }} /></div>
+    <div className="pad greet"><div className="gt"><h1>Providers</h1></div></div>
+    <div className="pad"><div className="toolbar"><div className="search"><Icon name="search" size={14} /><input id="pq" type="search" placeholder="Search shop, city, phone" autoComplete="off" value={pq} onChange={e => setPq(e.target.value)} /></div>
       <span className="chip" id="pcount">{loaded ? `${matched.length} of ${all.length}` : <Sk w={54} h={12} />}</span></div></div>
     <div id="providers">{body}</div>
-    <PageDock pg={loaded && matched.length ? pg : null} rowSelector="#providers tbody tr" onChange={d => setPage(pg.page + d)} />
   </>);
 }
 
-/* ---- Customers: one row per email address, how many requests, and what they add up to ---- */
+/* ---- Customers: consumers one row per email, businesses one row per workspace ---- */
 
-const C_HEADS = ["Customer", "Phone", "Requests", "Statuses", "Last request"];
+const C_HEADS = ["Customer", "Type", "Location", "Inspections", "Last inspection"];
+const C_CARDS = [["consumer", "Consumers", c => !c.business], ["business", "Businesses", c => c.business]];
 
 export function Customers({ loaded, onNavigate }){
-  const { rows } = usePlatform();
-  const [cq, setCq] = useState(""), [page, setPage] = useState(0);
+  const { rows, orgs, users, memberships } = usePlatform();
+  const [cq, setCq] = useState(""), [kind, setKind] = useState(""), [page, setPage] = useState(0);
   const q = cq.trim().toLowerCase();
-  const all = loaded ? allCustomers(rows) : [], hay = c => [c.name, c.email, c.phone].join(" ").toLowerCase();
-  const list = all.filter(c => !q || hay(c).includes(q));
+  // a business's contact is its workspace's owner, the longest-standing one if there are several
+  const owners = {};
+  for (const m of [...(memberships || [])].filter(m => m.role === "OWNER").sort((a, b) => a.joined_at.localeCompare(b.joined_at))) {
+    if (owners[m.org_id]) continue;
+    const u = users.find(x => x.id === m.user_id); if (u) owners[m.org_id] = {name: u.name, email: u.email};
+  }
+  const all = loaded ? allCustomers(rows, orgs, owners) : [], hay = c => [c.name, c.email, c.contact, c.phone, c.location, orderedByLabel(c.type)].join(" ").toLowerCase();
+  const inKind = c => !kind || C_CARDS.find(([k]) => k === kind)[2](c);
+  const list = all.filter(c => inKind(c) && (!q || hay(c).includes(q)));
   const pg = paged(list, page);
+  const pickCard = k => { setKind(cur => cur === k ? "" : k); setPage(0); };
   let body;
   if (!loaded) body = <SkelRows n={6} heads={C_HEADS} />;
   else if (!all.length) body = <div className="empty"><b>No customers yet</b>Requests arrive from the client portal.</div>;
-  else if (!list.length) body = <div className="empty"><b>Nothing matches</b>{`No customer matches "${q}".`}</div>;
+  else if (!list.length) body = <div className="empty"><b>Nothing matches</b>{q ? `No customer matches "${q}".` : ""}</div>;
   else body = (
-    <table><thead><tr>{C_HEADS.map(h => <th key={h}>{h}</th>)}</tr></thead><tbody>{pg.slice.map(c => {
-      // every request counts: one pill per status they have, with how many are in it
-      const parts = statusBreakdown(c.counts), only = parts.length === 1 && parts[0][1] === 1;
-      return (
-        // a customer's jobs are the open board searched by their email
-        <tr key={c.email} className="row" data-email={c.email} onClick={() => onNavigate("jobs", {q: c.email})}>
-          <td><Who name={c.name} email={c.email + (c.aliases.length ? ` · also as ${c.aliases.join(", ")}` : "")} /></td>
-          <td className="sub">{c.phone || ""}</td><td className="sub">{c.jobs.length}</td>
-          <td><span className="pills" title={parts.map(([k, n]) => `${n} ${(STATUS[k] || ["", k])[1]}`).join(", ")}>{parts.map(([k, n]) => { const [hue, label] = STATUS[k] || ["gray", k]; return <Pill key={k} hue={hue}>{only ? label : `${n} ${label}`}</Pill>; })}</span></td>
-          <td className="sub">{fmt(c.last)}</td>
-        </tr>);
-    })}</tbody></table>
+    <table><thead><tr>{C_HEADS.map(h => <th key={h}>{h}</th>)}</tr></thead><tbody>{pg.slice.map(c => (
+      // a customer's jobs are the board searched by their email, or by the company's name
+      <tr key={c.key} className="row" data-customer={c.query} onClick={() => onNavigate("jobs", {q: c.query})}>
+        <td>{c.business
+          ? <Who name={c.name} email={c.contact ? `${c.contact}${c.email ? ` · ${c.email}` : ""}` : c.email} />
+          : <Who name={c.name} email={c.email + (c.aliases.length ? ` · also as ${c.aliases.join(", ")}` : "")} />}</td>
+        <td className="sub">{orderedByLabel(c.type)}</td>
+        <td className="sub">{c.location}</td>
+        <td className="sub">{c.jobs.length}</td>
+        <td className="sub">{fmt(c.last)}</td>
+      </tr>))}</tbody></table>
   );
   return (<>
-    <div className="pad greet"><div className="gt"><h1>Customers</h1><p>Everyone who has submitted a request, grouped by email. Click a row to see their jobs.</p></div></div>
-    <div className="pad"><div className="toolbar"><div className="search"><Icon name="search" size={14} /><input id="cq" type="search" placeholder="Search name, email, phone" autoComplete="off" value={cq} onChange={e => { setCq(e.target.value); setPage(0); }} /></div>
-      <span className="chip" id="ccount">{loaded ? `${list.length} of ${all.length}` : <Sk w={54} h={12} />}</span></div></div>
+    <div className="pad greet"><div className="gt"><h1>Customers</h1></div></div>
+    <div className="pad">
+      <div className="cards" id="cbreakdown">
+        {!loaded ? <SkelCards n={2} /> : C_CARDS.map(([k, t, test]) => {
+          const these = all.filter(test), jobs = these.reduce((n, c) => n + c.jobs.length, 0);
+          return (
+            <div key={k} className={`card ${kind === k ? "on" : ""}`} role="button" tabIndex={0} data-kind={k} onClick={() => pickCard(k)}
+              onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pickCard(k); } }}>
+              <div className="t">{t}</div><div className="n">{plural(these.length, "customer")}</div><div className="d">{plural(jobs, "inspection")}</div>
+            </div>);
+        })}
+      </div>
+      <div className="toolbar"><div className="search"><Icon name="search" size={14} /><input id="cq" type="search" placeholder="Search name, company, email" autoComplete="off" value={cq} onChange={e => { setCq(e.target.value); setPage(0); }} /></div>
+        <span className="chip" id="ccount">{loaded ? `${list.length} of ${all.length}` : <Sk w={54} h={12} />}</span></div></div>
     <div className="tablewrap" id="customers">{body}</div>
     <PageDock pg={loaded && list.length ? pg : null} rowSelector="#customers tbody tr" onChange={d => setPage(pg.page + d)} />
   </>);
@@ -114,14 +143,14 @@ export function Reports({ loaded, onNavigate, onOpenPortal }){
       return (
         // a row opens the job on its board
         <tr key={r.id} className="row" data-id={r.id} onClick={() => onNavigate(isClosed(r) ? "closed" : "jobs", {open: r.id})}>
-          <td><Who name={r.org ? r.org.name : r.form.name} email={r.form.email} /></td>
+          <td><Who name={!isConsumer(r) && r.org ? r.org.name : r.form.name} email={r.form.email} /></td>
           <td>{vehicle(r.form)}</td><td className="sub">{where(r.form)}</td><td><Pill hue={hue}>{label}</Pill></td>
           <td className="sub">{claim ? claim.company || claim.name : ""}</td><td className="sub">{fmt(r.updated_at)}</td>
         </tr>);
     })}</tbody></table>
   );
   return (<>
-    <div className="pad greet"><div className="gt"><h1>Reports</h1><p>Jobs a provider claimed, or that were completed. Normalized inspection reports are produced in the <a className="plainlink" id="reportsLink" href="#" target="_blank" rel="noopener" onClick={e => { stay(e); onOpenPortal("/reports"); }}>report dashboard</a> for now; linking them to jobs here is the next step.</p></div></div>
+    <div className="pad greet"><div className="gt"><h1>Reports</h1></div></div>
     <div className="tablewrap" id="reports">{body}</div>
     <PageDock pg={loaded && list.length ? pg : null} rowSelector="#reports tbody tr" onChange={d => setPage(pg.page + d)} />
   </>);

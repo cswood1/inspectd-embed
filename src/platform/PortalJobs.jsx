@@ -4,7 +4,7 @@ import { CSelect, PageDock } from "./ui.jsx";
 import { Svg, I, STAGE, vehicleOf, whereOf, fmtWhen, openByVin, jobRef, Sk, SkelRows, useNotices, useLoaded } from "./portalUi.jsx";
 import { vinCheck, vinLookup } from "./vin.js";
 import { readTable, writeTable } from "./xlsx.js";
-import { INSPECTION_TYPES, VEHICLE_CLASSES, subtypesOf, defaultSubtype, classifyInspection, classifyClass } from "./jobModel.js";
+import { VEHICLE_CLASSES, subtypesOf, defaultSubtype, classifyInspection, classifyClass, typesFor, defaultTypeFor, consumerTypeAllowed, CONSUMER_TYPE_RULE } from "./jobModel.js";
 
 /*
  * The portal's job pages, ported from inspection-dashboard/ui/jobs-client: the Jobs list (client.js),
@@ -54,7 +54,7 @@ export function Jobs({ ctx }){
     );
   }
   return (<>
-    <section className="pad"><div className="greet"><div className="gt"><h1>Jobs</h1><p>Every inspection you have requested: where it stands, and who is doing it once one is booked.</p></div>
+    <section className="pad"><div className="greet"><div className="gt"><h1>Jobs</h1></div>
       <div className="actions"><a className="btn accent" href="/jobs/bulk" onClick={e => stay(e, ctx, "/jobs/bulk")}>Upload a list</a><button className="btn primary" id="newJob" onClick={() => ctx.navigate("/jobs/new")}>New inspection request</button></div></div>
       <div className="cards" id="jobCards">{!list ? Array.from({length: 4}, (_, i) => <div key={i} className="card"><Sk w={90} h={12} /><Sk w={40} h={24} /></div>)
         : list.stages.map(s => <div key={s} className={`card pick${s === stage ? " on" : ""}`} data-s={s} title={`Show ${STAGE.of(s).label.toLowerCase()} jobs`} onClick={() => pick(stage === s ? "" : s)}>
@@ -76,7 +76,9 @@ export function NewJob({ ctx }){
   const { notify, progressToast, ask } = useNotices();
   const me = portal.me(), open = openByVin(portal.listJobs().requests);   // to notice a second request for the same car
   const form = useRef(null), vinEl = useRef(null), lastLookup = useRef("");
-  const [type, setTypeOnly] = useState("consumer"), [subtype, setSubtype] = useState(defaultSubtype("consumer")), [vclass, setVclass] = useState("standard");
+  // a business workspace isn't offered the Consumer type; it starts on Condition Report
+  const orderedBy = me.account?.type || "consumer", first = defaultTypeFor(orderedBy);
+  const [type, setTypeOnly] = useState(first), [subtype, setSubtype] = useState(defaultSubtype(first)), [vclass, setVclass] = useState("standard");
   const setType = t => { setTypeOnly(t); setSubtype(defaultSubtype(t)); };   // a new type starts on its first subtype
   const [bad, setBad] = useState(new Set()), [vinState, setVinState] = useState({cls: "", hint: "", hintCls: "hint"});
   const [err, setErr] = useState(""), [sending, setSending] = useState(false);
@@ -120,7 +122,7 @@ export function NewJob({ ctx }){
   };
   const cls = (id, base = "") => [base, bad.has(id) ? "bad" : ""].filter(Boolean).join(" ") || undefined;
   return (
-    <section className="pad"><div className="narrow wide"><div className="greet"><div className="gt"><h1>New inspection request</h1><p>Tell us about the car, where it is and who meets the inspector. We dispatch a mobile inspector and keep you posted on the Jobs page.</p></div>
+    <section className="pad"><div className="narrow wide"><div className="greet"><div className="gt"><h1>New inspection request</h1></div>
       <div className="actions"><a className="btn accent" href="/jobs/bulk" onClick={e => stay(e, ctx, "/jobs/bulk")}>Many cars? Upload a list</a><button className="btn" id="cancelJob" onClick={() => ctx.navigate("/jobs")}>Cancel</button></div></div>
       <form className="reqform" id="jobForm" noValidate ref={form} onSubmit={submit}><div className="fsgrid">
         <section className="fs span2"><div className="fsh"><span className="fsi"><img src="/portal/icons/vehicle.png" alt="" width="30" height="30" /></span><div><h2>Vehicle</h2><p>What we are inspecting. A VIN fills in the year, make and model for you.</p></div></div><div className="grid6">
@@ -130,7 +132,7 @@ export function NewJob({ ctx }){
           <div className="f c3"><label htmlFor="vin">VIN <i>optional</i></label><input id="vin" name="vin" ref={vinEl} className={vinState.cls || "mono"} maxLength="20" placeholder="17 characters" autoComplete="off" spellCheck="false"
             onInput={onVinInput} onBlur={onVinBlur} /><small className={vinState.hintCls} id="vinHint">{vinState.hint}</small></div>
           <div className="f c3"><label htmlFor="vehicle_class">Vehicle class <i>affects who we send and the price</i></label><CSelect value={vclass} onChange={setVclass} options={VEHICLE_CLASSES.map(([value, label]) => ({value, label}))} /></div>
-          <div className="f c3"><label htmlFor="inspection_type">Inspection type</label><CSelect value={type} onChange={setType} options={INSPECTION_TYPES.map(([value, label]) => ({value, label}))} /></div>
+          <div className="f c3"><label htmlFor="inspection_type">Inspection type</label><CSelect value={type} onChange={setType} options={typesFor(orderedBy).map(([value, label]) => ({value, label}))} /></div>
           {subtypesOf(type).length ? <div className="f c3"><label htmlFor="inspection_subtype">{type === "consumer" ? "Before or after the purchase" : "Kind of report"}</label>
             <CSelect value={subtype} onChange={setSubtype} options={subtypesOf(type).map(([value, label]) => ({value, label}))} /></div> : null}
         </div></section>
@@ -165,7 +167,7 @@ const ZIP = /^\d{5}(-\d{4})?$/;
 const ALIAS = {type: "inspection_type", inspection: "inspection_type", subtype: "inspection_subtype", "inspection subtype": "inspection_subtype",
   class: "vehicle_class", "vehicle class": "vehicle_class", designation: "vehicle_class", category: "vehicle_class", tier: "vehicle_class", street: "address", postal: "zip", zipcode: "zip", note: "notes", contact: "name", tel: "phone", telephone: "phone", "vin number": "vin"};
 // the type and class columns take the new values, and the old ones as aliases (jobModel.classifyInspection, classifyClass)
-const TYPE_HELP = INSPECTION_TYPES.map(([k, , subs]) => subs.length ? `${k} (${subs.map(([s]) => s).join(", ")})` : k).join(", ");
+const typeHelp = orderedBy => typesFor(orderedBy).map(([k, , subs]) => subs.length ? `${k} (${subs.map(([s]) => s).join(", ")})` : k).join(", ");
 const CLASS_HELP = VEHICLE_CLASSES.map(([k]) => k).join(", ");
 const MAX = 200;
 // a small CSV reader: quotes, escaped quotes, commas or tabs, CR/LF line ends
@@ -189,11 +191,11 @@ function toRows(table){
   const heads = table[0].map(normHead), unknown = table[0].filter((h, i) => !heads[i] && h.trim());
   return {rows: table.slice(1).map(r => Object.fromEntries(heads.map((h, i) => [h, (r[i] || "").trim()]).filter(([h]) => h))), unknown};
 }
-function check(r, d){
+function check(r, d, orderedBy){
   const p = [], name = r.name || d.name, email = r.email || d.email, phone = r.phone || d.phone;
   if (!name) p.push("name"); if (!email || !email.includes("@")) p.push("email"); if (!phone || phone.replace(/\D/g, "").length < 7) p.push("phone");
   if (!r.address) p.push("address"); if (!r.city) p.push("city"); if (!r.state) p.push("state"); if (!r.zip || !ZIP.test(r.zip)) p.push("zip");
-  const ct = classifyInspection(r.inspection_type, r.inspection_subtype); if (ct) Object.assign(r, ct);
+  const ct = classifyInspection(r.inspection_type, r.inspection_subtype, orderedBy); if (ct) Object.assign(r, ct);
   const cd = classifyClass(r.vehicle_class); if (cd) r.vehicle_class = cd;
   return p;
 }
@@ -203,6 +205,7 @@ export function BulkJobs({ ctx }){
   const { portal } = usePlatform();
   const { progressToast } = useNotices();
   const me = portal.me(), open = openByVin(portal.listJobs().requests);   // to notice cars that already have an open job
+  const orderedBy = me.account?.type || "consumer";
   const [rows, setRows] = useState([]), [unknown, setUnknown] = useState([]), [serverErrors, setServerErrors] = useState([]);
   const [contact, setContact] = useState({name: me.user?.name || "", email: me.user?.email || "", phone: ""});
   const [note, setNote] = useState(null), [bulkErr, setBulkErr] = useState(""), [sending, setSending] = useState(false), [drag, setDrag] = useState(false);
@@ -210,9 +213,10 @@ export function BulkJobs({ ctx }){
   // what each row needs before it can go, and which rows are left out of the send
   const problems = {}, skips = {};
   rows.forEach((r, i) => {
-    const p = check(r, contact); if (p.length) problems[i] = "Missing or invalid: " + p.join(", ");
+    const p = check(r, contact, orderedBy); if (p.length) problems[i] = "Missing or invalid: " + p.join(", ");
     if ((r.vin || "").trim()) { const v = vinCheck(r.vin); if (!v.ok) skips[i] = "Invalid VIN: " + v.reason; else { r.vin = v.vin; const d = open[v.vin]; if (d) skips[i] = `Already requested as ${jobRef(d.id)} (${STAGE.of(d.stage).label}); cancel that job first if this is a new inspection`; } }
-    if (!skips[i] && !classifyInspection(r.inspection_type, r.inspection_subtype)) skips[i] = `Unknown inspection type "${[r.inspection_type, r.inspection_subtype].filter(Boolean).join(" / ")}"; use ${TYPE_HELP}`;
+    if (!skips[i] && !classifyInspection(r.inspection_type, r.inspection_subtype, orderedBy)) skips[i] = `Unknown inspection type "${[r.inspection_type, r.inspection_subtype].filter(Boolean).join(" / ")}"; use ${typeHelp(orderedBy)}`;
+    if (!skips[i] && r.inspection_type === "consumer" && !consumerTypeAllowed(orderedBy)) skips[i] = CONSUMER_TYPE_RULE;
     if (!skips[i] && !classifyClass(r.vehicle_class)) skips[i] = `Unknown vehicle class "${r.vehicle_class}"; use ${CLASS_HELP}`;
   });
   serverErrors.forEach(e => { problems[e.row - 1] = e.error; });
@@ -261,7 +265,7 @@ export function BulkJobs({ ctx }){
   const setC = k => e => setContact(c => ({...c, [k]: e.target.value}));
   return (
     <section className="pad"><div className="narrow wide">
-      <div className="greet"><div className="gt"><h1>Upload a list of cars</h1><p>One inspection request per row. Start from a template (Excel or CSV), or paste rows straight from a spreadsheet; the first line must be the column names.</p></div>
+      <div className="greet"><div className="gt"><h1>Upload a list of cars</h1></div>
         <div className="actions"><a className="btn" href="/api/jobs/template.xlsx" download onClick={xlsxTemplate}>Excel template</a><button className="btn" id="tmplBtn" onClick={csvTemplate}>CSV template</button><a className="btn" href="/jobs" onClick={e => stay(e, ctx, "/jobs")}>Cancel</a></div></div>
       <div className="bulkgrid">
         <label className={`drop${drag ? " drag" : ""}`} id="drop" htmlFor="csvFile" onDragOver={e => { e.preventDefault(); setDrag(true); }} onDragLeave={() => setDrag(false)}
@@ -312,24 +316,18 @@ export function Job({ id, ctx }){
     catch (e) { notify("Could not cancel", e.message, "red", 8000); }
     setCanceling(false);
   };
-  const head = (title, lead, actions, pill) => (
-    <div className="greet"><div className="gt"><a className="backlink" href="/jobs" id="jobBack" onClick={e => stay(e, ctx, "/jobs")}><Svg src={I.back} />All jobs</a><h1 id="jobTitle">{title}</h1><p id="jobLead">{lead}</p></div>
+  const head = (title, actions, pill) => (
+    <div className="greet"><div className="gt"><a className="backlink" href="/jobs" id="jobBack" onClick={e => stay(e, ctx, "/jobs")}><Svg src={I.back} />All jobs</a><h1 id="jobTitle">{title}</h1></div>
       <div className="actions"><span id="jobActions">{actions}</span><span className={pill ? `pill lg ${pill[0]}` : "pill lg"} id="jobPill">{pill ? pill[1] : null}</span></div></div>
   );
   if (!j) return (
-    <section className="pad jobpage">{head(<Sk w={220} h={26} />, <Sk w="50%" h={14} />, null, null)}
+    <section className="pad jobpage">{head(<Sk w={220} h={26} />, null, null)}
       <div className="cards" id="jobSteps">{ORDER.map(s => <div key={s} className="card"><Sk w={60} h={10} /><Sk w={120} h={16} /><Sk w={150} h={11} /></div>)}</div>
       <div className="facts" id="jobFacts">{Array.from({length: 5}, (_, i) => <div key={i}><Sk w={56} h={9} /><Sk w={96} h={14} /></div>)}</div>
       <div className="cols2" id="jobCols"></div></section>
   );
   const f = j.form, canceled = j.stage === "canceled", idx = canceled ? -1 : Math.max(0, ORDER.indexOf(j.stage));
   const reached = Object.fromEntries((j.history || []).map(h => [STAGE.key(h.stage), h.at]));   // when each stage was reached
-  const lead = `${STAGE.short(f)} inspection near ${whereOf(f)}. ` + (canceled
-    ? "This request was canceled before an inspector was confirmed. Nothing further will happen; submit a new request if you still need the car inspected."
-    : ["We have your request and will start dispatching a mobile inspector shortly.",
-       "We are dispatching: contacting mobile inspectors near the car and confirming one for you.",
-       "An inspector is confirmed. The planned time is below.",
-       "The inspection is done. The report lands under Reports when it is ready."][idx]);
   const facts = [["Reference", `${jobRef(j.id)} · ${j.id}`, "mono"], ["Inspection", STAGE.type(f)], ["Vehicle class", STAGE.vclass(f.vehicle_class)], ["Location", [f.address, f.city, f.state, f.zip].filter(Boolean).join(", ")],
     ["VIN", f.vin, "mono"], ["Contact", [f.name, f.phone].filter(Boolean).join(" · ")], ["Requested", fmtWhen(j.created_at)], ["Last update", fmtWhen(j.updated_at)]].filter(([, v]) => v);
   const rep = canceled ? null : j.report, when = j.planned || "";   // the provider's proposed day and part of day, or the seed's visit time
@@ -337,7 +335,7 @@ export function Job({ id, ctx }){
   // the reason the request was withdrawn with is canceled.reason (Kavin's page read cancel_reason, which is never sent)
   return (
     <section className="pad jobpage">
-      {head(<>{`${vehicleOf(f)} `}<span className="pill gray mono jobtag" title={j.id}>{jobRef(j.id)}</span></>, lead,
+      {head(<>{`${vehicleOf(f)} `}<span className="pill gray mono jobtag" title={j.id}>{jobRef(j.id)}</span></>,
         CANCELABLE.includes(j.stage) ? <button className="btn sm danger" id="cancelJob" disabled={canceling} onClick={cancel}>{canceling ? "Cancelling" : "Cancel request"}</button> : null,
         [STAGE.of(j.stage).pill, STAGE.of(j.stage).label])}
       <div className="cards" id="jobSteps">{canceled

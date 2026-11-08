@@ -31,11 +31,11 @@ export function Team({ ctx }){
   const call = (name, ...args) => portal.teamWrite(name, ...args);
 
   if (!loaded) return (<>
-    <section className="pad greet"><div className="gt"><h1>Team</h1><p>People at your company who can request inspections and read reports.</p><div className="meta" id="teamMeta"><Sk w={160} h={13} /></div></div></section>
+    <section className="pad greet"><div className="gt"><h1>Team</h1><div className="meta" id="teamMeta"><Sk w={160} h={13} /></div></div></section>
     <div id="members"><SkelRows n={3} cols={4} /></div>
   </>);
   if (!team) return (<>
-    <section className="pad greet"><div className="gt"><h1>Team</h1><p>People at your company who can request inspections and read reports.</p><div className="meta" id="teamMeta"></div></div></section>
+    <section className="pad greet"><div className="gt"><h1>Team</h1><div className="meta" id="teamMeta"></div></div></section>
     <div id="members"><div className="empty"><b>No workspace</b>Your account is not in a workspace yet.</div></div>
   </>);
 
@@ -78,7 +78,7 @@ export function Team({ ctx }){
   const copy = () => navigator.clipboard.writeText(link.url).then(() => notify("Copied", "The invite link is on your clipboard.", "blue", 2500), () => {});
 
   return (<>
-    <section className="pad greet"><div className="gt"><h1>Team</h1><p>People at your company who can request inspections and read reports.</p>
+    <section className="pad greet"><div className="gt"><h1>Team</h1>
       <div className="meta" id="teamMeta"><span><b>{team.org.name}</b></span><span>{`${team.members.length} member${team.members.length === 1 ? "" : "s"}`}</span><span>{`You are ${my === "OWNER" ? "an owner" : my === "ADMIN" ? "an admin" : "a user"}`}</span></div></div></section>
     <div id="members">
       <div className="tablewrap listgap"><table className="rtable"><thead><tr><th>Member</th><th>Role</th><th>Joined</th><th className="r"></th></tr></thead><tbody>
@@ -148,7 +148,7 @@ export function Settings({ ctx }){
     catch (x) { notify("Could not save", x.message, "red"); setSaving(s => ({...s, me: false})); }
   };
   return (
-    <section className="pad"><div className="greet"><div className="gt"><h1>Settings</h1><p>Your workspace and your account.</p></div></div>
+    <section className="pad"><div className="greet"><div className="gt"><h1>Settings</h1></div></div>
       <div className="cols2" id="settingsCols">
         <div className="kv" id="wsCard"><h3>Workspace</h3>
           <form id="wsForm" onSubmit={renameWs}><input id="wsName" ref={wsEl} aria-label="Workspace name" maxLength={80} disabled={loaded && !canRename} /><button className="btn primary sm" type="submit" id="wsSave" disabled={(loaded && !canRename) || saving.ws}>Save</button></form>
@@ -170,6 +170,6 @@ export function Settings({ ctx }){
 /* ---- Invoices: a placeholder until the section is specified, as Kavin's is ---- */
 
 export const Invoices = () => (
-  <section className="pad"><div className="greet"><div className="gt"><h1>Invoices</h1><p>One invoice per billing period covering every inspection.</p></div></div>
+  <section className="pad"><div className="greet"><div className="gt"><h1>Invoices</h1></div></div>
     <div className="placeholder" id="ph"><b>No invoices yet</b>Billing is set up once your first jobs complete.</div></section>
 );

@@ -41,7 +41,7 @@ const match = path => ROUTES.find(([re]) => re.test(path));
 let lastPath = "/", booted = false, pending = null;
 
 /** Open the portal at a page, as the console's links do: a report opens in the workspace it is kept in
- *  (a walk-in's, in Inspectd's own), switching to it as Kavin's switcher would, with a reload. */
+ *  (a consumer's, in Inspectd Consumers), switching to it as Kavin's switcher would, with a reload. */
 export function portalAt(path, { report = null } = {}){ pending = {path, report}; }
 
 /* ---- Overview: the request hero, what you get, and the recent reports ---- */
@@ -54,7 +54,7 @@ function Overview({ ctx }){
   const svg = d => `<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
   return (
     <section id="home" className="pad">
-      <div className="greet"><div className="gt"><h1>Overview</h1><p>Your inspection requests and finished reports in one place. Tell us where a car is; we book a mobile inspector and their report lands here.</p></div></div>
+      <div className="greet"><div className="gt"><h1>Overview</h1></div></div>
       <div className="hero" id="hero">
         <span className="ictile" aria-hidden="true"><Svg src={`<svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l2-4h6l2 4"/><path d="M2 9h12v3H2z"/><circle cx="5" cy="12" r="1"/><circle cx="11" cy="12" r="1"/></svg>`} /></span>
         <b>Request an inspection</b>

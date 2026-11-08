@@ -218,7 +218,7 @@ export function PlatformStoreProvider({ children }){
   }, [commit]);
 
   const value = useMemo(() => ({
-    rows: state.rows, orgs: state.orgs, users: state.users, me: state.users.find(u => u.id === state.meId), meta: state.meta, seededAt: state.seededAt,
+    rows: state.rows, orgs: state.orgs, users: state.users, memberships: state.memberships, me: state.users.find(u => u.id === state.meId), meta: state.meta, seededAt: state.seededAt,
     setRows, fulfill, reset, api, auth, portal,
   }), [state, setRows, fulfill, reset, api, auth, portal]);
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

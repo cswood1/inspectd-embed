@@ -3,7 +3,7 @@
  * stores (its history, search, links, report, cancellation, resets), so there is no separate log to keep.
  */
 
-import { plannedLabel } from "./jobModel.js";
+import { plannedLabel, isConsumer } from "./jobModel.js";
 
 const money = c => "$" + ((c || 0) / 100).toFixed(2);
 
@@ -12,7 +12,7 @@ export function activityOf(r){
   const m = r.meta || {}, out = [];
   const add = (at, what, who = "", detail = "") => { if (at) out.push({at, what, who, detail}); };
 
-  add(r.created_at, "Request received", r.org ? `${r.form.name}, ${r.org.name}` : r.form.name, m.order ? `Paid ${money(m.order.amount_cents)}` : "");
+  add(r.created_at, "Request received", !isConsumer(r) && r.org ? `${r.form.name}, ${r.org.name}${r.partner ? " embed" : ""}` : r.form.name, m.order ? `Paid ${money(m.order.amount_cents)}` : "");
   const s = r.search;
   if (s) {
     const n = (r.result?.shops || []).length;

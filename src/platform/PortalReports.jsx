@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
 import { PageDock, paged } from "./ui.jsx";
-import { Svg, title, worst, DOT, fmtDate, issuesOf, jobRef, SkelRows, ReportRows, useLoaded } from "./portalUi.jsx";
+import { Svg, title, worst, DOT, fmtDate, issuesOf, jobRef, SkelRows, ReportRows, useLoaded, STAGE } from "./portalUi.jsx";
 
 /*
  * The portal's Reports list (ui/reports-client/client.js) and Vehicles (ui/vehicles-client/client.js).
@@ -17,7 +17,7 @@ export function Reports({ ctx }){
   const reports = loaded ? portal.reports().reports : [];
   const pg = paged(reports, page);
   return (<>
-    <section className="pad greet"><div className="gt"><h1>Reports</h1><p>Every finished inspection, newest first. Each one comes from the inspector who did the job. Open one for the photos, condition scores and full checklist.</p></div>
+    <section className="pad greet"><div className="gt"><h1>Reports</h1></div>
       <div className="actions"><button className="btn accent" id="newReqBtn" onClick={() => ctx.navigate("/jobs/new")}>New inspection request</button></div></section>
     <div id="reportsTable">{!loaded ? <SkelRows n={6} /> : reports.length
       ? <div className="listgap"><ReportRows rows={pg.slice} onOpen={id => ctx.navigate(`/reports/${id}`)} /></div>
@@ -83,7 +83,7 @@ export function Vehicles({ ctx, expand = false }){
       </details>);
   });
   return (
-    <section className="pad"><div className="greet"><div className="gt"><h1>Vehicles</h1><p>Every car you have had inspected, one row each. Open a vehicle to see all of its reports and any inspection still in progress.</p></div></div>
+    <section className="pad"><div className="greet"><div className="gt"><h1>Vehicles</h1></div></div>
       <div className="toolbar"><div className="search"><Svg src={SEARCH} /><input id="vq" type="search" placeholder="Search VIN, make, model" autoComplete="off" value={raw} onChange={e => setRaw(e.target.value)} /></div>
         <span className="chip" id="vcount">{loaded && all.length ? `${list.length} of ${all.length}` : ""}</span></div>
       <div id="vehicles" className="listgap">{body}</div></section>

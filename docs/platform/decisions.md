@@ -95,3 +95,48 @@ or two: what was decided and, where it isn't obvious, why. Newest at the bottom 
 - **A complete job reads "Complete" at any age**; the clone's 14-day "job is closed" message is gone.
 - **Not yet:** a request has no timeframe field, so the card's timeframe line shows only when one exists. Report upload
   still shows the demo notice; Prism ingest comes next.
+
+## Who orders (demo structure)
+
+- **Every job has an "ordered by": Consumer, Dealer, Marketplace or Fleet** (`ORDERED_BY` in `jobModel.js`). It is the
+  type of the workspace the job lands in, stored on the job (`ordered_by`) and on the workspace (`type`). A job made in
+  the portal takes its workspace's type.
+- **One client portal workspace per kind of customer.** Inspectd Consumers (Consumer) holds every consumer inspection,
+  which we run ourselves; it is the old Inspectd workspace renamed (slug `inspectd-consumers`), still owned by Kavin, Cam
+  and Scott. Meridian Fleet Services (Fleet), Crestview Denver (Dealer) and ReBuilt Autos (Marketplace) are the
+  businesses. Northline Mobility and Harbor Lease Remarketing are gone; their fleet and lease jobs moved to Meridian.
+- **Consumers now have a workspace, so "has a workspace" no longer means "is a business".** Who a job is for, the
+  duplicate-email flag, related jobs and the activity line ask `isConsumer` instead. A consumer's job still carries the
+  order they paid.
+- **The Consumer type is only for jobs whose end customer is a consumer:** a consumer's own order, or a shopper ordering
+  through a marketplace's embed (ReBuilt Autos). A business (a dealer or a fleet) orders a Condition Report or an
+  Arbitration. The rule is `consumerTypeAllowed` in `jobModel.js`. A business workspace's request form doesn't offer
+  Consumer and starts on Condition Report. Its bulk upload reads a blank type as Condition Report / General and skips a
+  row that asks for Consumer. The server refuses a Consumer request from a business workspace. Crestview's
+  pre-purchase jobs became Condition Report / General; its arbitration jobs stay Arbitration.
+- **Crestview Denver is one store of the Crestview Auto Group**, named the way dealer groups name their locations. The
+  dealer site (the external surfaces) stays the group; the workspace and its emails are the store.
+- **ReBuilt Autos replaces Rebuildr.** It is a fictional rebuilt-title marketplace. Its shoppers order through its embed
+  on a listing, pay at checkout (with the partner's share), and the job lands in ReBuilt's workspace with the listing's
+  facts (`listings.rebuiltautos.example`). The panel reads "Marketplace · ReBuilt Autos, through its embed".
+- **Geography.** Consumer jobs are in Denver, Dallas, Atlanta and Nashville only. Meridian's are mostly in those four,
+  plus eight of the ten real reports elsewhere (fleets are national). Crestview's are in Denver, plus the two real reports
+  it bought out of state (the Berkeley 718 and the Fairfield Camaro arbitration). ReBuilt's are in Salt Lake City, which
+  has five fictional providers. Consumers and ReBuilt have no reports yet; the next step adds real ones.
+- **Salt Lake City price tiers are estimates** (tier 1 in the city, tier 2 in the suburbs). The tier file the seed's
+  other ZIPs come from has no Utah rows here.
+- **A provider search stays in the job's metro.** A job in a seeded ZIP in a metro's state searches that metro's
+  providers only; anywhere else falls back to the nearest metro (now including Salt Lake City), as before. Without this, a
+  Salt Lake City job asking for up to seven inspectors would list Denver shops 370 miles away.
+- **Canceling a paid job from the portal refunds it**, as canceling from the console does. Before this, only business
+  jobs (never paid) could be canceled there, so the case didn't arise.
+- **The board shows Ordered by, not the inspection type.** The Customer column is the person for a consumer and the
+  company for a business. The type and subtype stay in the job details. The filter is an Ordered by filter.
+- **Customers: a consumer is one row per email; a business is one row per workspace.** A business's contact is the
+  workspace's owner and its location its headquarters. Two cards across the top count consumer and business customers and
+  their inspections, and filter the table. A row opens the board searched for that email or company name.
+- **Providers are grouped into blocks by metro** (Denver, Dallas, Atlanta, Nashville, Salt Lake City), with Lemon Squad
+  in National. The tab is no longer paged; it lists the providers the searches have found, as before.
+- **No subtitle under page headings**, in the console or the portal. The job page's lead sentence went with them; the
+  stage cards below say the same. The console Reports page lost its link to the portal's report dashboard; "View
+  report" in the job panel still opens a report.

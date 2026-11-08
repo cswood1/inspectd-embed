@@ -271,7 +271,7 @@ export function Settings({ onOpenPortal }){
   );
 
   return (<>
-    <div className="pad greet"><div className="gt"><h1>Settings</h1><p>Workspaces and their teams, who reaches this console, your own account, and how this deployment is set up.</p></div></div>
+    <div className="pad greet"><div className="gt"><h1>Settings</h1></div></div>
     <div className="pad setlayout">
       <nav className="subnav" id="subnav" aria-label="Settings sections">
         {SECTIONS.map(([k, label, note]) => <a key={k} href={`#${k}`} data-k={k} className={k === pane ? "on" : ""} onClick={e => { stay(e); setPane(k); }}>{label}<small>{note}</small></a>)}

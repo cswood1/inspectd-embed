@@ -51,6 +51,13 @@ export const ZIPS = {
   "80011": {city: "Aurora", state: "CO", lat: 39.744033, lon: -104.790013, tier: 2},
   "80226": {city: "Lakewood", state: "CO", lat: 39.710131, lon: -105.092127, tier: 1},
   "80120": {city: "Littleton", state: "CO", lat: 39.593836, lon: -105.01146, tier: 2},
+  // Salt Lake City, where ReBuilt Autos' shoppers buy. Centroids from us-zips; these tiers are estimates (tier 1 for the
+  // city, tier 2 for the suburbs), not from zip_tiers.csv.gz, which the demo doesn't have for Utah.
+  "84101": {city: "Salt Lake City", state: "UT", lat: 40.756311, lon: -111.899962, tier: 1},
+  "84106": {city: "Salt Lake City", state: "UT", lat: 40.706768, lon: -111.855726, tier: 1},
+  "84119": {city: "West Valley City", state: "UT", lat: 40.700258, lon: -111.946425, tier: 2},
+  "84070": {city: "Sandy", state: "UT", lat: 40.577114, lon: -111.889106, tier: 2},
+  "84047": {city: "Midvale", state: "UT", lat: 40.615317, lon: -111.891815, tier: 2},
   // where the ten real reports were inspected
   "35611": {city: "Athens", state: "AL", lat: 34.773833, lon: -87.084145, tier: 4},
   "94533": {city: "Fairfield", state: "CA", lat: 38.280745, lon: -122.00638, tier: 2},
@@ -83,7 +90,7 @@ export const payoutAt = (zip, vehicleClass) => payoutFor(ZIPS[zip]?.tier, vehicl
 const miles = (a, b) => { const R = 3958.8, rad = d => d * Math.PI / 180, dLat = rad(b.lat - a.lat), dLon = rad(b.lon - a.lon);
   const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLon / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(h)); };
 
-/* ---- providers: mobile inspectors and a few shops, seven per metro ---- */
+/* ---- providers: mobile inspectors and a few shops, seven per launch metro and five in Salt Lake City ---- */
 
 // [base ZIP, name, street address ("" for mobile), phone, domain, hours, services, rating, coverage, notes]
 const P = [
@@ -118,6 +125,12 @@ const P = [
   ["80120", "Littleton Motorworks Inspection", "5600 S Broadway, Littleton, CO 80120", "(303) 555-0184", "littletonmotorworks.com", "Mon-Fri 7:30am-5:30pm", "Pre-purchase, diagnostics", "4.7 stars · 177 reviews", "", ""],
   ["80120", "Columbine Vehicle Inspection", "", "(720) 555-0187", "columbineinspect.com", "Mon-Sat 8am-5pm", "Lease end, auction condition reports", "4.5 stars · 66 reviews", "Mobile, covers Littleton, Highlands Ranch and Ken Caryl", ""],
   ["80226", "Highline Canal Auto Inspect", "", "(303) 555-0190", "highlinecanalauto.com", "Mon-Fri 8am-6pm", "Pre-purchase, fleet de-fleet checks", "4.6 stars · 58 reviews", "Mobile, covers Lakewood, Denver and Littleton", ""],
+
+  ["84101", "Wasatch Mobile Inspections", "", "(801) 555-0114", "wasatchmobileinspect.com", "Mon-Sat 7am-7pm", "Pre-purchase, lease return, fleet condition reports", "4.8 stars · 211 reviews", "Mobile, covers Salt Lake City, South Salt Lake and North Salt Lake", ""],
+  ["84106", "Sugar House Auto Diagnostics", "2150 S Highland Dr, Salt Lake City, UT 84106", "(801) 555-0126", "sugarhouseautodiag.com", "Mon-Fri 7:30am-6pm", "Pre-purchase, diagnostics, EV battery health", "4.7 stars · 164 reviews", "", "EV certified (Tesla, Ford, Hyundai)."],
+  ["84119", "Jordan River Rebuilt Title Inspections", "", "(385) 555-0135", "jordanriverinspect.com", "Mon-Sat 8am-6pm", "Pre-purchase, rebuilt and salvage title checks", "4.8 stars · 97 reviews", "Mobile, covers West Valley City, Taylorsville and Kearns", "Rebuilt-title specialist; documents prior collision repairs panel by panel."],
+  ["84070", "Lone Peak Vehicle Inspect", "", "(801) 555-0144", "lonepeakinspect.com", "Daily 8am-7pm", "Pre-purchase, lease end", "4.6 stars · 72 reviews", "Mobile, covers Sandy, Draper and South Jordan", ""],
+  ["84047", "Midvale Motor Check", "7240 S State St, Midvale, UT 84047", "(801) 555-0153", "midvalemotorcheck.com", "Mon-Fri 8am-5:30pm", "Pre-purchase, diagnostics, rebuilt title checks", "4.5 stars · 118 reviews", "", "Lift inspections on site; frame measurements on request."],
 ];
 export const PROVIDERS = P.map(([zip, name, address, phone, domain, hours, services, rating, coverage, notes]) => ({
   zip, name, address, phone, website: `https://www.${domain}`, email: `${address ? "service" : "bookings"}@${domain}`, hours, services, rating,
@@ -127,7 +140,17 @@ export const PROVIDERS = P.map(([zip, name, address, phone, domain, hours, servi
 /* ---- where a job is, for any ZIP ------------------------------------ */
 
 // The metros the seed has providers in, each by its center ZIP. Every provider belongs to the metro in its state.
-const METROS = ["75201", "30303", "37203", "80202"].map(zip => ({zip, ...ZIPS[zip]}));
+const METROS = ["75201", "30303", "37203", "80202", "84101"].map(zip => ({zip, ...ZIPS[zip]}));
+const METRO_OF_STATE = Object.fromEntries(METROS.map(m => [m.state, m.city]));
+// the Providers tab's blocks: the four launch metros, Salt Lake City, then the national network
+export const PROVIDER_METROS = ["Denver", "Dallas", "Atlanta", "Nashville", "Salt Lake City", "National"];
+const PROVIDER_ZIP = new Map(PROVIDERS.map(p => [p.website.toLowerCase(), p.zip]));
+/** Which block a provider the searches found sits in: its seed metro, "National" for Lemon Squad, else "Other". */
+export function providerMetro(shop){
+  if ((shop.name || "").trim().toLowerCase() === LEMON_SQUAD.name.toLowerCase()) return "National";
+  const zip = PROVIDER_ZIP.get(String(shop.website || "").toLowerCase()) || PROVIDERS.find(p => p.name === shop.name)?.zip;
+  return (zip && METRO_OF_STATE[ZIPS[zip].state]) || "Other";
+}
 // approximate geographic center of each state, for a ZIP that us-zips doesn't know
 const STATE_CENTERS = {AL: [32.8, -86.8], AK: [61.4, -152.3], AZ: [34.2, -111.7], AR: [34.9, -92.4], CA: [37.2, -119.5], CO: [39.0, -105.5], CT: [41.6, -72.7],
   DE: [39.0, -75.5], DC: [38.9, -77.0], FL: [28.6, -82.4], GA: [32.7, -83.4], HI: [20.8, -156.3], ID: [44.4, -114.6], IL: [40.0, -89.2], IN: [39.9, -86.3],
@@ -149,14 +172,15 @@ export function placeOf(zip, state){
 
 /**
  * What a provider search finds for a job: the nearest providers in Kavin's shop shape, located shops by measured
- * distance first and mobile inspectors after them (research/geo.py locate). A job in one of the seed's own ZIPs
- * searches every provider; anywhere else falls back to the providers of the nearest seeded metro, so the search
- * always finishes with someone. `attempt` varies a rerun.
+ * distance first and mobile inspectors after them (research/geo.py locate). A job in one of the seed's ZIPs in a
+ * metro's state searches that metro's providers; anywhere else falls back to the providers of the nearest seeded
+ * metro, so the search always finishes with someone. `attempt` varies a rerun.
  */
 export function lookupFor(row, attempt = 0){
-  const f = row.form, origin = placeOf(f.zip, f.state);
-  const metro = ZIPS[String(f.zip || "").slice(0, 5)] ? null : METROS.map(m => ({...m, d: miles(origin, m)})).sort((a, b) => a.d - b.d)[0];
-  const pool = metro ? PROVIDERS.filter(p => ZIPS[p.zip].state === metro.state) : PROVIDERS;
+  const f = row.form, origin = placeOf(f.zip, f.state), seeded = ZIPS[String(f.zip || "").slice(0, 5)];
+  const local = seeded && METRO_OF_STATE[seeded.state] ? seeded.state : null;
+  const metro = local ? null : METROS.map(m => ({...m, d: miles(origin, m)})).sort((a, b) => a.d - b.d)[0];
+  const pool = PROVIDERS.filter(p => ZIPS[p.zip].state === (local || metro.state));
   const n = 4 + hashStr(row.id + ":" + attempt) % 4;   // 4 to 7
   const near = pool.map(p => ({p, d: miles(origin, ZIPS[p.zip])})).sort((a, b) => a.d - b.d).slice(0, n);
   const shops = near.map(({p, d}) => {
@@ -181,7 +205,7 @@ export function lookupFor(row, attempt = 0){
 
 /* ---- people ------------------------------------------------------- */
 
-export const SEED_VERSION = 8;   // bump when the seed changes shape: a stored older seed is replaced
+export const SEED_VERSION = 10;   // bump when the seed changes shape: a stored older seed is replaced
 export const PORTAL = "https://portal.inspectd.com";
 // The links the demo hands out (an inspector's job link) are built on the page's own origin, so a copied link opens
 // inside the demo, on localhost, a preview or staging alike. Invitation links stay on PORTAL: the demo has no invite page.
@@ -192,37 +216,44 @@ export const PROVIDER_TERMS_VERSION = "1";   // booking.provider_terms(): what a
 export const jobRef = id => `J-${id.slice(0, 6).toUpperCase()}`;
 export const CAM = {name: "Cam Wood", email: "cam@inspectd.com"};
 
-// [key, name, domain]: the business workspaces, and the people who file their requests
+// [key, name, email domain, who orders (jobModel ORDERED_BY), headquarters]: the client portal's workspaces, one per
+// kind of customer. Inspectd Consumers holds every consumer inspection, which we run ourselves; the others are businesses.
 const ORGS = [
-  ["meridian", "Meridian Fleet Services", "meridianfleet.com"],
-  ["northline", "Northline Mobility", "northlinemobility.com"],
-  ["harbor", "Harbor Lease Remarketing", "harborlease.com"],
-  ["crestview", DEALER.name, DEALER.url],
+  ["inspectd", "Inspectd Consumers", "inspectd.com", "consumer", ""],
+  ["meridian", "Meridian Fleet Services", "meridianfleet.com", "fleet", "Dallas, TX"],
+  ["crestview", "Crestview Denver", DEALER.url, "dealer", `${DEALER.city}, ${DEALER.state}`],   // one store of the Crestview Auto Group
+  ["rebuilt", "ReBuilt Autos", "rebuiltautos.example", "marketplace", "Salt Lake City, UT"],
 ];
+// the people at a business who file its requests
 const USERS = {
   dana: ["meridian", "Dana Whitfield", "dana.whitfield", "(214) 555-0131"],
   luis: ["meridian", "Luis Ortega", "luis.ortega", "(404) 555-0147"],
-  jordan: ["northline", "Jordan Ellis", "jordan.ellis", "(972) 555-0158"],
-  mei: ["northline", "Mei Tanaka", "mei.tanaka", "(678) 555-0163"],
-  rachel: ["harbor", "Rachel Boone", "rachel.boone", "(615) 555-0173"],
-  andre: ["harbor", "Andre Kim", "andre.kim", "(770) 555-0176"],
+  tasha: ["meridian", "Tasha Morel", "tasha.morel", "(972) 555-0161"],
   tom: ["crestview", "Tom Becker", "tbecker", "(303) 555-0149"],
 };
-// walk-ins: people who paid on the public form, no workspace
-const WALKINS = {
+// people who order for themselves: consumers who paid on the public form, and shoppers who ordered through
+// ReBuilt Autos' embed on one of its listings (their jobs carry `partner`)
+const PEOPLE = {
   marcus: ["Marcus Hale", "marcus.hale@pinemail.net", "(214) 555-0185"],
   elena: ["Elena Ruiz", "elena.ruiz@pinemail.net", "(404) 555-0188"],
   kevin: ["Kevin Doyle", "kdoyle@pinemail.net", "(615) 555-0191"],
   aisha: ["Aisha Grant", "aisha.grant@pinemail.net", "(720) 555-0193"],
   brian: ["Brian Cho", "brian.cho@pinemail.net", "(770) 555-0195"],
   jasmine: ["Jasmine Patel", "jasmine.patel@pinemail.net", "(615) 555-0197"],
-  rafael: ["Rafael Ortiz", "rafael.ortiz@pinemail.net", "(626) 555-0172"],
-  omar: ["Omar Haddad", "omar.haddad@pinemail.net", "(209) 555-0183"],
+  nicole: ["Nicole Pham", "nicole.pham@pinemail.net", "(404) 555-0189"],
+  derek: ["Derek Lawson", "derek.lawson@pinemail.net", "(678) 555-0192"],
+  tyler: ["Tyler Brooks", "tyler.brooks@pinemail.net", "(469) 555-0186"],
+  hannah: ["Hannah Reyes", "hannah.reyes@pinemail.net", "(303) 555-0194"],
+  logan: ["Logan Pratt", "logan.pratt@pinemail.net", "(801) 555-0171"],
+  brooke: ["Brooke Christensen", "brooke.christensen@pinemail.net", "(385) 555-0177"],
+  jared: ["Jared Nielsen", "jared.nielsen@pinemail.net", "(801) 555-0182"],
 };
-// the pilot partner whose listing sent one shopper (its public profile, apps/partners/registry PUBLIC)
+// the marketplace partner whose embed its shoppers order through (its public profile, apps/partners/registry PUBLIC).
+// `org` is the workspace its orders land in.
 export const PARTNERS = {
-  rebuildr: {key: "rebuildr", name: "Rebuildr", short: "Rebuildr", brand: "co-brand", logo: "", accent: "#0f766e",
-             lock: ["year", "make", "model", "vin"], reimbursement: "", listing_note: "Rebuilt-title marketplace. The listing carries the car's damage history.", share_bps: 500},
+  "rebuilt-autos": {key: "rebuilt-autos", name: "ReBuilt Autos", short: "ReBuilt", brand: "co-brand", logo: "", accent: "#0f766e",
+                    lock: ["year", "make", "model", "vin"], reimbursement: "", listing_note: "Rebuilt-title marketplace. The listing carries the car's damage history.",
+                    share_bps: 500, org: "rebuilt", listings: "https://listings.rebuiltautos.example"},
 };
 
 /* ---- the jobs ------------------------------------------------------ */
@@ -234,19 +265,21 @@ export const LEMON_SQUAD = {name: "Lemon Squad", address: "", phone: "", website
   notes: "Inspector dispatched to the vehicle; the report comes back through the job link.", mobile: true, sources: ["https://www.lemonsquad.com"]};
 
 // [report id (tools/report-conversion/manifest.json), who, street, [type, subtype], class, created days ago, inspected days ago, form notes]
-// Each job takes its report's car, VIN and city, so the job and its report always agree.
+// Each job takes its report's car, VIN and city, so the job and its report always agree. A business never orders
+// the Consumer type (jobModel.consumerTypeAllowed). Fleets are national, so
+// Meridian's are wherever its cars are; Crestview buys out of state.
 const CR = t => ["condition", t], CONSUMER = t => ["consumer", t], ARB = ["arbitration", null];
 export const REPORT_JOBS = [
   ["20261021-161204-3c9e1a", "dana", "1220 Hwy 72 E", CR("lease-return"), "standard", 18, 15, "Lease return from our north Alabama pool."],
   ["20261027-142810-8b20d4", "luis", "2950 FM 1050", CR("fleet"), "standard", 12, 9, ""],
-  ["20261023-174533-e15f07", "jordan", "23000 Eureka Rd", CR("fleet"), "standard", 16, 13, "Subscription return. Member reported a rattle from the rear on rough roads."],
-  ["20261028-120952-5a7c31", "mei", "3500 Jerome Ave", CONSUMER("pre-purchase"), "standard", 10, 8, "High-mileage unit; deciding whether it goes to retail or auction."],
-  ["20261017-153340-c4d812", "rachel", "140 Englar Rd", CR("lease-return"), "standard", 21, 19, ""],
-  ["20261024-131125-0f6be9", "andre", "1250 S Old Woodward Ave", CR("lease-return"), "exotic", 14, 12, "Lease return headed to the online auction. Listing photos needed."],
-  ["20261025-160218-92ad4e", "tom", "1700 Shattuck Ave", CONSUMER("pre-purchase"), "exotic", 13, 11, "Out-of-state buy. We need the full condition report before we bid."],
+  ["20261023-174533-e15f07", "tasha", "23000 Eureka Rd", CR("fleet"), "standard", 16, 13, "De-fleet from the Detroit pool. The driver reported a rattle from the rear on rough roads."],
+  ["20261028-120952-5a7c31", "luis", "3500 Jerome Ave", CR("general"), "standard", 10, 8, "High-mileage unit; deciding whether it goes to retail or auction."],
+  ["20261017-153340-c4d812", "dana", "140 Englar Rd", CR("lease-return"), "standard", 21, 19, ""],
+  ["20261024-131125-0f6be9", "tasha", "1250 S Old Woodward Ave", CR("lease-return"), "exotic", 14, 12, "Lease return headed to the online auction. Listing photos needed."],
+  ["20261025-160218-92ad4e", "tom", "1700 Shattuck Ave", CR("general"), "exotic", 13, 11, "Out-of-state buy. We need the full condition report before we bid."],
   ["20261014-145907-d73b05", "tom", "2300 Cordelia Rd", ARB, "standard", 24, 22, "Arbitration claim: front bumper and grille damage not disclosed at sale."],
-  ["20261022-171446-6e48c0", "rafael", "15000 Valley Blvd", CONSUMER("pre-purchase"), "exotic", 17, 14, "Buying from a private seller sight unseen. Please look hard at leaks and the interior."],
-  ["20261029-130637-a91f2c", "omar", "3300 G St", CONSUMER("pre-purchase"), "exotic", 9, 7, "The seller says it was garage kept. I would like that confirmed."],
+  ["20261022-171446-6e48c0", "dana", "15000 Valley Blvd", CR("general"), "exotic", 17, 14, "Executive car coming off assignment. Please look hard at leaks and the interior before we remarket it."],
+  ["20261029-130637-a91f2c", "luis", "3300 G St", CR("general"), "exotic", 9, 7, "Executive car off assignment. The driver says it was garage kept; please confirm before it goes to auction."],
 ];
 function reportJob([id, who, street, type, cls, created, inspected, notes]){
   const rep = REPORT_INDEX[id], v = rep.vehicle, zip = rep.inspection.location.match(/(\d{5})\s*$/)[1];
@@ -254,48 +287,54 @@ function reportJob([id, who, street, type, cls, created, inspected, notes]){
 }
 
 // [who, zip, street, [year, make, model, vin prefix, plant], [type, subtype], vehicle class, status, providers search, days ago, extras]
-// who: a user key (a workspace request) or a walk-in key. search: null (not started), "done" or "failed".
-// extras: form notes, internal notes, batch, link ("offered" or "rejected"; every Dispatching job has a live one), contacted...
+// who: a business user (USERS) or a person ordering for themselves (PEOPLE). search: null (not started), "done" or "failed".
+// extras: form notes, internal notes, batch, link ("offered" or "rejected"; every Dispatching job has a live one), contacted,
+// partner and listing (an order through a partner's embed)...
 const PRE = CONSUMER("pre-purchase"), POST = CONSUMER("post-purchase"), FLEET = CR("fleet"), LEASE = CR("lease-return"), GENERAL = CR("general");
+const REBUILT = "rebuilt-autos";
 const J = [
   // new: not searched yet
   ["dana", "75038", "3200 W Airport Fwy", [2024, "Toyota", "Camry", "4T1C11AK", "U"], FLEET, "standard", "new", null, 0.12, {notes: "De-fleet batch. Row C at our Irving lot; keys at the front desk."}],
-  ["andre", "30009", "11720 Amber Park Dr", [2023, "Nissan", "Rogue", "5N1BT3BB", "C"], LEASE, "standard", "new", null, 0.38, {}],
+  ["tasha", "30009", "11720 Amber Park Dr", [2023, "Nissan", "Rogue", "5N1BT3BB", "C"], LEASE, "standard", "new", null, 0.38, {}],
   ["aisha", "80226", "1420 S Teller St", [2022, "Tesla", "Model Y", "7SAYGDEE", "F"], PRE, "ev", "new", null, 0.66, {notes: "Private sale. I'd like a battery health number before I pay."}],
   // new: providers found (or the search failed), no link out yet
   ["dana", "75024", "6100 W Plano Pkwy", [2023, "Chevrolet", "Malibu", "1G1ZD5ST", "F"], FLEET, "standard", "new", "done", 2.6, {batch: "m-dfw", contacted: [0], inotes: "Called Prairie Line, they can do Thursday morning. Waiting on Dana to confirm lot access."}],
   ["luis", "37203", "1 Music Sq W", [2022, "Jeep", "Grand Cherokee", "1C4RJHBG", "8"], FLEET, "standard", "new", "failed", 1.8, {}],
-  ["mei", "30030", "250 E Ponce de Leon Ave", [2022, "Honda", "CR-V", "7FARW2H5", "E"], PRE, "standard", "new", "done", 3.0, {contacted: [0], inotes: "Left voicemail with two. Decatur Square said they can do it this week."}],
-  ["rachel", "37064", "1800 Galleria Blvd", [2023, "Mercedes-Benz", "GLE 350", "4JGFB4KB", "A"], GENERAL, "exotic", "new", "done", 3.7, {contacted: [0]}],
+  ["nicole", "30030", "250 E Ponce de Leon Ave", [2022, "Honda", "CR-V", "7FARW2H5", "E"], PRE, "standard", "new", "done", 3.0, {contacted: [0], inotes: "Left voicemail with two. Decatur Square said they can do it this week."}],
   ["marcus", "75201", "2525 McKinnon St", [2019, "Lexus", "RX 350", "2T2BZMCA", "C"], POST, "standard", "new", "done", 2.2, {notes: "Bought it last week. I want to know what I'm dealing with before the return window closes."}],
   ["marcus", "75034", "4800 Main St", [2020, "Honda", "Accord", "1HGCV1F3", "A"], PRE, "standard", "new", "done", 1.9, {held: true, name: "Marc Hale", notes: "Second car I'm looking at. Seller is free after 5pm."}],
+  ["logan", "84106", "2280 S 1300 E", [2019, "Toyota", "Tacoma", "3TMCZ5AN", "M"], PRE, "standard", "new", "done", 0.8, {partner: REBUILT, notes: "Rebuilt title. I'd like to know the frame is straight before I put money down.",
+    listing: {id: "RB-51877", mileage: 68420, lot: ["Sugar House Motors", "Kent Ashby", "(801) 555-0108"], damage: [{date: "2023-09-02", type: "collision", areas: ["rear", "left_rear"], severity: "moderate", airbags_deployed: false, odometer_at_damage: 54210, notes: "Bed and rear bumper replaced; state rebuilt inspection passed."}]}}],
   // dispatching: the job link is live
   ["luis", "30303", "180 Peachtree St NW", [2023, "Ford", "Explorer", "1FMSK8DH", "G"], LEASE, "standard", "dispatching", "done", 1.5, {}],
   ["dana", "80202", "1701 Wynkoop St", [2023, "Chevrolet", "Tahoe", "1GNSKNKD", "R"], FLEET, "standard", "dispatching", "done", 2.3, {contacted: [0, 1]}],
   ["dana", "75034", "8800 Gaylord Pkwy", [2024, "Kia", "Forte", "3KPF24AD", "E"], FLEET, "standard", "dispatching", "done", 2.6, {batch: "m-dfw"}],
-  ["jordan", "75201", "2000 Ross Ave", [2023, "Tesla", "Model 3", "5YJ3E1EA", "F"], FLEET, "ev", "dispatching", "done", 1.1, {notes: "Subscriber return at 41k miles. Battery health report needed."}],
+  ["hannah", "80202", "1600 Wewatta St", [2021, "Subaru", "Crosstrek", "JF2GTHMC", "8"], PRE, "standard", "dispatching", "done", 1.2, {notes: "Buying from a coworker. The car is in the garage under our office."}],
   // a provider declined; the link stays live for the others, so the job stays Dispatching
-  ["jordan", "75038", "5215 N O'Connor Blvd", [2023, "Hyundai", "Elantra", "KMHLM4AG", "U"], FLEET, "standard", "dispatching", "done", 3.4, {link: "rejected", contacted: [0]}],
-  ["rachel", "37027", "330 Franklin Rd", [2022, "BMW", "X5", "5UXCR6C0", "9"], LEASE, "exotic", "dispatching", "done", 2.0, {notes: "Lease return. Lessee reports a curb-rashed wheel; please photograph all four."}],
-  ["tom", "80011", DEALER.address, [2021, "Ford", "F-150", "1FTFW1E5", "F"], PRE, "standard", "dispatching", "done", 1.6, {inotes: "Crestview wants it before Saturday's sale."}],
+  ["tasha", "75038", "5215 N O'Connor Blvd", [2023, "Hyundai", "Elantra", "KMHLM4AG", "U"], FLEET, "standard", "dispatching", "done", 3.4, {link: "rejected", contacted: [0]}],
+  ["tasha", "37027", "330 Franklin Rd", [2022, "BMW", "X5", "5UXCR6C0", "9"], LEASE, "exotic", "dispatching", "done", 2.0, {notes: "Lease return. The driver reports a curb-rashed wheel; please photograph all four."}],
+  ["tom", "80011", DEALER.address, [2021, "Ford", "F-150", "1FTFW1E5", "F"], GENERAL, "standard", "dispatching", "done", 1.6, {inotes: "Crestview wants it before Saturday's sale."}],
   ["tom", "80120", "8501 W Bowles Ave", [2022, "Lamborghini", "Huracan EVO", "ZHWUF5ZF", "L"], ARB, "exotic", "dispatching", "done", 0.9, {notes: "Arbitration claim: buyer reports a front lift system fault not disclosed at sale. Need a documented check before the arbitration deadline."}],
   ["elena", "30030", "128 Sycamore St", [2021, "Subaru", "Outback", "4S4BTACC", "3"], POST, "standard", "dispatching", "done", 4.4, {contacted: [0], notes: "Bought from a private seller. The check engine light came on two days later."}],
-  ["jasmine", "37129", "1950 Old Fort Pkwy", [2020, "Honda", "Civic", "2HGFC2F6", "H"], PRE, "standard", "dispatching", "done", 1.3, {partner: "rebuildr", notes: "Want to know the repair quality on the front end before I buy."}],
+  ["jasmine", "37129", "1950 Old Fort Pkwy", [2020, "Honda", "Civic", "2HGFC2F6", "H"], PRE, "standard", "dispatching", "done", 1.3, {notes: "The front bumper looks recently repainted. I'd like to know why before I buy."}],
+  ["brooke", "84070", "10450 S State St", [2018, "Ford", "Escape", "1FMCU9GD", "U"], PRE, "standard", "dispatching", "done", 1.4, {partner: REBUILT, notes: "Want to know the repair quality on the front end before I buy.",
+    listing: {id: "RB-48213", mileage: 41210, lot: ["Jordan Valley Auto Sales", "Dale Prewitt", "(801) 555-0104"], damage: [{date: "2024-03-14", type: "collision", areas: ["front_end", "right_front"], severity: "moderate", airbags_deployed: false, odometer_at_damage: 31870, notes: "Repaired at a certified body shop; state rebuilt inspection passed."}]}}],
   // claimed: booked, the job link claimed
   ["luis", "37129", "2635 Medical Center Pkwy", [2023, "Chevrolet", "Equinox", "3GNAXKEG", "S"], FLEET, "standard", "claimed", "done", 5.8, {inotes: "Booked. Lot attendant knows to expect them."}],
   ["dana", "80226", "14500 W Colfax Ave", [2023, "Ford", "Mustang Mach-E", "3FMTK3SU", "M"], LEASE, "ev", "claimed", "done", 6.4, {notes: "Lease end. Check the charge port door and the glass roof for chips."}],
-  ["jordan", "75024", "5800 Tennyson Pkwy", [2023, "Chrysler", "Pacifica", "2C4RC1BG", "R"], FLEET, "standard", "claimed", "done", 6.9, {}],
-  ["rachel", "37203", "150 3rd Ave S", [2021, "Cadillac", "Escalade", "1GYS4BKL", "R"], GENERAL, "exotic", "claimed", "done", 7.5, {}],
-  ["tom", "80202", "1225 17th St", [2023, "Hyundai", "Ioniq 5", "KM8KN4AE", "U"], PRE, "ev", "claimed", "done", 4.8, {}],
+  ["tasha", "75024", "5800 Tennyson Pkwy", [2023, "Chrysler", "Pacifica", "2C4RC1BG", "R"], FLEET, "standard", "claimed", "done", 6.9, {}],
+  ["tom", "80202", "1225 17th St", [2023, "Hyundai", "Ioniq 5", "KM8KN4AE", "U"], GENERAL, "ev", "claimed", "done", 4.8, {}],
   ["kevin", "37027", "9040 Carothers Pkwy", [1989, "Porsche", "911 Carrera", "WP0AB091", "S"], PRE, "exotic", "claimed", "done", 5.1, {notes: "Seller claims original paint. A paint meter reading on every panel and a compression test, please."}],
-  ["mei", "30009", "3000 Old Alabama Rd", [2022, "Jeep", "Wrangler", "1C4HJXEG", "W"], PRE, "standard", "claimed", "done", 8.2, {}],
+  ["derek", "30009", "3000 Old Alabama Rd", [2022, "Jeep", "Wrangler", "1C4HJXEG", "W"], PRE, "standard", "claimed", "done", 8.2, {}],
+  ["jared", "84119", "3500 S Redwood Rd", [2020, "Hyundai", "Tucson", "KM8J3CA4", "U"], PRE, "standard", "claimed", "done", 3.6, {partner: REBUILT,
+    listing: {id: "RB-50392", mileage: 52630, lot: ["Redwood Road Auto", "Tanya Sorensen", "(385) 555-0111"], damage: [{date: "2022-11-20", type: "hail", areas: ["roof", "hood"], severity: "minor", airbags_deployed: false, odometer_at_damage: 39880, notes: "Paintless dent repair on the roof and hood."}]}}],
   // complete: one job per real report, the car and the place as the report has them (REPORT_JOBS)
   ...REPORT_JOBS.map(reportJob),
   // canceled
   ["brian", "30060", "560 Powder Springs St", [2018, "Mazda", "CX-5", "JM3KFBCM", "0"], PRE, "standard", "canceled", "done", 9, {refund: true, reason: "Customer bought a different vehicle"}],
-  ["jordan", "75034", "3201 Dallas Pkwy", [2021, "Nissan", "Rogue", "5N1AT3AA", "C"], FLEET, "standard", "canceled", "done", 11, {reason: "Vehicle sold before the inspection"}],
-  ["andre", "30303", "55 Trinity Ave SW", [2022, "Nissan", "Altima", "1N4BL4DV", "N"], LEASE, "standard", "canceled", "done", 5.2, {link: "offered", reason: "The lessee bought the car out at lease end"}],
-  ["tom", "80226", "7400 W Colfax Ave", [2023, "Toyota", "RAV4", "2T3P1RFV", "W"], PRE, "standard", "canceled", "done", 4.1, {reason: "The deal fell through; the car went to another buyer"}],
+  ["tyler", "75201", "3100 McKinney Ave", [2021, "Mazda", "CX-30", "3MVDMBBM", "M"], PRE, "standard", "canceled", "done", 6.5, {refund: true, reason: "The seller sold it to someone else first"}],
+  ["luis", "30303", "55 Trinity Ave SW", [2022, "Nissan", "Altima", "1N4BL4DV", "N"], LEASE, "standard", "canceled", "done", 5.2, {link: "offered", reason: "The lessee bought the car out at lease end"}],
+  ["tom", "80226", "7400 W Colfax Ave", [2023, "Toyota", "RAV4", "2T3P1RFV", "W"], GENERAL, "standard", "canceled", "done", 4.1, {reason: "The deal fell through; the car went to another buyer"}],
 ];
 
 const INSPECTORS = ["Ray Delgado", "Megan Shore", "Victor Nunez", "Paige Holloway", "Sam Okafor", "Erin Castillo", "Grant Weller"];
@@ -304,6 +343,7 @@ const DECLINES = {
   "Elantra": [["Booked solid through next week, sorry.", 0]],
   "Huracan EVO": [["Not equipped for lift-system checks on exotics.", 1], ["Out of town until the 20th.", null]],
   "Tahoe": [["Can't get to downtown Denver before Friday.", 2]],
+  "Escape": [["Sandy is outside my area this week.", 1]],
 };
 const shopCard = s => s ? Object.fromEntries(["name", "phone", "email", "address", "website", "hours"].map(k => [k, s[k] || ""])) : null;
 const when = ms => { const d = new Date(ms), o = k => d.toLocaleString("en-US", k); return `${o({weekday: "short"})} ${o({month: "short"})} ${d.getDate()}, ${o({hour: "numeric", minute: "2-digit"})}`; };
@@ -312,23 +352,25 @@ const when = ms => { const d = new Date(ms), o = k => d.toLocaleString("en-US", 
 export function buildSeed(now = Date.now()){
   const r = rng(20261104), id12 = () => pick(r, HEX, 12), DAY = 864e5, HOUR = 36e5;
   const iso = ms => new Date(Math.min(ms, now)).toISOString().replace(/\.\d{3}Z$/, "+00:00");
-  const orgs = Object.fromEntries(ORGS.map(([k, name]) => [k, {id: id12(), name}]));
+  const orgs = Object.fromEntries(ORGS.map(([k, name, , type]) => [k, {id: id12(), name, type}]));
   const users = Object.fromEntries(Object.entries(USERS).map(([k, [org, name, local, phone]]) => [k, {id: id12(), org, name, phone, email: `${local}@${ORGS.find(o => o[0] === org)[2]}`}]));
   const cam = {...CAM, id: id12()};
   const batches = {};
 
   const rows = J.map(([who, zip, street, [year, make, model, prefix, plant], [type, subtype], vehicle_class, status, search, days, x], n) => {
-    const u = users[who], w = WALKINS[who], place = ZIPS[zip];
+    // a business user files for its workspace; a consumer is in Inspectd Consumers; a partner's shopper is in the partner's
+    const u = users[who], w = PEOPLE[who], place = ZIPS[zip], p = x.partner ? PARTNERS[x.partner] : null;
+    const org = orgs[u ? u.org : p ? p.org : "inspectd"];
     const created = batches[x.batch] ?? (now - days * DAY - (n % 5) * 7 * 60e3);
     if (x.batch) batches[x.batch] = created;
     const row = {
-      id: id12(), created_at: iso(created), updated_at: iso(created), status, search: null, notes: x.inotes || "", payout_cents: payoutAt(zip, vehicle_class),
+      id: id12(), created_at: iso(created), updated_at: iso(created), status, search: null, notes: x.inotes || "", payout_cents: payoutAt(zip, vehicle_class), ordered_by: org.type,
       form: {name: u ? u.name : (x.name || w[0]), email: u ? u.email : w[1], phone: u ? u.phone : w[2], year: String(year), make, model,
              vin: x.vin || vin(prefix, year, plant, String(100000 + Math.floor(r() * 899999))), vehicle_class, inspection_type: type, inspection_subtype: subtype,
              address: street, city: place.city, state: place.state, zip, notes: x.notes || ""},
-      // a workspace files from the client portal, one car or a list; a walk-in pays on the public form
-      result: null, meta: {emails: [], history: [{stage: "new", at: iso(created)}], ...(u ? {source: x.batch ? "portal-bulk" : "portal"} : {})},
-      org_id: u ? orgs[u.org].id : null, user_id: u ? u.id : null, org: u ? orgs[u.org] : null,
+      // a business files from the client portal, one car or a list; a consumer pays on the public form, a shopper in the partner's embed
+      result: null, meta: {emails: [], history: [{stage: "new", at: iso(created)}], source: u ? (x.batch ? "portal-bulk" : "portal") : p ? "embed" : "public"},
+      org_id: org.id, user_id: u ? u.id : null, org: {...org},
       partner: null,
     };
     const m = row.meta, veh = `${year} ${make} ${model}`;
@@ -336,22 +378,21 @@ export function buildSeed(now = Date.now()){
     const step = (hours, stage) => { t += hours * HOUR; if (stage) m.history.push({stage, at: iso(t)}); row.updated_at = iso(t); return iso(t); };
     const mail = (to, subject, at, extra = {}) => m.emails.push({to, subject, at, sent: !x.held || to !== row.form.email, ...(x.held && to === row.form.email ? {error: `held: ${to} not on MAIL_ALLOWLIST`} : {id: [8, 4, 4, 4, 12].map(k => pick(r, HEX, k)).join("-")}), ...extra});
 
-    // how it came in: a workspace sends a list and is told once; a walk-in pays on the public form
+    // how it came in: a business sends a list and is told once; a consumer or a shopper pays at checkout
     if (u) mail(u.email, x.batch ? "We received 2 inspection requests" : "We received 1 inspection request", row.created_at);
     else {
-      const p = x.partner ? PARTNERS[x.partner] : null;
       m.order = {...quote(zip, p ? p.share_bps : 0), checkout_id: pick(r, HEX, 16), session_id: "cs_test_" + pick(r, ALNUM, 58), payment_intent: "pi_" + pick(r, ALNUM, 24),
                  amount_cents: quote(zip).price_cents, livemode: false, paid_at: row.created_at};
       mail(row.form.email, `We received your inspection request (${row.id})`, row.created_at);
       if (p) {
-        const {share_bps, ...pub} = p;
+        // the listing the shopper ordered from: what the embed handed over about the car
+        const {share_bps, org: _org, listings, ...pub} = p, l = x.listing, d = l.damage[0];
+        const what = `${d.type[0].toUpperCase()}${d.type.slice(1)}${d.areas.includes("front_end") ? ", front end" : d.areas.includes("rear") ? ", rear" : ""}, repaired`;
         row.partner = pub; m.partner = p.key;
-        m.partner_ref = {role: "shopper", listing: "RB-48213", title: "rebuilt", damage: "Front-end collision, repaired", from_listing: "year,make,model,vin"};
-        m.revroom = {vin: row.form.vin, listing_id: "RB-48213", listing_url: "https://listings.rebuildr.example/RB-48213", seller: "dealership", role: "shopper",
-                     title_status: "rebuilt", mileage: 41210, authorization: "listing",
-                     location: {name: "Stones River Auto Sales", contact_name: "Dale Prewitt", contact_phone: "(615) 555-0104"},
-                     damage: [{date: "2024-03-14", type: "collision", areas: ["front_end", "right_front"], severity: "moderate", airbags_deployed: false,
-                               odometer_at_damage: 31870, notes: "Repaired at a certified body shop; state rebuilt inspection passed."}]};
+        m.partner_ref = {role: "shopper", listing: l.id, title: "rebuilt", damage: what, from_listing: "year,make,model,vin"};
+        m.revroom = {vin: row.form.vin, listing_id: l.id, listing_url: `${listings}/${l.id}`, seller: "dealership", role: "shopper",
+                     title_status: "rebuilt", mileage: l.mileage, authorization: "listing",
+                     location: {name: l.lot[0], contact_name: l.lot[1], contact_phone: l.lot[2]}, damage: l.damage};
       }
     }
     if (!search) return row;
@@ -410,7 +451,7 @@ export function buildSeed(now = Date.now()){
   rows.sort((a, b) => b.created_at.localeCompare(a.created_at));   // the list comes newest first
   const auth = buildAuth(now, orgs, users, cam);
   return {version: SEED_VERSION, seededAt: new Date(now).toISOString(), rows, ...auth, meta: META,
-          reports: buildReports(rows, auth.orgs.find(o => o.slug === "inspectd").id), portal: {orgId: orgs.meridian.id}};
+          reports: buildReports(rows, orgs.inspectd.id), portal: {orgId: orgs.meridian.id}};
 }
 
 /* ---- accounts, workspaces, roles and invitations (apps/auth/store.py) ---- */
@@ -429,26 +470,23 @@ export const INVITATION_DAYS = 7;
 export const slugify = name => (name || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40).replace(/-+$/, "") || "org";
 
 // [workspace key, name, email local part (or a whole address), role, sign-in, joined days ago]
-// The people who file requests keep the ids the jobs above already carry.
+// The people who file requests keep the ids the jobs above already carry. The Inspectd team owns Inspectd Consumers.
 const TEAM = {
   inspectd: [["kavin", "Kavin Jeyasankar", "kavin@inspectd.com", "OWNER", "both", 420], ["cam", "Cam Wood", "cam@inspectd.com", "OWNER", "google", 400],
              ["scott", "Scott Wood", "scott@inspectd.com", "OWNER", "google", 380]],
   meridian: [["greg", "Greg Halvorsen", "greg.halvorsen", "OWNER", "password", 210], ["dana", null, null, "ADMIN", "password", 205],
-             ["luis", null, null, "USER", "google", 160], ["tasha", "Tasha Morel", "tasha.morel", "USER", "password", 44]],
-  northline: [["jordan", null, null, "OWNER", "google", 190], ["mei", null, null, "ADMIN", "google", 150], ["ben", "Ben Carver", "ben.carver", "USER", "password", 31]],
-  harbor: [["rachel", null, null, "OWNER", "password", 175], ["andre", null, null, "ADMIN", "password", 170],
-           ["sofia", "Sofia Lind", "sofia.lind", "ADMIN", "google", 96], ["nate", "Nate Pruitt", "nate.pruitt", "USER", "password", 12]],
+             ["luis", null, null, "USER", "google", 160], ["tasha", null, null, "USER", "password", 44]],
   crestview: [["mark", "Mark Delaney", "mdelaney", "OWNER", "both", 140], ["tom", null, null, "ADMIN", "password", 138], ["jen", "Jen Ortiz", "jortiz", "USER", "", 9]],
+  rebuilt: [["whitney", "Whitney Sorensen", "whitney", "OWNER", "google", 120], ["caleb", "Caleb Durant", "caleb", "ADMIN", "password", 96],
+            ["ivy", "Ivy Tran", "ivy", "USER", "google", 22]],
 };
 // [workspace, email, role, inviter key, sent days ago, team invitation]
 const INVITES = [
   ["inspectd", "ops@inspectd.com", "ADMIN", "cam", 1.2, true],
   ["meridian", "fleet.ops@meridianfleet.com", "USER", "greg", 0.6, false],
   ["meridian", "r.santos@meridianfleet.com", "ADMIN", "dana", 3.1, false],
-  ["northline", "ops@northlinemobility.com", "USER", "jordan", 2.4, false],
-  ["northline", "temp@northlinemobility.com", "USER", "mei", 11, false],   // expired: never shown as pending
-  ["harbor", "claims@harborlease.com", "USER", "rachel", 0.3, false],
-  ["harbor", "j.wexler@harborlease.com", "ADMIN", "andre", 4.8, false],
+  ["rebuilt", "listings@rebuiltautos.example", "USER", "whitney", 2.4, false],
+  ["rebuilt", "temp@rebuiltautos.example", "USER", "caleb", 11, false],   // expired: never shown as pending
   ["crestview", "service@crestviewautogroup.com", "USER", "mark", 1.7, false],
 ];
 
@@ -456,12 +494,13 @@ function buildAuth(now, jobOrgs, jobUsers, cam){
   const r = rng(20261105), id12 = () => pick(r, HEX, 12), DAY = 864e5;
   // a time of day of their own for each person, so a member list doesn't read as one batch
   const at = (days, key = "") => new Date(now - days * DAY - (key ? hashStr(key) % 540 : 0) * 60e3).toISOString();
-  const domain = k => k === "inspectd" ? "inspectd.com" : ORGS.find(o => o[0] === k)[2];
+  const domain = k => ORGS.find(o => o[0] === k)[2];
   const orgs = [], users = [], memberships = [], byKey = {};
-  const ORG_NAMES = {inspectd: "Inspectd", ...Object.fromEntries(ORGS.map(([k, name]) => [k, name]))};
+  const ORG_NAMES = Object.fromEntries(ORGS.map(([k, name]) => [k, name]));
   for (const [k, people] of Object.entries(TEAM)) {
     const oldest = Math.max(...people.map(p => p[5]));
-    const org = {id: k === "inspectd" ? id12() : jobOrgs[k].id, name: ORG_NAMES[k], slug: slugify(ORG_NAMES[k]), created_at: at(oldest + 0.4), created_by: null};
+    const [, , , type, location] = ORGS.find(o => o[0] === k);
+    const org = {id: jobOrgs[k].id, name: ORG_NAMES[k], slug: slugify(ORG_NAMES[k]), type, location, created_at: at(oldest + 0.4), created_by: null};
     orgs.push(org);
     for (const [key, name, email, role, signin, days] of people) {
       let u = byKey[key];
@@ -542,7 +581,7 @@ function buildReports(rows, inspectdOrgId){
     const rep = row.meta?.report, doc = rep?.id && REPORT_INDEX[rep.id]; if (!doc) continue;
     out.push({
       ...doc, uploaded_at: rep.at, request_id: row.id,
-      // a walk-in has no workspace: its report is kept in Inspectd's own (reports_service DIRECT_ORG)
+      // every job has a workspace now; a job without one would be kept in Inspectd's own (reports_service DIRECT_ORG)
       org_id: row.org_id || inspectdOrgId,
       uploaded_by: null, uploaded_by_name: rep.shop?.name || "",                 // the inspector, through their job link
       inspection: {...doc.inspection, date: localDate(Date.parse(rep.at) - 3 * 36e5)},
