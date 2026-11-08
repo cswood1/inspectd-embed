@@ -1,0 +1,800 @@
+{
+ "id": "20260529-034836-a99ba7",
+ "filename": "Audi_092712_inspection.pdf",
+ "uploaded_at": "2026-11-08T18:51:13+00:00",
+ "size": 27481659,
+ "llm_error": "",
+ "scanned": false,
+ "vehicle": {
+  "vin": "WA1LFAFP9DA092712",
+  "year": "2013",
+  "make": "Audi",
+  "model": "Q5",
+  "mileage": "96558",
+  "color": "Black",
+  "interior_color": "Black",
+  "interior_material": "Leather",
+  "engine": "4 Cylinder",
+  "transmission": "Automatic",
+  "drivetrain": "All Wheel Drive",
+  "fuel": "Gas",
+  "stock": "092712"
+ },
+ "inspection": {
+  "report_id": "20260529-034836-a99ba7",
+  "date": "2023-10-02",
+  "location": "Wheat Ridge, CO, 80214",
+  "customer": "Sam Patel"
+ },
+ "findings": [
+  {
+   "item": "Road Test",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Yes"
+  },
+  {
+   "item": "Engine Starting Easily",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine running well after Started",
+   "status": "attention",
+   "section": "Road Test",
+   "notes": "Rpm's randomly gets stuck around 2-3 rpm. Requires further diagnosis.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Transmission performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Differential Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Wheel Bearing Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Braking Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Suspension Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Steering Performance and Alignment",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Tire Pressure System (TPMS)",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Computer Diagnosis/OBD2",
+   "status": "attention",
+   "section": "Road Test",
+   "notes": "Trouble codes found. See pictures.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Back-Up Camera",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Wiper Blades",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Windshield Washer",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Body Panel Alignment",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Scratches",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Paint Condition",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "Rear bumper has been repainted. The paint shows some wear and tear that is consistent with age and mileage. Paint chips on hood.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Seals",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Rust",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "The underside shows areas of surface rust. See pictures.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Exterior Lights",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Sunroof",
+   "status": "fail",
+   "section": "Exterior",
+   "notes": "Sun shade missing",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Power Door Mirrors",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Bumpers",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "Damage 12” on both front and rear bumpers. Rear bumper has been repainted.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Side Moldings",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Convertible Top",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Underbody/Frame Condition",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Glass",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "The windshield has miscellaneous stone chips.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Dings",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dents",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "PDR on doors and fenders. Dent 1-2 on both right doors.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Steering Wheel",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Horn",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cruise Control",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Seat Condition",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "Seats show signs of heavy usage. Wear and tear heavily visible. See pictures. Passenger front seat is damaged.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Heated Seats",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Seat Belts",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Clock",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radio/Navigation/DVD",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Inner Door Panels",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The inner door panels show wear consistent with age and mileage. Driver door arm rest worn, split. Right front door handle is peeling.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Power Locks",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Window Switches",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Center Console",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dash",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dash Lights Working",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Air Conditioning",
+   "status": "fail",
+   "section": "Interior",
+   "notes": "The A/C is not blowing cold and the compressor did not turn on. The A/C system is not functioning. Further diagnosis is necessary.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Heater",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The heater system is not blowing as hot as it should. This may be a sign that the thermostat has failed or is starting to fail. There are other more serious issues that could cause this as well. More diagnosis is necessary.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Rear Defroster",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Carpet",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Floor Mats",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cup Holders",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Headliner",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Blower Motor",
+   "status": "fail",
+   "section": "Interior",
+   "notes": "The blower motor does not work.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Instrument Cluster/Gauges",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Window Function",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Interior Trim",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The interior trim shows normal wear consistent with age and mileage.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Sun Visors",
+   "status": "fail",
+   "section": "Interior",
+   "notes": "Right sun visor latch broken.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Air Filter",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Battery Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Charging System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cooling Fan Condition Mechanical/Electronic",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radiator Cap Sealing Properly",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Hoses and Clamps Age/Cracking",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radiator Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Coolant Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Coolant Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Belts",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Steering System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Steering Fluid Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine Oil Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine Oil Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Transmission Fluid Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Brake System Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Brake Fluid Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Transfer Case Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Differential leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Muffler System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "CV Boots and Joints",
+   "status": "attention",
+   "section": "Mechanical",
+   "notes": "Left axle makes noise, outer CV boot split open.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Shocks and bushings Condition. Leaking?",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Ball Joints and Tie Rods",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Key Fob",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Spare Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "",
+   "page": null,
+   "raw_status": "Yes"
+  },
+  {
+   "item": "Driver's Front Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Michelin 235/55/19, 6/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Passenger's Front Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Michelin 235/55/19, 6/32 tread, wheel: Curb Rash",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Driver's 1st Axle Outer Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Michelin 235/55/19, 6/32 tread, wheel: Curb Rash",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Passenger's 1st Axle Outer Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Michelin 235/55/19, 7/32 tread, wheel: Curb Rash",
+   "page": null,
+   "raw_status": "No Issues"
+  }
+ ],
+ "notes": [],
+ "ratings": [
+  {
+   "name": "NAAA Paint & Body Rating",
+   "value": "3.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Interior Rating",
+   "value": "2.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Frame/Unibody Rating",
+   "value": "3.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Mechanical Rating",
+   "value": "2.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Tires Rating",
+   "value": "2.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Rating",
+   "value": "2.9",
+   "scale": "5"
+  }
+ ],
+ "summaries": [
+  {
+   "section": "Exterior",
+   "text": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos. PDR on doors and fenders. Dent 1-2 on both right doors. Rear bumper has been repainted. The paint shows some wear and tear that is consistent with age and mileage. Paint chips on hood. The underside shows areas of surface rust. See pictures. Damage 12” on both front and rear bumpers. Rear bumper has been repainted. The windshield has miscellaneous stone chips. Sun shade missing from sun roof. Both front tires and the driver side rear tire show 6/32 tread remaining. Passenger side rear tire shows 7/32 tread remaining. The passenger side front wheel and both rear wheels show curb rash."
+  },
+  {
+   "section": "Interior",
+   "text": "Seats show signs of heavy usage. Right front seat is damaged. Wear and tear heavily visible. See pictures. The inner door panels show wear consistent with age and mileage. Driver door arm rest worn, split. Right front door handle is peeling. The interior trim shows normal wear consistent with age and mileage. The heater system is not blowing as hot as it should. This may be a sign that the thermostat has failed or is starting to fail. There are other more serious issues that could cause this as well. More diagnosis is necessary. Sun shade missing. Headliner is dirty needs cleaning. The A/C is not blowing cold and the compressor did not turn on. The A/C system is not functioning. Further diagnosis is necessary. The blower motor does not work. Right sun visor latch broken. Power windows, door locks and mirrors operate as they should at the time of the inspection."
+  },
+  {
+   "section": "Mechanical",
+   "text": "The accessible under hood fluids were noted to be at acceptable levels. There were no leaks noted. The belts and hoses were noted to be in good condition."
+  },
+  {
+   "section": "Road Test",
+   "text": "The engine starts, runs and idles. The Rpm's randomly get stuck around 2-3 rpm. Requires further diagnosis. The vehicle accelerates, the transmission operates smoothly and the brakes stop the vehicle effectively. The steering is responsive and the suspension firm. The left front axle makes noise, outer CV boot split open. A scan of the vehicles on board diagnostic system found multiple codes, none power train related. See pictures."
+  }
+ ],
+ "images": [
+  {
+   "index": 1,
+   "page": 3,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-001.webp",
+   "caption": "",
+   "thumb": "thumb-001.webp",
+   "role": "hero"
+  },
+  {
+   "index": 6,
+   "page": 13,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-006.webp",
+   "caption": "",
+   "thumb": "thumb-006.webp",
+   "role": "interior"
+  },
+  {
+   "index": 66,
+   "page": 73,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-066.webp",
+   "caption": "",
+   "thumb": "thumb-066.webp",
+   "role": "issue"
+  }
+ ],
+ "pages": 76,
+ "source": "layout",
+ "summary": {
+  "pass": 66,
+  "fail": 4,
+  "attention": 14,
+  "na": 0,
+  "unknown": 0,
+  "total": 84
+ },
+ "photo_count": 69
+}

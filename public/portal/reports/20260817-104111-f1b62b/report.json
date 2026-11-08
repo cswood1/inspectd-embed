@@ -1,0 +1,766 @@
+{
+ "id": "20260817-104111-f1b62b",
+ "filename": "Kia_203537_inspection.pdf",
+ "uploaded_at": "2026-11-08T18:56:25+00:00",
+ "size": 76164934,
+ "llm_error": "",
+ "scanned": false,
+ "vehicle": {
+  "vin": "5XXGU4L34JG203537",
+  "year": "2018",
+  "make": "Kia",
+  "model": "Optima",
+  "mileage": "97727",
+  "color": "Grey",
+  "interior_color": "Grey",
+  "interior_material": "Leather",
+  "engine": "4 Cylinder",
+  "transmission": "Automatic",
+  "drivetrain": "Front Wheel Drive",
+  "fuel": "Gas",
+  "stock": "699563"
+ },
+ "inspection": {
+  "report_id": "20260817-104111-f1b62b",
+  "date": "2024-11-08",
+  "location": "Fruit Heights, UT, 84037",
+  "customer": "ReBuilt Autos"
+ },
+ "findings": [
+  {
+   "item": "Road Test",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Yes"
+  },
+  {
+   "item": "Engine Starting Easily",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine running well after Started",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Transmission performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Wheel Bearing Performance",
+   "status": "attention",
+   "section": "Road Test",
+   "notes": "During the road test, I heard a wheel bearing making noise, resonating throughout the vehicle. Further diagnosis is needed to determine which wheel has the faulty bearing.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Braking Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Suspension Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Steering Performance and Alignment",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Tire Pressure System (TPMS)",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Computer Diagnosis/OBD2",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Back-Up Camera",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Wiper Blades",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Windshield Washer",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Body Panel Alignment",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Scratches",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "The exterior of the vehicle was dusty at time of inspection. This can hide minor imperfections. This vehicle has excessive scratches all over the exterior.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Paint Condition",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Seals",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Rust",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Exterior Lights",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Door Mirrors",
+   "status": "fail",
+   "section": "Exterior",
+   "notes": "I noticed that the passenger mirror motor is not functioning, and the mirror glass is broken. Refer to photo #110.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Bumpers",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "I noticed chips and scratches on the front bumper.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Side Moldings",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Underbody/Frame Condition",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Glass",
+   "status": "fail",
+   "section": "Exterior",
+   "notes": "The windshield has a crack. Refer to photo #65.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Dings",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dents",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "I noticed a dent on the passenger rear quarter panel. Refer to photo #3.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Steering Wheel",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "I observed that the steering wheel shows wear.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Horn",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cruise Control",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Seat Condition",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "There is light wear to the seats. Normal for mileage. I noticed minor dirt stains on the seats.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Heated Seats",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Seat Belts",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Clock",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radio/Navigation/DVD",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Inner Door Panels",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "I noted scratches and scuffed marks on the inner door panels.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Power Locks",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Window Switches",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Center Console",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The center console shows wear. I noticed some damage on the leather material of the compartment lid cover. Refer to photo #44.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Dash",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dash Lights Working",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Air Conditioning",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Heater",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Rear Defroster",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Carpet",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The carpet shows moderate wear from use.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Floor Mats",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The floor mats are dirty.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Signs of Smoking?",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cup Holders",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Headliner",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "I noticed minor dirt stains present on the",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Blower Motor",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Instrument Cluster/Gauges",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Unusual Odors",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Window Function",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Interior Trim",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The interior trim of the vehicle shows wear. I noticed that the trim and bed of the cargo area shows scratches and scuff marks.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Sun Visors",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Air Filter",
+   "status": "attention",
+   "section": "Mechanical",
+   "notes": "The air filter is dirty and needs to be replaced.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Battery Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Charging System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cooling Fan Condition Mechanical/Electronic",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radiator Cap Sealing Properly",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Hoses and Clamps Age/Cracking",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radiator Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Coolant Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Coolant Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Belts",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Steering System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine Oil Condition",
+   "status": "attention",
+   "section": "Mechanical",
+   "notes": "The engine oil is dirty and should be changed.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Engine Oil Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Transmission Fluid Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Brake System Condition",
+   "status": "attention",
+   "section": "Mechanical",
+   "notes": "I noticed that the brake rotors edges show signs of rust.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Brake Fluid Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Muffler System",
+   "status": "attention",
+   "section": "Mechanical",
+   "notes": "Surface rust can be found on some portions of the exhaust pipe, welds, and flanges. The exhaust pipe and muffler system has no leaks and sounds good.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "CV Boots and Joints",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Shocks and bushings Condition. Leaking?",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Ball Joints and Tie Rods",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Key Fob",
+   "status": "attention",
+   "section": "Mechanical",
+   "notes": "Only one key fob was shown during inspection.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Driver's Front Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Arizonian 215/55R17, 6/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Passenger's Front Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Arizonian 215/55R17, 4/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Driver's 1st Axle Outer Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Arizonian 215/55R17, 9/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Passenger's 1st Axle Outer Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Arizonian 215/55R17, 8/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  }
+ ],
+ "notes": [
+  "Please refer to the attached pictures and video for visual reference"
+ ],
+ "ratings": [
+  {
+   "name": "NAAA Paint & Body Rating",
+   "value": "3",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Interior Rating",
+   "value": "3.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Frame/Unibody Rating",
+   "value": "4.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Mechanical Rating",
+   "value": "3.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Tires Rating",
+   "value": "3",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Rating",
+   "value": "3.6",
+   "scale": "5"
+  }
+ ],
+ "summaries": [
+  {
+   "section": "Tires",
+   "text": "I observed that the tires of the vehicle are matched with tire brand and sizes however, I noticed that the front right tire shows 4/32 of tire tread depth remaining. I found no issue or curb rash on wheel rims of the vehicle."
+  },
+  {
+   "section": "Exterior",
+   "text": "The exterior of the vehicle was dusty at time of inspection. This can hide minor imperfections. This vehicle has excessive scratches all over the exterior. I noticed a dent on the passenger rear quarter panel. Refer to photo #3. I noticed that the passenger mirror motor is not functioning, and the mirror glass is broken. Refer to photo #110. I noticed chips and scratches on the front bumper. The windshield has a crack. Refer to photo #65."
+  },
+  {
+   "section": "Interior",
+   "text": "I observed that the steering wheel shows wear. There is light wear to the seats. Normal for mileage. I noticed minor dirt stains on the seats. I noted scratches and scuffed marks on the inner door panels. The interior trim of the vehicle shows wear. I noticed that the trim and bed of the cargo area shows scratches and scuff marks. The center console shows wear. I noticed some damage on the leather material of the compartment lid cover. Refer to photo #44. The carpet shows moderate wear from use. The floor mats are dirty. I noticed minor dirt stains present on the inner door panels."
+  },
+  {
+   "section": "Mechanical",
+   "text": "The air filter is dirty and needs to be replaced. The engine oil is dirty and should be changed. I noticed that the brake rotors edges show signs of rust. Surface rust can be found on some portions of the exhaust pipe, welds, and flanges. The exhaust pipe and muffler system has no leaks and sounds good. Only one key fob was shown during inspection."
+  },
+  {
+   "section": "Road Test",
+   "text": "During the road test, I heard a wheel bearing making noise, resonating throughout the vehicle. Further diagnosis is needed to determine which wheel has the faulty bearing. I hooked up my Scan Tool to the computer system and found no current or pending codes. All of the live data looked good, with no reported issues."
+  }
+ ],
+ "images": [
+  {
+   "index": 1,
+   "page": 3,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-001.webp",
+   "caption": "",
+   "thumb": "thumb-001.webp",
+   "role": "hero"
+  },
+  {
+   "index": 26,
+   "page": 34,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-026.webp",
+   "caption": "",
+   "thumb": "thumb-026.webp",
+   "role": "interior"
+  },
+  {
+   "index": 65,
+   "page": 73,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-065.webp",
+   "caption": "",
+   "thumb": "thumb-065.webp",
+   "role": "issue"
+  }
+ ],
+ "pages": 160,
+ "source": "layout",
+ "summary": {
+  "pass": 60,
+  "fail": 2,
+  "attention": 17,
+  "na": 0,
+  "unknown": 0,
+  "total": 79
+ },
+ "photo_count": 152
+}

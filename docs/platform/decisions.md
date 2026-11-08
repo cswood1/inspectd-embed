@@ -140,3 +140,37 @@ or two: what was decided and, where it isn't obvious, why. Newest at the bottom 
 - **No subtitle under page headings**, in the console or the portal. The job page's lead sentence went with them; the
   stage cards below say the same. The console Reports page lost its link to the portal's report dashboard; "View
   report" in the job panel still opens a report.
+
+## The AI demo's report set
+
+- **About 100 real reports: the ten already converted plus 89 more**, from the Inspectd-Reports project's
+  `lemon_squad_reports` (8,925 completed Lemon Squad inspections, December 2022 to August 2025). That table holds only
+  each report's metadata; the PDFs are in its private `reports` bucket, and the photos exist only inside the PDFs.
+  Everything was read with GET and list requests only, and the PDFs stayed in a scratch folder outside the repo.
+- **Real places, not relabeled ones.** Each report belongs to the workspace whose area it was inspected in: Meridian 60
+  (41 in Denver, Dallas, Atlanta and Nashville, 19 elsewhere, since fleets are national), Inspectd Consumers 20 (five
+  per launch metro), Crestview Denver 5 (four in the Denver area, one bought out of state) and ReBuilt Autos 4 (Salt
+  Lake City area). Inspection types follow the Consumer-type rule above.
+- **The condition mix is weighted toward clean, but the data has more findings than "mostly clean".** Clean means wear
+  only; attention means more than seven attention items, or tires, a leak or prior repair; fail/warning means a failed
+  item (not a consumable) or an OBD code or dash warning. Only 16% of the 437 reports analyzed were clean, mostly because
+  so many have stored OBD codes; the 89 come to 39% clean, 31% attention and 29% fail/warning.
+- **A failed consumable is graded attention, not fail** (`tools/report-conversion/normalize.py`). The items, as Lemon
+  Squad's checklist names them: Wiper Blades, Air Filter, Cabin Air Filter, Windshield Washer, Key Fob and Floor Mats.
+  They still show as flagged and are counted; the report's counts are recomputed, so the report, the overview and the
+  AI agree. A dead battery, tires, brakes and leaks are not consumables. It applies to every report: of the existing
+  ten, one finding changed (the '05 911's Windshield Washer).
+- **The 2023 template's Summary is read.** It is a section at the foot of the vehicle page, not a page of its own,
+  and is either per area (Exterior, Interior, ...) or one paragraph, kept as "Overall". The reader had skipped it.
+- **Three photos per report, chosen by eye.** Lemon Squad's gallery has no labels or order, so each report's photos
+  were laid out on a numbered contact sheet and three chosen: a hero (a wide exterior, which the viewer uses for its
+  header), the first clear interior shot, and a photo showing a flagged finding (else a second exterior angle). Each
+  pick and its reason is in `tools/report-conversion/photo-picks.json`. A photo keeps the number the report gives it
+  (the cover photo is picture 1, so "refer to picture 16" is image 16), and the report keeps the inspector's photo
+  count; the viewer says "3 of 76 photos in this demo". The ten converted earlier keep every photo.
+- **Dates are the demo's, not the reports'.** The 89 are inspected between 5 and 178 days ago, spread evenly; the two
+  repeat-VIN pairs (an '18 Outback, 36 days apart; an '19 Camry, 155 days apart) keep their real gap.
+- **What the seed makes up around a report:** the street address (the reports give only city and ZIP), the requester
+  (Meridian's and Crestview's people, 20 new consumers, four ReBuilt shoppers), and the ZIP's price tier (the nearest
+  seeded ZIP's tier within 60 miles, else tier 2). ReBuilt's rebuilt titles and damage history are its listings'
+  facts; none of the Salt Lake City reports mentions title status. Mileage is as the report prints it, typos included.

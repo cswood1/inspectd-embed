@@ -90,7 +90,7 @@ export function ReportRows({ rows, onOpen }){
             <td><div className="who"><span className="av" style={{ background: `${DOT[worst(s)]}33` }}>{((v.make || "").trim()[0] || title(r).replace(/^[\d\s]+/, "").trim()[0] || "?").toUpperCase()}</span><span className="tx"><b>{title(r)}</b><span className="mono">{v.vin || ""}</span></span></div></td>
             <td className="sub">{fmtDate(i.date) || ""}</td>
             <td>{n ? <span className={`pill ${s.fail ? "red" : "amber"}`}>{`${n} issue${n > 1 ? "s" : ""}`}</span> : <span className="pill green">No issues</span>}</td>
-            <td className="sub">{`${r.image_count} photo${r.image_count === 1 ? "" : "s"}`}</td><td className="sub">{fmtDate(r.uploaded_at || "")}</td>
+            <td className="sub">{r.photo_count > r.image_count ? `${r.image_count} of ${r.photo_count} photos` : `${r.image_count} photo${r.image_count === 1 ? "" : "s"}`}</td><td className="sub">{fmtDate(r.uploaded_at || "")}</td>
           </tr>);
       })}
     </tbody></table></div>

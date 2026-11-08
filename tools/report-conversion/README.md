@@ -15,6 +15,8 @@ unchanged. No API key and no network calls.
 | --- | --- |
 | `lemonsquad.py` | The layout reader: sections, item labels paired with their status by position, red remarks as notes, one finding per tire, NAAA scores as ratings, the Summary page as per-area summaries, and the cover's date and place. HTML entities in the text (`&rsquo;`) are decoded. The ordering customer and the legal disclosures are not read. |
 | `convert.py` | Runs `build_report` with the layout reader in place of the model call, then prepares each document for the demo (below) and writes it out. |
+| `normalize.py` | Our grading on top of Kavin's: a failed consumable (wiper blades, air filters, washer fluid, key fob, floor mats) is graded attention, and the counts recomputed. `python normalize.py <reports folder>` re-grades converted reports in place. |
+| `photo-picks.json` | For the reports that keep three photos: each one's hero, interior and issue photo, by the number the report gives it, with the reason it was chosen. |
 | `images.py` | Re-encodes each photo as WebP: 1024px on the long side, plus a 360px thumbnail, both at quality 55. |
 | `index.mjs` | Writes `src/platform/reportIndex.js`, every report's summary row, from the converted documents. |
 | `manifest.json` | Which PDF becomes which report: its report id and the customer (workspace or walk-in) it belongs to. The ids must match the seed (`src/platform/seed.js`, `REPORT_JOBS`). |
@@ -25,7 +27,11 @@ What `convert.py` changes after Kavin's extraction:
 - The customer field is the job's workspace, or the walk-in's name. The filename drops the report number, and the raw text is not kept.
 - `source` is `"layout"`, so the document says how it was read.
 - The odometer is the one the report's Vehicle Information table prints. Kavin's heuristic takes the first "N miles" in the text, which can be a repair-history mileage, and his merge keeps it.
-- Every photo in the PDF is kept, in page order. Kavin's extractor treats an image drawn on two pages as a logo, which loses a cover photo that is repeated in the gallery and any photo split across a page break.
+- A failed consumable is graded attention (`normalize.py`), and the counts recomputed.
+- Kavin's 50 MB cap (his upload limit) is lifted for the run: archived reports with many photos run to 96 MB.
+- Every photo in the PDF is kept, in page order; or, with `--picks photo-picks.json`, only that report's three picked
+  photos, hero first, each keeping the number the report gives it (the cover photo is picture 1) and a `role`.
+  `photo_count` records how many the inspector took, for the viewer's "3 of 76 photos in this demo". Kavin's extractor treats an image drawn on two pages as a logo, which loses a cover photo that is repeated in the gallery and any photo split across a page break.
 
 ## Re-running it
 
@@ -49,6 +55,7 @@ Then, from this folder:
 - `--pdfs` is the folder holding the PDFs the manifest names. They are read only and never copied into the repo.
 - `--out` is where `<report id>/report.json` and `<report id>/images/` land. Nothing else is written.
 - `--only <pdf name> ...` converts just those.
+- `--picks photo-picks.json` keeps only the listed reports' three photos.
 
 Then refresh the index the seed and the list pages read (each report's summary row; Node, no dependencies):
 
@@ -60,5 +67,6 @@ For a new PDF, add a line to `manifest.json`, then add its job to `REPORT_JOBS` 
 Each run prints the vehicle, the inspection date, the finding counts and the photo count, so you can check them
 against the PDF.
 
-The reader expects Lemon Squad's template. Another provider's layout needs a reader of its own, written the same
+The reader expects Lemon Squad's template, in either version: the 2025 one (a Summary page of its own, numbered
+"refer to picture N" notes) or the 2023 one (the Summary at the foot of the vehicle page, "see images" notes). Another provider's layout needs a reader of its own, written the same
 way: return the payload described by `llm.SYSTEM` and `llm.SCHEMA` in Kavin's code.

@@ -74,10 +74,16 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
 
   // ---------- photos ----------
   const ims = current?.images || [];
+  // a demo report keeps three of the inspector's photos (a header shot, the interior, an issue); photo_count is how
+  // many the inspector took, so the viewer says "3 of 76 photos in this demo"
+  const total = Math.max(current?.photo_count || 0, ims.length), partial = total > ims.length;
+  const ROLE = {hero: "Exterior", interior: "Interior", issue: "Issue"};
+  const photoLabel = (im, n) => im.caption || ROLE[im.role] || `Photo ${n + 1}`;
   const imgUrl = im => `/portal/reports/${current.id}/images/${im.filename}`;
   const thumbUrl = im => im.thumb ? `/portal/reports/${current.id}/images/${im.thumb}` : imgUrl(im);
-  // the header photo: the first one shot in landscape and big enough to fill it
-  const pic = ims.find(im => im.width >= im.height && im.width >= 640) || ims.find(im => im.width >= 640) || null;
+  // the header photo: the one picked as the hero for a demo report, else the first one shot in landscape and big
+  // enough to fill it
+  const pic = ims.find(im => im.role === "hero") || ims.find(im => im.width >= im.height && im.width >= 640) || ims.find(im => im.width >= 640) || null;
 
   // ---------- the bar: counts that filter, the PDF, search ----------
   const counts = () => { const s = current.summary || {}, fs = current.findings || [], n = k => s[k] ?? fs.filter(f => f.status === k).length; return {pass: n("pass"), issues: n("fail") + n("attention")}; };
@@ -93,7 +99,7 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
   const shown = f => matches(f) && (filter === "all" || (filter === "issues" ? isIssue(f) : f.status === "pass"));
   function sections(){
     const r = current, fs = r.findings || [], out = [];
-    out.push({id: "sec-photos", title: "Visual Evidence", tone: "info", meta: ims.length ? plural(ims.length, "photo") : "None", open: true, body: photosBody()});
+    out.push({id: "sec-photos", title: "Visual Evidence", tone: "info", meta: ims.length ? (partial ? `${ims.length} of ${plural(total, "photo")}` : plural(ims.length, "photo")) : "None", open: true, body: photosBody()});
     out.push({id: "sec-config", title: "Configuration", tone: "info", meta: "Info", open: false, body: configBody(r)});
     const notes = notesBody(r);
     if (notes) out.push({id: "sec-notes", title: "Inspector Notes", tone: "info", meta: "Info", open: false, body: notes});
@@ -119,8 +125,8 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
   function photosBody(){
     if (!ims.length) return <div className="cr-empty"><b>No photos in this report</b>The inspector's PDF has no photos larger than an icon.</div>;
     return (<>
-      <div className="cr-chips"><span className="chip on">{`All photos (${ims.length})`}</span></div>
-      <div className="cr-grid">{ims.map((im, n) => <button key={n} className="cr-thumb" type="button" data-n={n} aria-label={im.caption || "Photo " + (n + 1)} onClick={() => openLb(n)}><img src={thumbUrl(im)} alt="" loading="lazy" decoding="async" /></button>)}</div>
+      <div className="cr-chips"><span className="chip on" id="photoCount">{partial ? `${ims.length} of ${total} photos in this demo` : `All photos (${ims.length})`}</span></div>
+      <div className="cr-grid">{ims.map((im, n) => <button key={n} className="cr-thumb" type="button" data-n={n} aria-label={photoLabel(im, n)} onClick={() => openLb(n)}><img src={thumbUrl(im)} alt="" loading="lazy" decoding="async" /></button>)}</div>
     </>);
   }
   const kv = (obj, order, skip = []) => {
@@ -273,7 +279,7 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
     </section>
     <div className={`lb${lbOpen ? " open" : ""}`} id="lb" role="dialog" aria-label="Photo" onClick={e => { if (e.target === e.currentTarget) setPhoto(-1); }}>
       <button className="btn icon nav prev" id="lbPrev" aria-label="Previous" onClick={() => showPhoto(photo - 1)}><Svg src='<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg>' /></button>
-      <figure className="lbfig"><img id="lbImg" alt={im ? (im.caption || `Photo ${photo + 1}`) : ""} src={im ? imgUrl(im) : undefined} /><figcaption id="lbCap">{im ? `${im.caption || "Photo " + (photo + 1)} · ${photo + 1} of ${ims.length}` : ""}</figcaption></figure>
+      <figure className="lbfig"><img id="lbImg" alt={im ? photoLabel(im, photo) : ""} src={im ? imgUrl(im) : undefined} /><figcaption id="lbCap">{im ? (partial ? `${photoLabel(im, photo)} · photo ${im.index} of ${total} the inspector took` : `${photoLabel(im, photo)} · ${photo + 1} of ${ims.length}`) : ""}</figcaption></figure>
       <button className="btn icon nav next" id="lbNext" aria-label="Next" onClick={() => showPhoto(photo + 1)}><Svg src='<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg>' /></button>
       <button className="btn icon lbx" id="lbClose" aria-label="Close" ref={lbClose} onClick={() => setPhoto(-1)}><Svg src='<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg>' /></button>
     </div>
