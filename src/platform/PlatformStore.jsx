@@ -3,6 +3,8 @@ import { buildSeed, lookupFor, SEED_VERSION, jobRef } from "./seed.js";
 import { createAuth, ApiError } from "./authServer.js";
 import { createPortal } from "./portalServer.js";
 import { isClosed } from "./jobModel.js";
+import { shopKey } from "./derive.js";
+import { vehicleName } from "./vehicleName.js";
 
 export { ApiError };
 
@@ -27,12 +29,14 @@ const alnum = n => Array.from(crypto.getRandomValues(new Uint8Array(n)), b => "A
 function load(){
   try {
     const s = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-    if (s && s.version === SEED_VERSION && Array.isArray(s.rows)) return s;
+    if (s && s.version === SEED_VERSION && Array.isArray(s.rows)) return withProviders(s);
   } catch {
     // unreadable or blocked storage: start from a fresh seed
   }
   return buildSeed();
 }
+// provider records arrived after seed 13 without a bump: a stored state without them gets an empty list, and keeps the rest
+const withProviders = s => Array.isArray(s.providers) ? s : {...s, providers: []};
 function save(state){
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
   catch { /* storage may be unavailable; state stays in memory for the session */ }
@@ -40,7 +44,7 @@ function save(state){
 
 /* ---- the server's side, as pure functions on a record ------------- */
 
-const veh = (f, none) => [f.year, f.make, f.model].filter(Boolean).join(" ") || none;
+const veh = (f, none) => vehicleName(f) || none;
 const locationString = f => [f.address, f.city, f.state, f.zip].filter(Boolean).join(", ");
 
 // store.update: status, notes, result, a shallow meta merge; a change of status goes into the history
@@ -126,7 +130,7 @@ export function PlatformStoreProvider({ children }){
   useEffect(() => {
     const onStorage = e => {
       if (e.key !== STORAGE_KEY || !e.newValue) return;
-      try { const next = JSON.parse(e.newValue); if (next?.version === SEED_VERSION && Array.isArray(next.rows)) { live.current = next; setState(next); } }
+      try { const next = JSON.parse(e.newValue); if (next?.version === SEED_VERSION && Array.isArray(next.rows)) { live.current = withProviders(next); setState(live.current); } }
       catch { /* a half-written value: the next write brings it */ }
     };
     window.addEventListener("storage", onStorage);
@@ -141,7 +145,7 @@ export function PlatformStoreProvider({ children }){
   // the search finishing: a fresh call sheet replaces the old one (the agent's answer, located and sorted)
   const finish = useCallback(id => {
     timers.current.delete(id);
-    patchRow(id, r => r.search?.state !== "running" ? r : {...r, search: {...r.search, state: "done", done_at: nowIso(), error: null}, updated_at: nowIso(), result: lookupFor(r, r.updated_at)});
+    patchRow(id, r => r.search?.state !== "running" ? r : {...r, search: {...r.search, state: "done", done_at: nowIso(), error: null}, updated_at: nowIso(), result: lookupFor(r, r.updated_at, live.current.providers)});
   }, [patchRow]);
   const schedule = useCallback((id, ms) => {
     clearTimeout(timers.current.get(id));
@@ -183,6 +187,44 @@ export function PlatformStoreProvider({ children }){
     reset: id => call(id, (s, r) => s.reset(r)),
   }), [call]);
 
+  // provider records: a contact on a provider the searches found, or a provider Inspectd staff added by hand.
+  // Every write is logged on the record ({at, by, what, detail}); the Providers page shows the latest.
+  const providers = useMemo(() => {
+    const who = () => { const u = live.current.users.find(x => x.id === live.current.meId); return u?.name || u?.email || ""; };
+    const clean = v => String(v ?? "").trim().slice(0, 200);
+    const contactOf = c => ({name: clean(c?.name), email: clean(c?.email), cell: clean(c?.cell)});
+    const check = c => { if (c.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c.email)) throw new ApiError("That email doesn't look right"); };
+    return {
+      /** Save a provider's contact. `shop` is the provider as listed ({name, website, phone}, its key, its metro). */
+      saveContact(shop, contact){
+        const c = contactOf(contact); check(c);
+        const at = nowIso(), by = who(), key = shop.key || shopKey(shop);
+        const detail = [c.name, c.email, c.cell].filter(Boolean).join(" · ") || "Cleared";
+        commit(s => {
+          const list = s.providers || [], cur = list.find(p => p.key === key);
+          const rec = cur ? {...cur, contact: c, log: [...cur.log, {at, by, what: "Contact updated", detail}]}
+            : {key, source: "search", name: shop.name || "", metro: shop.metro || "", website: shop.website || "", phone: shop.phone || "",
+               contact: c, added_at: at, added_by: by, log: [{at, by, what: "Contact updated", detail}]};
+          return {...s, providers: cur ? list.map(p => p.key === key ? rec : p) : [...list, rec]};
+        });
+        return c;
+      },
+      /** Add a provider by hand: a business name and a metro, the contact, and optionally a website and phone. */
+      add(form){
+        const name = clean(form.name), metro = clean(form.metro), website = clean(form.website), phone = clean(form.phone), c = contactOf(form.contact);
+        if (!name) throw new ApiError("Enter the business name");
+        if (!metro) throw new ApiError("Choose a metro");
+        check(c);
+        const key = shopKey({name, website, phone});
+        if ((live.current.providers || []).some(p => p.key === key)) throw new ApiError("That provider is already listed");
+        const at = nowIso(), by = who();
+        const rec = {key, source: "manual", name, metro, website, phone, contact: c, added_at: at, added_by: by, log: [{at, by, what: "Provider added", detail: metro}]};
+        commit(s => ({...s, providers: [...(s.providers || []), rec]}));
+        return rec;
+      },
+    };
+  }, [commit]);
+
   // the auth service (authServer.js): reads answer from the latest state; writes store what they leave
   const auth = useMemo(() => {
     const read = name => (...args) => createAuth(live.current)[name](...args);
@@ -218,9 +260,9 @@ export function PlatformStoreProvider({ children }){
   }, [commit]);
 
   const value = useMemo(() => ({
-    rows: state.rows, orgs: state.orgs, users: state.users, memberships: state.memberships, me: state.users.find(u => u.id === state.meId), meta: state.meta, seededAt: state.seededAt,
-    setRows, fulfill, reset, api, auth, portal,
-  }), [state, setRows, fulfill, reset, api, auth, portal]);
+    rows: state.rows, reports: state.reports, providerRecords: state.providers || [], orgs: state.orgs, users: state.users, memberships: state.memberships, me: state.users.find(u => u.id === state.meId), meta: state.meta, seededAt: state.seededAt,
+    setRows, fulfill, reset, api, auth, portal, providers,
+  }), [state, setRows, fulfill, reset, api, auth, portal, providers]);
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 

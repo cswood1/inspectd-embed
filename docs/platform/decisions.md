@@ -263,6 +263,9 @@ or two: what was decided and, where it isn't obvious, why. Newest at the bottom 
 
 ## Simplicity (standing, from polish round 1)
 
+*These rules cover the client portal and, since the ops polish, the Operations console. Internal, Enterprise and
+Provider are outside them.*
+
 - **Less is more.** Every element on a business customer's screens has to help them decide something; everything else
   goes. Sophisticated, utilitarian, direct.
 - **AI is woven into the screens people already use**, not given its own tab, and not decorated: no mark, no sparkle,
@@ -277,8 +280,8 @@ or two: what was decided and, where it isn't obvious, why. Newest at the bottom 
   structural flags), amber `#9d500a` / `#fff3e6` (attention, and the other flags), green `#1c7a3f` / `#e9f6ee` (pass).
   A stage like "Dispatching" or a role like "Admin" is neutral.
 - **Six neutrals and nothing else:** ink `#111827`, body `#374151`, muted `#6b7280`, faint `#9aa1ac`, hairline `#e5e7eb`,
-  wash `#f9fafb` (plus white). All of these are CSS variables at the top of `portal.css`, with Kavin's names mapped onto
-  them, so the design pass changes them in one place. The customer's share page keeps its own dark theme.
+  wash `#f9fafb` (plus white). All of these are CSS variables in `src/platform/tokens.css`, shared by the portal and
+  the console, with Kavin's names mapped onto them, so the design pass changes them in one place. The customer's share page keeps its own dark theme.
 - **The type scale:** page title 24/600; section title 15/600; body and table text 14/400; labels (field names, column
   heads) 12/500 muted, sentence case; secondary text 12.5/400 muted; figures 28/600 (the strip) and 20/600 (small),
   tabular; the report's vehicle title 36/700, the only 700. Weights are 400, 500 and 600.
@@ -306,3 +309,49 @@ or two: what was decided and, where it isn't obvious, why. Newest at the bottom 
 - **Sidebar, Team, Settings:** the workspace switcher shows the name only (staff still switch); the user tile shows name
   and email; Team has no meta line or role helper; Settings drops the workspace address, the member count and the
   workspaces list.
+
+**What the ops polish changed in the Operations console**
+- **Shared tokens:** the portal's token block moved into `tokens.css`, applied to both apps' roots (`.ipp`, `.ip`).
+  The console's own palette (a blue accent, charcoal keycap buttons, bordered pastel pills) and its 62 hard-coded
+  colors now map onto the tokens, and its font sizes and weights snap to the shared scale. The console is teal-accented
+  with flat ink primary buttons. The portal is unchanged (its Reports page is pixel-identical before and after).
+- **Status pills:** stages are neutral (New, Dispatching, Claimed); only Complete (green) and Canceled (red) carry a
+  color. Rows have no tints or colored left edges. Role pills are neutral.
+- **The Actions column** (Open and Closed jobs): one button per row. A New job gets **Dispatch ▸** (ink, a play
+  triangle), which opens the job and starts the provider search, as "Find providers" did; the job only becomes
+  Dispatching when its link is created. Any other open or complete job gets **Open →**. A canceled job gets **Reset to
+  New** (the circular arrow), which opens the job with the same confirm as before. The job panel's own "Find
+  providers" button is unchanged.
+- **The board:** the status cards became one row of chips with counts, as in the portal; "N of N" shows only while a
+  filter or search is on; no Refresh. Customers' two cards became chips (All, Consumers, Businesses).
+- **The job panel:** no status pill in the header (the row says it); field labels in sentence case; the claim is a
+  plain line ending "Accepted terms", with no version number and no box.
+- **Reports** lists only jobs that have a report (a claimed job joins once its report lands), without a Status column,
+  since every row would read Complete. The sidebar label stays "Reports".
+- **Gone:** letter avatars everywhere in the console; the sidebar's count badges and group labels; the "Inspectd team ·"
+  prefix in the user tile; in Settings, the workspace slug, the "Inspectd team" badges and the section-menu subtitles.
+- **Kept:** the EV and Exotic tags (they change the payout) and the duplicate-email warning (it means something).
+- **One vehicle name:** the console names a car with `vehicleName.js`, as the portal does (year, make, model, and the
+  trim when the record has one), on Open and Closed jobs, Reports, the job panel, its copied provider list and the
+  emails. A job with a report borrows the report's trim (`useJobVehicle` in `ui.jsx`): "2018 Porsche 718 Cayman".
+
+**Provider records**
+- A provider used to be derived only: `allProviders(rows)` dedupes the shops saved on each job's search results by
+  website, then phone, then name. It still is, and the store now also keeps **provider records** (`state.providers`):
+  `{key, source: "search" | "manual", name, metro, website, phone, contact: {name, email, cell}, added_at, added_by,
+  log: [{at, by, what, detail}]}`. `key` is the same dedupe key, so `allProviders(rows, records)` lays a record over the
+  found shop it belongs to; a hand-added one is listed even before any search finds it.
+- **The contact** (name, email, cell, all optional) is edited in place on the Providers page by Inspectd staff. A found
+  shop gets a record the first time its contact is saved. Every save appends to the record's log, and the page shows the
+  latest: "Updated Nov 8, 2026 by Cam Wood" (or "Added …"). Website and phone from the search stay as they are; the
+  scraped email stays hidden. The Providers table is Provider (name, services), Phone, Website, Contact: no location
+  line (the metro blocks say where), and no Rating, Jobs or Claimed.
+- **No seed bump:** seed 13 gains an empty `providers` list; a stored state without one gets it on load, so demo data
+  is kept. Contacts start empty ("Add contact").
+- **Add provider**, for one-person operations the search doesn't find: an inline form on the Providers page with the
+  business name and metro (required), the contact, and optionally a website and phone. It saves a `source: "manual"`
+  record, listed in its metro's block.
+- **Hand-added providers join the search:** `lookupFor(row, attempt, added)` in `seed.js` adds every manual provider for
+  the job's metro (the one its search draws from) to the seed providers it finds, and a "National" one to every metro's
+  search. With no address of their own, they're listed as mobile ("Mobile · covers the Denver area"), like any other
+  mobile result.

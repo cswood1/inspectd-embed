@@ -1,28 +1,31 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
 import { dupEmails } from "./derive.js";
-import { STATUS, received, vehicle, isClosed, Icon, Who, ClassTag, Sk, SkelRows, SkelCards, CSelect, PageDock, paged, anySelectOpen } from "./ui.jsx";
+import { STATUS, received, useJobVehicle, isClosed, Icon, Who, ClassTag, SkelRows, CSelect, PageDock, paged, anySelectOpen } from "./ui.jsx";
 import { ORDERED_BY, STATUSES, NEXT_STEP, orderedByOf, orderedByLabel, isConsumer, inspectionLabel, dollars } from "./jobModel.js";
 import { JobPanel, requester } from "./JobPanel.jsx";
 
 /*
- * The jobs board: status cards, search and an "ordered by" filter, the sortable table. Mounted as
- * Open jobs or Closed jobs. A row, or its next-step button, opens the job panel (JobPanel.jsx).
+ * The jobs board: search, the status chips (with counts), an "ordered by" filter, the sortable table. Mounted as
+ * Open jobs or Closed jobs. A row, or its one button in Actions, opens the job panel (JobPanel.jsx).
  */
 
 const COLS = [["name", "Customer"], ["vehicle", "Vehicle"], ["where", "Location"], ["ordered", "Ordered by"], ["payout", "Payout"], ["status", "Status"], ["created_at", "Received"]];
 const STATUS_ORDER = STATUSES.map(([k]) => k), ORDERED_ORDER = ORDERED_BY.map(([k]) => k);
 const place = f => [f.city, (f.state || "").toUpperCase()].filter(Boolean).join(", ");
-const colVal = (r, k) => ({name: requester(r).name.toLowerCase(), vehicle: vehicle(r.form).toLowerCase(), where: place(r.form).toLowerCase(), ordered: ORDERED_ORDER.indexOf(orderedByOf(r)),
+const colVal = (r, k, vehicle) => ({name: requester(r).name.toLowerCase(), vehicle: vehicle(r).toLowerCase(), where: place(r.form).toLowerCase(), ordered: ORDERED_ORDER.indexOf(orderedByOf(r)),
   payout: r.payout_cents ?? -1, status: STATUS_ORDER.indexOf(r.status), created_at: r.created_at})[k];
-// the cards along the top: the statuses this board holds, and a card for all of them
-const OPEN_CARDS = [["all", "All open"], ["new", "New"], ["dispatching", "Dispatching"], ["claimed", "Claimed"]];
-const CLOSED_CARDS = [["all", "All closed"], ["complete", "Complete"], ["canceled", "Canceled"]];
+// the status chips: the statuses this board holds, and one for all of them
+const OPEN_CARDS = [["all", "All"], ["new", "New"], ["dispatching", "Dispatching"], ["claimed", "Claimed"]];
+const CLOSED_CARDS = [["all", "All"], ["complete", "Complete"], ["canceled", "Canceled"]];
+// the one button per row: Dispatch ▸ (ink) on a New job, Reset to New on a canceled one, Open → on any other
+const ACTION = {new: {icon: "play", primary: true}, canceled: {icon: "refresh"}};
 const VIEW = {open: "Open jobs", closed: "Closed jobs"};
 
-export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", initialOpen = null }){
+export function Board({ mode, loaded, onOpenPortal, initialQ = "", initialOpen = null }){
   const closed = mode === "closed";
   const { rows } = usePlatform();
+  const vehicle = useJobVehicle();   // a job with a report is named as its report names the car
   const [filter, setFilter] = useState("all");
   const [q, setQ] = useState(initialQ);   // ?q= lands with the search already filled in (customers link here)
   const [jf, setJf] = useState({ordered: ""});   // the filter beyond the status cards and search
@@ -46,9 +49,9 @@ export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", in
   const counts = {all: pool.length}; pool.forEach(r => { counts[r.status] = (counts[r.status] || 0) + 1; });
   const dups = dupEmails(rows);
   const ql = q.trim().toLowerCase();
-  const hay = r => [r.form.name, r.form.email, r.form.phone, vehicle(r.form), place(r.form), r.form.zip, r.form.vin, inspectionLabel(r.form), orderedByLabel(orderedByOf(r)), r.id, r.notes, isConsumer(r) ? "" : r.org?.name].join(" ").toLowerCase();
+  const hay = r => [r.form.name, r.form.email, r.form.phone, vehicle(r), place(r.form), r.form.zip, r.form.vin, inspectionLabel(r.form), orderedByLabel(orderedByOf(r)), r.id, r.notes, isConsumer(r) ? "" : r.org?.name].join(" ").toLowerCase();
   const list = pool.filter(r => (filter === "all" || r.status === filter) && (!jf.ordered || orderedByOf(r) === jf.ordered) && (!ql || hay(r).includes(ql)))
-    .sort((a, b) => { const x = colVal(a, sortKey), y = colVal(b, sortKey); return (x < y ? -1 : x > y ? 1 : 0) * sortDir; });
+    .sort((a, b) => { const x = colVal(a, sortKey, vehicle), y = colVal(b, sortKey, vehicle); return (x < y ? -1 : x > y ? 1 : 0) * sortDir; });
   const pg = list.length ? paged(list, page) : null;
   const anyFilter = jf.ordered || filter !== "all" || ql;
 
@@ -56,7 +59,7 @@ export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", in
   const setJ = (k, v) => { setJf(f => ({...f, [k]: v})); setPage(0); };
   const clearAll = () => { setJf({ordered: ""}); setFilter("all"); setQ(""); setPage(0); };
   const sortBy = k => { if (sortKey === k) setSortDir(d => -d); else { setSortKey(k); setSortDir(k === "created_at" ? -1 : 1); } setPage(0); };
-  // the next-step button: "Find providers" opens the panel and starts the search, "Reset" opens it with the confirm
+  // the row's button: Dispatch opens the panel and starts the provider search, Reset to New opens it with the confirm
   const STEP_ACTION = {new: "search", canceled: "reset"};
   const step = (e, r) => { e.stopPropagation(); openOver(r.id); if (STEP_ACTION[r.status]) setIntent({id: r.id, action: STEP_ACTION[r.status], n: Date.now()}); };
 
@@ -94,37 +97,31 @@ export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", in
     <>
       <div className="pad greet">
         <div className="gt"><h1>{title}</h1></div>
-        <div className="actions"><button className="btn icon" title="Refresh" onClick={onRefresh}><Icon name="refresh" /></button></div>
       </div>
       <div className="pad">
-        <div className="cards">
-          {!loaded ? <SkelCards n={5} /> : cards.map(([k, t]) => (
-            <div key={k} className={`card ${filter === k ? "on" : ""}`} role="button" tabIndex={0} onClick={() => pickCard(k)}
-              onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pickCard(k); } }}>
-              <div className="t">{t}</div><div className="n">{counts[k] || 0}</div>
-            </div>
-          ))}
-        </div>
         <div className="toolbar">
           <div className="search"><Icon name="search" size={14} /><input type="search" ref={searchBox} placeholder="Search customer, vehicle, VIN, city" autoComplete="off" value={q} onChange={e => { setQ(e.target.value); setPage(0); }} /></div>
+          <div className="filters" id="statusChips" role="group" aria-label="Status">{cards.map(([k, t]) => (
+            <button key={k} type="button" className={`fbtn${filter === k ? " on" : ""}`} data-status={k} aria-pressed={filter === k} disabled={!loaded} onClick={() => pickCard(k)}>
+              {t}<span className="n">{loaded ? counts[k] || 0 : ""}</span></button>))}</div>
           <CSelect className={`fsel${jf.ordered ? " on" : ""}`} label="Ordered by" options={orderedOpts} value={jf.ordered} onChange={v => setJ("ordered", v)} />
           <button className={`btn sm${anyFilter ? "" : " hide"}`} onClick={clearAll}>Clear filters</button>
-          <span className="chip">{loaded ? `${list.length} of ${pool.length}` : <Sk w={54} h={12} />}</span>
+          {loaded && anyFilter ? <span className="chip" id="boardCount">{`${list.length} of ${pool.length}`}</span> : null}
         </div>
       </div>
       <div className="tablewrap">
-        {!loaded ? <SkelRows n={6} heads={COLS.map(([, t]) => t).concat([""])} />
+        {!loaded ? <SkelRows n={6} heads={COLS.map(([, t]) => t).concat(["Actions"])} />
           : !list.length ? (
             <div className="empty"><b>{pool.length ? "Nothing matches" : (closed ? "No closed jobs yet" : "No open jobs")}</b>{pool.length ? "" : (closed ? "Complete and canceled jobs land here." : "Requests arrive from the client portal.")}</div>
           ) : (
             <table className="board">
               <thead><tr>
                 {COLS.map(([k, t]) => <th key={k} className={`sortable ${sortKey === k ? "on" : ""}`} onClick={() => sortBy(k)}>{t}<span className="arrow">{sortKey === k ? (sortDir > 0 ? "▲" : "▼") : ""}</span></th>)}
-                <th className="r"></th>
+                <th className="r">Actions</th>
               </tr></thead>
               <tbody>
                 {pg.slice.map(r => {
-                  const f = r.form, [hue, label] = STATUS[r.status] || ["gray", r.status], next = NEXT_STEP[r.status] || "View";
+                  const f = r.form, [hue, label] = STATUS[r.status] || ["gray", r.status], next = NEXT_STEP[r.status] || "Open", act = ACTION[r.status];
                   // a consumer submitting twice is worth a flag; a business sending a batch is not
                   const dup = isConsumer(r) && dups.has(f.email.toLowerCase())
                     ? <Icon name="warn" size={14} className="warnico" role="img" aria-label="Another request uses this email"><title>Another request uses this email</title></Icon> : null;
@@ -132,15 +129,15 @@ export function Board({ mode, loaded, onRefresh, onOpenPortal, initialQ = "", in
                   return (
                     <tr key={r.id} className={`row st-${r.status} ${r.id === openId ? "on" : ""}`} data-id={r.id} onClick={() => openOver(r.id)}>
                       <td><Who name={w.name} email={w.sub} extra={dup} /></td>
-                      <td className="nowrap">{vehicle(f)}<ClassTag c={f.vehicle_class} /></td>
+                      <td className="nowrap">{vehicle(r)}<ClassTag c={f.vehicle_class} /></td>
                       <td className="sub nowrap">{place(f)}</td>
                       <td className="sub nowrap">{orderedByLabel(orderedByOf(r))}</td>
                       <td className="nowrap">{r.payout_cents != null ? dollars(r.payout_cents) : ""}</td>
                       <td><span className={`pill ${hue}`}>{label}</span></td>
                       <td className="sub nowrap" title={new Date(r.created_at).toLocaleString()}>{received(r.created_at)}</td>
                       <td className="r">
-                        <button className={`btn sm ${r.status === "new" ? "primary" : ""} rowact`} data-id={r.id} onClick={e => step(e, r)}>
-                          {next}
+                        <button className={`btn sm${act?.primary ? " primary" : ""} rowact`} data-id={r.id} data-act={r.status === "new" ? "dispatch" : r.status === "canceled" ? "reset" : "open"} onClick={e => step(e, r)}>
+                          {act ? <><Icon name={act.icon} size={act.icon === "play" ? 11 : 13} />{next}</> : <>{next}<Icon name="next" size={13} /></>}
                         </button>
                       </td>
                     </tr>
