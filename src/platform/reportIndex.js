@@ -2,6 +2,2878 @@
 // Each report's summary row (inspection-dashboard reports_service store.summary_row); the full document,
 // with its findings and photos, is fetched from public/portal/reports/<id>/report.json when it is opened.
 export const REPORT_INDEX = {
+ "20260514-180105-32d7fa": {
+  "id": "20260514-180105-32d7fa",
+  "filename": "Mitsubishi_010466_inspection.pdf",
+  "vehicle": {
+   "vin": "JA4AR3AU0JZ010466",
+   "year": "2018",
+   "make": "Mitsubishi",
+   "model": "Outlander",
+   "trim": "Sport",
+   "mileage": "61101",
+   "color": "White",
+   "interior_color": "Black",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260514-180105-32d7fa",
+   "date": "2023-12-27",
+   "location": "Aurora, CO, 80018",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 62,
+   "fail": 1,
+   "attention": 13,
+   "na": 0,
+   "unknown": 0,
+   "total": 76
+  },
+  "pages": 80,
+  "image_count": 3,
+  "photo_count": 73,
+  "size": 27620921
+ },
+ "20260516-174152-cd91dc": {
+  "id": "20260516-174152-cd91dc",
+  "filename": "Lincoln_600862_inspection.pdf",
+  "vehicle": {
+   "vin": "1LN6L9VK2L5600862",
+   "year": "2020",
+   "make": "Lincoln",
+   "model": "Continental",
+   "mileage": "53283",
+   "color": "Maroon",
+   "interior_color": "Tan",
+   "interior_material": "Leather",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260516-174152-cd91dc",
+   "date": "2023-10-31",
+   "location": "Southside, AL, 35907",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 76,
+   "fail": 0,
+   "attention": 7,
+   "na": 0,
+   "unknown": 0,
+   "total": 83
+  },
+  "pages": 86,
+  "image_count": 3,
+  "photo_count": 80,
+  "size": 17576425
+ },
+ "20260518-202058-627ebe": {
+  "id": "20260518-202058-627ebe",
+  "filename": "Hyundai_501512_inspection.pdf",
+  "vehicle": {
+   "vin": "5NPD84LF9LH501512",
+   "year": "2020",
+   "make": "Hyundai",
+   "model": "Elantra",
+   "mileage": "39433",
+   "color": "Silver",
+   "interior_color": "Grey",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260518-202058-627ebe",
+   "date": "2023-06-14",
+   "location": "Newnan, GA, 30263",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 74,
+   "fail": 0,
+   "attention": 4,
+   "na": 0,
+   "unknown": 0,
+   "total": 78
+  },
+  "pages": 76,
+  "image_count": 3,
+  "photo_count": 68,
+  "size": 10998969
+ },
+ "20260519-151649-f008b0": {
+  "id": "20260519-151649-f008b0",
+  "filename": "Toyota_251423_inspection.pdf",
+  "vehicle": {
+   "vin": "4T1B11HK8KU251423",
+   "year": "2019",
+   "make": "Toyota",
+   "model": "Camry",
+   "mileage": "77146",
+   "color": "Grey",
+   "interior_color": "Grey",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260519-151649-f008b0",
+   "date": "2023-10-08",
+   "location": "Brockton, MA, 02301",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 73,
+   "fail": 0,
+   "attention": 8,
+   "na": 0,
+   "unknown": 0,
+   "total": 81
+  },
+  "pages": 67,
+  "image_count": 3,
+  "photo_count": 61,
+  "size": 15788188
+ },
+ "20260520-202116-d655e3": {
+  "id": "20260520-202116-d655e3",
+  "filename": "Volkswagen_014628_inspection.pdf",
+  "vehicle": {
+   "vin": "3VV2B7AXXMM014628",
+   "year": "2021",
+   "make": "Volkswagen",
+   "model": "Tiguan",
+   "mileage": "35974",
+   "color": "White",
+   "interior_color": "White",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260520-202116-d655e3",
+   "date": "2022-12-21",
+   "location": "Denver, CO, 80223",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 78,
+   "fail": 0,
+   "attention": 9,
+   "na": 0,
+   "unknown": 0,
+   "total": 87
+  },
+  "pages": 91,
+  "image_count": 3,
+  "photo_count": 84,
+  "size": 12614198
+ },
+ "20260522-223948-9e7004": {
+  "id": "20260522-223948-9e7004",
+  "filename": "Tesla_741790_inspection.pdf",
+  "vehicle": {
+   "vin": "5YJ3E1EB4LF741790",
+   "year": "2020",
+   "make": "Tesla",
+   "model": "Model",
+   "trim": "3",
+   "mileage": "15399",
+   "color": "Black",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Electric"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260522-223948-9e7004",
+   "date": "2023-01-06",
+   "location": "Columbus, OH, 43204",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 60,
+   "fail": 0,
+   "attention": 3,
+   "na": 0,
+   "unknown": 0,
+   "total": 63
+  },
+  "pages": 37,
+  "image_count": 3,
+  "photo_count": 49,
+  "size": 5057376
+ },
+ "20260525-003800-b18fe5": {
+  "id": "20260525-003800-b18fe5",
+  "filename": "Dodge_733513_inspection.pdf",
+  "vehicle": {
+   "vin": "2C3CDZFJ9KH733513",
+   "year": "2019",
+   "make": "Dodge",
+   "model": "Challenger",
+   "mileage": "6463",
+   "color": "Red",
+   "interior_color": "Black",
+   "interior_material": "Leather/Cloth",
+   "engine": "8 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Rear Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260525-003800-b18fe5",
+   "date": "2024-10-09",
+   "location": "Newnan, GA, 30263",
+   "customer": "Andre Mitchell"
+  },
+  "summary": {
+   "pass": 79,
+   "fail": 0,
+   "attention": 2,
+   "na": 0,
+   "unknown": 0,
+   "total": 81
+  },
+  "pages": 159,
+  "image_count": 3,
+  "photo_count": 153,
+  "size": 31433141
+ },
+ "20260527-011714-65ab31": {
+  "id": "20260527-011714-65ab31",
+  "filename": "Ford_D16527_inspection.pdf",
+  "vehicle": {
+   "vin": "1FTFW1E88MKD16527",
+   "year": "2021",
+   "make": "Ford",
+   "model": "F-150",
+   "mileage": "14683",
+   "color": "Blue",
+   "interior_color": "Black",
+   "interior_material": "Cloth",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Four Wheel Drive",
+   "fuel": "Gas",
+   "stock": "D16527"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260527-011714-65ab31",
+   "date": "2023-03-03",
+   "location": "Erie, CO, 80516",
+   "customer": "Crestview Denver"
+  },
+  "summary": {
+   "pass": 77,
+   "fail": 0,
+   "attention": 6,
+   "na": 0,
+   "unknown": 0,
+   "total": 83
+  },
+  "pages": 42,
+  "image_count": 3,
+  "photo_count": 36,
+  "size": 12919871
+ },
+ "20260529-034836-a99ba7": {
+  "id": "20260529-034836-a99ba7",
+  "filename": "Audi_092712_inspection.pdf",
+  "vehicle": {
+   "vin": "WA1LFAFP9DA092712",
+   "year": "2013",
+   "make": "Audi",
+   "model": "Q5",
+   "mileage": "96558",
+   "color": "Black",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas",
+   "stock": "092712"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260529-034836-a99ba7",
+   "date": "2023-10-02",
+   "location": "Wheat Ridge, CO, 80214",
+   "customer": "Sam Patel"
+  },
+  "summary": {
+   "pass": 66,
+   "fail": 4,
+   "attention": 14,
+   "na": 0,
+   "unknown": 0,
+   "total": 84
+  },
+  "pages": 76,
+  "image_count": 3,
+  "photo_count": 69,
+  "size": 27481659
+ },
+ "20260531-031831-7dd4fe": {
+  "id": "20260531-031831-7dd4fe",
+  "filename": "Subaru_440344_inspection.pdf",
+  "vehicle": {
+   "vin": "4S4WMAUD8P3440344",
+   "year": "2023",
+   "make": "Subaru",
+   "model": "Ascent",
+   "mileage": "12583",
+   "color": "White",
+   "interior_color": "Grey",
+   "interior_material": "Vinyl",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260531-031831-7dd4fe",
+   "date": "2024-08-27",
+   "location": "East Wenatchee, WA, 98802",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 81,
+   "fail": 0,
+   "attention": 3,
+   "na": 0,
+   "unknown": 0,
+   "total": 84
+  },
+  "pages": 125,
+  "image_count": 3,
+  "photo_count": 117,
+  "size": 18207527
+ },
+ "20260602-055317-366cb7": {
+  "id": "20260602-055317-366cb7",
+  "filename": "Infiniti_563322_inspection.pdf",
+  "vehicle": {
+   "vin": "5N1DL0MM3KC563322",
+   "year": "2019",
+   "make": "Infiniti",
+   "model": "QX60",
+   "mileage": "74025",
+   "color": "Black",
+   "interior_color": "Tan",
+   "interior_material": "Leather",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Four Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260602-055317-366cb7",
+   "date": "2023-08-01",
+   "location": "Mckinney, TX, 75070",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 76,
+   "fail": 0,
+   "attention": 5,
+   "na": 0,
+   "unknown": 0,
+   "total": 81
+  },
+  "pages": 62,
+  "image_count": 3,
+  "photo_count": 56,
+  "size": 26990311
+ },
+ "20260604-053346-30ac53": {
+  "id": "20260604-053346-30ac53",
+  "filename": "Honda_220380_inspection.pdf",
+  "vehicle": {
+   "vin": "19XFC1F32GE220380",
+   "year": "2016",
+   "make": "Honda",
+   "model": "Civic",
+   "mileage": "69630",
+   "color": "Grey",
+   "interior_color": "Grey",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260604-053346-30ac53",
+   "date": "2023-01-17",
+   "location": "Boulder, CO, 80301",
+   "customer": "Maria Sandoval"
+  },
+  "summary": {
+   "pass": 72,
+   "fail": 0,
+   "attention": 6,
+   "na": 0,
+   "unknown": 0,
+   "total": 78
+  },
+  "pages": 80,
+  "image_count": 3,
+  "photo_count": 75,
+  "size": 10783839
+ },
+ "20260606-075517-aadbdb": {
+  "id": "20260606-075517-aadbdb",
+  "filename": "Toyota_453497_inspection.pdf",
+  "vehicle": {
+   "vin": "2T3WFREV9JW453497",
+   "year": "2018",
+   "make": "Toyota",
+   "model": "RAV4",
+   "mileage": "42109",
+   "color": "Red",
+   "interior_color": "Tan",
+   "interior_material": "Cloth",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260606-075517-aadbdb",
+   "date": "2023-06-17",
+   "location": "Dallas, TX, 75205",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 69,
+   "fail": 0,
+   "attention": 5,
+   "na": 0,
+   "unknown": 0,
+   "total": 74
+  },
+  "pages": 132,
+  "image_count": 3,
+  "photo_count": 126,
+  "size": 30101909
+ },
+ "20260608-101844-625aa7": {
+  "id": "20260608-101844-625aa7",
+  "filename": "Toyota_594659_inspection.pdf",
+  "vehicle": {
+   "vin": "JTEBU5JR0J5594659",
+   "year": "2018",
+   "make": "Toyota",
+   "model": "4Runner",
+   "mileage": "55900",
+   "color": "Black",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Four Wheel Drive",
+   "fuel": "Gas",
+   "stock": "NA"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260608-101844-625aa7",
+   "date": "2023-07-17",
+   "location": "Littleton, CO, 80130",
+   "customer": "Crestview Denver"
+  },
+  "summary": {
+   "pass": 80,
+   "fail": 0,
+   "attention": 7,
+   "na": 0,
+   "unknown": 0,
+   "total": 87
+  },
+  "pages": 51,
+  "image_count": 3,
+  "photo_count": 44,
+  "size": 17210853
+ },
+ "20260610-102702-df7605": {
+  "id": "20260610-102702-df7605",
+  "filename": "Ford_A18514_inspection.pdf",
+  "vehicle": {
+   "vin": "1FMJK1HTXMEA18514",
+   "year": "2021",
+   "make": "Ford",
+   "model": "Expedition",
+   "mileage": "68663",
+   "color": "Blue",
+   "interior_color": "Grey",
+   "interior_material": "Leather",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260610-102702-df7605",
+   "date": "2023-08-05",
+   "location": "Greenbrier, TN, 37073",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 76,
+   "fail": 1,
+   "attention": 6,
+   "na": 0,
+   "unknown": 0,
+   "total": 83
+  },
+  "pages": 101,
+  "image_count": 3,
+  "photo_count": 94,
+  "size": 11717069
+ },
+ "20260612-123929-ec2c92": {
+  "id": "20260612-123929-ec2c92",
+  "filename": "Chevrolet_370462_inspection.pdf",
+  "vehicle": {
+   "vin": "1GCHSCE33G1370462",
+   "year": "2016",
+   "make": "Chevrolet",
+   "model": "Colorado",
+   "mileage": "73915",
+   "color": "Grey",
+   "interior_color": "Grey",
+   "interior_material": "Cloth",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260612-123929-ec2c92",
+   "date": "2023-08-01",
+   "location": "Nashville, TN, 37206",
+   "customer": "Grace Holloway"
+  },
+  "summary": {
+   "pass": 78,
+   "fail": 0,
+   "attention": 6,
+   "na": 0,
+   "unknown": 0,
+   "total": 84
+  },
+  "pages": 133,
+  "image_count": 3,
+  "photo_count": 126,
+  "size": 16500422
+ },
+ "20260614-130608-2ad7f9": {
+  "id": "20260614-130608-2ad7f9",
+  "filename": "Chevrolet_134072_inspection.pdf",
+  "vehicle": {
+   "vin": "1G1FX6S0XK4134072",
+   "year": "2019",
+   "make": "Chevrolet",
+   "model": "Bolt",
+   "trim": "EV",
+   "mileage": "27677",
+   "color": "Grey",
+   "interior_color": "Grey",
+   "interior_material": "Leather",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Electric",
+   "stock": "134072"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260614-130608-2ad7f9",
+   "date": "2023-04-12",
+   "location": "Des Moines, IA, 50320",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 68,
+   "fail": 0,
+   "attention": 2,
+   "na": 0,
+   "unknown": 0,
+   "total": 70
+  },
+  "pages": 40,
+  "image_count": 3,
+  "photo_count": 35,
+  "size": 7072111
+ },
+ "20260616-150555-e65ab2": {
+  "id": "20260616-150555-e65ab2",
+  "filename": "Mazda_208187_inspection.pdf",
+  "vehicle": {
+   "vin": "3MZBN1L34JM208187",
+   "year": "2018",
+   "make": "Mazda",
+   "model": "Mazda",
+   "trim": "3",
+   "mileage": "98246",
+   "color": "Silver",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas",
+   "stock": "527172"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260616-150555-e65ab2",
+   "date": "2023-01-11",
+   "location": "Conway, AR, 72034",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 70,
+   "fail": 0,
+   "attention": 8,
+   "na": 0,
+   "unknown": 0,
+   "total": 78
+  },
+  "pages": 90,
+  "image_count": 3,
+  "photo_count": 83,
+  "size": 27356890
+ },
+ "20260618-174723-155d3a": {
+  "id": "20260618-174723-155d3a",
+  "filename": "Honda_634680_inspection.pdf",
+  "vehicle": {
+   "vin": "2HKRM4H32DH634680",
+   "year": "2013",
+   "make": "Honda",
+   "model": "CR-V",
+   "mileage": "95575",
+   "color": "Blue",
+   "interior_color": "Grey",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260618-174723-155d3a",
+   "date": "2023-04-03",
+   "location": "Denver, CO, 80236",
+   "customer": "Owen Fischer"
+  },
+  "summary": {
+   "pass": 80,
+   "fail": 0,
+   "attention": 6,
+   "na": 0,
+   "unknown": 0,
+   "total": 86
+  },
+  "pages": 73,
+  "image_count": 3,
+  "photo_count": 67,
+  "size": 29582496
+ },
+ "20260620-173920-61cc97": {
+  "id": "20260620-173920-61cc97",
+  "filename": "Subaru_704792_inspection.pdf",
+  "vehicle": {
+   "vin": "4S3GTAV67N3704792",
+   "year": "2022",
+   "make": "Subaru",
+   "model": "Impreza",
+   "mileage": "20744",
+   "color": "White",
+   "interior_color": "Tan",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas",
+   "stock": "792"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260620-173920-61cc97",
+   "date": "2023-06-26",
+   "location": "Canton, GA, 30114",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 71,
+   "fail": 0,
+   "attention": 12,
+   "na": 0,
+   "unknown": 0,
+   "total": 83
+  },
+  "pages": 173,
+  "image_count": 3,
+  "photo_count": 167,
+  "size": 29936214
+ },
+ "20260622-200233-374f8f": {
+  "id": "20260622-200233-374f8f",
+  "filename": "Audi_112134_inspection.pdf",
+  "vehicle": {
+   "vin": "WA1UFAFL7DA112134",
+   "year": "2013",
+   "make": "Audi",
+   "model": "Allroad",
+   "mileage": "63533",
+   "color": "Black",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260622-200233-374f8f",
+   "date": "2023-07-13",
+   "location": "Sandy Springs, GA, 30342",
+   "customer": "Keisha Brown"
+  },
+  "summary": {
+   "pass": 78,
+   "fail": 0,
+   "attention": 5,
+   "na": 0,
+   "unknown": 0,
+   "total": 83
+  },
+  "pages": 131,
+  "image_count": 3,
+  "photo_count": 126,
+  "size": 48640335
+ },
+ "20260624-202812-3d34ab": {
+  "id": "20260624-202812-3d34ab",
+  "filename": "Dodge_242621_inspection.pdf",
+  "vehicle": {
+   "vin": "2C3CDXDT4EH242621",
+   "year": "2014",
+   "make": "Dodge",
+   "model": "Charger",
+   "mileage": "133029",
+   "color": "Black",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "8 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260624-202812-3d34ab",
+   "date": "2023-10-12",
+   "location": "Ellenwood, GA, 30294",
+   "customer": "Marcus Webb"
+  },
+  "summary": {
+   "pass": 56,
+   "fail": 1,
+   "attention": 18,
+   "na": 0,
+   "unknown": 0,
+   "total": 75
+  },
+  "pages": 105,
+  "image_count": 3,
+  "photo_count": 99,
+  "size": 22289817
+ },
+ "20260626-223556-601534": {
+  "id": "20260626-223556-601534",
+  "filename": "BMW_128642_inspection.pdf",
+  "vehicle": {
+   "vin": "WBA5B1C56FG128642",
+   "year": "2015",
+   "make": "BMW",
+   "model": "535i",
+   "mileage": "98256",
+   "color": "Black",
+   "interior_color": "Brown",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Rear Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260626-223556-601534",
+   "date": "2023-12-21",
+   "location": "Cumming, GA, 30040",
+   "customer": "Ryan Callahan"
+  },
+  "summary": {
+   "pass": 69,
+   "fail": 0,
+   "attention": 10,
+   "na": 0,
+   "unknown": 0,
+   "total": 79
+  },
+  "pages": 106,
+  "image_count": 3,
+  "photo_count": 99,
+  "size": 40574436
+ },
+ "20260629-004533-f52db1": {
+  "id": "20260629-004533-f52db1",
+  "filename": "Honda_019975_inspection.pdf",
+  "vehicle": {
+   "vin": "5FPYK3F56MB019975",
+   "year": "2021",
+   "make": "Honda",
+   "model": "Ridgeline",
+   "mileage": "60030",
+   "color": "Grey",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Four Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260629-004533-f52db1",
+   "date": "2023-11-05",
+   "location": "Tyrone, GA, 30290",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 79,
+   "fail": 0,
+   "attention": 6,
+   "na": 0,
+   "unknown": 0,
+   "total": 85
+  },
+  "pages": 73,
+  "image_count": 3,
+  "photo_count": 66,
+  "size": 27759694
+ },
+ "20260701-010853-23ed8f": {
+  "id": "20260701-010853-23ed8f",
+  "filename": "Mitsubishi_007802_inspection.pdf",
+  "vehicle": {
+   "vin": "ML32A3HJ7LH007802",
+   "year": "2020",
+   "make": "Mitsubishi",
+   "model": "Mirage",
+   "mileage": "3749",
+   "color": "White",
+   "interior_color": "Black",
+   "interior_material": "Cloth",
+   "engine": "3 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260701-010853-23ed8f",
+   "date": "2023-02-20",
+   "location": "Charlotte, NC, 28214",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 71,
+   "fail": 0,
+   "attention": 8,
+   "na": 0,
+   "unknown": 0,
+   "total": 79
+  },
+  "pages": 72,
+  "image_count": 3,
+  "photo_count": 63,
+  "size": 16019716
+ },
+ "20260703-032929-2fddbe": {
+  "id": "20260703-032929-2fddbe",
+  "filename": "Hyundai_150895_inspection.pdf",
+  "vehicle": {
+   "vin": "KM8K2CAA3JU150895",
+   "year": "2018",
+   "make": "Hyundai",
+   "model": "Kona",
+   "mileage": "12199",
+   "color": "White",
+   "interior_color": "Black",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260703-032929-2fddbe",
+   "date": "2023-09-26",
+   "location": "Boulder, CO, 80303",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 74,
+   "fail": 0,
+   "attention": 6,
+   "na": 0,
+   "unknown": 0,
+   "total": 80
+  },
+  "pages": 49,
+  "image_count": 3,
+  "photo_count": 42,
+  "size": 9913031
+ },
+ "20260705-032751-26afc4": {
+  "id": "20260705-032751-26afc4",
+  "filename": "Lexus_153795_inspection.pdf",
+  "vehicle": {
+   "vin": "JTJYARBZXK2153795",
+   "year": "2019",
+   "make": "Lexus",
+   "model": "NX",
+   "mileage": "42443",
+   "color": "White",
+   "interior_color": "Red",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260705-032751-26afc4",
+   "date": "2024-12-20",
+   "location": "Dallas, TX, 75228",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 56,
+   "fail": 4,
+   "attention": 18,
+   "na": 0,
+   "unknown": 0,
+   "total": 78
+  },
+  "pages": 159,
+  "image_count": 3,
+  "photo_count": 151,
+  "size": 32179518
+ },
+ "20260707-053432-b5fdee": {
+  "id": "20260707-053432-b5fdee",
+  "filename": "Buick_053334_inspection.pdf",
+  "vehicle": {
+   "vin": "LRBFX1SA3JD053334",
+   "year": "2018",
+   "make": "Buick",
+   "model": "Envision",
+   "mileage": "20414",
+   "color": "Silver",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260707-053432-b5fdee",
+   "date": "2023-06-21",
+   "location": "Fort Worth, TX, 76137",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 76,
+   "fail": 0,
+   "attention": 4,
+   "na": 0,
+   "unknown": 0,
+   "total": 80
+  },
+  "pages": 51,
+  "image_count": 3,
+  "photo_count": 46,
+  "size": 7695071
+ },
+ "20260709-060534-5e05b0": {
+  "id": "20260709-060534-5e05b0",
+  "filename": "Hyundai_660801_inspection.pdf",
+  "vehicle": {
+   "vin": "KM8J3CA45JU660801",
+   "year": "2018",
+   "make": "Hyundai",
+   "model": "Tucson",
+   "mileage": "97574",
+   "color": "Grey",
+   "interior_color": "Tan",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260709-060534-5e05b0",
+   "date": "2023-07-27",
+   "location": "Gypsum, CO, 81637",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 77,
+   "fail": 0,
+   "attention": 5,
+   "na": 0,
+   "unknown": 0,
+   "total": 82
+  },
+  "pages": 56,
+  "image_count": 3,
+  "photo_count": 49,
+  "size": 17250941
+ },
+ "20260711-075453-36760b": {
+  "id": "20260711-075453-36760b",
+  "filename": "Lexus_004193_inspection.pdf",
+  "vehicle": {
+   "vin": "JTHAP1D24P5004193",
+   "year": "2023",
+   "make": "Lexus",
+   "model": "IS",
+   "mileage": "10021",
+   "color": "Silver",
+   "interior_color": "Red",
+   "interior_material": "Leather",
+   "engine": "8 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Rear Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260711-075453-36760b",
+   "date": "2025-07-31",
+   "location": "Atlanta, GA, 30328",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 79,
+   "fail": 0,
+   "attention": 3,
+   "na": 0,
+   "unknown": 0,
+   "total": 82
+  },
+  "pages": 134,
+  "image_count": 3,
+  "photo_count": 128,
+  "size": 22528224
+ },
+ "20260713-101635-4f6082": {
+  "id": "20260713-101635-4f6082",
+  "filename": "Mercedes-Benz_316602_inspection.pdf",
+  "vehicle": {
+   "vin": "55SWF8DB9KU316602",
+   "year": "2019",
+   "make": "Mercedes-Benz",
+   "model": "C-Class",
+   "mileage": "13545",
+   "color": "Blue",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Rear Wheel Drive",
+   "fuel": "Gas",
+   "stock": "602"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260713-101635-4f6082",
+   "date": "2023-02-17",
+   "location": "Stone Mountain, GA, 30087",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 72,
+   "fail": 0,
+   "attention": 8,
+   "na": 0,
+   "unknown": 0,
+   "total": 80
+  },
+  "pages": 129,
+  "image_count": 3,
+  "photo_count": 123,
+  "size": 22411609
+ },
+ "20260715-101838-4ec7bf": {
+  "id": "20260715-101838-4ec7bf",
+  "filename": "Hyundai_225934_inspection.pdf",
+  "vehicle": {
+   "vin": "KMHCT5AE2FU225934",
+   "year": "2015",
+   "make": "Hyundai",
+   "model": "Accent",
+   "mileage": "105449",
+   "color": "Red",
+   "interior_color": "Grey",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas",
+   "stock": "603426"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260715-101838-4ec7bf",
+   "date": "2023-09-25",
+   "location": "Nashville, TN, 37205",
+   "customer": "Luke Ramsey"
+  },
+  "summary": {
+   "pass": 70,
+   "fail": 1,
+   "attention": 6,
+   "na": 0,
+   "unknown": 0,
+   "total": 77
+  },
+  "pages": 94,
+  "image_count": 3,
+  "photo_count": 87,
+  "size": 36457900
+ },
+ "20260717-131326-0c2fa6": {
+  "id": "20260717-131326-0c2fa6",
+  "filename": "Honda_003778_inspection.pdf",
+  "vehicle": {
+   "vin": "1HGCV2F39KA003778",
+   "year": "2019",
+   "make": "Honda",
+   "model": "Accord",
+   "mileage": "66548",
+   "color": "Black",
+   "interior_color": "Black",
+   "interior_material": "Leather/Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260717-131326-0c2fa6",
+   "date": "2023-05-09",
+   "location": "Prosper, TX, 75078",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 79,
+   "fail": 0,
+   "attention": 3,
+   "na": 0,
+   "unknown": 0,
+   "total": 82
+  },
+  "pages": 58,
+  "image_count": 3,
+  "photo_count": 52,
+  "size": 24895113
+ },
+ "20260719-124440-50e10d": {
+  "id": "20260719-124440-50e10d",
+  "filename": "Toyota_022768_inspection.pdf",
+  "vehicle": {
+   "vin": "JTMLWRFV7KD022768",
+   "year": "2019",
+   "make": "Toyota",
+   "model": "RAV4",
+   "mileage": "81323",
+   "color": "Black",
+   "interior_color": "Grey",
+   "interior_material": "Cloth",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Hybrid"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260719-124440-50e10d",
+   "date": "2024-02-17",
+   "location": "Dayton, OH, 45402",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 70,
+   "fail": 1,
+   "attention": 9,
+   "na": 0,
+   "unknown": 0,
+   "total": 80
+  },
+  "pages": 95,
+  "image_count": 3,
+  "photo_count": 88,
+  "size": 20459161
+ },
+ "20260721-153815-5311cd": {
+  "id": "20260721-153815-5311cd",
+  "filename": "Hyundai_587262_inspection.pdf",
+  "vehicle": {
+   "vin": "KMHCT4AE1EU587262",
+   "year": "2014",
+   "make": "Hyundai",
+   "model": "Accent",
+   "mileage": "124375",
+   "color": "Grey",
+   "interior_color": "Grey",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260721-153815-5311cd",
+   "date": "2023-08-10",
+   "location": "Nashville, TN, 37209",
+   "customer": "Caleb Turner"
+  },
+  "summary": {
+   "pass": 76,
+   "fail": 1,
+   "attention": 3,
+   "na": 0,
+   "unknown": 0,
+   "total": 80
+  },
+  "pages": 106,
+  "image_count": 3,
+  "photo_count": 101,
+  "size": 11412373
+ },
+ "20260723-180519-21962c": {
+  "id": "20260723-180519-21962c",
+  "filename": "Hyundai_973256_inspection.pdf",
+  "vehicle": {
+   "vin": "KM8J2CA49KU973256",
+   "year": "2019",
+   "make": "Hyundai",
+   "model": "Tucson",
+   "mileage": "28798",
+   "color": "Maroon",
+   "interior_color": "Grey",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260723-180519-21962c",
+   "date": "2023-05-20",
+   "location": "Riverside, RI, 02915",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 78,
+   "fail": 0,
+   "attention": 2,
+   "na": 0,
+   "unknown": 0,
+   "total": 80
+  },
+  "pages": 93,
+  "image_count": 3,
+  "photo_count": 88,
+  "size": 42418847
+ },
+ "20260725-174050-c21097": {
+  "id": "20260725-174050-c21097",
+  "filename": "Kia_135360_inspection.pdf",
+  "vehicle": {
+   "vin": "5XYP24HC3MG135360",
+   "year": "2021",
+   "make": "Kia",
+   "model": "Telluride",
+   "mileage": "43367",
+   "color": "Black",
+   "interior_color": "Black",
+   "interior_material": "Vinyl",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260725-174050-c21097",
+   "date": "2023-03-13",
+   "location": "Commerce City, CO, 80022",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 65,
+   "fail": 2,
+   "attention": 10,
+   "na": 0,
+   "unknown": 0,
+   "total": 77
+  },
+  "pages": 78,
+  "image_count": 3,
+  "photo_count": 71,
+  "size": 17484744
+ },
+ "20260727-194848-565f02": {
+  "id": "20260727-194848-565f02",
+  "filename": "Infiniti_551754_inspection.pdf",
+  "vehicle": {
+   "vin": "5N1DL0MM5KC551754",
+   "year": "2019",
+   "make": "Infiniti",
+   "model": "QX60",
+   "mileage": "42512",
+   "color": "Blue",
+   "interior_color": "Black",
+   "interior_material": "Cloth",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260727-194848-565f02",
+   "date": "2023-06-26",
+   "location": "Long Beach, NY, 11561",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 79,
+   "fail": 0,
+   "attention": 7,
+   "na": 0,
+   "unknown": 0,
+   "total": 86
+  },
+  "pages": 175,
+  "image_count": 3,
+  "photo_count": 167,
+  "size": 32030893
+ },
+ "20260729-200606-53e297": {
+  "id": "20260729-200606-53e297",
+  "filename": "Buick_524529_inspection.pdf",
+  "vehicle": {
+   "vin": "KL4CJCSB7JB524529",
+   "year": "2018",
+   "make": "Buick",
+   "model": "Encore",
+   "mileage": "55114",
+   "color": "White",
+   "interior_color": "Black",
+   "interior_material": "Vinyl",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260729-200606-53e297",
+   "date": "2023-06-15",
+   "location": "Castle Rock, CO, 80104",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 70,
+   "fail": 1,
+   "attention": 8,
+   "na": 0,
+   "unknown": 0,
+   "total": 79
+  },
+  "pages": 66,
+  "image_count": 3,
+  "photo_count": 77,
+  "size": 10101339
+ },
+ "20260731-224749-9f751a": {
+  "id": "20260731-224749-9f751a",
+  "filename": "BMW_H26242_inspection.pdf",
+  "vehicle": {
+   "vin": "WBAVB73558VH26242",
+   "year": "2008",
+   "make": "BMW",
+   "model": "3",
+   "trim": "Series",
+   "mileage": "92207",
+   "color": "Tan",
+   "interior_color": "Tan",
+   "interior_material": "Leather",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Rear Wheel Drive",
+   "fuel": "Gas",
+   "stock": "618733"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260731-224749-9f751a",
+   "date": "2023-12-13",
+   "location": "Salt Lake City, UT, 84106",
+   "customer": "ReBuilt Autos"
+  },
+  "summary": {
+   "pass": 57,
+   "fail": 2,
+   "attention": 18,
+   "na": 0,
+   "unknown": 1,
+   "total": 78
+  },
+  "pages": 72,
+  "image_count": 3,
+  "photo_count": 65,
+  "size": 28865112
+ },
+ "20260803-005056-4cd32f": {
+  "id": "20260803-005056-4cd32f",
+  "filename": "Toyota_563885_inspection.pdf",
+  "vehicle": {
+   "vin": "JTDKBRFU2H3563885",
+   "year": "2017",
+   "make": "Toyota",
+   "model": "Prius",
+   "mileage": "126606",
+   "color": "Maroon",
+   "interior_color": "Black",
+   "interior_material": "Cloth",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Hybrid",
+   "stock": "NA"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260803-005056-4cd32f",
+   "date": "2023-04-13",
+   "location": "Murfreesboro, TN, 37128",
+   "customer": "Isaiah Reed"
+  },
+  "summary": {
+   "pass": 66,
+   "fail": 0,
+   "attention": 13,
+   "na": 0,
+   "unknown": 0,
+   "total": 79
+  },
+  "pages": 93,
+  "image_count": 3,
+  "photo_count": 86,
+  "size": 14185731
+ },
+ "20260805-010758-eaf76c": {
+  "id": "20260805-010758-eaf76c",
+  "filename": "Mitsubishi_035233_inspection.pdf",
+  "vehicle": {
+   "vin": "JA4AD3A36JZ035233",
+   "year": "2018",
+   "make": "Mitsubishi",
+   "model": "Outlander",
+   "mileage": "82132",
+   "color": "Brown",
+   "interior_color": "Black",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260805-010758-eaf76c",
+   "date": "2023-05-03",
+   "location": "Villa Rica, GA, 30180",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 69,
+   "fail": 0,
+   "attention": 13,
+   "na": 0,
+   "unknown": 0,
+   "total": 82
+  },
+  "pages": 155,
+  "image_count": 3,
+  "photo_count": 148,
+  "size": 29376995
+ },
+ "20260807-033750-992b1b": {
+  "id": "20260807-033750-992b1b",
+  "filename": "Chevrolet_175847_inspection.pdf",
+  "vehicle": {
+   "vin": "1GCNKREC3JZ175847",
+   "year": "2018",
+   "make": "Chevrolet",
+   "model": "Silverado",
+   "trim": "1500",
+   "mileage": "23108",
+   "color": "Black",
+   "interior_color": "Grey",
+   "interior_material": "Cloth",
+   "engine": "8 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Four Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260807-033750-992b1b",
+   "date": "2025-03-23",
+   "location": "Mt. Juliet, TN, 37122",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 73,
+   "fail": 0,
+   "attention": 9,
+   "na": 0,
+   "unknown": 0,
+   "total": 82
+  },
+  "pages": 105,
+  "image_count": 3,
+  "photo_count": 98,
+  "size": 20967047
+ },
+ "20260809-033202-cad6c5": {
+  "id": "20260809-033202-cad6c5",
+  "filename": "Chevrolet_346746_inspection.pdf",
+  "vehicle": {
+   "vin": "1GCPYFED5MZ346746",
+   "year": "2021",
+   "make": "Chevrolet",
+   "model": "Silverado",
+   "trim": "1500",
+   "mileage": "15037",
+   "color": "White",
+   "interior_color": "Grey",
+   "interior_material": "Cloth",
+   "engine": "8 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Four Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260809-033202-cad6c5",
+   "date": "2024-01-31",
+   "location": "North Las Vegas, NV, 89084",
+   "customer": "Crestview Denver"
+  },
+  "summary": {
+   "pass": 79,
+   "fail": 0,
+   "attention": 5,
+   "na": 0,
+   "unknown": 0,
+   "total": 84
+  },
+  "pages": 156,
+  "image_count": 3,
+  "photo_count": 152,
+  "size": 26773489
+ },
+ "20260811-052846-8dca87": {
+  "id": "20260811-052846-8dca87",
+  "filename": "Lexus_015914_inspection.pdf",
+  "vehicle": {
+   "vin": "JTHU9JBH2K2015914",
+   "year": "2019",
+   "make": "Lexus",
+   "model": "UX",
+   "trim": "250h",
+   "mileage": "46548",
+   "color": "Green",
+   "interior_color": "Tan",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Four Wheel Drive",
+   "fuel": "Hybrid"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260811-052846-8dca87",
+   "date": "2024-12-21",
+   "location": "Lawrenceville, GA, 30043",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 75,
+   "fail": 0,
+   "attention": 8,
+   "na": 0,
+   "unknown": 0,
+   "total": 83
+  },
+  "pages": 55,
+  "image_count": 3,
+  "photo_count": 48,
+  "size": 19052533
+ },
+ "20260813-055228-eaa4a5": {
+  "id": "20260813-055228-eaa4a5",
+  "filename": "Toyota_153277_inspection.pdf",
+  "vehicle": {
+   "vin": "5TDZRKEC1PS153277",
+   "year": "2023",
+   "make": "Toyota",
+   "model": "Sienna",
+   "mileage": "3116",
+   "color": "Silver",
+   "interior_color": "Silver",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260813-055228-eaa4a5",
+   "date": "2023-10-08",
+   "location": "Alpharetta, GA, 30009",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 80,
+   "fail": 0,
+   "attention": 0,
+   "na": 0,
+   "unknown": 0,
+   "total": 80
+  },
+  "pages": 47,
+  "image_count": 3,
+  "photo_count": 42,
+  "size": 17079903
+ },
+ "20260815-081115-6d94f4": {
+  "id": "20260815-081115-6d94f4",
+  "filename": "Chrysler_123229_inspection.pdf",
+  "vehicle": {
+   "vin": "2C4RC1GG0JR123229",
+   "year": "2018",
+   "make": "Chrysler",
+   "model": "Pacifica",
+   "mileage": "78434",
+   "color": "Tan",
+   "interior_color": "Tan",
+   "interior_material": "Leather",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas",
+   "stock": "229"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260815-081115-6d94f4",
+   "date": "2023-05-08",
+   "location": "Cumming, GA, 30040",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 66,
+   "fail": 0,
+   "attention": 13,
+   "na": 0,
+   "unknown": 0,
+   "total": 79
+  },
+  "pages": 175,
+  "image_count": 3,
+  "photo_count": 168,
+  "size": 31282217
+ },
+ "20260817-104111-f1b62b": {
+  "id": "20260817-104111-f1b62b",
+  "filename": "Kia_203537_inspection.pdf",
+  "vehicle": {
+   "vin": "5XXGU4L34JG203537",
+   "year": "2018",
+   "make": "Kia",
+   "model": "Optima",
+   "mileage": "97727",
+   "color": "Grey",
+   "interior_color": "Grey",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas",
+   "stock": "699563"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260817-104111-f1b62b",
+   "date": "2024-11-08",
+   "location": "Fruit Heights, UT, 84037",
+   "customer": "ReBuilt Autos"
+  },
+  "summary": {
+   "pass": 60,
+   "fail": 2,
+   "attention": 17,
+   "na": 0,
+   "unknown": 0,
+   "total": 79
+  },
+  "pages": 160,
+  "image_count": 3,
+  "photo_count": 152,
+  "size": 76164934
+ },
+ "20260819-105017-cd5323": {
+  "id": "20260819-105017-cd5323",
+  "filename": "BMW_618461_inspection.pdf",
+  "vehicle": {
+   "vin": "WBA5A7C51ED618461",
+   "year": "2014",
+   "make": "BMW",
+   "model": "5",
+   "trim": "Series",
+   "mileage": "92501",
+   "color": "Black",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas",
+   "stock": "NA"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260819-105017-cd5323",
+   "date": "2023-03-18",
+   "location": "Englewood, CO, 80112",
+   "customer": "Josh Whitaker"
+  },
+  "summary": {
+   "pass": 76,
+   "fail": 0,
+   "attention": 8,
+   "na": 0,
+   "unknown": 0,
+   "total": 84
+  },
+  "pages": 86,
+  "image_count": 3,
+  "photo_count": 80,
+  "size": 30543244
+ },
+ "20260821-123613-515f31": {
+  "id": "20260821-123613-515f31",
+  "filename": "Ram_209899_inspection.pdf",
+  "vehicle": {
+   "vin": "1C6RREFTXLN209899",
+   "year": "2020",
+   "make": "Ram",
+   "model": "1500",
+   "mileage": "46371",
+   "color": "White",
+   "interior_color": "Black",
+   "interior_material": "Cloth",
+   "engine": "8 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Rear Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260821-123613-515f31",
+   "date": "2024-02-13",
+   "location": "Sunnyvale, TX, 75182",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 62,
+   "fail": 1,
+   "attention": 14,
+   "na": 0,
+   "unknown": 0,
+   "total": 77
+  },
+  "pages": 156,
+  "image_count": 3,
+  "photo_count": 150,
+  "size": 62123623
+ },
+ "20260823-124339-d4966f": {
+  "id": "20260823-124339-d4966f",
+  "filename": "Ford_D78510_inspection.pdf",
+  "vehicle": {
+   "vin": "3FMCR9B65PRD78510",
+   "year": "2023",
+   "make": "Ford",
+   "model": "Bronco",
+   "trim": "Sport",
+   "mileage": "536",
+   "color": "Teal",
+   "interior_color": "Grey",
+   "interior_material": "Cloth",
+   "engine": "3 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260823-124339-d4966f",
+   "date": "2025-06-05",
+   "location": "Aurora, CO, 80015",
+   "customer": "Crestview Denver"
+  },
+  "summary": {
+   "pass": 79,
+   "fail": 0,
+   "attention": 3,
+   "na": 0,
+   "unknown": 0,
+   "total": 82
+  },
+  "pages": 67,
+  "image_count": 3,
+  "photo_count": 60,
+  "size": 24736137
+ },
+ "20260825-152927-4325fa": {
+  "id": "20260825-152927-4325fa",
+  "filename": "Dodge_730035_inspection.pdf",
+  "vehicle": {
+   "vin": "2C4RDGCGXKR730035",
+   "year": "2019",
+   "make": "Dodge",
+   "model": "Grand",
+   "trim": "Caravan",
+   "mileage": "80325",
+   "color": "White",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Four Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260825-152927-4325fa",
+   "date": "2023-05-23",
+   "location": "Terrell, TX, 75161",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 71,
+   "fail": 0,
+   "attention": 10,
+   "na": 0,
+   "unknown": 0,
+   "total": 81
+  },
+  "pages": 248,
+  "image_count": 3,
+  "photo_count": 239,
+  "size": 50155102
+ },
+ "20260827-174648-439c24": {
+  "id": "20260827-174648-439c24",
+  "filename": "Toyota_009501_inspection.pdf",
+  "vehicle": {
+   "vin": "3TMBZ5DN7HM009501",
+   "year": "2017",
+   "make": "Toyota",
+   "model": "Tacoma",
+   "mileage": "58275",
+   "color": "Orange",
+   "interior_color": "Black",
+   "interior_material": "Cloth",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Rear Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260827-174648-439c24",
+   "date": "2023-09-17",
+   "location": "Anna, TX, 75409",
+   "customer": "Laura Jennings"
+  },
+  "summary": {
+   "pass": 77,
+   "fail": 0,
+   "attention": 6,
+   "na": 0,
+   "unknown": 0,
+   "total": 83
+  },
+  "pages": 100,
+  "image_count": 3,
+  "photo_count": 56,
+  "size": 16318882
+ },
+ "20260829-174702-2ea2a1": {
+  "id": "20260829-174702-2ea2a1",
+  "filename": "Kia_172449_inspection.pdf",
+  "vehicle": {
+   "vin": "KNDJ23AU4N7172449",
+   "year": "2022",
+   "make": "Kia",
+   "model": "Soul",
+   "mileage": "20380",
+   "color": "White",
+   "interior_color": "Black",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas",
+   "stock": "2449"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260829-174702-2ea2a1",
+   "date": "2023-04-12",
+   "location": "Arlington, TX, 76006",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 79,
+   "fail": 0,
+   "attention": 0,
+   "na": 0,
+   "unknown": 0,
+   "total": 79
+  },
+  "pages": 50,
+  "image_count": 3,
+  "photo_count": 45,
+  "size": 6971585
+ },
+ "20260831-195146-8cf274": {
+  "id": "20260831-195146-8cf274",
+  "filename": "Rivian_013356_inspection.pdf",
+  "vehicle": {
+   "vin": "7FCTGAAA0NN013356",
+   "year": "2022",
+   "make": "Rivian",
+   "model": "R1T",
+   "mileage": "6028",
+   "color": "Grey",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Electric",
+   "stock": "0000"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260831-195146-8cf274",
+   "date": "2023-11-13",
+   "location": "Colleyville, TX, 76034",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 68,
+   "fail": 0,
+   "attention": 0,
+   "na": 0,
+   "unknown": 0,
+   "total": 68
+  },
+  "pages": 55,
+  "image_count": 3,
+  "photo_count": 47,
+  "size": 16964422
+ },
+ "20260902-202500-b3d61c": {
+  "id": "20260902-202500-b3d61c",
+  "filename": "Nissan_022587_inspection.pdf",
+  "vehicle": {
+   "vin": "JN1AZ0CP0CT022587",
+   "year": "2012",
+   "make": "Nissan",
+   "model": "LEAF",
+   "mileage": "59928",
+   "color": "Black",
+   "interior_color": "Tan",
+   "interior_material": "Cloth",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Electric"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260902-202500-b3d61c",
+   "date": "2023-08-19",
+   "location": "Midvale, UT, 84047",
+   "customer": "ReBuilt Autos"
+  },
+  "summary": {
+   "pass": 56,
+   "fail": 0,
+   "attention": 14,
+   "na": 0,
+   "unknown": 0,
+   "total": 70
+  },
+  "pages": 66,
+  "image_count": 3,
+  "photo_count": 59,
+  "size": 23738525
+ },
+ "20260904-222647-c0fdda": {
+  "id": "20260904-222647-c0fdda",
+  "filename": "Nissan_151564_inspection.pdf",
+  "vehicle": {
+   "vin": "5N1AZ2MJ6KN151564",
+   "year": "2019",
+   "make": "Nissan",
+   "model": "Murano",
+   "mileage": "101207",
+   "color": "White",
+   "interior_color": "Tan",
+   "interior_material": "Cloth",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260904-222647-c0fdda",
+   "date": "2024-08-30",
+   "location": "Bedford, TX, 76021",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 69,
+   "fail": 0,
+   "attention": 10,
+   "na": 0,
+   "unknown": 0,
+   "total": 79
+  },
+  "pages": 58,
+  "image_count": 3,
+  "photo_count": 51,
+  "size": 8275573
+ },
+ "20260907-004509-29309d": {
+  "id": "20260907-004509-29309d",
+  "filename": "GMC_409749_inspection.pdf",
+  "vehicle": {
+   "vin": "3GTU9EET7MG409749",
+   "year": "2021",
+   "make": "GMC",
+   "model": "Sierra",
+   "trim": "1500",
+   "mileage": "56830",
+   "color": "Red",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Four Wheel Drive",
+   "fuel": "Diesel"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260907-004509-29309d",
+   "date": "2025-06-03",
+   "location": "Merryville, LA, 70653",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 75,
+   "fail": 0,
+   "attention": 9,
+   "na": 0,
+   "unknown": 0,
+   "total": 84
+  },
+  "pages": 47,
+  "image_count": 3,
+  "photo_count": 70,
+  "size": 16287794
+ },
+ "20260909-004302-253dd4": {
+  "id": "20260909-004302-253dd4",
+  "filename": "Ford_A91953_inspection.pdf",
+  "vehicle": {
+   "vin": "1FMEE5DPXMLA91953",
+   "year": "2021",
+   "make": "Ford",
+   "model": "Bronco",
+   "mileage": "84829",
+   "color": "Black",
+   "interior_color": "Tan",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas",
+   "stock": "0000"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260909-004302-253dd4",
+   "date": "2023-06-19",
+   "location": "Peachtree City, GA, 30269",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 82,
+   "fail": 0,
+   "attention": 2,
+   "na": 0,
+   "unknown": 0,
+   "total": 84
+  },
+  "pages": 140,
+  "image_count": 3,
+  "photo_count": 132,
+  "size": 40068902
+ },
+ "20260911-034754-aa5537": {
+  "id": "20260911-034754-aa5537",
+  "filename": "Ford_A20793_inspection.pdf",
+  "vehicle": {
+   "vin": "1FTER4FH3KLA20793",
+   "year": "2019",
+   "make": "Ford",
+   "model": "Ranger",
+   "mileage": "29788",
+   "color": "Grey",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Four Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260911-034754-aa5537",
+   "date": "2023-08-10",
+   "location": "Oregon City, OR, 97045",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 75,
+   "fail": 1,
+   "attention": 8,
+   "na": 0,
+   "unknown": 0,
+   "total": 84
+  },
+  "pages": 66,
+  "image_count": 3,
+  "photo_count": 59,
+  "size": 14166732
+ },
+ "20260913-033841-63f801": {
+  "id": "20260913-033841-63f801",
+  "filename": "Dodge_354747_inspection.pdf",
+  "vehicle": {
+   "vin": "1C4RDHEG2JC354747",
+   "year": "2018",
+   "make": "Dodge",
+   "model": "Durango",
+   "mileage": "90844",
+   "color": "Maroon",
+   "interior_color": "Tan",
+   "interior_material": "Leather",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260913-033841-63f801",
+   "date": "2023-03-21",
+   "location": "Powder Springs, GA, 30127",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 64,
+   "fail": 0,
+   "attention": 16,
+   "na": 0,
+   "unknown": 1,
+   "total": 81
+  },
+  "pages": 157,
+  "image_count": 3,
+  "photo_count": 150,
+  "size": 28226257
+ },
+ "20260915-060929-8683b4": {
+  "id": "20260915-060929-8683b4",
+  "filename": "Dodge_214516_inspection.pdf",
+  "vehicle": {
+   "vin": "1C6RR7NTXJS214516",
+   "year": "2018",
+   "make": "Dodge",
+   "model": "Ram",
+   "trim": "1500",
+   "mileage": "117182",
+   "color": "White",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "8 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Four Wheel Drive",
+   "fuel": "Gas",
+   "stock": "NA"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260915-060929-8683b4",
+   "date": "2023-01-19",
+   "location": "Nashville, TN, 37228",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 68,
+   "fail": 0,
+   "attention": 13,
+   "na": 0,
+   "unknown": 0,
+   "total": 81
+  },
+  "pages": 111,
+  "image_count": 3,
+  "photo_count": 104,
+  "size": 41580278
+ },
+ "20260917-061202-fc17e1": {
+  "id": "20260917-061202-fc17e1",
+  "filename": "Ford_A15478_inspection.pdf",
+  "vehicle": {
+   "vin": "1FTER4FH3KLA15478",
+   "mileage": "118087",
+   "year": "2019",
+   "make": "Ford",
+   "model": "Ranger",
+   "color": "Grey",
+   "interior_color": "Black",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Four Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260917-061202-fc17e1",
+   "date": "2024-05-04",
+   "location": "Lewisville, TX, 75067",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 47,
+   "fail": 7,
+   "attention": 29,
+   "na": 0,
+   "unknown": 0,
+   "total": 83
+  },
+  "pages": 212,
+  "image_count": 3,
+  "photo_count": 204,
+  "size": 79982078
+ },
+ "20260919-080620-06b789": {
+  "id": "20260919-080620-06b789",
+  "filename": "Volkswagen_011251_inspection.pdf",
+  "vehicle": {
+   "vin": "1VWSA7A32LC011251",
+   "year": "2020",
+   "make": "Volkswagen",
+   "model": "Passat",
+   "mileage": "56295",
+   "color": "Grey",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260919-080620-06b789",
+   "date": "2023-02-03",
+   "location": "Nashville, TN, 37205",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 66,
+   "fail": 4,
+   "attention": 9,
+   "na": 0,
+   "unknown": 0,
+   "total": 79
+  },
+  "pages": 63,
+  "image_count": 3,
+  "photo_count": 91,
+  "size": 7733502
+ },
+ "20260921-110054-72c85d": {
+  "id": "20260921-110054-72c85d",
+  "filename": "Hyundai_033460_inspection.pdf",
+  "vehicle": {
+   "vin": "5XYZKDAG8BG033460",
+   "year": "2011",
+   "make": "Hyundai",
+   "model": "Santa",
+   "trim": "Fe",
+   "mileage": "132373",
+   "color": "Black",
+   "interior_color": "Tan",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260921-110054-72c85d",
+   "date": "2023-07-26",
+   "location": "Lafayette, CO, 80026",
+   "customer": "Emily Carter"
+  },
+  "summary": {
+   "pass": 72,
+   "fail": 0,
+   "attention": 12,
+   "na": 0,
+   "unknown": 0,
+   "total": 84
+  },
+  "pages": 99,
+  "image_count": 3,
+  "photo_count": 92,
+  "size": 33549864
+ },
+ "20260922-154057-1cd4d8": {
+  "id": "20260922-154057-1cd4d8",
+  "filename": "Subaru_218329_inspection.pdf",
+  "vehicle": {
+   "vin": "4S4BSETC4J3218329",
+   "year": "2018",
+   "make": "Subaru",
+   "model": "Outback",
+   "mileage": "93169",
+   "color": "Black",
+   "interior_color": "Brown",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260922-154057-1cd4d8",
+   "date": "2023-05-17",
+   "location": "Severn, MD, 21144",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 75,
+   "fail": 0,
+   "attention": 8,
+   "na": 0,
+   "unknown": 1,
+   "total": 84
+  },
+  "pages": 81,
+  "image_count": 3,
+  "photo_count": 75,
+  "size": 17916355
+ },
+ "20260923-104718-b4e671": {
+  "id": "20260923-104718-b4e671",
+  "filename": "Subaru_431884_inspection.pdf",
+  "vehicle": {
+   "vin": "JF2SJAHC8EH431884",
+   "year": "2014",
+   "make": "Subaru",
+   "model": "Forester",
+   "mileage": "79261",
+   "color": "White",
+   "interior_color": "Brown",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260923-104718-b4e671",
+   "date": "2024-01-25",
+   "location": "Grapevine, TX, 76051",
+   "customer": "Diego Morales"
+  },
+  "summary": {
+   "pass": 77,
+   "fail": 0,
+   "attention": 7,
+   "na": 0,
+   "unknown": 0,
+   "total": 84
+  },
+  "pages": 97,
+  "image_count": 3,
+  "photo_count": 89,
+  "size": 39939086
+ },
+ "20260925-132536-f0ec0b": {
+  "id": "20260925-132536-f0ec0b",
+  "filename": "Ford_F12548_inspection.pdf",
+  "vehicle": {
+   "vin": "1FTEW1E53JKF12548",
+   "year": "2018",
+   "make": "Ford",
+   "model": "F-150",
+   "mileage": "89932",
+   "color": "Silver",
+   "interior_color": "Black",
+   "interior_material": "Leather/Cloth",
+   "engine": "8 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Four Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260925-132536-f0ec0b",
+   "date": "2025-05-04",
+   "location": "Desoto, TX, 75115",
+   "customer": "Tamika Lewis"
+  },
+  "summary": {
+   "pass": 65,
+   "fail": 2,
+   "attention": 19,
+   "na": 0,
+   "unknown": 0,
+   "total": 86
+  },
+  "pages": 225,
+  "image_count": 3,
+  "photo_count": 216,
+  "size": 100197459
+ },
+ "20260927-130141-79f355": {
+  "id": "20260927-130141-79f355",
+  "filename": "Mercedes-Benz_028968_inspection.pdf",
+  "vehicle": {
+   "vin": "W1Z4EGHYXLT028968",
+   "year": "2020",
+   "make": "Mercedes-Benz",
+   "model": "Sprinter",
+   "trim": "Passenger Van",
+   "mileage": "36889",
+   "color": "Black",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Rear Wheel Drive",
+   "fuel": "Diesel"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260927-130141-79f355",
+   "date": "2023-12-11",
+   "location": "Milton, GA, 30004",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 66,
+   "fail": 4,
+   "attention": 8,
+   "na": 0,
+   "unknown": 0,
+   "total": 78
+  },
+  "pages": 130,
+  "image_count": 3,
+  "photo_count": 124,
+  "size": 54310899
+ },
+ "20260929-152549-e08591": {
+  "id": "20260929-152549-e08591",
+  "filename": "Chevrolet_119857_inspection.pdf",
+  "vehicle": {
+   "vin": "1G1RC6S50JU119857",
+   "year": "2018",
+   "make": "Chevrolet",
+   "model": "Volt",
+   "mileage": "22506",
+   "color": "Grey",
+   "interior_color": "Grey",
+   "interior_material": "Cloth",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Electric"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20260929-152549-e08591",
+   "date": "2023-03-14",
+   "location": "Medford, MA, 02155",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 65,
+   "fail": 0,
+   "attention": 1,
+   "na": 0,
+   "unknown": 0,
+   "total": 66
+  },
+  "pages": 60,
+  "image_count": 3,
+  "photo_count": 54,
+  "size": 22853854
+ },
+ "20261001-174156-719cf4": {
+  "id": "20261001-174156-719cf4",
+  "filename": "Chevrolet_134573_inspection.pdf",
+  "vehicle": {
+   "vin": "1G1JE5SB6G4134573",
+   "year": "2016",
+   "make": "Chevrolet",
+   "model": "Sonic",
+   "mileage": "99527",
+   "color": "Silver",
+   "interior_color": "Black",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261001-174156-719cf4",
+   "date": "2024-03-06",
+   "location": "Spring Hill, TN, 37174",
+   "customer": "Hannah Brooks"
+  },
+  "summary": {
+   "pass": 65,
+   "fail": 0,
+   "attention": 15,
+   "na": 0,
+   "unknown": 0,
+   "total": 80
+  },
+  "pages": 74,
+  "image_count": 3,
+  "photo_count": 67,
+  "size": 9667037
+ },
+ "20261003-172929-eb5e4e": {
+  "id": "20261003-172929-eb5e4e",
+  "filename": "Subaru_115587_inspection.pdf",
+  "vehicle": {
+   "vin": "4S4BTGND0M3115587",
+   "year": "2021",
+   "make": "Subaru",
+   "model": "Outback",
+   "mileage": "16467",
+   "color": "Blue",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261003-172929-eb5e4e",
+   "date": "2023-04-27",
+   "location": "Boulder, CO, 80302",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 81,
+   "fail": 0,
+   "attention": 1,
+   "na": 0,
+   "unknown": 0,
+   "total": 82
+  },
+  "pages": 53,
+  "image_count": 3,
+  "photo_count": 48,
+  "size": 16426352
+ },
+ "20261005-195319-8a79ee": {
+  "id": "20261005-195319-8a79ee",
+  "filename": "Acura_009831_inspection.pdf",
+  "vehicle": {
+   "vin": "5FRYD3H2XFB009831",
+   "year": "2015",
+   "make": "Acura",
+   "model": "MDX",
+   "mileage": "120824",
+   "color": "Black",
+   "interior_color": "Grey",
+   "interior_material": "Vinyl",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261005-195319-8a79ee",
+   "date": "2024-01-11",
+   "location": "Cumming, GA, 30040",
+   "customer": "Priya Raman"
+  },
+  "summary": {
+   "pass": 65,
+   "fail": 0,
+   "attention": 15,
+   "na": 0,
+   "unknown": 0,
+   "total": 80
+  },
+  "pages": 170,
+  "image_count": 3,
+  "photo_count": 163,
+  "size": 57467696
+ },
+ "20261007-202541-f52ee2": {
+  "id": "20261007-202541-f52ee2",
+  "filename": "Subaru_439300_inspection.pdf",
+  "vehicle": {
+   "vin": "4S4WMARD3K3439300",
+   "year": "2019",
+   "make": "Subaru",
+   "model": "Ascent",
+   "mileage": "55551",
+   "color": "Blue",
+   "interior_color": "Brown",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261007-202541-f52ee2",
+   "date": "2023-05-16",
+   "location": "Grapevine, TX, 76051",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 70,
+   "fail": 0,
+   "attention": 11,
+   "na": 0,
+   "unknown": 0,
+   "total": 81
+  },
+  "pages": 104,
+  "image_count": 3,
+  "photo_count": 58,
+  "size": 9186735
+ },
+ "20261009-222705-080dd5": {
+  "id": "20261009-222705-080dd5",
+  "filename": "Chevrolet_337606_inspection.pdf",
+  "vehicle": {
+   "vin": "1G1PG5SC5C7337606",
+   "year": "2012",
+   "make": "Chevrolet",
+   "model": "Cruze",
+   "mileage": "97375",
+   "color": "White",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261009-222705-080dd5",
+   "date": "2022-12-30",
+   "location": "Salt Lake City, UT, 84104",
+   "customer": "ReBuilt Autos"
+  },
+  "summary": {
+   "pass": 60,
+   "fail": 1,
+   "attention": 10,
+   "na": 0,
+   "unknown": 0,
+   "total": 71
+  },
+  "pages": 66,
+  "image_count": 3,
+  "photo_count": 59,
+  "size": 15875159
+ },
+ "20261012-012503-33093e": {
+  "id": "20261012-012503-33093e",
+  "filename": "Volkswagen_035034_inspection.pdf",
+  "vehicle": {
+   "vin": "3VVCB7AX1NM035034",
+   "year": "2022",
+   "make": "Volkswagen",
+   "model": "Tiguan",
+   "mileage": "47098",
+   "color": "White",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261012-012503-33093e",
+   "date": "2023-11-08",
+   "location": "Arvada, CO, 80005",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 78,
+   "fail": 0,
+   "attention": 5,
+   "na": 0,
+   "unknown": 0,
+   "total": 83
+  },
+  "pages": 75,
+  "image_count": 3,
+  "photo_count": 68,
+  "size": 11360729
+ },
+ "20261014-005119-19d283": {
+  "id": "20261014-005119-19d283",
+  "filename": "GMC_300043_inspection.pdf",
+  "vehicle": {
+   "vin": "1GT49WEY1LF300043",
+   "year": "2020",
+   "make": "GMC",
+   "model": "Sierra",
+   "trim": "3500HD",
+   "mileage": "10243",
+   "color": "Black",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "8 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Four Wheel Drive",
+   "fuel": "Diesel"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261014-005119-19d283",
+   "date": "2025-08-06",
+   "location": "Longmont, CO, 80503",
+   "customer": "Crestview Denver"
+  },
+  "summary": {
+   "pass": 78,
+   "fail": 0,
+   "attention": 8,
+   "na": 0,
+   "unknown": 0,
+   "total": 86
+  },
+  "pages": 67,
+  "image_count": 3,
+  "photo_count": 63,
+  "size": 11034986
+ },
  "20261014-145907-d73b05": {
   "id": "20261014-145907-d73b05",
   "filename": "Chevrolet_100139_inspection.pdf",
@@ -37,7 +2909,45 @@ export const REPORT_INDEX = {
   },
   "pages": 109,
   "image_count": 101,
+  "photo_count": 101,
   "size": 14328005
+ },
+ "20261016-030940-d0665b": {
+  "id": "20261016-030940-d0665b",
+  "filename": "Ford_A08611_inspection.pdf",
+  "vehicle": {
+   "vin": "3FMTK3SU2MMA08611",
+   "year": "2021",
+   "make": "Ford",
+   "model": "Mustang",
+   "trim": "Mach-E",
+   "mileage": "19039",
+   "color": "Red",
+   "interior_color": "Tan",
+   "interior_material": "Leather",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Electric"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261016-030940-d0665b",
+   "date": "2023-01-13",
+   "location": "Fraser, MI, 48026",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 70,
+   "fail": 0,
+   "attention": 0,
+   "na": 0,
+   "unknown": 0,
+   "total": 70
+  },
+  "pages": 105,
+  "image_count": 3,
+  "photo_count": 142,
+  "size": 17394011
  },
  "20261017-153340-c4d812": {
   "id": "20261017-153340-c4d812",
@@ -73,7 +2983,119 @@ export const REPORT_INDEX = {
   },
   "pages": 94,
   "image_count": 81,
+  "photo_count": 81,
   "size": 31189499
+ },
+ "20261018-030700-59e62e": {
+  "id": "20261018-030700-59e62e",
+  "filename": "Mazda_616510_inspection.pdf",
+  "vehicle": {
+   "vin": "JM3KFBCM6K0616510",
+   "year": "2019",
+   "make": "Mazda",
+   "model": "CX-5",
+   "mileage": "4349",
+   "color": "Burgundy",
+   "interior_color": "Grey",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261018-030700-59e62e",
+   "date": "2023-02-07",
+   "location": "Littleton, CO, 80129",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 74,
+   "fail": 0,
+   "attention": 10,
+   "na": 0,
+   "unknown": 0,
+   "total": 84
+  },
+  "pages": 81,
+  "image_count": 3,
+  "photo_count": 74,
+  "size": 17993165
+ },
+ "20261020-061058-ce4075": {
+  "id": "20261020-061058-ce4075",
+  "filename": "Nissan_291548_inspection.pdf",
+  "vehicle": {
+   "vin": "3N1AB7AP0KY291548",
+   "year": "2019",
+   "make": "Nissan",
+   "model": "Sentra",
+   "mileage": "85419",
+   "color": "Black",
+   "interior_color": "Black",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261020-061058-ce4075",
+   "date": "2023-08-15",
+   "location": "Fort Worth, TX, 76132",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 66,
+   "fail": 0,
+   "attention": 11,
+   "na": 0,
+   "unknown": 0,
+   "total": 77
+  },
+  "pages": 74,
+  "image_count": 3,
+  "photo_count": 67,
+  "size": 18751951
+ },
+ "20261021-153952-622a14": {
+  "id": "20261021-153952-622a14",
+  "filename": "Toyota_251423_inspection.pdf",
+  "vehicle": {
+   "vin": "4T1B11HK8KU251423",
+   "year": "2019",
+   "make": "Toyota",
+   "model": "Camry",
+   "mileage": "83682",
+   "color": "Grey",
+   "interior_color": "Grey",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261021-153952-622a14",
+   "date": "2024-03-11",
+   "location": "Brockton, MA, 02301",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 73,
+   "fail": 0,
+   "attention": 7,
+   "na": 0,
+   "unknown": 0,
+   "total": 80
+  },
+  "pages": 67,
+  "image_count": 3,
+  "photo_count": 60,
+  "size": 16122351
  },
  "20261021-161204-3c9e1a": {
   "id": "20261021-161204-3c9e1a",
@@ -109,7 +3131,45 @@ export const REPORT_INDEX = {
   },
   "pages": 78,
   "image_count": 68,
+  "photo_count": 68,
   "size": 10536239
+ },
+ "20261022-060610-ab7129": {
+  "id": "20261022-060610-ab7129",
+  "filename": "Mazda_136458_inspection.pdf",
+  "vehicle": {
+   "vin": "3MVDMBEM5LM136458",
+   "year": "2020",
+   "make": "Mazda",
+   "model": "CX-30",
+   "mileage": "25969",
+   "color": "Silver",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261022-060610-ab7129",
+   "date": "2023-06-22",
+   "location": "Decatur, GA, 30033",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 66,
+   "fail": 0,
+   "attention": 5,
+   "na": 0,
+   "unknown": 0,
+   "total": 71
+  },
+  "pages": 90,
+  "image_count": 3,
+  "photo_count": 84,
+  "size": 11753864
  },
  "20261022-171446-6e48c0": {
   "id": "20261022-171446-6e48c0",
@@ -137,14 +3197,15 @@ export const REPORT_INDEX = {
   },
   "summary": {
    "pass": 64,
-   "fail": 5,
-   "attention": 11,
+   "fail": 4,
+   "attention": 12,
    "na": 0,
    "unknown": 0,
    "total": 80
   },
   "pages": 109,
   "image_count": 102,
+  "photo_count": 102,
   "size": 36279211
  },
  "20261023-174533-e15f07": {
@@ -181,7 +3242,45 @@ export const REPORT_INDEX = {
   },
   "pages": 88,
   "image_count": 80,
+  "photo_count": 80,
   "size": 10292514
+ },
+ "20261024-083129-ab674d": {
+  "id": "20261024-083129-ab674d",
+  "filename": "Kia_344168_inspection.pdf",
+  "vehicle": {
+   "vin": "3KPF44AC8ME344168",
+   "year": "2021",
+   "make": "Kia",
+   "model": "Forte",
+   "mileage": "32001",
+   "color": "Black",
+   "interior_color": "Black",
+   "interior_material": "Leather/Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261024-083129-ab674d",
+   "date": "2024-09-06",
+   "location": "Dallas, TX, 75201",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 73,
+   "fail": 0,
+   "attention": 11,
+   "na": 0,
+   "unknown": 1,
+   "total": 85
+  },
+  "pages": 81,
+  "image_count": 3,
+  "photo_count": 73,
+  "size": 30868841
  },
  "20261024-131125-0f6be9": {
   "id": "20261024-131125-0f6be9",
@@ -217,6 +3316,7 @@ export const REPORT_INDEX = {
   },
   "pages": 85,
   "image_count": 76,
+  "photo_count": 76,
   "size": 11967317
  },
  "20261025-160218-92ad4e": {
@@ -255,7 +3355,45 @@ export const REPORT_INDEX = {
   },
   "pages": 112,
   "image_count": 103,
+  "photo_count": 103,
   "size": 15849193
+ },
+ "20261026-104538-d65921": {
+  "id": "20261026-104538-d65921",
+  "filename": "Honda_705417_inspection.pdf",
+  "vehicle": {
+   "vin": "3CZRU6H91KM705417",
+   "year": "2019",
+   "make": "Honda",
+   "model": "HR-V",
+   "mileage": "36559",
+   "color": "Red",
+   "interior_color": "Black",
+   "interior_material": "Vinyl",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261026-104538-d65921",
+   "date": "2023-11-06",
+   "location": "Castle Rock, CO, 80109",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 72,
+   "fail": 0,
+   "attention": 11,
+   "na": 0,
+   "unknown": 0,
+   "total": 83
+  },
+  "pages": 69,
+  "image_count": 3,
+  "photo_count": 82,
+  "size": 12913109
  },
  "20261027-142810-8b20d4": {
   "id": "20261027-142810-8b20d4",
@@ -291,7 +3429,47 @@ export const REPORT_INDEX = {
   },
   "pages": 30,
   "image_count": 22,
+  "photo_count": 22,
   "size": 8303380
+ },
+ "20261028-104949-e0a47e": {
+  "id": "20261028-104949-e0a47e",
+  "filename": "Honda_576307_inspection.pdf",
+  "vehicle": {
+   "vin": "2HGFC2F69KH576307",
+   "year": "2019",
+   "make": "Honda",
+   "model": "Civic",
+   "trim": "Sedan",
+   "mileage": "62058",
+   "color": "Grey",
+   "interior_color": "Tan",
+   "interior_material": "Cloth",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas",
+   "stock": "904116"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261028-104949-e0a47e",
+   "date": "2024-08-27",
+   "location": "Edison, NJ, 08817",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 68,
+   "fail": 0,
+   "attention": 14,
+   "na": 0,
+   "unknown": 0,
+   "total": 82
+  },
+  "pages": 118,
+  "image_count": 3,
+  "photo_count": 111,
+  "size": 47042815
  },
  "20261028-120952-5a7c31": {
   "id": "20261028-120952-5a7c31",
@@ -327,7 +3505,45 @@ export const REPORT_INDEX = {
   },
   "pages": 90,
   "image_count": 81,
+  "photo_count": 81,
   "size": 32972093
+ },
+ "20261028-152914-cbf026": {
+  "id": "20261028-152914-cbf026",
+  "filename": "Subaru_218329_inspection.pdf",
+  "vehicle": {
+   "vin": "4S4BSETC4J3218329",
+   "year": "2018",
+   "make": "Subaru",
+   "model": "Outback",
+   "mileage": "93397",
+   "color": "Black",
+   "interior_color": "Tan",
+   "interior_material": "Leather",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "All Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261028-152914-cbf026",
+   "date": "2023-06-22",
+   "location": "Severn, MD, 21144",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 82,
+   "fail": 0,
+   "attention": 3,
+   "na": 0,
+   "unknown": 0,
+   "total": 85
+  },
+  "pages": 75,
+  "image_count": 3,
+  "photo_count": 68,
+  "size": 16884640
  },
  "20261029-130637-a91f2c": {
   "id": "20261029-130637-a91f2c",
@@ -363,6 +3579,118 @@ export const REPORT_INDEX = {
   },
   "pages": 78,
   "image_count": 71,
+  "photo_count": 71,
   "size": 14418143
+ },
+ "20261030-125557-2c319e": {
+  "id": "20261030-125557-2c319e",
+  "filename": "Mazda_149723_inspection.pdf",
+  "vehicle": {
+   "vin": "JM1NC26F480149723",
+   "year": "2008",
+   "make": "Mazda",
+   "model": "MX-5",
+   "mileage": "73207",
+   "color": "Grey",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "4 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Rear Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261030-125557-2c319e",
+   "date": "2023-04-05",
+   "location": "Farmers Branch, TX, 75234",
+   "customer": "Chloe Nguyen"
+  },
+  "summary": {
+   "pass": 70,
+   "fail": 0,
+   "attention": 9,
+   "na": 0,
+   "unknown": 0,
+   "total": 79
+  },
+  "pages": 52,
+  "image_count": 3,
+  "photo_count": 43,
+  "size": 19346218
+ },
+ "20261101-131637-4d1750": {
+  "id": "20261101-131637-4d1750",
+  "filename": "Cadillac_231490_inspection.pdf",
+  "vehicle": {
+   "vin": "1GYKNCRS9LZ231490",
+   "year": "2020",
+   "make": "Cadillac",
+   "model": "XT5",
+   "mileage": "22843",
+   "color": "Black",
+   "interior_color": "Brown",
+   "interior_material": "Leather",
+   "engine": "6 Cylinder",
+   "transmission": "Automatic",
+   "drivetrain": "Front Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261101-131637-4d1750",
+   "date": "2025-03-23",
+   "location": "Fort Worth, TX, 76118",
+   "customer": "Meridian Fleet Services"
+  },
+  "summary": {
+   "pass": 75,
+   "fail": 0,
+   "attention": 6,
+   "na": 0,
+   "unknown": 0,
+   "total": 81
+  },
+  "pages": 96,
+  "image_count": 3,
+  "photo_count": 88,
+  "size": 43748410
+ },
+ "20261103-153723-93d5fd": {
+  "id": "20261103-153723-93d5fd",
+  "filename": "Chevrolet_103353_inspection.pdf",
+  "vehicle": {
+   "vin": "1G1YR2DW9A5103353",
+   "year": "2010",
+   "make": "Chevrolet",
+   "model": "Corvette",
+   "mileage": "74772",
+   "color": "Red",
+   "interior_color": "Black",
+   "interior_material": "Leather",
+   "engine": "8 Cylinder",
+   "transmission": "Manual",
+   "drivetrain": "Rear Wheel Drive",
+   "fuel": "Gas"
+  },
+  "vehicle_in_pdf": null,
+  "inspection": {
+   "report_id": "20261103-153723-93d5fd",
+   "date": "2023-09-25",
+   "location": "Mckinney, TX, 75070",
+   "customer": "Brandon Hayes"
+  },
+  "summary": {
+   "pass": 72,
+   "fail": 0,
+   "attention": 8,
+   "na": 0,
+   "unknown": 0,
+   "total": 80
+  },
+  "pages": 98,
+  "image_count": 3,
+  "photo_count": 92,
+  "size": 42675656
  }
 };

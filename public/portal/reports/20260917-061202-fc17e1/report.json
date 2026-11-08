@@ -1,0 +1,793 @@
+{
+ "id": "20260917-061202-fc17e1",
+ "filename": "Ford_A15478_inspection.pdf",
+ "uploaded_at": "2026-11-08T18:58:31+00:00",
+ "size": 79982078,
+ "llm_error": "",
+ "scanned": false,
+ "vehicle": {
+  "vin": "1FTER4FH3KLA15478",
+  "mileage": "118087",
+  "year": "2019",
+  "make": "Ford",
+  "model": "Ranger",
+  "color": "Grey",
+  "interior_color": "Black",
+  "interior_material": "Cloth",
+  "engine": "4 Cylinder",
+  "transmission": "Automatic",
+  "drivetrain": "Four Wheel Drive",
+  "fuel": "Gas"
+ },
+ "inspection": {
+  "report_id": "20260917-061202-fc17e1",
+  "date": "2024-05-04",
+  "location": "Lewisville, TX, 75067",
+  "customer": "Meridian Fleet Services"
+ },
+ "findings": [
+  {
+   "item": "Road Test",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Yes"
+  },
+  {
+   "item": "Engine Starting Easily",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine running well after Started",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Transmission performance",
+   "status": "attention",
+   "section": "Road Test",
+   "notes": "The transmission does jerk hard, hesitate, slip, and function very poorly. I was unable to perform a proper test drive due to a major transmission problem.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Differential Performance",
+   "status": "attention",
+   "section": "Road Test",
+   "notes": "The transmission does jerk hard, hesitate, slip, and function very poorly. I was unable to perform a proper test drive due to a major transmission problem. Unable to test properly.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Transfer Case Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Wheel Bearing Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Braking Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Suspension Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Steering Performance and Alignment",
+   "status": "attention",
+   "section": "Road Test",
+   "notes": "The steering wheel does pull a hard left.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Tire Pressure System (TPMS)",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Computer Diagnosis/OBD2",
+   "status": "attention",
+   "section": "Road Test",
+   "notes": "I hooked up my scan tool to the onboard ECU and found stored codes across multiple systems. See pictures of more descriptive information. More diagnoses are needed.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Back-Up Camera",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Wiper Blades",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "The wipers are worn and should be replaced.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Windshield Washer",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Body Panel Alignment",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Scratches",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "There are scratches and rock chips around the vehicle. Normal for mileage and most too small to see in photos.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Paint Condition",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "The paint shows some wear and tear that is consistent with age and mileage.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Seals",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "All window lower window seals are discolored.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Rust",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "The underside shows areas of surface rust. See pictures.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Exterior Lights",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Door Mirrors",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "The door mirror housings have miscellaneous scratches and rock chips",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Bumpers",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Side Moldings",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "The passenger side center window moldings appear faded, scratched, and discolored, while the driver side center window moldings are discolored and faded.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Underbody/Frame Condition",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Glass",
+   "status": "fail",
+   "section": "Exterior",
+   "notes": "The windshield has a crack and misc chips.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Dings",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dents",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "The passenger side fender exhibits scratches, paint chips, and a dent.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Steering Wheel",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The steering wheel shows some wear and tear as seen in pics. Normal for mileage.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Horn",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Seat Condition",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "There is light wear to the seats. Normal for mileage. The driver seat has light wear and medium wear on the side bolsters.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Seat Belts",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Clock",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radio/Navigation/DVD",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Inner Door Panels",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The inner door panels show wear consistent with age and mileage. The front driver-side door panel shows heavy stains and wear, as does the front passenger-side door panel. Similarly, the rear passenger side and rear driver side door panels exhibit stains and wear.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Power Locks",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Window Switches",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Center Console",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The center console is dirty.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Dash",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The dash is showing wear and tear consistent with the age of the vehicle.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Dash Lights Working",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Air Conditioning",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Heater",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Carpet",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The carpet shows normal wear consistent with age and mileage.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Floor Mats",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The floor mats are dirty.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Signs of Smoking?",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cup Holders",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Headliner",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Headliner",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The headliner shows miscellaneous smudge marks from normal use.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Blower Motor",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Instrument Cluster/Gauges",
+   "status": "fail",
+   "section": "Interior",
+   "notes": "The check engine light is on and the wrench icon was displayed on the driver's message center.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Unusual Odors",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Window Function",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Interior Trim",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The interior trim shows heavy wear. See pictures.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Sun Visors",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The sun visors show wear and tear.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Air Filter",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Battery Condition",
+   "status": "attention",
+   "section": "Mechanical",
+   "notes": "The alternator and or battery is weak and does not pass 12.73V while running.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Charging System",
+   "status": "attention",
+   "section": "Mechanical",
+   "notes": "The alternator and or battery is weak and does not pass 12.73V while running.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Cooling Fan Condition Mechanical/Electronic",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radiator Cap Sealing Properly",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Hoses and Clamps Age/Cracking",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radiator Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Coolant Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Coolant Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Belts",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Steering System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine Oil Condition",
+   "status": "attention",
+   "section": "Mechanical",
+   "notes": "The engine oil is on level and dark in colour.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Engine Oil Leaks",
+   "status": "fail",
+   "section": "Mechanical",
+   "notes": "The engine shows active oil leaks. The engine should be pressure washed off and rechecked to verify source of the leak or all leaks.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Transmission Fluid Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Brake System Condition",
+   "status": "attention",
+   "section": "Mechanical",
+   "notes": "The brake fluid is on level, and dark in color.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Brake Fluid Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Transfer Case Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Differential leaks",
+   "status": "fail",
+   "section": "Mechanical",
+   "notes": "The front differential actively leaking.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Muffler System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "CV Boots and Joints",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Shocks and bushings Condition. Leaking?",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Ball Joints and Tie Rods",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Key Fob",
+   "status": "attention",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Spare Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "",
+   "page": null,
+   "raw_status": "Yes"
+  },
+  {
+   "item": "Key Fob",
+   "status": "attention",
+   "section": "Mechanical",
+   "notes": "Only one key fob was shown during inspection.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Driver's Front Tire",
+   "status": "fail",
+   "section": "Tire / Wheels",
+   "notes": "Hankook 2556517, 2/32 tread, wheel: Scratches",
+   "page": null,
+   "raw_status": "Dry Rot, Uneven Wear"
+  },
+  {
+   "item": "Passenger's Front Tire",
+   "status": "fail",
+   "section": "Tire / Wheels",
+   "notes": "Hankook 2556517, 1/32 tread, wheel: Scratches",
+   "page": null,
+   "raw_status": "Dry Rot, Uneven Wear"
+  },
+  {
+   "item": "Driver's 1st Axle Outer Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Hankook 2556517, 6/32 tread, wheel: Scratches",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Passenger's 1st Axle Outer Tire",
+   "status": "fail",
+   "section": "Tire / Wheels",
+   "notes": "Hankook 2556517, 3/32 tread, wheel: Scratches",
+   "page": null,
+   "raw_status": "Dry Rot"
+  }
+ ],
+ "notes": [
+  "2019 Ford Ranger"
+ ],
+ "ratings": [
+  {
+   "name": "NAAA Paint & Body Rating",
+   "value": "3",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Interior Rating",
+   "value": "2.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Frame/Unibody Rating",
+   "value": "3",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Mechanical Rating",
+   "value": "2",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Tires Rating",
+   "value": "1.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Rating",
+   "value": "2.4",
+   "scale": "5"
+  }
+ ],
+ "summaries": [
+  {
+   "section": "Overall",
+   "text": "The wipers are worn and should be replaced. There are scratches and rock chips around the vehicle. Normal for mileage and most too small to see in photos. The passenger side fender exhibits scratches, paint chips, and a dent. The paint shows some wear and tear that is consistent with age and mileage. The underside shows areas of surface rust. See pictures. The door mirror housings have miscellaneous scratches and rock chips The passenger side center window moldings appear faded, scratched, and discolored, while the driver side center window moldings are discolored and faded. All window lower window seals are discolored. The windshield has a crack and misc chips. The driver-side roof rack trim is peeling. The tires are dry-rotted, worn and have uneven wear. The tires are in an unsafe condition."
+  },
+  {
+   "section": "Overall",
+   "text": "The steering wheel shows some wear and tear as seen in pics. Normal for mileage. There is light wear to the seats. Normal for mileage. The driver seat has light wear and medium wear on the side bolsters. The inner door panels show wear consistent with age and mileage. The front driver-side door panel shows heavy stains and wear, as does the front passenger-side door panel. Similarly, the rear passenger side and rear driver side door panels exhibit stains and wear. The interior trim shows heavy wear. . The center console is dirty. The dash is showing wear and tear consistent with the age of the vehicle. The carpet shows normal wear consistent with age and mileage. The floor mats are dirty. The headliner shows miscellaneous smudge marks from normal use. The check engine light is on, and the wrench icon is displayed on the driver's message center. The sun visors show wear and tear."
+  },
+  {
+   "section": "Overall",
+   "text": "The engine bay and undercarriage components were visually examined for leakage, deterioration, and fluid conditions. The alternator and or battery is weak and does not pass 12.73V while running. The engine oil is on level and dark in colour. The front differential is actively leaking. The engine shows active oil leaks. The engine should be pressure washed off and rechecked to verify source of the leak or all leaks. The brake fluid is level and dark in colour. Only one key fob was shown during the inspection."
+  },
+  {
+   "section": "Overall",
+   "text": "Performed a 2-mile test drive up to speeds of 20MPH in which the truck started right up and ran ok. However, the transmission does jerk hard, hesitate, slip, and function very poorly. I was unable to perform a proper test drive due to a major transmission problem. The steering wheel does pull a hard left. I hooked up my scan tool to the onboard ECU and found stored codes across multiple systems. See pictures of more descriptive information. More diagnoses are needed."
+  }
+ ],
+ "images": [
+  {
+   "index": 1,
+   "page": 3,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-001.webp",
+   "caption": "",
+   "thumb": "thumb-001.webp",
+   "role": "hero"
+  },
+  {
+   "index": 7,
+   "page": 15,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-007.webp",
+   "caption": "",
+   "thumb": "thumb-007.webp",
+   "role": "interior"
+  },
+  {
+   "index": 80,
+   "page": 88,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-080.webp",
+   "caption": "",
+   "thumb": "thumb-080.webp",
+   "role": "issue"
+  }
+ ],
+ "pages": 212,
+ "source": "layout",
+ "summary": {
+  "pass": 47,
+  "fail": 7,
+  "attention": 29,
+  "na": 0,
+  "unknown": 0,
+  "total": 83
+ },
+ "photo_count": 204
+}

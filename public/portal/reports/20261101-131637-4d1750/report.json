@@ -1,0 +1,775 @@
+{
+ "id": "20261101-131637-4d1750",
+ "filename": "Cadillac_231490_inspection.pdf",
+ "uploaded_at": "2026-11-08T19:01:18+00:00",
+ "size": 43748410,
+ "llm_error": "",
+ "scanned": false,
+ "vehicle": {
+  "vin": "1GYKNCRS9LZ231490",
+  "year": "2020",
+  "make": "Cadillac",
+  "model": "XT5",
+  "mileage": "22843",
+  "color": "Black",
+  "interior_color": "Brown",
+  "interior_material": "Leather",
+  "engine": "6 Cylinder",
+  "transmission": "Automatic",
+  "drivetrain": "Front Wheel Drive",
+  "fuel": "Gas"
+ },
+ "inspection": {
+  "report_id": "20261101-131637-4d1750",
+  "date": "2025-03-23",
+  "location": "Fort Worth, TX, 76118",
+  "customer": "Meridian Fleet Services"
+ },
+ "findings": [
+  {
+   "item": "Road Test",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Yes"
+  },
+  {
+   "item": "Engine Starting Easily",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine running well after Started",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Transmission performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Wheel Bearing Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Braking Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Suspension Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Steering Performance and Alignment",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Tire Pressure System (TPMS)",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Computer Diagnosis/OBD2",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Back-Up Camera",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Wiper Blades",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Windshield Washer",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Body Panel Alignment",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Scratches",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "There are minor misc scratches around the vehicle most too small to see in photos. The exterior of the vehicle was dusty at time of inspection. This can hide minor imperfections. The front bumper has scratches to the underside. Need to be under the vehicle to see these.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Paint Condition",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Seals",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Rust",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Exterior Lights",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Sunroof",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Door Mirrors",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Bumpers",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Side Moldings",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Convertible Top",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Underbody/Frame Condition",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Glass",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dings",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dents",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Steering Wheel",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Horn",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cruise Control",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Seat Condition",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "There is light wear to the seats.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Heated Seats",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Seat Belts",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Clock",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radio/Navigation/DVD",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Inner Door Panels",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "There is light wear to the inner door panels.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Power Locks",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Window Switches",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Center Console",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dash",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dash Lights Working",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Air Conditioning",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Heater",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Rear Defroster",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Carpet",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Floor Mats",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Signs of Smoking?",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cup Holders",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Headliner",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Blower Motor",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Instrument Cluster/Gauges",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Unusual Odors",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Window Function",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Interior Trim",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "There is light wear to the interior trim.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Sun Visors",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Air Filter",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Battery Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Charging System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cooling Fan Condition Mechanical/Electronic",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radiator Cap Sealing Properly",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Hoses and Clamps Age/Cracking",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radiator Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Coolant Condition",
+   "status": "attention",
+   "section": "Mechanical",
+   "notes": "The coolant reservoir is low.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Coolant Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Belts",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Steering System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine Oil Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine Oil Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Transmission Fluid Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Brake System Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Brake Fluid Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Muffler System",
+   "status": "attention",
+   "section": "Mechanical",
+   "notes": "Exhaust shows some surface rust, but at this time has no leaks and sounds good.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "CV Boots and Joints",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Shocks and bushings Condition. Leaking?",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Ball Joints and Tie Rods",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Key Fob",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Driver's Front Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Michelin 235/55R20, 6/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Passenger's Front Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Michelin 235/55R20, 6/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Driver's 1st Axle Outer Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Michelin 235/55R20, 7/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Passenger's 1st Axle Outer Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Michelin 235/55R20, 7/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  }
+ ],
+ "notes": [],
+ "ratings": [
+  {
+   "name": "NAAA Paint & Body Rating",
+   "value": "4",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Interior Rating",
+   "value": "4",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Frame/Unibody Rating",
+   "value": "4",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Mechanical Rating",
+   "value": "4",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Tires Rating",
+   "value": "3.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Rating",
+   "value": "3.9",
+   "scale": "5"
+  }
+ ],
+ "summaries": [
+  {
+   "section": "Exterior",
+   "text": "There are minor misc scratches around the vehicle most too small to see in photos. The exterior of the vehicle was dusty at time of inspection. This can hide minor imperfections. The front bumper has scratches to the underside. Need to be under the vehicle to see these. Window trim and door seals were sound. Glass was free of obvious damage and the windshield wiper/washer functioned properly. Headlights and tail lights were clear and free of obvious cracks or other damage. The vehicle is equipped with correctly sized tires, and all four tires have an adequate amount of remaining tread depth. All tires are Michelin tires."
+  },
+  {
+   "section": "Interior",
+   "text": "There is light wear to the seats. There is light wear to the inner door panels. There is light wear to the interior trim. There were no indications of smoke or unusual odors. The climate control and infotainment systems were observed to function properly. All essential features such as windows, locks, mirrors, and gauges operated properly during the inspection."
+  },
+  {
+   "section": "Mechanical",
+   "text": "The coolant reservoir is low. Exhaust shows some surface rust, but at this time has no leaks and sounds good. The oil was at the proper level and did not appear to be dark. Inspection under the oil fill cap found no signs of excessive moisture or sludge accumulation. Hoses and belts appeared to be sound. No fluid leaks were noted from the engine's top or bottom or the transmission's bottom. Inspection underneath the vehicle found all splash guards and protective panels in place."
+  },
+  {
+   "section": "Road test",
+   "text": "No error codes were detected after connecting my computer and conducting a scan. The transmission functioned properly as designed, and the vehicle handled and braked well. I did not detect any odd noises or vibrations during the inspection."
+  }
+ ],
+ "images": [
+  {
+   "index": 1,
+   "page": 3,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-001.webp",
+   "caption": "",
+   "thumb": "thumb-001.webp",
+   "role": "hero"
+  },
+  {
+   "index": 47,
+   "page": 55,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-047.webp",
+   "caption": "",
+   "thumb": "thumb-047.webp",
+   "role": "interior"
+  },
+  {
+   "index": 42,
+   "page": 50,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-042.webp",
+   "caption": "",
+   "thumb": "thumb-042.webp",
+   "role": "issue"
+  }
+ ],
+ "pages": 96,
+ "source": "layout",
+ "summary": {
+  "pass": 75,
+  "fail": 0,
+  "attention": 6,
+  "na": 0,
+  "unknown": 0,
+  "total": 81
+ },
+ "photo_count": 88
+}

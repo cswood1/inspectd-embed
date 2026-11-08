@@ -13,7 +13,8 @@ page layout:
   - red 9pt remarks under an item are its notes
   - the tire table (bold 10.5pt sub-headings) folds into one finding per tire, as llm.SYSTEM asks;
     a missing spare is skipped, as it asks too
-  - NAAA scores become ratings out of 5; the Summary page's paragraphs become per-area summaries
+  - NAAA scores become ratings out of 5; the Summary's paragraphs become per-area summaries, whether the
+    Summary is a page of its own (2025 template) or a section at the foot of the vehicle page (2023)
   - the cover gives the report number, date and place; the ordering customer and the legal
     disclosures are not read
 
@@ -134,6 +135,28 @@ def _page_rows(lines: list[dict], mid: float, edges: dict, sections: dict) -> li
     return rows
 
 
+def _summary(lines: list[dict], summaries: list, notes: list) -> None:
+    """The Summary's paragraphs. A paragraph headed by an area name (Tire, Exterior, Road Test: short, no full
+    stop) is that area's summary; one without a heading (the 2023 template's single overview, or a Summary that is a
+    single line) is "Overall"; a one-line remark beside other paragraphs ("See below and pictures for more info.")
+    is a note."""
+    blocks, cur = [], []
+    for l in lines:
+        if cur and l["y0"] - cur[-1]["y1"] > 8:
+            blocks.append(cur); cur = []
+        cur.append(l)
+    if cur:
+        blocks.append(cur)
+    for b in blocks:
+        head = b[0]["text"].strip()
+        if len(b) >= 2 and len(head) <= 30 and not head.endswith("."):
+            summaries.append({"section": head, "text": " ".join(x["text"] for x in b[1:])})
+        elif len(b) >= 2 or len(blocks) == 1:   # a Summary of one line ("No issues found during inspection.") is still the summary
+            summaries.append({"section": "Overall", "text": " ".join(x["text"] for x in b)})
+        else:
+            notes.append(head)
+
+
 def extract_payload(pdf_bytes: bytes) -> dict:
     doc = pymupdf.open(stream=pdf_bytes, filetype="pdf")
     vehicle, inspection, findings, ratings, summaries, notes = {}, {}, [], [], [], []
@@ -150,20 +173,15 @@ def extract_payload(pdf_bytes: bytes) -> dict:
         # the cover and the disclosures: nothing more is read from them
         if any(l["bold"] and l["size"] >= 18 for l in lines) or texts[0].startswith("Important Disclosures") or not any(_is_heading(l) for l in lines) and not edges:
             continue
-        if texts[0] == "Summary":
-            blocks, cur = [], []
-            for l in lines[1:]:
-                if cur and l["y0"] - cur[-1]["y1"] > 8:
-                    blocks.append(cur); cur = []
-                cur.append(l)
-            if cur:
-                blocks.append(cur)
-            for b in blocks:
-                if len(b) >= 2:
-                    summaries.append({"section": b[0]["text"], "text": " ".join(x["text"] for x in b[1:])})
-                else:
-                    notes.append(b[0]["text"])
-            continue
+        # the Summary: a page of its own (the 2025 template) or a section under the vehicle on page 3 (the 2023
+        # template). Its lines are read as summaries; whatever is above it on the page is read as before.
+        at = next((i for i, l in enumerate(lines) if l["text"] == "Summary" and l["bold"] and l["size"] >= 12.5), None)
+        if at is not None:
+            _summary(lines[at + 1:], summaries, notes)
+            lines = lines[:at]
+            if not lines:
+                continue
+            texts = [l["text"] for l in lines]
         if "Vehicle Images" in texts or not any(l["size"] <= 11 for l in lines):
             continue
         for r in _page_rows(lines, page.rect.width / 2, edges, sections):

@@ -1,0 +1,803 @@
+{
+ "20260514-180105-32d7fa": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 41,
+  "interior_reason": "front seats and cabin through open door",
+  "issue": 8,
+  "issue_reason": "damaged front bumper cover (clearer than the windshield close-up, where the crack is not visible)",
+  "issue_finding": "ATTENTION · Exterior: Bumpers — The front bumper cover and plastic inserts are damaged."
+ },
+ "20260516-174152-cd91dc": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 11,
+  "interior_reason": "dashboard and steering wheel",
+  "issue": 47,
+  "issue_reason": "finger pointing to a paint chip on a body panel (ATTENTION Exterior: Paint Condition)",
+  "issue_finding": "ATTENTION · Exterior: Paint Condition — There are miscellaneous paint chips around the vehicle. The paint shows some wear and tear that is consistent with age and mileage."
+ },
+ "20260518-202058-627ebe": {
+  "hero": 30,
+  "hero_reason": "side three-quarter exterior (photo 1 is portrait)",
+  "interior": 24,
+  "interior_reason": "dashboard and front seats through open door",
+  "issue": 36,
+  "issue_reason": "finger pointing to a ding on a body panel (ATTENTION Exterior: Dings)",
+  "issue_finding": "ATTENTION · Exterior: Dings — The vehicle shows minor miscellaneous dings around the body."
+ },
+ "20260519-151649-f008b0": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 17,
+  "interior_reason": "front seats and console through open door",
+  "issue": 52,
+  "issue_reason": "low front bumper corner close-up (related; ATTENTION Exterior: Bumpers scrape)",
+  "issue_finding": "ATTENTION · Exterior: Bumpers — Scrape down low on drivers side of the front bumper."
+ },
+ "20260520-202116-d655e3": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 42,
+  "interior_reason": "driver seat through open door",
+  "issue": 23,
+  "issue_reason": "rear bumper corner close-up (related; ATTENTION Exterior: Bumpers chip)",
+  "issue_finding": "ATTENTION · Exterior: Bumpers — The left side of the rear bumper cover has a small chip."
+ },
+ "20260522-223948-9e7004": {
+  "hero": 1,
+  "hero_reason": "front exterior view",
+  "interior": 14,
+  "interior_reason": "front leather seat",
+  "issue": 39,
+  "issue_reason": "dent in rear panel near taillight (ATTENTION Exterior: Dents)",
+  "issue_finding": "ATTENTION · Exterior: Dents — There small dents around the rear of the vehicle, see images."
+ },
+ "20260525-003800-b18fe5": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 41,
+  "interior_reason": "driver seat",
+  "issue": 153,
+  "issue_reason": "single key fob held in hand (ATTENTION Mechanical: Key Fob)",
+  "issue_finding": "ATTENTION · Mechanical: Key Fob — Only one key fob was shown during inspection."
+ },
+ "20260527-011714-65ab31": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 3,
+  "interior_reason": "dashboard and steering wheel",
+  "issue": 34,
+  "issue_reason": "diagnostic scanner screen showing the code (ATTENTION Road Test: Computer Diagnosis/OBD2)",
+  "issue_finding": "ATTENTION · Road Test: Computer Diagnosis/OBD2 — There is a code found for the PCM"
+ },
+ "20260529-034836-a99ba7": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 6,
+  "interior_reason": "dashboard and steering wheel",
+  "issue": 66,
+  "issue_reason": "scan tool screen listing trouble codes (clearer than the sun visor)",
+  "issue_finding": "ATTENTION · Road Test: Computer Diagnosis/OBD2 — Trouble codes found. See pictures."
+ },
+ "20260531-031831-7dd4fe": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 44,
+  "interior_reason": "dashboard and steering wheel through open door",
+  "issue": 43,
+  "issue_reason": "driver seat cushion blemish, photo referenced in report (ATTENTION Interior: Seat Condition)",
+  "issue_finding": "ATTENTION · Interior: Seat Condition — There is light wear to the seats. I noted a blemish on the driver side upholstery cushion. Refer to picture 43. The rear seat upholstery backrest has light disc"
+ },
+ "20260602-055317-366cb7": {
+  "hero": 1,
+  "hero_reason": "front exterior view",
+  "interior": 34,
+  "interior_reason": "front seat",
+  "issue": 46,
+  "issue_reason": "worn front seat cushion and bolster (ATTENTION Interior: Seat Condition)",
+  "issue_finding": "ATTENTION · Interior: Seat Condition — The seats show some wear."
+ },
+ "20260604-053346-30ac53": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 43,
+  "interior_reason": "front seats",
+  "issue": 25,
+  "issue_reason": "left side door panel close-up (related; ATTENTION Exterior: Dents)",
+  "issue_finding": "ATTENTION · Exterior: Dents — Small dent in the left front door."
+ },
+ "20260606-075517-aadbdb": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 24,
+  "interior_reason": "dashboard and front seat through open door",
+  "issue": 50,
+  "issue_reason": "front bumper to fender gap close-up (related; ATTENTION Exterior: Bumpers misaligned)",
+  "issue_finding": "ATTENTION · Exterior: Bumpers — FRONT BUMPER FRONT END ISSUES MISALIGNED"
+ },
+ "20260608-101844-625aa7": {
+  "hero": 1,
+  "hero_reason": "front exterior view",
+  "interior": 20,
+  "interior_reason": "front seats and dashboard through open door",
+  "issue": 37,
+  "issue_reason": "hand on body panel indicating hail dents (related; ATTENTION Exterior: Dents)",
+  "issue_finding": "ATTENTION · Exterior: Dents — Really hard to see in pictures due to sunlight, but there is very minor hail damage. It's the sort you don't see unless you are specifically looking for it."
+ },
+ "20260610-102702-df7605": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 24,
+  "interior_reason": "dashboard and steering wheel",
+  "issue": 94,
+  "issue_reason": "finger pointing at windshield crack (FAIL Exterior: Glass)",
+  "issue_finding": "FAIL · Exterior: Glass — The windshield is cracked."
+ },
+ "20260612-123929-ec2c92": {
+  "hero": 1,
+  "hero_reason": "front exterior view",
+  "interior": 12,
+  "interior_reason": "steering wheel and dashboard",
+  "issue": 52,
+  "issue_reason": "finger pointing to a ding on a door panel (ATTENTION Exterior: Dings)",
+  "issue_finding": "ATTENTION · Exterior: Dings — The vehicle shows minor miscellaneous dings around the body."
+ },
+ "20260614-130608-2ad7f9": {
+  "hero": 1,
+  "hero_reason": "side three-quarter exterior",
+  "interior": 17,
+  "interior_reason": "front seat",
+  "issue": 14,
+  "issue_reason": "left rear quarter panel close-up (related; ATTENTION Exterior: Dents)",
+  "issue_finding": "ATTENTION · Exterior: Dents — Small dent lr quarter"
+ },
+ "20260616-150555-e65ab2": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 56,
+  "interior_reason": "steering wheel and dashboard",
+  "issue": 42,
+  "issue_reason": "rear bumper cover close-up of damaged area (related; ATTENTION Exterior: Bumpers)",
+  "issue_finding": "ATTENTION · Exterior: Bumpers — Rear bumper cover damaged."
+ },
+ "20260618-174723-155d3a": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 16,
+  "interior_reason": "front seat and dashboard through open door",
+  "issue": 24,
+  "issue_reason": "underside view (related; ATTENTION Exterior: Rust)",
+  "issue_finding": "ATTENTION · Exterior: Rust — The underside shows areas of minor surface rust. See pictures."
+ },
+ "20260620-173920-61cc97": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 2,
+  "interior_reason": "front seat through open door",
+  "issue": 26,
+  "issue_reason": "exhaust pipe with surface rust (ATTENTION Mechanical: Muffler System)",
+  "issue_finding": "ATTENTION · Mechanical: Muffler System — There are some areas of surface rust found on the exhaust system. See pictures."
+ },
+ "20260622-200233-374f8f": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 81,
+  "interior_reason": "front seats",
+  "issue": 22,
+  "issue_reason": "finger pointing at windshield chip (related; ATTENTION Exterior: Glass)",
+  "issue_finding": "ATTENTION · Exterior: Glass — There is a chip in the center of the windshield."
+ },
+ "20260624-202812-3d34ab": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 39,
+  "interior_reason": "dashboard, steering wheel and front seat",
+  "issue": 81,
+  "issue_reason": "scan tool screen listing codes (clearer than the engine close-up)",
+  "issue_finding": "ATTENTION · Road Test: Computer Diagnosis/OBD2 — I scanned the vehicle and there are codes in the system, see images."
+ },
+ "20260626-223556-601534": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 9,
+  "interior_reason": "front seats",
+  "issue": 80,
+  "issue_reason": "finger pointing at ding on front door pillar trim (ATTENTION Exterior: Dings)",
+  "issue_finding": "ATTENTION · Exterior: Dings — There are two dings located in each of thew front doors pillar trims."
+ },
+ "20260629-004533-f52db1": {
+  "hero": 1,
+  "hero_reason": "front exterior view",
+  "interior": 8,
+  "interior_reason": "driver's front seat",
+  "issue": 45,
+  "issue_reason": "underside with surface rust on exhaust/frame (ATTENTION Exterior: Rust)",
+  "issue_finding": "ATTENTION · Exterior: Rust — The underside shows areas of surface rust. See pictures."
+ },
+ "20260701-010853-23ed8f": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 37,
+  "interior_reason": "front seat",
+  "issue": 27,
+  "issue_reason": "close-up of body panel with scratch marks (related, ATTENTION Exterior: Scratches)",
+  "issue_finding": "ATTENTION · Exterior: Scratches — There are misc scratches and chips around the vehicle. Normal for mileage and most too small to see in photos."
+ },
+ "20260703-032929-2fddbe": {
+  "hero": 1,
+  "hero_reason": "side three-quarter exterior",
+  "interior": 13,
+  "interior_reason": "steering wheel and dashboard",
+  "issue": 29,
+  "issue_reason": "engine bay including coolant area (related, ATTENTION Mechanical: Coolant Condition; level not visible)",
+  "issue_finding": "ATTENTION · Mechanical: Coolant Condition — Coolant overflow tank below full level."
+ },
+ "20260705-032751-26afc4": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 26,
+  "interior_reason": "steering wheel and dashboard",
+  "issue": 72,
+  "issue_reason": "tread gauge in front tire (related, FAIL Tire / Wheels: Passenger's Front Tire; tire position not labeled)",
+  "issue_finding": "FAIL · Tire / Wheels: Passenger's Front Tire — Yokohama 225/65R17, 3/32 tread"
+ },
+ "20260707-053432-b5fdee": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 28,
+  "interior_reason": "dashboard and front seat through open door",
+  "issue": 26,
+  "issue_reason": "close-up of side door panel with small mark (related, ATTENTION Exterior: Dings)",
+  "issue_finding": "ATTENTION · Exterior: Dings — The vehicle shows minor miscellaneous dings around the body."
+ },
+ "20260709-060534-5e05b0": {
+  "hero": 13,
+  "hero_reason": "side exterior of whole vehicle (photo 1 is portrait)",
+  "interior": 6,
+  "interior_reason": "center dashboard and infotainment",
+  "issue": 35,
+  "issue_reason": "OBD scanner screen showing communication error (ATTENTION Road Test: Computer Diagnosis/OBD2)",
+  "issue_finding": "ATTENTION · Road Test: Computer Diagnosis/OBD2 — When plugging in the scanner I noted a communication error for switch ignition, see picture and more diagnosis needed."
+ },
+ "20260711-075453-36760b": {
+  "hero": 1,
+  "hero_reason": "front exterior view",
+  "interior": 37,
+  "interior_reason": "steering wheel, dashboard and front seats",
+  "issue": 13,
+  "issue_reason": "paint thickness gauge reading on hood (ATTENTION Exterior: Paint Condition)",
+  "issue_finding": "ATTENTION · Exterior: Paint Condition — Paint protection film is applied to the front end of the vehicle. The vehicle showed varied paint readings, see pictures"
+ },
+ "20260713-101635-4f6082": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 24,
+  "interior_reason": "center dashboard and infotainment screen",
+  "issue": 5,
+  "issue_reason": "paint thickness gauge on body panel (related, ATTENTION Exterior: Paint Condition)",
+  "issue_finding": "ATTENTION · Exterior: Paint Condition — The paint shows some wear and tear that is consistent with age and mileage."
+ },
+ "20260715-101838-4ec7bf": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 11,
+  "interior_reason": "dashboard",
+  "issue": 69,
+  "issue_reason": "front end with bumper cover missing (FAIL Exterior: Bumpers)",
+  "issue_finding": "FAIL · Exterior: Bumpers — Front bumper cover is missing. There are scratches on the rear bumper cover."
+ },
+ "20260717-131326-0c2fa6": {
+  "hero": 1,
+  "hero_reason": "front exterior view",
+  "interior": 11,
+  "interior_reason": "dashboard and front seats",
+  "issue": 42,
+  "issue_reason": "circled mark on body panel (related, ATTENTION Exterior: Dings)",
+  "issue_finding": "ATTENTION · Exterior: Dings — The vehicle shows minor miscellaneous dings around the body."
+ },
+ "20260719-124440-50e10d": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 29,
+  "interior_reason": "driver's seat with seat cover",
+  "issue": 32,
+  "issue_reason": "roof edge near luggage rack (related, FAIL Exterior: Scratches - roof rack trim missing)",
+  "issue_finding": "FAIL · Exterior: Scratches — There are minor misc of scratches around the vehicle. The trim on the roof for the luggage rack is missing."
+ },
+ "20260721-153815-5311cd": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 25,
+  "interior_reason": "dashboard, steering wheel and front seats",
+  "issue": 7,
+  "issue_reason": "battery with jump-start clamps attached (FAIL Mechanical: Battery Condition)",
+  "issue_finding": "FAIL · Mechanical: Battery Condition — Upon arrival, I found the battery to be dead. Vehicle had to be jump started to get it running. The battery should be put on a charger to see if it accepts a fu"
+ },
+ "20260723-180519-21962c": {
+  "hero": 1,
+  "hero_reason": "front exterior view",
+  "interior": 44,
+  "interior_reason": "front seats and dashboard through open door",
+  "issue": 41,
+  "issue_reason": "wet hood and windshield (related, ATTENTION Exterior: Paint Condition - exterior wet)",
+  "issue_finding": "ATTENTION · Exterior: Paint Condition — The exterior was wet at the time of the inspection which can hide any minor imperfections, see images."
+ },
+ "20260725-174050-c21097": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 42,
+  "interior_reason": "dashboard and front passenger seat",
+  "issue": 22,
+  "issue_reason": "coolant reservoir (related, FAIL Mechanical: Coolant Condition; level not readable)",
+  "issue_finding": "FAIL · Mechanical: Coolant Condition — The engine coolant level is low, with no obvious external coolant leaks the system should be topped off and pressure tested for internal or external leaks."
+ },
+ "20260727-194848-565f02": {
+  "hero": 1,
+  "hero_reason": "front exterior view",
+  "interior": 29,
+  "interior_reason": "dashboard",
+  "issue": 97,
+  "issue_reason": "finger pointing at mark on body panel (related, ATTENTION Exterior: Dents)",
+  "issue_finding": "ATTENTION · Exterior: Dents — There is a dent on the passenger side quarter panel."
+ },
+ "20260729-200606-53e297": {
+  "hero": 1,
+  "hero_reason": "front exterior view",
+  "interior": 56,
+  "interior_reason": "dashboard",
+  "issue": 61,
+  "issue_reason": "instrument cluster (related, FAIL Road Test: Tire Pressure System (TPMS); light not legible)",
+  "issue_finding": "FAIL · Road Test: Tire Pressure System (TPMS) — The tire pressure monitoring light is on. This could be as simple as a tire that is low on air or it could be something else. Each tire has a battery operated s"
+ },
+ "20260731-224749-9f751a": {
+  "hero": 1,
+  "hero_reason": "front exterior view",
+  "interior": 9,
+  "interior_reason": "dashboard and steering wheel",
+  "issue": 50,
+  "issue_reason": "rear bumper corner with damage and scratches (ATTENTION Exterior: Bumpers)",
+  "issue_finding": "ATTENTION · Exterior: Bumpers — The rear bumper shows body damage, scratches and tears in bumper skin. Front bumper misaligned."
+ },
+ "20260803-005056-4cd32f": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 19,
+  "interior_reason": "dashboard and front seats through open door",
+  "issue": 55,
+  "issue_reason": "finger pointing at paint flaw on body panel (related, ATTENTION Exterior: Paint Condition)",
+  "issue_finding": "ATTENTION · Exterior: Paint Condition — The vehicle repaint shows dust under the paint, some orange peel, and signs of poor prep. This is sub-par workmanship."
+ },
+ "20260805-010758-eaf76c": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 14,
+  "interior_reason": "center dashboard and console",
+  "issue": 6,
+  "issue_reason": "underside with surface rust (ATTENTION Exterior: Rust)",
+  "issue_finding": "ATTENTION · Exterior: Rust — The underside shows areas of surface rust. See pictures."
+ },
+ "20260807-033750-992b1b": {
+  "hero": 17,
+  "hero_reason": "front exterior of whole truck (photos 1-10 not in landscape list)",
+  "interior": 36,
+  "interior_reason": "front seats and dashboard through open door",
+  "issue": 53,
+  "issue_reason": "OBD app screen showing detected codes (ATTENTION Road Test: Computer Diagnosis/OBD2)",
+  "issue_finding": "ATTENTION · Road Test: Computer Diagnosis/OBD2 — The OBD scan detected multiple codes in the system. Please see the pictures for more diagnosis."
+ },
+ "20260809-033202-cad6c5": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 77,
+  "interior_reason": "dashboard and front seat through open door",
+  "issue": 40,
+  "issue_reason": "close-up of front bumper corner (related, ATTENTION Exterior: Bumpers)",
+  "issue_finding": "ATTENTION · Exterior: Bumpers — Scratches on the passenger side of the front bumper."
+ },
+ "20260811-052846-8dca87": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 28,
+  "interior_reason": "steering wheel and dashboard",
+  "issue": 2,
+  "issue_reason": "OBD scan tool screen (related, ATTENTION Road Test: Computer Diagnosis/OBD2; code not legible)",
+  "issue_finding": "ATTENTION · Road Test: Computer Diagnosis/OBD2 — I hooked up my Scan Tool to the computer system and found P0004 stored. Further diagnosis needed."
+ },
+ "20260813-055228-eaa4a5": {
+  "hero": 1,
+  "hero_reason": "front exterior view",
+  "interior": 15,
+  "interior_reason": "front seats",
+  "issue": 8,
+  "issue_reason": "no flagged findings; rear exterior view",
+  "issue_finding": ""
+ },
+ "20260815-081115-6d94f4": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 11,
+  "interior_reason": "dashboard and front seats",
+  "issue": 85,
+  "issue_reason": "underside exhaust pipe showing surface rust (related; ATTENTION Mechanical: Muffler System)",
+  "issue_finding": "ATTENTION · Mechanical: Muffler System — Exhaust shows some surface rust throughout, but at this time has no leaks and sounds good."
+ },
+ "20260817-104111-f1b62b": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 26,
+  "interior_reason": "dashboard and front seats",
+  "issue": 65,
+  "issue_reason": "cracked windshield (FAIL Exterior: Glass, report cites photo #65)",
+  "issue_finding": "FAIL · Exterior: Glass — The windshield has a crack. Refer to photo #65."
+ },
+ "20260819-105017-cd5323": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 45,
+  "interior_reason": "steering wheel and gauges",
+  "issue": 22,
+  "issue_reason": "tread gauge in tire tread (related; ATTENTION Tire / Wheels: Driver's Front Tire 5/32)",
+  "issue_finding": "ATTENTION · Tire / Wheels: Driver's Front Tire — Continental 225/55R17, 5/32 tread, wheel: Curb Rash"
+ },
+ "20260821-123613-515f31": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 44,
+  "interior_reason": "cabin view with dashboard and front seat",
+  "issue": 33,
+  "issue_reason": "cracked passenger door mirror (FAIL Exterior: Power Door Mirrors)",
+  "issue_finding": "FAIL · Exterior: Power Door Mirrors — The passenger side door mirror is cracked."
+ },
+ "20260823-124339-d4966f": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 19,
+  "interior_reason": "dashboard and steering wheel",
+  "issue": 6,
+  "issue_reason": "instrument cluster tire-pressure display (ATTENTION Interior: Dash Lights Working, TPMS)",
+  "issue_finding": "ATTENTION · Interior: Dash Lights Working — During the test drive, the TPMS (Tire Pressure Monitoring System) warning light illuminated. further diagnosis is needed to prevent from possible vehicle proble"
+ },
+ "20260825-152927-4325fa": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior (portrait; reviewed: the landscape photos are stickers and underside)",
+  "interior": 59,
+  "interior_reason": "dashboard seen through driver door",
+  "issue": 234,
+  "issue_reason": "underside showing surface rust (related; ATTENTION Exterior: Rust)",
+  "issue_finding": "ATTENTION · Exterior: Rust — The underside shows areas of surface rust. See pictures."
+ },
+ "20260827-174648-439c24": {
+  "hero": 1,
+  "hero_reason": "driver-side profile exterior",
+  "interior": 16,
+  "interior_reason": "center dashboard and infotainment",
+  "issue": 19,
+  "issue_reason": "underside frame with surface rust (related; ATTENTION Exterior: Rust)",
+  "issue_finding": "ATTENTION · Exterior: Rust — The underside shows areas of surface rust. See pictures."
+ },
+ "20260829-174702-2ea2a1": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 11,
+  "interior_reason": "center dashboard and infotainment",
+  "issue": 15,
+  "issue_reason": "front three-quarter exterior, different angle (no flagged findings)",
+  "issue_finding": ""
+ },
+ "20260831-195146-8cf274": {
+  "hero": 3,
+  "hero_reason": "front three-quarter exterior (reviewed: no landscape photo shows the whole truck)",
+  "interior": 31,
+  "interior_reason": "dashboard and center screens",
+  "issue": 8,
+  "issue_reason": "no flagged findings: rear three-quarter exterior",
+  "issue_finding": ""
+ },
+ "20260902-202500-b3d61c": {
+  "hero": 1,
+  "hero_reason": "front exterior",
+  "interior": 10,
+  "interior_reason": "front seats and dashboard through door",
+  "issue": 46,
+  "issue_reason": "tread gauge in front tire (related; ATTENTION Tire / Wheels: Driver's Front Tire 2/32)",
+  "issue_finding": "ATTENTION · Tire / Wheels: Driver's Front Tire — Sumitomo 205/55/16, 2/32 tread, wheel: Curb Rash, Scratches"
+ },
+ "20260904-222647-c0fdda": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 28,
+  "interior_reason": "center dashboard and infotainment",
+  "issue": 13,
+  "issue_reason": "tread gauge in tire (related; ATTENTION Tire / Wheels: Driver's Front Tire 3/32)",
+  "issue_finding": "ATTENTION · Tire / Wheels: Driver's Front Tire — Falken 235/65R18, 3/32 tread"
+ },
+ "20260907-004509-29309d": {
+  "hero": 1,
+  "hero_reason": "front exterior",
+  "interior": 24,
+  "interior_reason": "dashboard",
+  "issue": 16,
+  "issue_reason": "tape measure at dent on driver-side roof rail (ATTENTION Exterior: Dents, report cites pic 16)",
+  "issue_finding": "ATTENTION · Exterior: Dents — Dent observed on the driver-side roof rail pic 16."
+ },
+ "20260909-004302-253dd4": {
+  "hero": 4,
+  "hero_reason": "front three-quarter exterior (photo 1 is portrait)",
+  "interior": 11,
+  "interior_reason": "front seat and console",
+  "issue": 56,
+  "issue_reason": "close-up of seat bolster (related; ATTENTION Interior: Seat Condition)",
+  "issue_finding": "ATTENTION · Interior: Seat Condition — There is light wear to the seats. Normal for mileage."
+ },
+ "20260911-034754-aa5537": {
+  "hero": 1,
+  "hero_reason": "front exterior",
+  "interior": 3,
+  "interior_reason": "dashboard, steering wheel and front seat",
+  "issue": 52,
+  "issue_reason": "rear tail light close-up (related; FAIL Exterior: Exterior Lights, crack not confirmed at thumbnail size)",
+  "issue_finding": "FAIL · Exterior: Exterior Lights — The right rear tail light shows a crack."
+ },
+ "20260913-033841-63f801": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 2,
+  "interior_reason": "steering wheel and dashboard",
+  "issue": 124,
+  "issue_reason": "scuffed passenger front bumper corner (ATTENTION Exterior: Bumpers)",
+  "issue_finding": "ATTENTION · Exterior: Bumpers — There are scuff marks on the passenger side of the front bumper that has caused the passenger corner of the front bumper to become slightly misaligned. See pict"
+ },
+ "20260915-060929-8683b4": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 70,
+  "interior_reason": "front seats and console",
+  "issue": 33,
+  "issue_reason": "front chrome bumper close-up (related; ATTENTION Exterior: Bumpers, dents on chrome)",
+  "issue_finding": "ATTENTION · Exterior: Bumpers — The front bumper has some scratches to the painted surface and dents on the chrome."
+ },
+ "20260917-061202-fc17e1": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 7,
+  "interior_reason": "steering wheel and dashboard",
+  "issue": 80,
+  "issue_reason": "close-up of worn tire tread (related; FAIL Tire / Wheels: Passenger's Front Tire 1/32, position not labeled)",
+  "issue_finding": "FAIL · Tire / Wheels: Passenger's Front Tire — Hankook 2556517, 1/32 tread, wheel: Scratches"
+ },
+ "20260919-080620-06b789": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 36,
+  "interior_reason": "center dashboard and infotainment",
+  "issue": 18,
+  "issue_reason": "tread gauge on tire (related; FAIL Tire / Wheels: Driver's Front Tire 6/32, position not labeled)",
+  "issue_finding": "FAIL · Tire / Wheels: Driver's Front Tire — Nexen 215/55r17, 6/32 tread, wheel: Scratches"
+ },
+ "20260921-110054-72c85d": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 52,
+  "interior_reason": "center dashboard and radio",
+  "issue": 33,
+  "issue_reason": "finger pointing at dent near fuel door (ATTENTION Exterior: Dents)",
+  "issue_finding": "ATTENTION · Exterior: Dents — There is a dent on the rear left side near the gas door."
+ },
+ "20260922-154057-1cd4d8": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 43,
+  "interior_reason": "center dashboard and infotainment",
+  "issue": 5,
+  "issue_reason": "scan tool screen listing stored codes (ATTENTION Road Test: Computer Diagnosis/OBD2)",
+  "issue_finding": "ATTENTION · Road Test: Computer Diagnosis/OBD2 — All Historical codes, Indicating a battery was replaced and the low voltage codes were never cleared."
+ },
+ "20260923-104718-b4e671": {
+  "hero": 6,
+  "hero_reason": "side three-quarter exterior (photo 1 is portrait)",
+  "interior": 56,
+  "interior_reason": "front seat",
+  "issue": 9,
+  "issue_reason": "underside view (related; ATTENTION Exterior: Rust)",
+  "issue_finding": "ATTENTION · Exterior: Rust — The underside shows areas of surface rust."
+ },
+ "20260925-132536-f0ec0b": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 172,
+  "interior_reason": "steering wheel and dashboard through open door",
+  "issue": 3,
+  "issue_reason": "scan report listing stored codes (ATTENTION Road Test: Computer Diagnosis/OBD2)",
+  "issue_finding": "ATTENTION · Road Test: Computer Diagnosis/OBD2 — I hooked up my Scan Tool to the computer system and found several codes across multiple systems. See pictures of more descriptive information. More diagnoses ar"
+ },
+ "20260927-130141-79f355": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 27,
+  "interior_reason": "dashboard",
+  "issue": 70,
+  "issue_reason": "tread gauge in tire tread (related; FAIL Tire / Wheels: Passenger's 1st Axle Outer Tire 4/32, position not labeled)",
+  "issue_finding": "FAIL · Tire / Wheels: Passenger's 1st Axle Outer Tire — BFGoodrich 265/65/18, 4/32 tread"
+ },
+ "20260929-152549-e08591": {
+  "hero": 2,
+  "hero_reason": "rear three-quarter exterior (photo 1 is a tire close-up)",
+  "interior": 31,
+  "interior_reason": "driver seat and floor through open door",
+  "issue": 19,
+  "issue_reason": "scratch line on body panel, related (ATTENTION Exterior: Scratches)",
+  "issue_finding": "ATTENTION · Exterior: Scratches — There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos."
+ },
+ "20261001-174156-719cf4": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 49,
+  "interior_reason": "front seats and dashboard",
+  "issue": 64,
+  "issue_reason": "front bumper corner by headlight, related (ATTENTION Exterior: Body Panel Alignment / Bumpers)",
+  "issue_finding": "ATTENTION · Exterior: Body Panel Alignment — I noted that the front bumper is misaligned on the passenger side."
+ },
+ "20261003-172929-eb5e4e": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 13,
+  "interior_reason": "dashboard and steering wheel",
+  "issue": 45,
+  "issue_reason": "scan tool screen listing codes (ATTENTION Road Test: Computer Diagnosis/OBD2)",
+  "issue_finding": "ATTENTION · Road Test: Computer Diagnosis/OBD2 — Multiple codes found in the system. See pictures."
+ },
+ "20261005-195319-8a79ee": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 5,
+  "interior_reason": "dashboard",
+  "issue": 30,
+  "issue_reason": "stains on headliner (ATTENTION Interior: Headliner)",
+  "issue_finding": "ATTENTION · Interior: Headliner — The headliner has several stains present."
+ },
+ "20261007-202541-f52ee2": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior (portrait; reviewed: no landscape photo shows the whole car)",
+  "interior": 2,
+  "interior_reason": "center stack and infotainment screen",
+  "issue": 18,
+  "issue_reason": "tread depth gauge in tire, related, tire position not confirmed (ATTENTION Tire / Wheels)",
+  "issue_finding": "ATTENTION · Tire / Wheels: Driver's Front Tire — Goodyear 245/50/20, 7/32 tread, wheel: Scratches"
+ },
+ "20261009-222705-080dd5": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 13,
+  "interior_reason": "center dashboard and controls",
+  "issue": 53,
+  "issue_reason": "view through windshield, related (FAIL Exterior: Glass, windshield crack)",
+  "issue_finding": "FAIL · Exterior: Glass — The windshield has a crack and will need to be replaced."
+ },
+ "20261012-012503-33093e": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 2,
+  "interior_reason": "front seat",
+  "issue": 3,
+  "issue_reason": "dirty floor carpet (ATTENTION Interior: Carpet)",
+  "issue_finding": "ATTENTION · Interior: Carpet — The carpet shows normal wear consistent with age and mileage. Need to be cleaned."
+ },
+ "20261014-005119-19d283": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 24,
+  "interior_reason": "front seat and dashboard",
+  "issue": 18,
+  "issue_reason": "scan tool screen listing codes (ATTENTION Road Test: Computer Diagnosis/OBD2)",
+  "issue_finding": "ATTENTION · Road Test: Computer Diagnosis/OBD2 — I hooked up my Scan Tool to the computer system and found several codes across multiple systems. See pictures of more descriptive information. More diagnosis is"
+ },
+ "20261016-030940-d0665b": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 24,
+  "interior_reason": "steering wheel and instrument display",
+  "issue": 20,
+  "issue_reason": "no flagged findings; rear three-quarter exterior",
+  "issue_finding": ""
+ },
+ "20261018-030700-59e62e": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 53,
+  "interior_reason": "steering wheel and dashboard",
+  "issue": 12,
+  "issue_reason": "windshield close-up, related (ATTENTION Exterior: Glass, stone chips)",
+  "issue_finding": "ATTENTION · Exterior: Glass — The windshield has miscellaneous stone chips."
+ },
+ "20261020-061058-ce4075": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 8,
+  "interior_reason": "instrument cluster (no broader cabin shot)",
+  "issue": 23,
+  "issue_reason": "oil fill cap on top of engine (ATTENTION Mechanical: Engine Oil Leaks)",
+  "issue_finding": "ATTENTION · Mechanical: Engine Oil Leaks — Noticed a seepage on the oil cap where it sits on the top of the engine, see pictures."
+ },
+ "20261021-153952-622a14": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 4,
+  "interior_reason": "dashboard and front seats",
+  "issue": 6,
+  "issue_reason": "door panel close-up, related (ATTENTION Exterior: Dings)",
+  "issue_finding": "ATTENTION · Exterior: Dings — There 3 dings on the passenger side doors."
+ },
+ "20261022-060610-ab7129": {
+  "hero": 2,
+  "hero_reason": "rear three-quarter exterior (photo 1 is a tight front close-up)",
+  "interior": 30,
+  "interior_reason": "front seat",
+  "issue": 71,
+  "issue_reason": "fluid reservoir in engine bay, related (ATTENTION Mechanical: Brake System Condition)",
+  "issue_finding": "ATTENTION · Mechanical: Brake System Condition — Brake Fluid is looking lower in the bottle, so the brake pads are getting low."
+ },
+ "20261024-083129-ab674d": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 28,
+  "interior_reason": "steering wheel and instrument cluster",
+  "issue": 64,
+  "issue_reason": "exhaust pipe behind rear tire, related (ATTENTION Mechanical: Muffler System)",
+  "issue_finding": "ATTENTION · Mechanical: Muffler System — Surface rust can be found on some portions of the exhaust pipe, welds, and flanges which is a typical occurrence. I observed a knocking noise coming from the mu"
+ },
+ "20261026-104538-d65921": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 42,
+  "interior_reason": "steering wheel and dashboard",
+  "issue": 17,
+  "issue_reason": "dirty filter surface, related (ATTENTION Mechanical: Air Filter)",
+  "issue_finding": "ATTENTION · Mechanical: Air Filter — The air filter is dirty and needs to be replaced."
+ },
+ "20261028-104949-e0a47e": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 32,
+  "interior_reason": "front seat",
+  "issue": 87,
+  "issue_reason": "rear bumper damage, photo #87 referenced in text (ATTENTION Exterior: Dents)",
+  "issue_finding": "ATTENTION · Exterior: Dents — I noticed dent on the rear left fender. Also, the rear bumper shows dent. Refer to photo #87."
+ },
+ "20261028-152914-cbf026": {
+  "hero": 61,
+  "hero_reason": "front three-quarter exterior (photo 1 not landscape)",
+  "interior": 8,
+  "interior_reason": "steering wheel and instrument cluster",
+  "issue": 44,
+  "issue_reason": "underside with surface rust, related (ATTENTION Mechanical: Muffler System)",
+  "issue_finding": "ATTENTION · Mechanical: Muffler System — Exhaust shows some surface rust throughout, but at this time has no leaks and sounds good."
+ },
+ "20261030-125557-2c319e": {
+  "hero": 1,
+  "hero_reason": "front exterior (portrait; reviewed: the only landscape photo is the underside)",
+  "interior": 24,
+  "interior_reason": "front seat",
+  "issue": 8,
+  "issue_reason": "tread depth gauge in tire, related, tire position not confirmed (ATTENTION Tire / Wheels)",
+  "issue_finding": "ATTENTION · Tire / Wheels: Driver's Front Tire — Bridgestone 205/45R17, 4/32 tread"
+ },
+ "20261101-131637-4d1750": {
+  "hero": 1,
+  "hero_reason": "rear three-quarter exterior",
+  "interior": 47,
+  "interior_reason": "dashboard and front seats",
+  "issue": 42,
+  "issue_reason": "coolant reservoir (ATTENTION Mechanical: Coolant Condition)",
+  "issue_finding": "ATTENTION · Mechanical: Coolant Condition — The coolant reservoir is low."
+ },
+ "20261103-153723-93d5fd": {
+  "hero": 1,
+  "hero_reason": "front three-quarter exterior",
+  "interior": 12,
+  "interior_reason": "front seats",
+  "issue": 28,
+  "issue_reason": "worn, wrinkled seat leather (ATTENTION Interior: Seat Condition)",
+  "issue_finding": "ATTENTION · Interior: Seat Condition — Driver seat leather wrinkles / dirty stain / worn."
+ }
+}

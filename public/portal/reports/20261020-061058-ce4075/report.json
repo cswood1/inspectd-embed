@@ -1,0 +1,753 @@
+{
+ "id": "20261020-061058-ce4075",
+ "filename": "Nissan_291548_inspection.pdf",
+ "uploaded_at": "2026-11-08T19:00:31+00:00",
+ "size": 18751951,
+ "llm_error": "",
+ "scanned": false,
+ "vehicle": {
+  "vin": "3N1AB7AP0KY291548",
+  "year": "2019",
+  "make": "Nissan",
+  "model": "Sentra",
+  "mileage": "85419",
+  "color": "Black",
+  "interior_color": "Black",
+  "interior_material": "Cloth",
+  "engine": "4 Cylinder",
+  "transmission": "Automatic",
+  "drivetrain": "Front Wheel Drive",
+  "fuel": "Gas"
+ },
+ "inspection": {
+  "report_id": "20261020-061058-ce4075",
+  "date": "2023-08-15",
+  "location": "Fort Worth, TX, 76132",
+  "customer": "Meridian Fleet Services"
+ },
+ "findings": [
+  {
+   "item": "Road Test",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Yes"
+  },
+  {
+   "item": "Engine Starting Easily",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine running well after Started",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Transmission performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Wheel Bearing Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Braking Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Suspension Performance",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Steering Performance and Alignment",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Tire Pressure System (TPMS)",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Computer Diagnosis/OBD2",
+   "status": "pass",
+   "section": "Road Test",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Wiper Blades",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Windshield Washer",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Body Panel Alignment",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "The hood between both fenders is not aligned properly",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Scratches",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos. The exterior of the vehicle was very dusty at time of inspection. This can hide minor imperfections.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Paint Condition",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "The vehicle repaint shows dust under the paint, some orange peel, and signs of poor prep. This is sub-par workmanship.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Seals",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Rust",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Exterior Lights",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Door Mirrors",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Bumpers",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "The front bumper shows signs of repaint with minor imperfections and is not mounted properly",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Underbody/Frame Condition",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Glass",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dings",
+   "status": "attention",
+   "section": "Exterior",
+   "notes": "The vehicle shows minor miscellaneous dings around the body.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Dents",
+   "status": "pass",
+   "section": "Exterior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Steering Wheel",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Horn",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cruise Control",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Seat Condition",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "There is light wear to the seats. Normal for mileage.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Seat Belts",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Clock",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radio/Navigation/DVD",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Inner Door Panels",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The inner driver door panel show heavy wear. See pictures.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Power Locks",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The power lock switch unlocks and locks all doors but the passenger door.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Power Window Switches",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Center Console",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dash",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Dash Lights Working",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Air Conditioning",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Heater",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Rear Defroster",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Carpet",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "The carpet shows normal wear consistent with age and mileage.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Signs of Smoking?",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cup Holders",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Headliner",
+   "status": "attention",
+   "section": "Interior",
+   "notes": "headliner shows wear and is dirty, just probably needs a good cleaning.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Blower Motor",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Instrument Cluster/Gauges",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Unusual Odors",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Window Function",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Window Function",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Interior Trim",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Sun Visors",
+   "status": "pass",
+   "section": "Interior",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Air Filter",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Battery Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Charging System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Cooling Fan Condition Mechanical/Electronic",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radiator Cap Sealing Properly",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Hoses and Clamps Age/Cracking",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Radiator Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Coolant Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Coolant Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Belts",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Power Steering System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine Oil Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Engine Oil Leaks",
+   "status": "attention",
+   "section": "Mechanical",
+   "notes": "Noticed a seepage on the oil cap where it sits on the top of the engine, see pictures.",
+   "page": null,
+   "raw_status": "Issues"
+  },
+  {
+   "item": "Transmission Fluid Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Brake System Condition",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Brake Fluid Leaks",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Muffler System",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "CV Boots and Joints",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Shocks and bushings Condition. Leaking?",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Ball Joints and Tie Rods",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Key Fob",
+   "status": "pass",
+   "section": "Mechanical",
+   "notes": "",
+   "page": null,
+   "raw_status": "Good"
+  },
+  {
+   "item": "Spare Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "",
+   "page": null,
+   "raw_status": "Yes"
+  },
+  {
+   "item": "Driver's Front Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Westlake 205/55/16, 6/32 tread, wheel: Curb Rash",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Passenger's Front Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "westlake 205/55/16, 6/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Driver's 1st Axle Outer Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Fortune 205/55/16, 4/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  },
+  {
+   "item": "Passenger's 1st Axle Outer Tire",
+   "status": "pass",
+   "section": "Tire / Wheels",
+   "notes": "Zentury 205/55/16, 5/32 tread",
+   "page": null,
+   "raw_status": "No Issues"
+  }
+ ],
+ "notes": [
+  "2019 Nissan Sentra"
+ ],
+ "ratings": [
+  {
+   "name": "NAAA Paint & Body Rating",
+   "value": "2.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Interior Rating",
+   "value": "3.5",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Frame/Unibody Rating",
+   "value": "4",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Mechanical Rating",
+   "value": "4",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Tires Rating",
+   "value": "3",
+   "scale": "5"
+  },
+  {
+   "name": "NAAA Rating",
+   "value": "3.6",
+   "scale": "5"
+  }
+ ],
+ "summaries": [
+  {
+   "section": "Overall",
+   "text": "The vehicle was fairly dirty and needed a good wash. The engine bay was dirty and there appears to be oil seepage out of the oil cap on top of the engine (see pictures) it was low on Washer fluid but all other levels including the radiator appeared to be toped off. I will note that the radiator appeared to just be filled with water. i noticed that both front headlights had what appeared to be junkyard marks on them then i also noticed that the front bumper was missing a few bolts that go along the core support to help stabilize the front bumper."
+  },
+  {
+   "section": "Overall",
+   "text": "I noticed that the driver side of the front bumper is pushed out and does not align with the driver front fender. Once i closed the hood i noticed a significant gap difference on the hood to fender fitment between the driver fender and hood and the passenger fender and hood. The driver fender and hood almost had no gap while there was a considerable gap between the passenger fender and hood."
+  },
+  {
+   "section": "Overall",
+   "text": "I notice other blemishes on the front bumper and i believe at the very least the front bumper and both headlights have been replaced. on further inspection around the outside of the car you can see in the pictures that the driver door handle is missing some of its trim and it actually does not work unless you use the handle in a particular way to open the door. i also noticed many scratches and small dents throughout the driver side of the car. the rear of the car was fairly fine with no noticeable damage, the passenger side was much like the driver side with multiple small dings and a few scratches as shown in the pictures."
+  },
+  {
+   "section": "Overall",
+   "text": "Although i could not find a tape line of any kind i can confidently say that both sides and the front of this vehicle have been painted. The \"orange peel\" is not even and the car would need a good \"cut and buff\" i believe i can also see up close signs of sand scratches below the paint. another note on the exterior of the car, the front two tires are one brand and then each one of the rear is a different brand, only 2 of the 4 tires match and one wheel has curb rash. The interior of the car is in good shape, the cloth seats are not broken down and the dash has no cracks, all the seats so minimal wear and the only issues i could find was the driver door panel arm rest is torn and needs to be replaced and the passenger rear window tint needs to be redone."
+  },
+  {
+   "section": "Overall",
+   "text": "While driving the car i noticed the brakes work well and the transmission \"shifts\" as it should being a CVT transmission. The engine started up nice and is well responsive. On the highway i noticed a severe pulling to the left and I would recommend this car receive an alignment immediately. The Air Conditioning blew cold, the radio worked well, all the steering wheel controls works accordingly."
+  },
+  {
+   "section": "Overall",
+   "text": "Cruise control operated as it should and all the lights and blinkers plus the wipers and washer system worked as it should. All the windows operated as they should but the Passenger front door does not lock or unlock with the driver door lock switch, you have to manually operate that lock. While on the test drive i had two warning lights that appeared on the gouge cluster (please see pictures) they revolve around the front parking sensors in the vehicle and i can not confirm if they just need realigned or if they work at all."
+  }
+ ],
+ "images": [
+  {
+   "index": 1,
+   "page": 3,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-001.webp",
+   "caption": "",
+   "thumb": "thumb-001.webp",
+   "role": "hero"
+  },
+  {
+   "index": 8,
+   "page": 15,
+   "width": 1024,
+   "height": 768,
+   "ext": "webp",
+   "filename": "img-008.webp",
+   "caption": "",
+   "thumb": "thumb-008.webp",
+   "role": "interior"
+  },
+  {
+   "index": 23,
+   "page": 30,
+   "width": 768,
+   "height": 1024,
+   "ext": "webp",
+   "filename": "img-023.webp",
+   "caption": "",
+   "thumb": "thumb-023.webp",
+   "role": "issue"
+  }
+ ],
+ "pages": 74,
+ "source": "layout",
+ "summary": {
+  "pass": 66,
+  "fail": 0,
+  "attention": 11,
+  "na": 0,
+  "unknown": 0,
+  "total": 77
+ },
+ "photo_count": 67
+}

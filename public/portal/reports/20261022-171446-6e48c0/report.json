@@ -140,7 +140,7 @@
   },
   {
    "item": "Windshield Washer",
-   "status": "fail",
+   "status": "attention",
    "section": "Exterior",
    "notes": "The windshield washer does not work.",
    "page": null,
@@ -1748,8 +1748,8 @@
  "source": "layout",
  "summary": {
   "pass": 64,
-  "fail": 5,
-  "attention": 11,
+  "fail": 4,
+  "attention": 12,
   "na": 0,
   "unknown": 0,
   "total": 80

@@ -11,6 +11,7 @@
 import { DEALER } from "../data.js";
 import { REPORT_INDEX } from "./reportIndex.js";
 import { payoutFor } from "./jobModel.js";
+import { REPORT_ZIPS, REPORT_PEOPLE, MORE_REPORT_JOBS } from "./reportJobs.js";
 import zipDb from "us-zips";
 
 /* ---- deterministic ids ----------------------------------------- */
@@ -69,6 +70,8 @@ export const ZIPS = {
   "91746": {city: "La Puente", state: "CA", lat: 34.043304, lon: -117.986859, tier: 1},
   "10467": {city: "Bronx", state: "NY", lat: 40.875262, lon: -73.872027, tier: 1},
   "21157": {city: "Westminster", state: "MD", lat: 39.548569, lon: -76.983558, tier: 3},
+  // where the AI demo's 89 further reports were inspected (reportJobs.js; their tiers are estimates)
+  ...REPORT_ZIPS,
 };
 // apps/pricing/tiers.json
 export const TIERS = {
@@ -205,7 +208,7 @@ export function lookupFor(row, attempt = 0){
 
 /* ---- people ------------------------------------------------------- */
 
-export const SEED_VERSION = 10;   // bump when the seed changes shape: a stored older seed is replaced
+export const SEED_VERSION = 11;   // bump when the seed changes shape: a stored older seed is replaced
 export const PORTAL = "https://portal.inspectd.com";
 // The links the demo hands out (an inspector's job link) are built on the page's own origin, so a copied link opens
 // inside the demo, on localhost, a preview or staging alike. Invitation links stay on PORTAL: the demo has no invite page.
@@ -247,6 +250,8 @@ const PEOPLE = {
   logan: ["Logan Pratt", "logan.pratt@pinemail.net", "(801) 555-0171"],
   brooke: ["Brooke Christensen", "brooke.christensen@pinemail.net", "(385) 555-0177"],
   jared: ["Jared Nielsen", "jared.nielsen@pinemail.net", "(801) 555-0182"],
+  // the consumers and shoppers behind the AI demo's further reports (reportJobs.js)
+  ...REPORT_PEOPLE,
 };
 // the marketplace partner whose embed its shoppers order through (its public profile, apps/partners/registry PUBLIC).
 // `org` is the workspace its orders land in.
@@ -280,10 +285,12 @@ export const REPORT_JOBS = [
   ["20261014-145907-d73b05", "tom", "2300 Cordelia Rd", ARB, "standard", 24, 22, "Arbitration claim: front bumper and grille damage not disclosed at sale."],
   ["20261022-171446-6e48c0", "dana", "15000 Valley Blvd", CR("general"), "exotic", 17, 14, "Executive car coming off assignment. Please look hard at leaks and the interior before we remarket it."],
   ["20261029-130637-a91f2c", "luis", "3300 G St", CR("general"), "exotic", 9, 7, "Executive car off assignment. The driver says it was garage kept; please confirm before it goes to auction."],
+  // the AI demo's further 89 (reportJobs.js): the same shape, plus extras (a ReBuilt shopper's partner and listing)
+  ...MORE_REPORT_JOBS,
 ];
-function reportJob([id, who, street, type, cls, created, inspected, notes]){
+function reportJob([id, who, street, type, cls, created, inspected, notes, extras = {}]){
   const rep = REPORT_INDEX[id], v = rep.vehicle, zip = rep.inspection.location.match(/(\d{5})\s*$/)[1];
-  return [who, zip, street, [+v.year, v.make, v.model, null, null], type, cls, "complete", "done", created, {report: id, vin: v.vin, inspected, notes}];
+  return [who, zip, street, [+v.year, v.make, v.model, null, null], type, cls, "complete", "done", created, {report: id, vin: v.vin, inspected, notes, ...extras}];
 }
 
 // [who, zip, street, [year, make, model, vin prefix, plant], [type, subtype], vehicle class, status, providers search, days ago, extras]
