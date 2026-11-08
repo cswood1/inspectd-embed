@@ -12,7 +12,7 @@ export function activityOf(r){
   const m = r.meta || {}, out = [];
   const add = (at, what, who = "", detail = "") => { if (at) out.push({at, what, who, detail}); };
 
-  add(r.created_at, "Request received", !isConsumer(r) && r.org ? `${r.form.name}, ${r.org.name}${r.partner ? " embed" : ""}` : r.form.name, m.order ? `Paid ${money(m.order.amount_cents)}` : "");
+  add(r.created_at, "Submitted", !isConsumer(r) && r.org ? `${r.form.name}, ${r.org.name}${r.partner ? " embed" : ""}` : r.form.name, m.order ? `Paid ${money(m.order.amount_cents)}` : "");
   const s = r.search;
   if (s) {
     const n = (r.result?.shops || []).length;
@@ -32,10 +32,10 @@ export function activityOf(r){
       [link.claim.proposed_time ? `Plans ${plannedLabel(link.claim.proposed_time)}` : "", link.claim.phone].filter(Boolean).join(" · "));
     if (link.off_at) add(link.off_at, "Link turned off");
   }
-  if (m.report?.at) add(m.report.at, "Report submitted", m.link?.claim?.company || m.report.shop?.name || "");
+  if (m.report?.at) add(m.report.at, "Report delivered", m.link?.claim?.company || m.report.shop?.name || "");
   // cancellations: the one standing, and any a reset undid
   for (const x of [...(m.resets || []).map(z => z.canceled).filter(Boolean), ...(m.canceled ? [m.canceled] : [])]) add(x.at, "Canceled", x.by, x.reason);
   if (m.refund) add(m.refund.at, `Refunded ${money(m.refund.amount_cents)}`, m.refund.by);
-  for (const z of m.resets || []) add(z.at, "Reset to New", z.by);
+  for (const z of m.resets || []) add(z.at, "Reopened", z.by);
   return out.sort((a, b) => a.at.localeCompare(b.at));
 }

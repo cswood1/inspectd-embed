@@ -40,18 +40,20 @@ export const SECTIONS = [["jobs", "Jobs", "/jobs", I.jobs], ["reports", "Reports
 
 /* ---- vocabulary (jobs-client/shared.js) ------------------------------ */
 
-const STAGE_ALIAS = {finding: "dispatching", booked: "confirmed", cancelled: "canceled"};   // older request-service names
+// One vocabulary on every surface: the job's stored status keys and the words Inspectd staff see in the console. Only
+// Complete (green) and Canceled (red) carry a color. What each means is in docs/platform/decisions.md, not on screen.
+const STAGE_ALIAS = {received: "new", submitted: "new", finding: "dispatching", confirmed: "claimed", booked: "claimed", cancelled: "canceled"};   // older names
 const STAGES = {
-  received: {label: "Received", pill: "gray", d: "We have the request"},
-  dispatching: {label: "Dispatching", pill: "blue", d: "Reaching mobile inspectors near the car"},
-  confirmed: {label: "Confirmed", pill: "green", d: "An inspector is scheduled"},
-  complete: {label: "Complete", pill: "gray", d: "Report on its way or delivered"},
-  canceled: {label: "Canceled", pill: "red", d: "Withdrawn before an inspector was confirmed"},
+  new: {label: "Submitted", pill: "gray"},
+  dispatching: {label: "Dispatching", pill: "gray"},
+  claimed: {label: "Claimed", pill: "gray"},
+  complete: {label: "Complete", pill: "green"},
+  canceled: {label: "Canceled", pill: "red"},
 };
 export const STAGE = {
   ...STAGES,
-  key: s => STAGE_ALIAS[s] || s || "received",
-  of: s => STAGES[STAGE.key(s)] || {label: String(s || "").replace(/[_-]+/g, " ").replace(/^\w/, c => c.toUpperCase()) || "Unknown", pill: "gray", d: ""},
+  key: s => STAGE_ALIAS[s] || s || "new",
+  of: s => STAGES[STAGE.key(s)] || {label: String(s || "").replace(/[_-]+/g, " ").replace(/^\w/, c => c.toUpperCase()) || "Unknown", pill: "gray"},
   type: f => inspectionLabel(f || {}),          // "Consumer · Pre-purchase" (jobModel.js)
   short: f => inspectionShort(f || {}),         // "Pre-purchase", or "Arbitration"
   vclass: c => classLabel(c || "standard"),
@@ -59,14 +61,15 @@ export const STAGE = {
 export const vehicleOf = f => vehicleName(f || {}) || "Vehicle not given";
 export const whereOf = f => [f.city, f.state, f.zip].filter(Boolean).join(", ");
 export const fmtWhen = iso => { const d = new Date(iso); return isNaN(d) ? "" : d.toLocaleString([], {month: "short", day: "numeric", hour: "numeric", minute: "2-digit"}); };
-export const OPEN_STAGES = ["received", "dispatching", "confirmed"];
+export const OPEN_STAGES = ["new", "dispatching", "claimed"];
 /** Open jobs keyed by VIN, so a second request for the same car is noticed before it is created. */
 export function openByVin(jobs){
   const out = {};
   for (const j of jobs || []) { const vin = (j.form?.vin || "").trim().toUpperCase(); if (vin && OPEN_STAGES.includes(STAGE.key(j.stage)) && !out[vin]) out[vin] = j; }
   return out;
 }
-export const jobRef = id => "J-" + String(id || "").slice(0, 6).toUpperCase();
+// a job's link in the portal is its reference (/jobs/J-7KQ2M9), never its internal id
+export const jobHref = j => `/jobs/${j.ref}`;
 
 /* ---- reports (shell.js) ---------------------------------------------- */
 

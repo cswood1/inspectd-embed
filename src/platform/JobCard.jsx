@@ -34,7 +34,8 @@ const loadTicks = token => { try { return JSON.parse(localStorage.getItem(ticksK
 const ClassTag = ({ c, label }) => c === "ev" || c === "exotic" ? <span className="jc-tag">{label}</span> : null;
 const Vehicle = ({ j, where = false }) => (
   <div className="jc-veh"><h1>{j.vehicle}<ClassTag c={j.vehicle_class} label={j.vehicle_class_label} /></h1>
-    <p>{j.inspection}{where && j.where ? ` · ${j.where}` : ""}</p></div>
+    <p>{j.inspection}{where && j.where ? ` · ${j.where}` : ""}</p>
+    {j.ref ? <p className="jc-ref mono" id="jobRef">{j.ref}</p> : null}</div>
 );
 // a short message, with the vehicle it is about
 const Message = ({ j, tone = "", title, children }) => (
@@ -85,7 +86,7 @@ export function JobCard({ token }){
     const noUpload = e => { e.preventDefault(); notify("Uploads aren't available in this demo", "In the live app the PDF becomes the customer's report here. This demo's reports were converted ahead of time.", "blue", 6000); };
     return (
       <div className="jc-card">
-        <div className="jc-mine"><b>You have this job</b><span className="jc-pay sm">{payout}</span>
+        <div className="jc-mine"><b>Claimed by you</b><span className="jc-pay sm">{payout}</span>
           <p>{j.planned ? `Planned: ${j.planned}` : ""}</p></div>
         <div className="jc-next" id="nextStep">
           <small>Next step</small>
@@ -96,7 +97,8 @@ export function JobCard({ token }){
           <p className="jc-addr" id="address">{j.address}</p>
           {j.site ? <p className="jc-sub">{[j.site.name, j.site.contact_name, j.site.contact_phone].filter(Boolean).join(" · ")}</p> : null}
           <a className="jc-btn" id="navBtn" href={mapsUrl(j.address)} target="_blank" rel="noopener">Navigate</a></section>
-        <section className="jc-sec"><h2>Vehicle</h2><Vehicle j={j} />{j.vin ? <p className="jc-sub mono">{`VIN ${j.vin}`}</p> : null}</section>
+        <section className="jc-sec"><h2>Vehicle</h2><Vehicle j={j} />{j.vin ? <p className="jc-sub mono">{`VIN ${j.vin}`}</p> : null}
+          {j.customer_ref ? <p className="jc-sub" id="customerRef">{`Customer reference ${j.customer_ref}`}</p> : null}</section>
         {j.notes ? <section className="jc-sec"><h2>Customer's notes</h2><p className="jc-quote">{j.notes}</p></section> : null}
         <section className="jc-sec"><h2>Your report covers <span className="jc-count" id="tickCount">{`${done} of ${covers.length}`}</span></h2>
           <ul className="jc-check" id="checklist">{covers.map((c, i) => (

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
 import { PaneCtx } from "./ui.jsx";
-import { Svg, title, fmtDate, jobRef, useNotices } from "./portalUi.jsx";
+import { Svg, title, fmtDate, useNotices } from "./portalUi.jsx";
 import { InsightCard } from "./InsightCard.jsx";
 
 /*
@@ -29,8 +29,11 @@ const STATUS = {
 const LABELS = {vin: "VIN", year: "Year", make: "Make", model: "Model", trim: "Trim", mileage: "Mileage", plate: "Plate",
   color: "Exterior color", interior_color: "Interior color", interior_material: "Interior material", engine: "Engine", transmission: "Transmission", drivetrain: "Drivetrain",
   fuel: "Fuel", body: "Body style", stock: "Stock #", date: "Date", inspector: "Inspector", location: "Location", report_id: "Report #", customer: "Customer", overall: "Overall"};
-const ORDER_V = ["year", "make", "model", "trim", "vin", "mileage", "plate", "color", "interior_color", "interior_material", "engine", "transmission", "drivetrain", "fuel", "body", "stock"];
-const ORDER_I = ["date", "location", "report_id", "customer", "overall"];   // the inspector's identity stays with Inspectd
+// No "Stock #" (copied from the inspector's record; the customer's own reference is on the job) and no "Report #" (a
+// report shows its job's reference, and has no ID of its own): docs/platform/decisions.md, "Job references"
+const ORDER_V = ["year", "make", "model", "trim", "vin", "mileage", "plate", "color", "interior_color", "interior_material", "engine", "transmission", "drivetrain", "fuel", "body"];
+const ORDER_I = ["date", "location", "customer", "overall"];   // the inspector's identity stays with Inspectd
+const HIDE_V = ["stock"], HIDE_I = ["inspector", "report_id"];
 const CHEV = '<svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4 4 4-4"/></svg>';
 const COPY = '<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg>';
 const plural = (n, one, many = one + "s") => `${n} ${n === 1 ? one : many}`;
@@ -137,7 +140,7 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
     return keys.map(k => <React.Fragment key={k}><dt>{LABELS[k] || k.replace(/_/g, " ")}</dt><dd className={k === "vin" ? "mono" : undefined}>{k === "mileage" ? fmtMiles(obj[k]) : obj[k]}</dd></React.Fragment>);
   };
   function configBody(r){
-    const v = kv(r.vehicle || {}, ORDER_V), i = kv(r.inspection || {}, ORDER_I, ["inspector"]);
+    const v = kv(r.vehicle || {}, ORDER_V, HIDE_V), i = kv(r.inspection || {}, ORDER_I, HIDE_I);
     const pv = r.vehicle_in_pdf;
     return (<>
       {pv ? <p className="cr-odd">{`The inspector's PDF names ${[pv.year, pv.make, pv.model, pv.trim].filter(Boolean).join(" ") || "another vehicle"}`}{pv.vin ? <>{" (VIN "}<span className="mono">{pv.vin}</span>{")"}</> : null}{". This report is filed under the car above."}</p> : null}
@@ -228,7 +231,10 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
     if (v.mileage) facts.push(["Odometer", <span className="mono">{fmtMiles(v.mileage)}</span>]);
     if (i.location) facts.push(["Location", <span>{i.location}</span>]);
     if (i.date) facts.push(["Inspected", <span>{fmtDate(i.date)}</span>]);
-    if (r.request_id && !isPublic) facts.push(["Job", <a href={`/jobs/${r.request_id}`} className="mono" onClick={e => { stay(e); ctx.navigate(`/jobs/${r.request_id}`); }}>{jobRef(r.request_id)}</a>]);
+    // the job's reference (a report has no ID of its own), with the customer's own beside it; the share page shows ours only
+    if (r.job_ref) facts.push(["Job", isPublic ? <span className="mono" id="jobRefFact">{r.job_ref}</span>
+      : <a href={`/jobs/${r.job_ref}`} className="mono" id="jobRefFact" onClick={e => { stay(e); ctx.navigate(`/jobs/${r.job_ref}`); }}>{r.job_ref}</a>]);
+    if (r.customer_ref && !isPublic) facts.push(["Your reference", <span id="custRefFact">{r.customer_ref}</span>]);
   }
   // the same car's other reports in this workspace, and any job for it still in progress (not on the share page)
   const vin = (v.vin || "").toUpperCase();
@@ -251,7 +257,7 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
           {r && !isPublic && (others.length || open.length) ? <p className="cr-also" id="alsoLine">
             {others.length ? <>{"Also inspected "}{others.map((o, n) => <React.Fragment key={o.id}>{n ? ", " : ""}<a href={`/reports/${o.id}`} data-report={o.id} onClick={e => { stay(e); ctx.navigate(`/reports/${o.id}`); }}>{fmtDate(o.inspection?.date)}</a></React.Fragment>)}</> : null}
             {others.length && open.length ? " · " : ""}
-            {open.length ? <>{"In progress: "}{open.map((j, n) => <React.Fragment key={j.id}>{n ? ", " : ""}<a href={`/jobs/${j.id}`} className="mono" data-job={j.id} onClick={e => { stay(e); ctx.navigate(`/jobs/${j.id}`); }}>{jobRef(j.id)}</a></React.Fragment>)}</> : null}
+            {open.length ? <>{"In progress: "}{open.map((j, n) => <React.Fragment key={j.id}>{n ? ", " : ""}<a href={`/jobs/${j.ref}`} className="mono" data-job={j.ref} onClick={e => { stay(e); ctx.navigate(`/jobs/${j.ref}`); }}>{j.ref}</a></React.Fragment>)}</> : null}
           </p> : null}
         </div>
       </header>

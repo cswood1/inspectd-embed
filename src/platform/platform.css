@@ -544,3 +544,17 @@
 .ip .who .tx > b{color:var(--ink);font-weight:500}
 .ip .who .tx > span{font-size:var(--fs-small);color:var(--muted)}
 .ip .ptable td:first-child{padding-left:var(--pad-l)} .ip .ptable td:last-child{padding-right:var(--pad-r)}
+
+/* job references (docs/platform/decisions.md, "Job references"): ours in mono, the customer's own muted under it */
+.ip td.jobcell{white-space:nowrap}
+.ip .jobcell .mono{display:block;font-size:var(--fs-small);color:var(--ink)}
+.ip .jobcell .cref{display:block;font-size:var(--fs-label);color:var(--muted)}
+.ip #osub{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.ip #osub .mono{color:var(--ink)} .ip #osub .cref{color:var(--muted)}
+/* the Job column made the board wider: a long vehicle name wraps rather than push Actions off the page */
+.ip table.board td.vehcell{white-space:normal;min-width:170px}
+.ip table.board td.vehcell .vtag{white-space:nowrap}
+/* customer names in full; a long email is still cut short (the full one is in the panel) */
+.ip table.board .who .tx{max-width:none}
+.ip table.board .who .tx b{overflow:visible;text-overflow:clip}
+.ip table.board .who .tx > span{max-width:160px}

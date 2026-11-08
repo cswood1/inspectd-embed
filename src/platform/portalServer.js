@@ -6,7 +6,9 @@
  * for a bulk upload, the per-row errors.
  */
 import { ApiError, createAuth } from "./authServer.js";
-import { PROVIDER_TERMS_VERSION, jobRef, payoutAt } from "./seed.js";
+import { PROVIDER_TERMS_VERSION, mailSubject, payoutAt } from "./seed.js";
+import { newRef, normRef } from "./jobRef.js";
+import { vehicleName } from "./vehicleName.js";
 import { INSPECTION_TYPES, VEHICLE_CLASSES, classifyInspection, typesFor, consumerTypeAllowed, CONSUMER_TYPE_RULE, classifyClass, inspectionLabel, classLabel, subtypesOf,
          requirementsFor, TIME_WINDOWS, PROPOSE_DAYS, plannedLabel, DECLINE_REASONS } from "./jobModel.js";
 import { vinCheck } from "./vin.js";
@@ -17,21 +19,23 @@ const mailId = () => `${hex(8)}-${hex(4)}-${hex(4)}-${hex(4)}-${hex(12)}`;
 const alnum = n => Array.from(crypto.getRandomValues(new Uint8Array(n)), b => "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"[b % 62]).join("");
 const fail = (status, message, extra = {}) => Object.assign(new ApiError(message), {status, body: {error: message, ...extra}});
 
-export const STAGES = ["received", "dispatching", "confirmed", "complete", "canceled"];
-const STAGE_LABELS = {received: "Received", dispatching: "Dispatching", confirmed: "Confirmed", complete: "Complete", canceled: "Canceled"};
+// one vocabulary on every surface: the job's stored status keys, and the words for them (docs/platform/decisions.md, "Job statuses")
+export const STAGES = ["new", "dispatching", "claimed", "complete", "canceled"];
+const STAGE_LABELS = {new: "Submitted", dispatching: "Dispatching", claimed: "Claimed", complete: "Complete", canceled: "Canceled"};
 const ROLE_LABEL = {OWNER: "Owner", ADMIN: "Admin", USER: "User", SUPER: "Inspectd team"};
 
 /* ---- the taxonomy and the form (jobModel.js; requests/store.py) ---- */
 
 const TYPE_KEYS = INSPECTION_TYPES.map(([k]) => k), CLASS_KEYS = VEHICLE_CLASSES.map(([k]) => k);
 
-const FIELDS = ["name", "email", "phone", "year", "make", "model", "vin", "vehicle_class", "inspection_type", "inspection_subtype", "address", "city", "state", "zip", "notes"];
+const FIELDS = ["name", "email", "phone", "year", "make", "model", "vin", "vehicle_class", "inspection_type", "inspection_subtype", "address", "city", "state", "zip", "notes", "customer_ref"];
 const REQUIRED = ["name", "email", "address", "city", "state", "zip", "inspection_type"];
 const ZIP = /^\d{5}(-\d{4})?$/;
 // store.validate_form: the form as it is kept, or the fields that are missing or invalid
 function validateForm(form){
   const c = Object.fromEntries(FIELDS.map(k => [k, String(form[k] ?? "").trim()]));
   c.email = c.email.toLowerCase(); c.state = c.state.toUpperCase(); c.zip = c.zip.replace(/ /g, "");
+  c.customer_ref = c.customer_ref.slice(0, 40);   // "Your reference": a unit number, stock number or PO
   const problems = REQUIRED.filter(k => !c[k]);
   if (c.zip && !ZIP.test(c.zip)) problems.push("zip");
   if (c.email && !c.email.includes("@")) problems.push("email");
@@ -69,26 +73,21 @@ function classify(row, orderedBy = "consumer"){
 /* ---- what a client sees of a job (views.client_view, then the gateway's _client_view) ---- */
 
 const shopCard = s => s && (s.name || "").trim() ? Object.fromEntries(["name", "phone", "email", "address", "website", "hours"].map(k => [k, String(s[k] || "")])) : null;
-const STAGE_ORDER = ["received", "dispatching", "confirmed", "complete", "canceled"];
+const STAGE_ORDER = STAGES;
 /**
- * The stage a customer sees for a job's status. A New job is still "Received" until providers are being found
- * for it; from then on, and while its link is live, it is "Dispatching". Claimed reads as "Confirmed".
+ * The status a customer sees: the job's own, the same word Inspectd staff see. A job is Dispatching from the moment its
+ * job link is created, not while providers are only being looked up (that stays a detail of a Submitted job).
  */
 export function portalStage(r){
-  if (r.status === "new") return r.search ? "dispatching" : "received";
-  return {dispatching: "dispatching", claimed: "confirmed", complete: "complete", canceled: "canceled"}[r.status] || "received";
+  return STAGES.includes(r.status) ? r.status : "new";
 }
-const HISTORY_STAGE = {new: "received", dispatching: "dispatching", claimed: "confirmed", complete: "complete", canceled: "canceled"};
 function historyOf(r){
   const meta = r.meta || {}, seen = {}, stage = portalStage(r);
-  for (const h of meta.history || []) { const s = HISTORY_STAGE[h.stage]; if (s && h.at) seen[s] = h.at; }
-  seen.received ??= r.created_at;
-  // dispatching began when providers were first looked for, or when the link went live, whichever came first
-  const started = r.search?.started_at;
-  if (started && stage !== "received" && (!seen.dispatching || started < seen.dispatching)) seen.dispatching = started;
-  if ((stage === "confirmed" || stage === "complete") && !seen.confirmed) {
+  for (const h of meta.history || []) if (STAGES.includes(h.stage) && h.at) seen[h.stage] = h.at;   // a reopened job: the latest time each was reached
+  seen.new ??= r.created_at;
+  if ((stage === "claimed" || stage === "complete") && !seen.claimed) {
     const at = meta.link?.claim?.at;
-    if (at) seen.confirmed = at;
+    if (at) seen.claimed = at;
   }
   if (stage === "complete" && !seen.complete && meta.report?.at) seen.complete = meta.report.at;
   if (stage === "canceled" && !seen.canceled && meta.canceled?.at) seen.canceled = meta.canceled.at;
@@ -96,10 +95,6 @@ function historyOf(r){
   const upto = stage === "canceled" ? STAGE_ORDER : STAGE_ORDER.slice(0, STAGE_ORDER.indexOf(stage) + 1);
   return upto.filter(s => seen[s]).map(s => ({stage: s, at: seen[s]}));
 }
-// when the inspection is set for, once a provider has claimed it: only the seed's jobs carry one for now
-// When the inspection is planned, once a provider has claimed it: the seed's exact visit time where it has one, else the
-// day and part of the day the provider proposed. The inspector's call to the on-site contact confirms it.
-const plannedOf = r => { const c = r.meta?.link?.claim; return c ? r.meta?.scheduled_at || plannedLabel(c.proposed_time) : ""; };
 // who claimed the job, as a shop card: their company, else their name
 const claimShop = r => { const c = r.meta?.link?.claim; return c ? {name: c.company || c.name, phone: c.phone, email: c.email} : null; };
 export function clientView(r, reports = []){
@@ -112,9 +107,10 @@ export function clientView(r, reports = []){
   const stage = portalStage(r);
   // a job with a report is named as its report names the car (vehicleName.js): the form carries the report's trim
   const trim = report ? reports.find(x => x.id === report.id)?.vehicle?.trim : "";
-  return {id: r.id, stage, stage_label: STAGE_LABELS[stage], created_at: r.created_at, updated_at: r.updated_at, form: trim && !r.form.trim ? {...r.form, trim} : r.form,
+  // no planned date: the provider's proposed day stays in the Operations console (docs/platform/decisions.md)
+  return {id: r.id, ref: r.ref || "", customer_ref: r.form.customer_ref || "", stage, stage_label: STAGE_LABELS[stage], created_at: r.created_at, updated_at: r.updated_at, form: trim && !r.form.trim ? {...r.form, trim} : r.form,
           org_id: r.org_id, user_id: r.user_id, shops_found: r.search?.state === "done" ? shops.length : null, lookup_pending: !r.search || r.search.state === "running",
-          report, history: historyOf(r), can_cancel: canCancel(r), canceled: r.meta?.canceled || null, scheduled_at: plannedOf(r), planned: plannedOf(r)};
+          report, history: historyOf(r), can_cancel: canCancel(r), canceled: r.meta?.canceled || null};
 }
 const canCancel = r => ["new", "dispatching"].includes(r.status) && !r.meta?.report?.id;
 
@@ -143,6 +139,9 @@ export function createPortal(state){
     if (doc.inspection && "inspector" in doc.inspection) { const {inspector, ...i} = doc.inspection; doc.inspection = i; }
     return doc;
   };
+  // a report as it goes out: its job's reference (and, for the workspace, the customer's own); never the internal id
+  const withJob = doc => { const row = state.rows.find(x => x.id === doc.request_id); return {...doc, job_ref: row?.ref || "", customer_ref: row?.form.customer_ref || ""}; };
+  const taken = () => new Set(state.rows.map(x => x.ref).filter(Boolean));   // every reference in use, for newRef
   const recipient = r => ((r.user_id && state.users.find(u => u.id === r.user_id)?.email) || r.form?.email || "").trim();
   // a link turned off (a reset job's old link) is no longer valid
   // The job behind a link: its one live link, or a link a reset turned off (the job is then no longer available)
@@ -165,7 +164,7 @@ export function createPortal(state){
     const state = r.status === "complete" ? "complete" : mine ? "claimed" : c ? "taken" : declined ? "declined" : "open";
     const site = {name: lot.name || "", contact_name: lot.contact_name || "", contact_phone: lot.contact_phone || ""};
     return {
-      request_id: r.id, state, payout_cents: r.payout_cents ?? null,
+      request_id: r.id, ref: r.ref || "", state, payout_cents: r.payout_cents ?? null,
       vehicle: [f.year, f.make, f.model].filter(Boolean).join(" ") || "Vehicle", vehicle_class: f.vehicle_class || "standard", vehicle_class_label: classLabel(f.vehicle_class || "standard"),
       inspection: inspectionLabel(f), requirements: requirementsFor(f), where: [f.city, (f.state || "").toUpperCase()].filter(Boolean).join(", "),
       notes: f.notes || "", timeframe: f.timeframe || "",
@@ -175,6 +174,7 @@ export function createPortal(state){
       terms: {url: "", version: PROVIDER_TERMS_VERSION, summary: "By claiming this job you agree to the Inspectd provider terms, including that Inspectd may keep, alter, own and freely use the completed report."},
       ...(mine ? {
         claim: {at: c.at, name: c.name, company: c.company, proposed_time: c.proposed_time || null},
+        customer_ref: f.customer_ref || "",   // the customer's own reference, for the provider who claimed it only
         planned: r.meta?.scheduled_at || plannedLabel(c.proposed_time),
         vin: f.vin || "", address: [f.address, f.city, f.state, f.zip].filter(Boolean).join(", "),
         contact: {name: f.name || "", phone: f.phone || ""},
@@ -182,7 +182,8 @@ export function createPortal(state){
       } : {}),
     };
   };
-  const newRow = (form, org, ts, meta) => ({id: hex(12), created_at: ts, updated_at: ts, status: "new", search: null, notes: "",
+  // a new job's reference is drawn when it is created and never changes (jobRef.js); `refs` is every one in use
+  const newRow = (form, org, ts, meta, refs) => ({id: hex(12), ref: newRef(refs), created_at: ts, updated_at: ts, status: "new", search: null, notes: "",
     payout_cents: payoutAt(form.zip, form.vehicle_class), ordered_by: org.type || "consumer", form, result: null, meta, org_id: org.id, user_id: me.id,
     org: {id: org.id, name: org.name, type: org.type || "consumer"}, partner: null});
 
@@ -205,13 +206,13 @@ export function createPortal(state){
     // GET /api/reports: the chosen workspace's reports, newest first, as they go out on the wire (without_urls)
     reports(){
       const org = current()?.org;
-      return {reports: state.reports.filter(r => r.org_id === org?.id).map(withoutUrls), llm: false, cloud: true, max_part: 4194304};
+      return {reports: state.reports.filter(r => r.org_id === org?.id).map(d => withJob(withoutUrls(d))), llm: false, cloud: true, max_part: 4194304};
     },
     // GET /api/reports/{id}: the row the store keeps; the viewer adds the document it fetches (reportDoc)
     report(id){
       const doc = state.reports.find(r => r.id === id);
       if (!doc || !(me.is_super || doc.org_id === current()?.org.id)) throw fail(404, "No such report");
-      return withoutUrls(doc);
+      return withJob(withoutUrls(doc));
     },
     // DELETE /api/reports/{id}: the Inspectd team only. The job keeps its link to the report (the request service is not told)
     deleteReport(id){
@@ -229,7 +230,8 @@ export function createPortal(state){
     shared(token){
       const doc = state.reports.find(r => r.share?.token === token);
       if (!doc) throw fail(404, "No such report");
-      const {org_id, uploaded_by, request_id, linked, link_error, llm_error, ...view} = withoutUrls(doc);
+      // the job's reference, not the customer's own: the share page goes to people outside the workspace
+      const {org_id, uploaded_by, request_id, linked, link_error, llm_error, customer_ref, ...view} = withJob(withoutUrls(doc));
       return view;
     },
 
@@ -260,7 +262,7 @@ export function createPortal(state){
       const off = r.meta.link?.token !== token || !!r.meta.link.off_at;
       if (off || r.status === "canceled") {
         const f = r.form;
-        return {state: "gone", why: off ? "reset" : "canceled", request_id: r.id, vehicle: [f.year, f.make, f.model].filter(Boolean).join(" ") || "Vehicle",
+        return {state: "gone", why: off ? "reset" : "canceled", request_id: r.id, ref: r.ref || "", vehicle: [f.year, f.make, f.model].filter(Boolean).join(" ") || "Vehicle",
                 vehicle_class: f.vehicle_class || "standard", vehicle_class_label: classLabel(f.vehicle_class || "standard"),
                 inspection: inspectionLabel(f), where: [f.city, (f.state || "").toUpperCase()].filter(Boolean).join(", ")};
       }
@@ -295,10 +297,10 @@ export function createPortal(state){
                      terms: {version: PROVIDER_TERMS_VERSION, accepted_at: at}, proposed_time: {date: pt.date, window: pt.window}};
       const status = ["new", "dispatching"].includes(r.status) ? "claimed" : r.status;
       const meta = {...r.meta};
-      if (status !== r.status) {   // the business is told an inspector is confirmed (client.status_changed)
+      if (status !== r.status) {   // the customer is told the job is Claimed (client.status_changed)
         meta.history = [...(r.meta.history || []), {stage: status, at}];
-        const to = recipient(r), f = r.form;
-        if (to) meta.emails = [...(r.meta.emails || []), {to, subject: `Inspection confirmed: ${[f.year, f.make, f.model].filter(Boolean).join(" ") || "your vehicle"} (${jobRef(r.id)})`, at, sent: true, id: mailId(), kind: "confirmed"}];
+        const to = recipient(r);
+        if (to) meta.emails = [...(r.meta.emails || []), {to, subject: mailSubject("Claimed", vehicleName(r.form) || "your vehicle", r.ref), at, sent: true, id: mailId(), kind: "claimed"}];
       }
       const next = putLink({...r, status, updated_at: at, meta}, {...link, claim});
       return {state: save(next), out: {ok: true, claim, status}};
@@ -319,9 +321,10 @@ export function createPortal(state){
       const rows = state.rows.filter(r => r.org_id === org?.id).sort((a, b) => b.created_at.localeCompare(a.created_at));
       return {requests: rows.map(r => clientView(r, state.reports)), stages: STAGES};
     },
-    // GET /api/jobs/{id}: any job of a workspace the account acts in (a SUPER account acts in all)
-    getJob(id){
-      const r = state.rows.find(x => x.id === id);
+    // GET /api/jobs/{ref}: any job of a workspace the account acts in (a SUPER account acts in all), by its reference in
+    // any case, with or without the dash. An internal id is still read, so an old link can be sent on to the reference.
+    getJob(key){
+      const k = normRef(key), r = state.rows.find(x => k ? x.ref === k : x.id === key);
       if (!r || !r.org_id || !actorRole(r.org_id)) throw fail(404, "No such request");
       return clientView(r, state.reports);
     },
@@ -336,8 +339,9 @@ export function createPortal(state){
       form.name = form.name || me.name; form.email = form.email || me.email;   // the requester is the signed-in person unless they say otherwise
       let clean;
       try { clean = validateForm(form); } catch (e) { throw fail(422, e.message); }
-      const ts = nowIso(), row = newRow(clean, org, ts, {});
-      row.meta = {emails: [{to: clean.email, subject: `We received your inspection request (${row.id})`, at: ts, sent: true, id: mailId()}], source: "portal"};
+      const ts = nowIso(), row = newRow(clean, org, ts, {}, taken());
+      row.meta = {emails: [{to: clean.email, subject: mailSubject("Submitted", vehicleName(clean) || "your vehicle", row.ref), at: ts, sent: true, id: mailId(), kind: "submitted"}],
+                  history: [{stage: "new", at: ts}], source: "portal"};
       return {state: withState({rows: [row, ...state.rows]}), out: {...clientView(row, state.reports), auto_start: false}};
     },
     // POST /api/jobs/bulk: the gateway sorts rows into kept, skipped and incomplete; portal.create_requests_bulk
@@ -371,9 +375,12 @@ export function createPortal(state){
       });
       if (errors.length) throw fail(422, `${errors.length} of ${keep.length} rows need attention; nothing was created`, {errors});
       // one write for the whole list: every request shares its moment of creation
-      const ts = nowIso(), created = forms.map(f => newRow(f, org, ts, {source: "portal-bulk"}));
+      const refs = taken(), ts = nowIso(), created = forms.map(f => newRow(f, org, ts, {source: "portal-bulk", history: [{stage: "new", at: ts}]}, refs));
       const n = created.length;
-      created[0].meta = {...created[0].meta, emails: [{to: forms[0].email, subject: `We received ${n} inspection request${n === 1 ? "" : "s"}`, at: ts, sent: true, id: mailId()}]};
+      // one email for the list: the status, the first car and its reference, and how many more
+      const subject = n === 1 ? mailSubject("Submitted", vehicleName(forms[0]) || "your vehicle", created[0].ref)
+        : `Submitted: ${n} vehicles · ${created[0].ref} and ${n - 1} more`;
+      created[0].meta = {...created[0].meta, emails: [{to: forms[0].email, subject, at: ts, sent: true, id: mailId(), kind: "submitted"}]};
       return {state: withState({rows: [...created, ...state.rows]}), out: {created: created.map(r => clientView(r, state.reports)), count: n, auto_start: false, fulfill_urls: [], skipped}};
     },
     // POST /api/jobs/{id}/cancel: only while it is still being sourced
@@ -388,7 +395,7 @@ export function createPortal(state){
       // as the console's cancel does
       const order = r.meta?.order || {}, paid = order.payment_intent && order.amount_cents && !r.meta?.refund;
       const refund = paid ? {refund: {id: "re_" + alnum(24), status: "succeeded", amount_cents: +order.amount_cents, at, by: me.name || me.email, by_id: me.id},
-        emails: [...(r.meta?.emails || []), {to: r.form.email, subject: `Inspection canceled and refunded: ${[r.form.year, r.form.make, r.form.model].filter(Boolean).join(" ") || "a vehicle"} (${jobRef(r.id)})`,
+        emails: [...(r.meta?.emails || []), {to: r.form.email, subject: mailSubject("Canceled", vehicleName(r.form) || "your vehicle", r.ref),
                  at, sent: true, id: mailId(), kind: "refunded"}]} : {};
       const next = {...r, status: "canceled", updated_at: at, meta: {...r.meta, ...refund, canceled, history: [...(r.meta?.history || []), {stage: "canceled", at}]}};
       return {state: withState({rows: state.rows.map(x => x.id === id ? next : x)}), out: clientView(next, state.reports)};

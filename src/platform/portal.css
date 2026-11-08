@@ -820,3 +820,9 @@
   .ipp .fig:nth-child(4){border-left:0;padding-left:0}
   .ipp .bdcols{grid-template-columns:1fr}
 }
+
+/* job references: ours in mono, the customer's own muted under it; the report as a teal icon button */
+.ipp td.jobref .cref{display:block;font-size:var(--fs-label);color:var(--muted);margin-top:2px}
+.ipp .repbtn{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:6px;color:var(--accent);border:1px solid var(--hairline);background:var(--white)}
+.ipp .repbtn:hover{background:var(--accent-wash);border-color:var(--accent);text-decoration:none}
+.ipp .repbtn svg{width:16px;height:16px}

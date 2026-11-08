@@ -28,9 +28,8 @@ or two: what was decided and, where it isn't obvious, why. Newest at the bottom 
   link isn't tied to one provider. A provider declining records that they passed and why. The link stays live
   and the job stays Dispatching. Only a claim, a cancel or a reset changes the status. Part 2 makes the link
   job-level.
-- **The client portal keeps its own stages.** A New job reads "Received" until providers are being found, then
-  "Dispatching", as it did before. Dispatching reads "Dispatching", Claimed reads "Confirmed", and Complete and
-  Canceled read as before. The mapping is `portalStage()` in `portalServer.js`.
+- ~~**The client portal keeps its own stages.** A New job reads "Received" until providers are being found…~~
+  *Replaced (job standards): one status vocabulary on every surface. See "Job statuses".*
 - **The portal speaks the new vocabulary.** Its request form offers the inspection type with its subtype, and the
   vehicle class. The bulk upload takes `vehicle_class`, `inspection_type` and `inspection_subtype` columns. It
   still reads the old type names and a `designation` column as aliases, so older lists import.
@@ -61,7 +60,8 @@ or two: what was decided and, where it isn't obvious, why. Newest at the bottom 
   (and any refund); the quote's own "Inspector payout" split is gone.
 - **Cancel is one action.** "Cancel job" asks for a reason; a job the customer paid for is refunded and the customer
   emailed, as before. If the provider who claimed it left an email, they are told it's off.
-- **Reset puts a canceled job back to New.** The old link is turned off and kept in `meta.past_links` (its page says
+- **Reset puts a canceled job back to New.** *(Since job standards: the button is **Reopen**, and the job returns to
+  Submitted.)* The old link is turned off and kept in `meta.past_links` (its page says
   the job is no longer available), the cancellation moves into `meta.resets`, and the provider results stay so the job
   can be dispatched again. A refunded job keeps its refund record and isn't charged again.
 - **Activity is derived, not logged.** The panel's timeline is built from what the job already stores (`activity.js`).
@@ -87,7 +87,8 @@ or two: what was decided and, where it isn't obvious, why. Newest at the bottom 
 - **Scheduling.** A claim proposes a date (today to 30 days out) and morning, afternoon or evening, stored as
   `meta.link.claim.proposed_time`. After claiming, the inspector calls the on-site contact to confirm arrival and
   access: the proposed time is the plan, the call confirms it. The console's panel and activity show it with the claim;
-  the portal shows "Planned for Thu Nov 12, morning. The inspector will call [contact] to confirm arrival and access."
+  ~~the portal shows "Planned for Thu Nov 12, morning. The inspector will call [contact] to confirm arrival and access."~~
+  *Replaced (job standards): the planned date is in the Operations console only; the portal shows no planned date.*
   Seeded jobs keep their exact times, worded the same way.
 - **Declines pick a reason from a short list** (not available in time, too far away, payout too low, not equipped,
   other) plus an optional name.
@@ -319,8 +320,8 @@ Provider are outside them.*
   color. Rows have no tints or colored left edges. Role pills are neutral.
 - **The Actions column** (Open and Closed jobs): one button per row. A New job gets **Dispatch ▸** (ink, a play
   triangle), which opens the job and starts the provider search, as "Find providers" did; the job only becomes
-  Dispatching when its link is created. Any other open or complete job gets **Open →**. A canceled job gets **Reset to
-  New** (the circular arrow), which opens the job with the same confirm as before. The job panel's own "Find
+  Dispatching when its link is created. Any other open or complete job gets **Open →**. A canceled job gets ~~**Reset to
+  New**~~ **Reopen** (since job standards) (the circular arrow), which opens the job with the same confirm as before. The job panel's own "Find
   providers" button is unchanged.
 - **The board:** the status cards became one row of chips with counts, as in the portal; "N of N" shows only while a
   filter or search is on; no Refresh. Customers' two cards became chips (All, Consumers, Businesses).
@@ -355,3 +356,61 @@ Provider are outside them.*
   the job's metro (the one its search draws from) to the seed providers it finds, and a "National" one to every metro's
   search. With no address of their own, they're listed as mobile ("Mobile · covers the Denver area"), like any other
   mobile result.
+
+## Job statuses, references and the customer's reference (job standards)
+
+**Job statuses: one vocabulary everywhere.** The client portal, the Operations console, the provider job card, the
+report viewer, the share page and customer emails use the same five words for the same five states. The stored keys
+are unchanged (`new`, `dispatching`, `claimed`, `complete`, `canceled`), so saved demo state needs no migration; only
+the labels changed, and the portal's own keys (`received`, `confirmed`) were aligned to the stored ones (the older
+names are still read). The interface never explains a status; these definitions live here:
+- **Submitted**: received, not yet sent to inspectors.
+- **Dispatching**: sent to inspectors in the area, waiting for one to claim it. A job is Dispatching from the moment
+  its job link is created, on both surfaces. Looking up providers is a detail of a Submitted job, not a status.
+- **Claimed**: an inspector has accepted it.
+- **Complete**: the report is delivered.
+- **Canceled**: the job was canceled.
+- Colors: Complete green, Canceled red, every other status neutral, everywhere.
+- The portal's "Stage" is "Status"; its job page shows the four names (Submitted, Dispatching, Claimed, Complete) with
+  when each was reached, and no descriptions. The console's "Reset to New" is **Reopen** ("Reopen this job?",
+  "Reopen"); a reopened job is Submitted again. The activity log reads "Submitted", "Report delivered" and "Reopened".
+- **No planned date in the portal** (list, job page or the job data it is sent). The provider's proposed day and part
+  of the day stay in the Operations console (the claim line and the activity log) and on the provider's own card.
+
+**Job references.**
+- Every job has one human reference, assigned when it is created and never changed: `J-` plus six characters of
+  Crockford base32 (0-9 and A-Z without I, L, O and U), uppercase, random, not sequential, unique across the platform;
+  on a collision, draw again (`jobRef.js`, `newRef`). It is never derived from the internal id.
+- It is the only job identifier anyone sees: the portal (Jobs, a job, reports), the console (Open jobs, Closed jobs,
+  Reports, the job panel), the provider job card, the report header and the share page, emails, and the report when
+  printed. The internal id and link tokens are never shown or accepted as a reference.
+- A report shows its job's reference ("Job J-7KQ2M9") and has no ID of its own: the inspector's "Report #" and the
+  "Stock #" copied from the inspector's record are no longer shown.
+- Search takes a reference in any case, with or without the dash (`J-7KQ2M9`, `j7kq2m9`, `7KQ2M9`): the portal's Jobs
+  and Reports, the console's Open and Closed jobs.
+- **URLs:** a job's page is `/jobs/<reference>` (`/jobs/J-7KQ2M9`); an old `/jobs/<internal id>` link goes on to the
+  reference. Report, share and job-card links (`/reports/<id>`, `/r/<token>`, `/inspect/<token>`) don't change.
+- The console's Open jobs, Closed jobs and Reports show the Job column first; to make room, their Location is the
+  city and state ("Plano, TX", no ZIP; the full address is in the job panel), a long vehicle name wraps to a second
+  line, and customer names are shown in full.
+- The seed (version 14) draws its references from a fixed random stream of their own, so they are the same on every
+  reload and the rest of the seed is unchanged.
+
+**The customer's reference ("Your reference").** An optional field on the job (`form.customer_ref`, up to 40
+characters) for a fleet's unit number, a dealer's stock number or a PO: on the request form, and as a `reference`
+column in the bulk upload (also read as "your reference", "unit", "unit number", "stock", "stock number", "PO", "PO
+number"). It shows beside our reference on the portal's Jobs list and job page, the report header in the portal, the
+console's Job column and job panel, and the provider job card only once that provider has claimed it ("Customer
+reference"). Not on the share page. Searchable in the portal and the console. The seed gives some Meridian jobs unit
+numbers ("Unit 4181") and some Crestview jobs stock numbers ("Stock 24-1469").
+
+**Customer emails follow the statuses.** The subject is `<Status>: <vehicle> · <reference>`, for example
+"Claimed: 2023 Ford Ranger · J-7KQ2M9"; a list sent at once is "Submitted: 12 vehicles · J-7KQ2M9 and 11 more". The
+demo keeps subjects only, no bodies; a real body uses the same status words. Nothing says "confirmed".
+
+**Production note.** In production the reference is a column on the job table, `ref text not null unique`, set by the
+database on insert by a function that draws `J-` plus six Crockford base32 characters and retries on a unique
+violation; nothing else generates or derives it. The portal, the console, provider job links, the API, emails and
+agents all read `ref`, and none of them show or accept the internal id or a link token as a reference. Lookups take
+`ref` in any case, with or without the dash. `customer_ref` is a nullable text column (40 characters), indexed for
+search, set by the customer on the request or the bulk upload.
