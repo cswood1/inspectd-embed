@@ -4,12 +4,13 @@ import { paged, Pager, CSelect } from "./ui.jsx";
 import { Sk, SkelRows, useNotices, useLoaded } from "./portalUi.jsx";
 
 /*
- * Team (ui/team-client), Settings (ui/settings-client) and Invoices (ui/invoices-client, a placeholder in
- * Kavin's too). What the viewer may change on Team depends on their role: owners manage everyone, admins
+ * Team (ui/team-client) and Settings (ui/settings-client), with Billing in Settings (Kavin's Invoices page, a
+ * placeholder in his too). What the viewer may change on Team depends on their role: owners manage everyone, admins
  * manage admins and users, users only look. The auth service (authServer.js) enforces the same rules.
  */
 
-const ROLE = {OWNER: ["blue", "Owner"], ADMIN: ["green", "Admin"], USER: ["gray", "User"]};
+// a role is not a status: every role pill is neutral (docs/platform/decisions.md, "Simplicity")
+const ROLE = {OWNER: ["gray", "Owner"], ADMIN: ["gray", "Admin"], USER: ["gray", "User"]};
 const canManage = (actor, target) => actor === "OWNER" || (actor === "ADMIN" && target !== "OWNER");
 const Pill = ({ role }) => { const [hue, label] = ROLE[role] || ["gray", role]; return <span className={`pill ${hue}`}>{label}</span>; };
 const fmt = iso => { const d = new Date(iso); return isNaN(d) ? "" : d.toLocaleDateString(undefined, {month: "short", day: "numeric", year: "numeric"}); };
@@ -31,11 +32,11 @@ export function Team({ ctx }){
   const call = (name, ...args) => portal.teamWrite(name, ...args);
 
   if (!loaded) return (<>
-    <section className="pad greet"><div className="gt"><h1>Team</h1><div className="meta" id="teamMeta"><Sk w={160} h={13} /></div></div></section>
+    <section className="pad greet"><div className="gt"><h1>Team</h1></div></section>
     <div id="members"><SkelRows n={3} cols={4} /></div>
   </>);
   if (!team) return (<>
-    <section className="pad greet"><div className="gt"><h1>Team</h1><div className="meta" id="teamMeta"></div></div></section>
+    <section className="pad greet"><div className="gt"><h1>Team</h1></div></section>
     <div id="members"><div className="empty"><b>No workspace</b>Your account is not in a workspace yet.</div></div>
   </>);
 
@@ -78,13 +79,12 @@ export function Team({ ctx }){
   const copy = () => navigator.clipboard.writeText(link.url).then(() => notify("Copied", "The invite link is on your clipboard.", "blue", 2500), () => {});
 
   return (<>
-    <section className="pad greet"><div className="gt"><h1>Team</h1>
-      <div className="meta" id="teamMeta"><span><b>{team.org.name}</b></span><span>{`${team.members.length} member${team.members.length === 1 ? "" : "s"}`}</span><span>{`You are ${my === "OWNER" ? "an owner" : my === "ADMIN" ? "an admin" : "a user"}`}</span></div></div></section>
+    <section className="pad greet"><div className="gt"><h1>Team</h1></div></section>
     <div id="members">
       <div className="tablewrap listgap"><table className="rtable"><thead><tr><th>Member</th><th>Role</th><th>Joined</th><th className="r"></th></tr></thead><tbody>
         {mp.slice.map(m => { const you = m.user.id === team.me;
           return (<tr key={m.user.id}>
-            <td><div className="who"><span className="av">{(m.user.name || m.user.email || "?").trim()[0].toUpperCase()}</span><span className="tx"><b>{m.user.name}{you ? <>{" "}<span className="pill gray">You</span></> : null}</b><span>{m.user.email}</span></span></div></td>
+            <td><div className="who"><span className="tx"><b>{m.user.name}{you ? <>{" "}<span className="pill gray">You</span></> : null}</b><span>{m.user.email}</span></span></div></td>
             <td>{canManage(my, m.role) && !you
               ? <CSelect className="rolesel" label={`Role for ${m.user.name}`} value={m.role} onChange={v => { if (v !== m.role) roleChange(m, v); }} options={Object.entries(ROLE).filter(([k]) => canManage(my, k)).map(([value, [, label]]) => ({value, label}))} />
               : <Pill role={m.role} />}</td>
@@ -95,7 +95,7 @@ export function Team({ ctx }){
       <Pager p={mp} onChange={d => setMpage(mp.page + d)} />
     </div>
     <section className={`pad${manager ? "" : " hide"}`} id="inviteSec">
-      <div className="sechead"><h2>Invite someone</h2><span className="secnote" id="inviteNote">{manager ? (my === "OWNER" ? "Owners can invite anyone and set any role." : "Admins can invite admins and users.") : ""}</span></div>
+      <div className="sechead"><h2>Invite someone</h2></div>
       <form className="inviterow" id="inviteForm" noValidate onSubmit={invite}>
         <input id="invEmail" ref={emailEl} type="email" placeholder="name@company.com" autoComplete="off" aria-label="Email to invite" className={bad ? "bad" : undefined} />
         <CSelect label="Role" value={roleNow} onChange={setInvRole} options={Object.entries(ROLE).filter(([k]) => canManage(my, k)).map(([value, [, label]]) => ({value, label}))} />
@@ -118,7 +118,7 @@ export function Team({ ctx }){
 
 /* ---- Settings ---- */
 
-export function Settings({ ctx }){
+export function Settings({ ctx, tab = "" }){
   const { portal } = usePlatform();
   const { notify } = useNotices();
   const loaded = useLoaded();
@@ -147,29 +147,21 @@ export function Settings({ ctx }){
     try { portal.rename(name); notify("Name saved", "", "blue", 2500); setTimeout(ctx.reload, 600); }
     catch (x) { notify("Could not save", x.message, "red"); setSaving(s => ({...s, me: false})); }
   };
+  // /settings#billing (and /invoices, which redirects here) brings Billing into view
+  useEffect(() => { if (loaded && tab === "billing") document.getElementById("billing")?.scrollIntoView({block: "start"}); }, [loaded, tab]);
   return (
     <section className="pad"><div className="greet"><div className="gt"><h1>Settings</h1></div></div>
       <div className="cols2" id="settingsCols">
         <div className="kv" id="wsCard"><h3>Workspace</h3>
           <form id="wsForm" onSubmit={renameWs}><input id="wsName" ref={wsEl} aria-label="Workspace name" maxLength={80} disabled={loaded && !canRename} /><button className="btn primary sm" type="submit" id="wsSave" disabled={(loaded && !canRename) || saving.ws}>Save</button></form>
-          <div className="hint" id="wsHint">{loaded ? (canRename ? "Shown on the sidebar for everyone in the workspace." : "Only an owner can rename the workspace.") : ""}</div>
-          <dl><dt>Address</dt><dd className="mono" id="wsSlug">{show(org?.slug ? "/" + org.slug : "")}</dd><dt>Your role</dt><dd id="wsRole">{show(u.role_label || me?.role || "")}</dd>
-            <dt>Members</dt><dd id="wsMembers">{show(team ? `${team.members.length} member${team.members.length === 1 ? "" : "s"}${team.invitations.length ? `, ${team.invitations.length} invited` : ""}` : "")}</dd>
-            <dt>Created</dt><dd id="wsCreated">{show(fmt(org?.created_at) || "")}</dd></dl></div>
+          {loaded && !canRename ? <div className="hint" id="wsHint">Only an owner can rename the workspace.</div> : null}
+          <dl><dt>Your role</dt><dd id="wsRole">{show(u.role_label || me?.role || "")}</dd><dt>Created</dt><dd id="wsCreated">{show(fmt(org?.created_at) || "")}</dd></dl></div>
         <div className="kv" id="meCard"><h3>Your account</h3>
           <form id="meForm" onSubmit={renameMe}><input id="meName" ref={meEl} aria-label="Your name" maxLength={120} /><button className="btn primary sm" type="submit" id="meSave" disabled={saving.me}>Save</button></form>
-          <div className="hint">The name your teammates and inspectors see.</div>
-          <dl><dt>Email</dt><dd id="meEmail">{show(u.email || "")}</dd><dt>Sign-in</dt><dd id="meSignin">{show([u.has_password ? "Password" : "", u.google_linked ? "Google" : ""].filter(Boolean).join(" and ") || "Password")}</dd>
-            <dt>Workspaces</dt><dd id="meWorkspaces">{show((me?.workspaces || []).map(w => `${w.name} (${w.role_label || w.role})`).join(", "))}</dd></dl></div>
-        <div className="kv"><h3>Session</h3><div className="hint" style={{ paddingTop: 12 }}>Signing out here signs you out of the portal on this device only.</div>
-          <div style={{ padding: "0 16px 14px" }}><a className="btn" href="/auth/logout" onClick={e => { e.preventDefault(); ctx.signOut(); }}>Sign out</a></div></div>
+          <dl><dt>Email</dt><dd id="meEmail">{show(u.email || "")}</dd><dt>Sign-in</dt><dd id="meSignin">{show([u.has_password ? "Password" : "", u.google_linked ? "Google" : ""].filter(Boolean).join(" and ") || "Password")}</dd></dl>
+          <div className="kvact"><a className="btn" id="signOutBtn" href="/auth/logout" onClick={e => { e.preventDefault(); ctx.signOut(); }}>Sign out</a></div></div>
+        <div className="kv" id="billing"><h3>Billing</h3>
+          <p className="none">No invoices yet. Billing is set up once your first jobs complete.</p></div>
       </div></section>
   );
 }
-
-/* ---- Invoices: a placeholder until the section is specified, as Kavin's is ---- */
-
-export const Invoices = () => (
-  <section className="pad"><div className="greet"><div className="gt"><h1>Invoices</h1></div></div>
-    <div className="placeholder" id="ph"><b>No invoices yet</b>Billing is set up once your first jobs complete.</div></section>
-);

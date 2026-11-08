@@ -32,6 +32,9 @@ export function Jobs({ ctx }){
   const hay = j => [jobRef(j.id), j.id, vehicleOf(j.form), j.form.vin, whereOf(j.form), j.form.address, j.form.name, j.form.email, STAGE.of(j.stage).label].filter(Boolean).join(" ").toLowerCase();
   const shown = jobs.filter(j => (!stage || j.stage === stage) && (!q || hay(j).includes(q)));
   const pick = s => { setStage(s); setPage(0); };
+  // the workspace's usual inspection type: a row names its type only when it differs
+  const typeCount = {}; jobs.forEach(j => { const t = STAGE.type(j.form); typeCount[t] = (typeCount[t] || 0) + 1; });
+  const usual = Object.entries(typeCount).sort((a, b) => b[1] - a[1])[0]?.[0] || "";
   let table, pg = null;
   if (!list) table = <SkelRows n={4} cols={6} />;
   else if (!jobs.length) table = <div className="placeholder inset"><b>No requests yet</b>Tell us where the car is and what you need; we find a mobile inspector and keep you posted here.<div style={{ marginTop: 14 }}><button className="btn primary" id="firstJob" onClick={() => ctx.navigate("/jobs/new")}>New inspection request</button></div></div>;
@@ -44,10 +47,10 @@ export function Jobs({ ctx }){
         {pg.slice.map(j => (
           <tr key={j.id} className="row" data-id={j.id} onClick={() => ctx.navigate(`/jobs/${j.id}`)}>
             <td className="jobref"><span className="mono" title={j.id}>{jobRef(j.id)}</span></td>
-            <td><div className="who"><span className="av" style={{ background: "#e9edf2" }}>{((j.form.make || "?").trim()[0] || "?").toUpperCase()}</span><span className="tx"><b>{vehicleOf(j.form)}</b>
-              <span>{`${STAGE.type(j.form)}${j.form.vehicle_class && j.form.vehicle_class !== "standard" ? " · " + STAGE.vclass(j.form.vehicle_class) : ""}${j.form.vin ? " · " + j.form.vin : ""}`}</span></span></div></td>
+            <td><div className="who"><span className="tx"><b>{vehicleOf(j.form)}</b>
+              <span>{[STAGE.type(j.form) !== usual ? STAGE.type(j.form) : "", j.form.vehicle_class && j.form.vehicle_class !== "standard" ? STAGE.vclass(j.form.vehicle_class) : "", j.form.vin].filter(Boolean).join(" · ")}</span></span></div></td>
             <td className="sub">{whereOf(j.form)}</td><td><span className={`pill ${STAGE.of(j.stage).pill}`}>{STAGE.of(j.stage).label}</span></td>
-            <td className="sub">{j.planned && j.stage !== "canceled" ? j.planned : (j.stage === "dispatching" ? "Dispatching" : "")}</td>
+            <td className="sub">{j.planned && j.stage !== "canceled" ? j.planned : ""}</td>
             <td className="sub">{j.report ? <a href={`/reports/${j.report.id}`} onClick={e => stay(e, ctx, `/reports/${j.report.id}`)}>Open</a> : ""}</td><td className="sub">{fmtWhen(j.created_at)}</td>
           </tr>))}
       </tbody></table></div>
@@ -55,10 +58,7 @@ export function Jobs({ ctx }){
   }
   return (<>
     <section className="pad"><div className="greet"><div className="gt"><h1>Jobs</h1></div>
-      <div className="actions"><a className="btn accent" href="/jobs/bulk" onClick={e => stay(e, ctx, "/jobs/bulk")}>Upload a list</a><button className="btn primary" id="newJob" onClick={() => ctx.navigate("/jobs/new")}>New inspection request</button></div></div>
-      <div className="cards" id="jobCards">{!list ? Array.from({length: 4}, (_, i) => <div key={i} className="card"><Sk w={90} h={12} /><Sk w={40} h={24} /></div>)
-        : list.stages.map(s => <div key={s} className={`card pick${s === stage ? " on" : ""}`} data-s={s} title={`Show ${STAGE.of(s).label.toLowerCase()} jobs`} onClick={() => pick(stage === s ? "" : s)}>
-            <div className="t">{STAGE.of(s).label}</div><div className="n">{counts[s]}</div><div className="d">{STAGE.of(s).d}</div></div>)}</div>
+      <div className="actions"><a className="btn" id="bulkLink" href="/jobs/bulk" onClick={e => stay(e, ctx, "/jobs/bulk")}>Upload a list</a></div></div>
       <div className="toolbar"><div className="search"><Svg src={I.search} /><input id="jq" placeholder="Search reference, VIN, vehicle, city or contact" autoComplete="off" aria-label="Search jobs"
         value={raw} onChange={e => { setRaw(e.target.value); setPage(0); }} /></div>
         <div className="filters" id="jf" role="group" aria-label="Filter by stage">{list && jobs.length ? ["", ...list.stages].map(s => (
@@ -123,7 +123,7 @@ export function NewJob({ ctx }){
   const cls = (id, base = "") => [base, bad.has(id) ? "bad" : ""].filter(Boolean).join(" ") || undefined;
   return (
     <section className="pad"><div className="narrow wide"><div className="greet"><div className="gt"><h1>New inspection request</h1></div>
-      <div className="actions"><a className="btn accent" href="/jobs/bulk" onClick={e => stay(e, ctx, "/jobs/bulk")}>Many cars? Upload a list</a><button className="btn" id="cancelJob" onClick={() => ctx.navigate("/jobs")}>Cancel</button></div></div>
+      <div className="actions"><a className="btn" href="/jobs/bulk" onClick={e => stay(e, ctx, "/jobs/bulk")}>Many cars? Upload a list</a><button className="btn" id="cancelJob" onClick={() => ctx.navigate("/jobs")}>Cancel</button></div></div>
       <form className="reqform" id="jobForm" noValidate ref={form} onSubmit={submit}><div className="fsgrid">
         <section className="fs span2"><div className="fsh"><span className="fsi"><img src="/portal/icons/vehicle.png" alt="" width="30" height="30" /></span><div><h2>Vehicle</h2><p>What we are inspecting. A VIN fills in the year, make and model for you.</p></div></div><div className="grid6">
           <div className="f c1"><label htmlFor="year">Year</label><input id="year" name="year" inputMode="numeric" placeholder="2019" /></div>
@@ -316,33 +316,33 @@ export function Job({ id, ctx }){
     catch (e) { notify("Could not cancel", e.message, "red", 8000); }
     setCanceling(false);
   };
-  const head = (title, actions, pill) => (
+  const head = (title, actions) => (
     <div className="greet"><div className="gt"><a className="backlink" href="/jobs" id="jobBack" onClick={e => stay(e, ctx, "/jobs")}><Svg src={I.back} />All jobs</a><h1 id="jobTitle">{title}</h1></div>
-      <div className="actions"><span id="jobActions">{actions}</span><span className={pill ? `pill lg ${pill[0]}` : "pill lg"} id="jobPill">{pill ? pill[1] : null}</span></div></div>
+      <div className="actions"><span id="jobActions">{actions}</span></div></div>
   );
   if (!j) return (
-    <section className="pad jobpage">{head(<Sk w={220} h={26} />, null, null)}
+    <section className="pad jobpage">{head(<Sk w={220} h={26} />, null)}
       <div className="cards" id="jobSteps">{ORDER.map(s => <div key={s} className="card"><Sk w={60} h={10} /><Sk w={120} h={16} /><Sk w={150} h={11} /></div>)}</div>
       <div className="facts" id="jobFacts">{Array.from({length: 5}, (_, i) => <div key={i}><Sk w={56} h={9} /><Sk w={96} h={14} /></div>)}</div>
       <div className="cols2" id="jobCols"></div></section>
   );
   const f = j.form, canceled = j.stage === "canceled", idx = canceled ? -1 : Math.max(0, ORDER.indexOf(j.stage));
   const reached = Object.fromEntries((j.history || []).map(h => [STAGE.key(h.stage), h.at]));   // when each stage was reached
-  const facts = [["Reference", `${jobRef(j.id)} · ${j.id}`, "mono"], ["Inspection", STAGE.type(f)], ["Vehicle class", STAGE.vclass(f.vehicle_class)], ["Location", [f.address, f.city, f.state, f.zip].filter(Boolean).join(", ")],
-    ["VIN", f.vin, "mono"], ["Contact", [f.name, f.phone].filter(Boolean).join(" · ")], ["Requested", fmtWhen(j.created_at)], ["Last update", fmtWhen(j.updated_at)]].filter(([, v]) => v);
+  const updated = fmtWhen(j.updated_at), requested = fmtWhen(j.created_at);
+  const facts = [["Reference", jobRef(j.id), "mono"], ["Inspection", STAGE.type(f)], ["Vehicle class", STAGE.vclass(f.vehicle_class)], ["Location", [f.address, f.city, f.state, f.zip].filter(Boolean).join(", ")],
+    ["VIN", f.vin, "mono"], ["Contact", [f.name, f.phone].filter(Boolean).join(" · ")], ["Requested", requested], ["Updated", updated !== requested ? updated : ""]].filter(([, v]) => v);
   const rep = canceled ? null : j.report, when = j.planned || "";   // the provider's proposed day and part of day, or the seed's visit time
   const sub = {margin: "6px 0 0", color: "var(--sub)"}, ink = {color: "var(--ink)"};
   // the reason the request was withdrawn with is canceled.reason (Kavin's page read cancel_reason, which is never sent)
   return (
     <section className="pad jobpage">
-      {head(<>{`${vehicleOf(f)} `}<span className="pill gray mono jobtag" title={j.id}>{jobRef(j.id)}</span></>,
-        CANCELABLE.includes(j.stage) ? <button className="btn sm danger" id="cancelJob" disabled={canceling} onClick={cancel}>{canceling ? "Cancelling" : "Cancel request"}</button> : null,
-        [STAGE.of(j.stage).pill, STAGE.of(j.stage).label])}
+      {head(vehicleOf(f),
+        CANCELABLE.includes(j.stage) ? <button className="btn sm danger" id="cancelJob" disabled={canceling} onClick={cancel}>{canceling ? "Cancelling" : "Cancel request"}</button> : null)}
       <div className="cards" id="jobSteps">{canceled
-        ? <div className="card on"><div className="t">Canceled</div><div className="d" style={{ fontWeight: 650, color: "var(--ink)", fontSize: 14 }}>Request withdrawn</div><div className="d">{`${fmtWhen(reached.canceled || j.updated_at)}${j.canceled?.reason ? " · " + j.canceled.reason : ""}`}</div></div>
+        ? <div className="card on"><div className="t">Canceled</div><div className="d st">Request withdrawn</div><div className="d">{`${fmtWhen(reached.canceled || j.updated_at)}${j.canceled?.reason ? " · " + j.canceled.reason : ""}`}</div></div>
         : ORDER.map((s, i) => { const at = reached[s]; return (
-            <div key={s} className={`card ${i === idx ? "on" : ""}`}><div className="t">{`${i < idx || idx === 3 ? "Done" : i === idx ? "Now" : "Next"}${at ? ` · ${fmtWhen(at)}` : ""}`}</div>
-              <div className="d" style={{ fontWeight: 650, color: "var(--ink)", fontSize: 14 }}>{STAGE.of(s).label}</div><div className="d">{STAGE.of(s).d}</div></div>); })}</div>
+            <div key={s} className={`card ${i === idx ? "on" : ""}${i > idx ? " later" : ""}`}><div className="t">{i <= idx || idx === 3 ? `${i < idx || idx === 3 ? "Done" : "Now"}${at ? ` · ${fmtWhen(at)}` : ""}` : "\u00a0"}</div>
+              <div className="d st">{STAGE.of(s).label}</div><div className="d">{STAGE.of(s).d}</div></div>); })}</div>
       <div className="facts" id="jobFacts">{facts.map(([k, v, c]) => <div key={k}><small>{k}</small><span className={c || ""}>{v}</span></div>)}</div>
       <div className="cols2" id="jobCols">
         <div className="kv"><h3>Inspection</h3><div className="none" style={ink}>{

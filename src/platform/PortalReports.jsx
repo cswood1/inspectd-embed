@@ -1,91 +1,143 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
 import { PageDock, paged } from "./ui.jsx";
-import { Svg, title, worst, DOT, fmtDate, issuesOf, jobRef, SkelRows, ReportRows, useLoaded, STAGE } from "./portalUi.jsx";
+import { Svg, I, title, fmtDate, SkelRows, ReportRows, useLoaded, FLAG_TONE, isBusiness } from "./portalUi.jsx";
+import { workspaceData, overview, commonIssues, select, filterTitle } from "./aiOverview.js";
 
 /*
- * The portal's Reports list (ui/reports-client/client.js) and Vehicles (ui/vehicles-client/client.js).
+ * Reports: the workspace's reports, one list. For a business (fleet or dealer) it opens with Inspectd AI's figures
+ * and condition flags across those reports (aiOverview.js, computed in the browser, no AI); any of them filters the
+ * list. "Breakdown" holds the deeper figures; anything there filters the list too. A consumer workspace and a
+ * marketplace's shoppers get the plain list. Step 4 puts an "Ask about your reports" bar at the top.
  * The report viewer is ReportView.jsx.
  */
 
-/* ---- Reports: every finished inspection, newest first ---- */
+const pct = x => `${Math.round(x * 100)}%`;
+const CARDS = [["vehicles", "Vehicles"], ["reports", "Reports"], ["last30", "Last 30 days"], ["flagged", "Flagged"], ["failure", "With a failure"]];
 
 export function Reports({ ctx }){
   const { portal, rows: _ } = usePlatform();
   const loaded = useLoaded();
-  const [page, setPage] = useState(0);
-  const reports = loaded ? portal.reports().reports : [];
-  const pg = paged(reports, page);
+  const business = isBusiness(portal.me().account?.type);
+  const all = loaded ? portal.reports().reports : null;
+  const ws = useMemo(() => all && business ? workspaceData(all) : null, [all, business]);
+  const o = useMemo(() => ws ? overview(ws) : null, [ws]);
+  const [filter, setFilter] = useState(null), [view, setView] = useState("list");
+  const [raw, setRaw] = useState(""), [page, setPage] = useState(0);
+  const q = raw.trim().toLowerCase();
+
+  // the reports a filter stands for: a vehicle filter lists each vehicle's latest report, an inspection filter every one
+  const sel = ws && filter ? select(ws, filter) : null;
+  const byId = new Map((all || []).map(r => [r.id, r]));
+  const base = sel ? sel.rows.map(x => byId.get(x.id)).filter(Boolean) : (all || []);
+  const hay = r => [title(r), r.vehicle?.vin, r.vehicle?.make, r.vehicle?.model].join(" ").toLowerCase();
+  const list = base.filter(r => !q || hay(r).includes(q));
+  const pg = paged(list, page);
+  const pick = f => { setFilter(f); setView("list"); setPage(0); };
+  const on = f => !!filter && JSON.stringify(filter) === JSON.stringify(f);
+
   return (<>
     <section className="pad greet"><div className="gt"><h1>Reports</h1></div>
-      <div className="actions"><button className="btn accent" id="newReqBtn" onClick={() => ctx.navigate("/jobs/new")}>New inspection request</button></div></section>
-    <div id="reportsTable">{!loaded ? <SkelRows n={6} /> : reports.length
-      ? <div className="listgap"><ReportRows rows={pg.slice} onOpen={id => ctx.navigate(`/reports/${id}`)} /></div>
-      : <div className="placeholder inset"><b>No reports yet</b>When an inspector finishes a job, their report lands here.</div>}</div>
-    <PageDock pg={loaded && reports.length && pg.pages > 1 ? pg : null} rowSelector="#reportsTable tbody tr.row" onChange={d => setPage(pg.page + d)} />
+      {business ? <div className="actions"><span className="seg" role="group" aria-label="View">
+        <button type="button" id="viewList" className={view === "list" ? "on" : ""} aria-pressed={view === "list"} onClick={() => setView("list")}>List</button>
+        <button type="button" id="viewBreakdown" className={view === "breakdown" ? "on" : ""} aria-pressed={view === "breakdown"} onClick={() => setView("breakdown")}>Breakdown</button>
+      </span></div> : null}
+    </section>
+
+    {business ? (
+      <section className="pad">
+        <div className="figs" id="figs">
+          {CARDS.map(([key, label]) => (
+            <button key={key} type="button" className={`fig${on({kind: "card", key}) ? " on" : ""}`} data-card={key} disabled={!o} onClick={() => pick({kind: "card", key})}>
+              <span className="n">{o ? o.cards[key] : "–"}</span><span className="t">{label}</span>
+            </button>))}
+        </div>
+        <div className="flagfilters" id="flagFilters">
+          {(o ? o.flags : []).map(f => (
+            <button key={f.key} type="button" className={`ff${f.vehicles ? "" : " zero"}${on({kind: "flag", key: f.key}) ? " on" : ""}`} data-flag={f.key} onClick={() => pick({kind: "flag", key: f.key})}>
+              <i className={`dot ${FLAG_TONE[f.key]}`} aria-hidden="true"></i><span className="t">{f.label}</span><span className="n">{f.vehicles}</span><span className="p">{pct(f.share)}</span>
+            </button>))}
+          {o ? <button type="button" className={`ff quiet${on({kind: "surface_rust"}) ? " on" : ""}`} id="surfaceRust" onClick={() => pick({kind: "surface_rust"})}>
+            {`Surface rust noted on ${o.surface_rust} vehicle${o.surface_rust === 1 ? "" : "s"} (not a flag)`}</button> : null}
+        </div>
+      </section>) : null}
+
+    {view === "breakdown" && ws ? <Breakdown ws={ws} o={o} pick={pick} /> : (<>
+      <section className="pad">
+        <div className="listbar">
+          <div className="search"><Svg src={I.search} /><input id="rq" type="search" placeholder="Search VIN, make, model" autoComplete="off" aria-label="Search reports"
+            value={raw} onChange={e => { setRaw(e.target.value); setPage(0); }} /></div>
+          {sel ? <span className="filterlabel" id="filterLabel"><b>{filterTitle(sel)}</b><button type="button" className="linkbtn" id="clearFilter" onClick={() => { setFilter(null); setPage(0); }}>Clear</button></span>
+            : <span className="sub num" id="rcount">{all ? `${list.length} report${list.length === 1 ? "" : "s"}` : ""}</span>}
+        </div>
+      </section>
+      <div id="reportsTable">{!all ? <SkelRows n={6} /> : list.length
+        ? <ReportRows rows={pg.slice} flags={business} onOpen={id => ctx.navigate(`/reports/${id}`)} />
+        : <div className="placeholder inset"><b>{all.length ? "No reports match" : "No reports yet"}</b>{all.length ? "" : "When an inspector finishes a job, their report lands here."}</div>}</div>
+      <PageDock pg={all && list.length && pg.pages > 1 ? pg : null} rowSelector="#reportsTable tbody tr.row" onChange={d => setPage(pg.page + d)} />
+    </>)}
   </>);
 }
 
-/* ---- Vehicles: one row per car (by VIN), its reports and its jobs ---- */
+/* ---- Breakdown: the deeper figures; anything clicked filters the list ---- */
 
-/** Group reports and jobs by VIN; without a VIN, by year/make/model. Newest activity first. */
-export function groupVehicles(reports, jobs){
-  const groups = new Map();
-  const keyOf = (vin, y, mk, md) => (vin || "").trim().toUpperCase() || ["ymm", y, mk, md].map(x => String(x || "").trim().toLowerCase()).join("|");
-  const get = (key, label, vin) => { if (!groups.has(key)) groups.set(key, {key, label, vin: (vin || "").trim().toUpperCase(), reports: [], jobs: [], last: ""}); return groups.get(key); };
-  const jobKey = j => { const f = j.form || {}; return keyOf(f.vin, f.year, f.make, f.model); };
-  const byJob = Object.fromEntries(jobs.map(j => [j.id, j]));
-  for (const j of jobs) {
-    const f = j.form || {}, label = [f.year, f.make, f.model].filter(Boolean).join(" ") || "Vehicle";
-    const g = get(jobKey(j), label, f.vin);
-    g.jobs.push(j); g.last = [g.last, (j.created_at || "").slice(0, 10)].sort().pop();
-  }
-  for (const r of reports) {
-    const v = r.vehicle || {}, j = byJob[r.request_id];   // a report uploaded for a job belongs with that job's car, whatever the PDF said
-    const g = j ? get(jobKey(j), [j.form?.year, j.form?.make, j.form?.model].filter(Boolean).join(" ") || title(r), j.form?.vin) : get(keyOf(v.vin, v.year, v.make, v.model), title(r), v.vin);
-    g.reports.push(r); g.last = [g.last, r.inspection?.date || "", (r.uploaded_at || "").slice(0, 10)].sort().pop();
-  }
-  return [...groups.values()].sort((a, b) => b.last.localeCompare(a.last));
-}
-const worstOf = rs => worst({fail: rs.some(r => r.summary?.fail), attention: rs.some(r => r.summary?.attention), pass: rs.length > 0});
-const CHEV = '<svg class="chev" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg>';
-const SEARCH = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="4.25"/><path d="M10.2 10.2L14 14"/></svg>';
-
-export function Vehicles({ ctx, expand = false }){
-  const { portal, rows: _ } = usePlatform();
-  const loaded = useLoaded();
-  const [raw, setRaw] = useState("");
-  const q = raw.trim().toLowerCase();
-  const all = loaded ? groupVehicles(portal.reports().reports, portal.listJobs().requests) : [];
-  const list = all.filter(g => !q || [g.label, g.vin].join(" ").toLowerCase().includes(q));
-  let body;
-  if (!loaded) body = <SkelRows n={4} />;
-  else if (!all.length) body = <div className="placeholder inset"><b>No vehicles yet</b>Request an inspection or receive a report and the car appears here.</div>;
-  else if (!list.length) body = <div className="placeholder inset"><b>Nothing matches</b></div>;
-  else body = list.map((g, i) => {
-    const open = g.jobs.filter(j => j.stage !== "complete"), hue = worstOf(g.reports), n = g.reports.length;
-    const issues = g.reports.length ? Math.max(...g.reports.map(issuesOf)) : 0;
-    // the row's styles are ours (portal.css, "added after the clone"): Kavin's markup has no stylesheet behind it
-    return (
-      <details key={g.key} className="secgroup vgroup" open={list.length === 1 || (i === 0 && expand)}>
-        <summary>
-          <Svg src={CHEV} />{" "}
-          <span className="av" style={{ background: `${DOT[hue]}33` }}>{(g.label.replace(/^[\d\s]+/, "").trim()[0] || "?").toUpperCase()}</span>{" "}
-          <span className="vt"><b>{g.label}</b><span className="mono">{g.vin || "VIN not recorded"}</span></span>{" "}
-          <span className="cnt">{`${n} report${n === 1 ? "" : "s"}${open.length ? ` · ${open.length} in progress` : ""}${!n && !open.length && g.jobs.length ? ` · ${g.jobs.length} completed job${g.jobs.length === 1 ? "" : "s"}` : ""}`}</span>{" "}
-          {n ? <span className={`pill ${hue === "gray" ? "gray" : hue}`}>{issues ? `${issues} issue${issues > 1 ? "s" : ""}` : "No issues"}</span> : null}{n ? " " : null}
-          <span className="cnt vlast">{g.last ? "Last " + fmtDate(g.last) : ""}</span>
-        </summary>
-        {g.jobs.length ? <div className="vjobs">{[...open, ...g.jobs.filter(j => j.stage === "complete")].map(j => (
-          <a key={j.id} className="vjob" href={`/jobs/${j.id}`} onClick={e => { e.preventDefault(); ctx.navigate(`/jobs/${j.id}`); }}><span className="mono">{jobRef(j.id)}</span><span className={`pill ${j.stage === "complete" ? "gray" : "blue"}`}>{j.stage_label || j.stage}</span>
-            <span className="sub">{[j.form ? STAGE.short(j.form) : "", j.form?.city].filter(Boolean).join(" · ")}</span><span className="sub">{fmtDate((j.created_at || "").slice(0, 10))}</span></a>))}</div> : null}
-        {n ? <ReportRows rows={g.reports} onOpen={id => ctx.navigate(`/reports/${id}`)} /> : <div className="vempty">No report yet for this vehicle.</div>}
-      </details>);
-  });
+function Breakdown({ ws, o, pick }){
+  const [consumables, setConsumables] = useState(false), [failuresOnly, setFailuresOnly] = useState(false), [elsewhere, setElsewhere] = useState(false);
+  const issues = commonIssues(ws, {consumables, failuresOnly});
+  const maxArea = Math.max(1, ...o.areas.map(a => a.vehicles));
   return (
-    <section className="pad"><div className="greet"><div className="gt"><h1>Vehicles</h1></div></div>
-      <div className="toolbar"><div className="search"><Svg src={SEARCH} /><input id="vq" type="search" placeholder="Search VIN, make, model" autoComplete="off" value={raw} onChange={e => setRaw(e.target.value)} /></div>
-        <span className="chip" id="vcount">{loaded && all.length ? `${list.length} of ${all.length}` : ""}</span></div>
-      <div id="vehicles" className="listgap">{body}</div></section>
+    <section className="pad bd" id="breakdown">
+      <div className="bdcols">
+        <div className="bdblock">
+          <div className="bdhead"><h2>Most common issues</h2>
+            <span className="bdtoggles">
+              <span className="seg sm" role="group" aria-label="Which issues">
+                <button type="button" className={failuresOnly ? "" : "on"} aria-pressed={!failuresOnly} onClick={() => setFailuresOnly(false)}>All</button>
+                <button type="button" className={failuresOnly ? "on" : ""} aria-pressed={failuresOnly} id="failOnly" onClick={() => setFailuresOnly(true)}>Failures only</button>
+              </span>
+              <label className="chk"><input type="checkbox" id="showCons" checked={consumables} onChange={e => setConsumables(e.target.checked)} /> Show consumables</label>
+            </span></div>
+          {issues.length ? <ol className="rank" id="aiIssuesTop">{issues.map((t, n) => {
+            const f = {kind: "issue", item: t.item, ...(failuresOnly ? {failuresOnly: true} : {})};
+            return <li key={t.item}><button type="button" data-issue={t.item} onClick={() => pick(f)}>
+              <span className="k num">{n + 1}</span><span className="it">{t.item}</span>
+              <span className="v num">{failuresOnly ? t.failures : t.vehicles}</span><span className="s num">{failuresOnly ? `of ${t.vehicles}` : (t.failures ? `${t.failures} failed` : "")}</span>
+            </button></li>; })}</ol>
+            : <p className="sub">No failures in this workspace's reports.</p>}
+        </div>
+        <div className="bdblock">
+          <div className="bdhead"><h2>Issues by area</h2></div>
+          <ul className="bars" id="aiAreas">{o.areas.map(a => (
+            <li key={a.area}><button type="button" data-area={a.area} onClick={() => pick({kind: "area", area: a.area})}>
+              <span className="it">{a.area}</span><span className="bar"><i style={{ width: `${(100 * a.vehicles / maxArea).toFixed(1)}%` }}></i></span><span className="v num">{a.vehicles}</span>
+            </button>{a.area === "Tires and wheels" ? <p className="note">Tread at 4/32 or less is counted under Tire concerns even when the tire was graded pass.</p> : null}</li>))}</ul>
+          <p className="note">Vehicles with a fail or attention item in each area.</p>
+        </div>
+      </div>
+      <div className="bdcols">
+        <div className="bdblock">
+          <div className="bdhead"><h2>By location</h2></div>
+          <table className="bdtable" id="aiPlaces"><thead><tr><th>Place</th><th className="r">Inspections</th><th className="r">With a flag</th></tr></thead><tbody>
+            {o.locations.map(p => (
+              <React.Fragment key={p.name}>
+                <tr className="row" data-place={p.name} onClick={() => pick({kind: "place", name: p.name})}>
+                  <td>{p.name === "Elsewhere" ? <><button type="button" className="exp" aria-expanded={elsewhere} id="elsewhereToggle" onClick={e => { e.stopPropagation(); setElsewhere(x => !x); }}>{elsewhere ? "▾" : "▸"}</button>{`Elsewhere · ${p.cities.length} cities`}</> : p.name}</td>
+                  <td className="r num">{p.inspections}</td><td className="r num">{pct(p.flagged / p.inspections)}</td></tr>
+                {p.name === "Elsewhere" && elsewhere ? p.cities.map(c => (
+                  <tr key={c.name} className="row sub" data-city={c.name} onClick={() => pick({kind: "place", city: c.name})}>
+                    <td>{c.name}</td><td className="r num">{c.inspections}</td><td className="r num">{pct(c.flagged / c.inspections)}</td></tr>)) : null}
+              </React.Fragment>))}
+          </tbody></table>
+        </div>
+        <div className="bdblock">
+          <div className="bdhead"><h2>Inspected more than once</h2></div>
+          {o.repeats.length ? <ul className="repeats" id="aiRepeats">{o.repeats.map(r => (
+            <li key={r.vin}><button type="button" data-vin={r.vin} onClick={() => pick({kind: "repeat", vin: r.vin})}>
+              <span className="it"><b>{r.vehicle}</b><span className="mono">{r.vin}</span></span><span className="v num">{r.dates.map(fmtDate).join(" · ")}</span>
+            </button></li>))}</ul>
+            : <p className="sub">No vehicle has more than one inspection in this workspace.</p>}
+        </div>
+      </div>
+    </section>
   );
 }
