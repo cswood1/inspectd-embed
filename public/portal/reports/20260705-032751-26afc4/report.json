@@ -753,5 +753,279 @@
   "unknown": 0,
   "total": 78
  },
- "photo_count": 151
+ "photo_count": 151,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 4,
+    "status": "fail",
+    "section": "Road Test",
+    "item": "Wheel Bearing Performance",
+    "note": "There is a notable humming noise that does increase with speed. Possible poor dry rot condition tires, and or wheel bearings. Further diagnosis recommended.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 75,
+    "status": "fail",
+    "section": "Tire / Wheels",
+    "item": "Passenger's Front Tire",
+    "note": "Yokohama 225/65R17, 3/32 tread",
+    "photo": 72,
+    "consumable": false
+   },
+   {
+    "finding": 76,
+    "status": "fail",
+    "section": "Tire / Wheels",
+    "item": "Driver's 1st Axle Outer Tire",
+    "note": "Yokohama 225/65R17, 5/32 tread",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 77,
+    "status": "fail",
+    "section": "Tire / Wheels",
+    "item": "Passenger's 1st Axle Outer Tire",
+    "note": "Yokohama 225/65R17, 5/32 tread",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 7,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Steering Performance and Alignment",
+    "note": "Vehicle does pull hard right when steering is placed straight. More diagnosis is needed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 8,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Tire Pressure System (TPMS)",
+    "note": "The tire pressure monitoring light is on. This will need further diagnosis.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 74,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Driver's Front Tire",
+    "note": "Yokohama 225/65R17, 4/32 tread",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 13,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Body Panel Alignment",
+    "note": "Rear bumper is misaligned with passenger side quarter panel.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 14,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 19,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Power Door Mirrors",
+    "note": "Decals on mirror housings.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 21,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Side Moldings",
+    "note": "Both rear quarter panel moldings are loose and misalgined.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 24,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dings",
+    "note": "There is a notable large ding on the rear passenger side quarter panel.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 25,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "Front passenger side door dent.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 26,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Steering Wheel",
+    "note": "The steering wheel shows some wear and tear as seen in pics. Normal for mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 29,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats. Stains were observed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 33,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 38,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Dash Lights Working",
+    "note": "TPMS light is on.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 46,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Headliner",
+    "note": "The headliner shows areas of stains.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 51,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 52,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Sun Visors",
+    "note": "Marks, and stains on sunvisor.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 73,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Key Fob",
+    "note": "Only one key fob was shown during inspection.",
+    "photo": null,
+    "consumable": true
+   },
+   {
+    "finding": 11,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Wiper Blades",
+    "note": "Rear wiper blade worn.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 8
+     },
+     {
+      "finding": 38
+     },
+     {
+      "source": "summary:Interior",
+      "text": "TPMS light is on."
+     },
+     {
+      "source": "summary:Road Test",
+      "text": "The tire pressure monitoring light is on."
+     }
+    ]
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 74
+     },
+     {
+      "finding": 75
+     },
+     {
+      "finding": 76
+     },
+     {
+      "finding": 77
+     },
+     {
+      "source": "summary:Tires",
+      "text": "All tires observed were matched by brand and had tread depths of 4 and 3/32nds at the front and 5/32nds at the rear."
+     }
+    ]
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "summary": {
+   "text": "Significant tire and driving concerns: dry-rotted, unevenly worn tires at 3/32 to 5/32, a humming noise that rises with speed (tires or wheel bearings), a hard pull right and a tire pressure warning light. Also dents and a misaligned bumper.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

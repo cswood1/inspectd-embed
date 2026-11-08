@@ -777,5 +777,174 @@
   "unknown": 0,
   "total": 81
  },
- "photo_count": 104
+ "photo_count": 104,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 71,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Muffler System",
+    "note": "There is a dent in the exhaust, does not appear to affect performance.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 2,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Engine running well after Started",
+    "note": "The engine ran well but does have a slight ticking noise heard with the hood raised and the engine running.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 17,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "The paint shows some wear and tear that is consistent with age and mileage. There are areas of obvious paint work having been performed to make other body repairs.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 18,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Seals",
+    "note": "Wear and tear, scratches and light surface blemishes.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 19,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of minor surface rust. See pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 22,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Bumpers",
+    "note": "The front bumper has some scratches to the painted surface and dents on the chrome.",
+    "photo": 33,
+    "consumable": false
+   },
+   {
+    "finding": 23,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Side Moldings",
+    "note": "The side moldings on both sides show minor nicks and chips. There are also loose body moldings.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 26,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dings",
+    "note": "The vehicle shows miscellaneous dings around the body.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 27,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "Front bumper moldings and areas show dents as viewed in photographs.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 31,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is moderate wear to the seats. Normal for mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 35,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear consistent with age and mileage. Damage to speaker grill on driver door.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 43,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "The carpet shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 47,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Headliner",
+    "note": "The headliner shows miscellaneous smudge marks from normal use.",
+    "photo": null,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 19
+     },
+     {
+      "source": "summary:Overall",
+      "text": "The underside shows areas of minor surface rust."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Several items to note: a slight engine ticking noise with the hood up, moderately worn tires, and obvious paint work from earlier body repairs. Also dents on the front bumper and exhaust, loose moldings, dings and moderate seat wear.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

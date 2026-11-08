@@ -1,7 +1,7 @@
 {
  "id": "20260731-224749-9f751a",
  "filename": "BMW_H26242_inspection.pdf",
- "uploaded_at": "2026-11-08T18:54:47+00:00",
+ "uploaded_at": "2026-11-08T19:37:06+00:00",
  "size": 28865112,
  "llm_error": "",
  "scanned": false,
@@ -413,20 +413,12 @@
    "raw_status": "Good"
   },
   {
-   "item": "Instrument Cl",
-   "status": "attention",
+   "item": "Instrument Cluster/Gauges",
+   "status": "pass",
    "section": "Interior",
    "notes": "",
    "page": null,
-   "raw_status": "/G Good"
-  },
-  {
-   "item": "Cluster/Gauges",
-   "status": "unknown",
-   "section": "Interior",
-   "notes": "",
-   "page": null,
-   "raw_status": ""
+   "raw_status": "Good"
   },
   {
    "item": "Unusual Odors",
@@ -742,12 +734,243 @@
  "pages": 72,
  "source": "layout",
  "summary": {
-  "pass": 57,
+  "pass": 58,
   "fail": 2,
-  "attention": 18,
+  "attention": 17,
   "na": 0,
-  "unknown": 1,
-  "total": 78
+  "unknown": 0,
+  "total": 77
  },
- "photo_count": 65
+ "photo_count": 65,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 50,
+    "status": "fail",
+    "section": "Interior",
+    "item": "Window Function",
+    "note": "Drivers rear power window is broken and will not operate up or down.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 52,
+    "status": "fail",
+    "section": "Interior",
+    "item": "Sun Visors",
+    "note": "Mirrors on both visors are broken.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 3,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Transmission performance",
+    "note": "Vibration at road speed, further diagnosis needed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 9,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Tire Pressure System (TPMS)",
+    "note": "TPMS light is on.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 13,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Body Panel Alignment",
+    "note": "General misalignment to body panels, see pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 14,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos. The exterior of the vehicle was dusty at time of inspection. This can hide minor imperfections.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 15,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "The paint shows some wear and tear that is consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 17,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of surface rust. See pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 21,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Bumpers",
+    "note": "The rear bumper shows body damage, scratches and tears in bumper skin. Front bumper misaligned.",
+    "photo": 50,
+    "consumable": false
+   },
+   {
+    "finding": 25,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dings",
+    "note": "The vehicle shows minor miscellaneous dings around the body.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 27,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Steering Wheel",
+    "note": "The steering wheel shows some wear and tear as seen in pics. No leather at top of wheel.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 30,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "The seats show moderate wear. Driver seat outside bolster worn.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 34,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 37,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Center Console",
+    "note": "The center console shows wear and tear. See pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 43,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "The carpet shows moderate wear from use.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 46,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Headliner",
+    "note": "The headliner shows miscellaneous smudge marks from normal use.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 51,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 72,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Key Fob",
+    "note": "Only one key fob was shown during inspection.",
+    "photo": null,
+    "consumable": true
+   },
+   {
+    "finding": 44,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Floor Mats",
+    "note": "The floor mats show heavy wear. The floor mats should be replaced.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 9
+     },
+     {
+      "source": "summary:Road Test",
+      "text": "TPMS light is on."
+     }
+    ]
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 17
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The underside shows areas of surface rust."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Several items to note: the driver's rear power window doesn't work, with a vibration at road speed, a tire pressure warning light, a damaged rear bumper and misaligned panels. Also broken visor mirrors and moderate interior wear.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

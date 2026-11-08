@@ -38,7 +38,23 @@ export const REPORT_INDEX = {
   "pages": 80,
   "image_count": 3,
   "photo_count": 73,
-  "size": 27620921
+  "size": 27620921,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 1,
+    "attention": 13
+   },
+   "summary": true
+  }
  },
  "20260516-174152-cd91dc": {
   "id": "20260516-174152-cd91dc",
@@ -75,7 +91,23 @@ export const REPORT_INDEX = {
   "pages": 86,
   "image_count": 3,
   "photo_count": 80,
-  "size": 17576425
+  "size": 17576425,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 7
+   },
+   "summary": true
+  }
  },
  "20260518-202058-627ebe": {
   "id": "20260518-202058-627ebe",
@@ -112,7 +144,23 @@ export const REPORT_INDEX = {
   "pages": 76,
   "image_count": 3,
   "photo_count": 68,
-  "size": 10998969
+  "size": 10998969,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 4
+   },
+   "summary": true
+  }
  },
  "20260519-151649-f008b0": {
   "id": "20260519-151649-f008b0",
@@ -149,7 +197,23 @@ export const REPORT_INDEX = {
   "pages": 67,
   "image_count": 3,
   "photo_count": 61,
-  "size": 15788188
+  "size": 15788188,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 8
+   },
+   "summary": true
+  }
  },
  "20260520-202116-d655e3": {
   "id": "20260520-202116-d655e3",
@@ -186,7 +250,23 @@ export const REPORT_INDEX = {
   "pages": 91,
   "image_count": 3,
   "photo_count": 84,
-  "size": 12614198
+  "size": 12614198,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 9
+   },
+   "summary": true
+  }
  },
  "20260522-223948-9e7004": {
   "id": "20260522-223948-9e7004",
@@ -222,7 +302,23 @@ export const REPORT_INDEX = {
   "pages": 37,
   "image_count": 3,
   "photo_count": 49,
-  "size": 5057376
+  "size": 5057376,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 3
+   },
+   "summary": true
+  }
  },
  "20260525-003800-b18fe5": {
   "id": "20260525-003800-b18fe5",
@@ -259,7 +355,23 @@ export const REPORT_INDEX = {
   "pages": 159,
   "image_count": 3,
   "photo_count": 153,
-  "size": 31433141
+  "size": 31433141,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 2
+   },
+   "summary": true
+  }
  },
  "20260527-011714-65ab31": {
   "id": "20260527-011714-65ab31",
@@ -297,7 +409,23 @@ export const REPORT_INDEX = {
   "pages": 42,
   "image_count": 3,
   "photo_count": 36,
-  "size": 12919871
+  "size": 12919871,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 6
+   },
+   "summary": true
+  }
  },
  "20260529-034836-a99ba7": {
   "id": "20260529-034836-a99ba7",
@@ -335,7 +463,23 @@ export const REPORT_INDEX = {
   "pages": 76,
   "image_count": 3,
   "photo_count": 69,
-  "size": 27481659
+  "size": 27481659,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": true,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 4,
+    "attention": 14
+   },
+   "summary": true
+  }
  },
  "20260531-031831-7dd4fe": {
   "id": "20260531-031831-7dd4fe",
@@ -372,7 +516,23 @@ export const REPORT_INDEX = {
   "pages": 125,
   "image_count": 3,
   "photo_count": 117,
-  "size": 18207527
+  "size": 18207527,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 3
+   },
+   "summary": true
+  }
  },
  "20260602-055317-366cb7": {
   "id": "20260602-055317-366cb7",
@@ -409,7 +569,23 @@ export const REPORT_INDEX = {
   "pages": 62,
   "image_count": 3,
   "photo_count": 56,
-  "size": 26990311
+  "size": 26990311,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 5
+   },
+   "summary": true
+  }
  },
  "20260604-053346-30ac53": {
   "id": "20260604-053346-30ac53",
@@ -446,7 +622,23 @@ export const REPORT_INDEX = {
   "pages": 80,
   "image_count": 3,
   "photo_count": 75,
-  "size": 10783839
+  "size": 10783839,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 6
+   },
+   "summary": true
+  }
  },
  "20260606-075517-aadbdb": {
   "id": "20260606-075517-aadbdb",
@@ -483,7 +675,23 @@ export const REPORT_INDEX = {
   "pages": 132,
   "image_count": 3,
   "photo_count": 126,
-  "size": 30101909
+  "size": 30101909,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 5
+   },
+   "summary": true
+  }
  },
  "20260608-101844-625aa7": {
   "id": "20260608-101844-625aa7",
@@ -521,7 +729,23 @@ export const REPORT_INDEX = {
   "pages": 51,
   "image_count": 3,
   "photo_count": 44,
-  "size": 17210853
+  "size": 17210853,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 7
+   },
+   "summary": true
+  }
  },
  "20260610-102702-df7605": {
   "id": "20260610-102702-df7605",
@@ -558,7 +782,23 @@ export const REPORT_INDEX = {
   "pages": 101,
   "image_count": 3,
   "photo_count": 94,
-  "size": 11717069
+  "size": 11717069,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 1,
+    "attention": 6
+   },
+   "summary": true
+  }
  },
  "20260612-123929-ec2c92": {
   "id": "20260612-123929-ec2c92",
@@ -595,7 +835,23 @@ export const REPORT_INDEX = {
   "pages": 133,
   "image_count": 3,
   "photo_count": 126,
-  "size": 16500422
+  "size": 16500422,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 6
+   },
+   "summary": true
+  }
  },
  "20260614-130608-2ad7f9": {
   "id": "20260614-130608-2ad7f9",
@@ -632,7 +888,23 @@ export const REPORT_INDEX = {
   "pages": 40,
   "image_count": 3,
   "photo_count": 35,
-  "size": 7072111
+  "size": 7072111,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 2
+   },
+   "summary": true
+  }
  },
  "20260616-150555-e65ab2": {
   "id": "20260616-150555-e65ab2",
@@ -671,7 +943,23 @@ export const REPORT_INDEX = {
   "pages": 90,
   "image_count": 3,
   "photo_count": 83,
-  "size": 27356890
+  "size": 27356890,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 8
+   },
+   "summary": true
+  }
  },
  "20260618-174723-155d3a": {
   "id": "20260618-174723-155d3a",
@@ -708,7 +996,23 @@ export const REPORT_INDEX = {
   "pages": 73,
   "image_count": 3,
   "photo_count": 67,
-  "size": 29582496
+  "size": 29582496,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 6
+   },
+   "summary": true
+  }
  },
  "20260620-173920-61cc97": {
   "id": "20260620-173920-61cc97",
@@ -746,7 +1050,23 @@ export const REPORT_INDEX = {
   "pages": 173,
   "image_count": 3,
   "photo_count": 167,
-  "size": 29936214
+  "size": 29936214,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 12
+   },
+   "summary": true
+  }
  },
  "20260622-200233-374f8f": {
   "id": "20260622-200233-374f8f",
@@ -783,7 +1103,23 @@ export const REPORT_INDEX = {
   "pages": 131,
   "image_count": 3,
   "photo_count": 126,
-  "size": 48640335
+  "size": 48640335,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 5
+   },
+   "summary": true
+  }
  },
  "20260624-202812-3d34ab": {
   "id": "20260624-202812-3d34ab",
@@ -820,7 +1156,23 @@ export const REPORT_INDEX = {
   "pages": 105,
   "image_count": 3,
   "photo_count": 99,
-  "size": 22289817
+  "size": 22289817,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": true,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 1,
+    "attention": 18
+   },
+   "summary": true
+  }
  },
  "20260626-223556-601534": {
   "id": "20260626-223556-601534",
@@ -857,7 +1209,23 @@ export const REPORT_INDEX = {
   "pages": 106,
   "image_count": 3,
   "photo_count": 99,
-  "size": 40574436
+  "size": 40574436,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 10
+   },
+   "summary": true
+  }
  },
  "20260629-004533-f52db1": {
   "id": "20260629-004533-f52db1",
@@ -894,7 +1262,23 @@ export const REPORT_INDEX = {
   "pages": 73,
   "image_count": 3,
   "photo_count": 66,
-  "size": 27759694
+  "size": 27759694,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 6
+   },
+   "summary": true
+  }
  },
  "20260701-010853-23ed8f": {
   "id": "20260701-010853-23ed8f",
@@ -931,7 +1315,23 @@ export const REPORT_INDEX = {
   "pages": 72,
   "image_count": 3,
   "photo_count": 63,
-  "size": 16019716
+  "size": 16019716,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 8
+   },
+   "summary": true
+  }
  },
  "20260703-032929-2fddbe": {
   "id": "20260703-032929-2fddbe",
@@ -968,7 +1368,23 @@ export const REPORT_INDEX = {
   "pages": 49,
   "image_count": 3,
   "photo_count": 42,
-  "size": 9913031
+  "size": 9913031,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 6
+   },
+   "summary": true
+  }
  },
  "20260705-032751-26afc4": {
   "id": "20260705-032751-26afc4",
@@ -1005,7 +1421,23 @@ export const REPORT_INDEX = {
   "pages": 159,
   "image_count": 3,
   "photo_count": 151,
-  "size": 32179518
+  "size": 32179518,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 4,
+    "attention": 18
+   },
+   "summary": true
+  }
  },
  "20260707-053432-b5fdee": {
   "id": "20260707-053432-b5fdee",
@@ -1042,7 +1474,23 @@ export const REPORT_INDEX = {
   "pages": 51,
   "image_count": 3,
   "photo_count": 46,
-  "size": 7695071
+  "size": 7695071,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 4
+   },
+   "summary": true
+  }
  },
  "20260709-060534-5e05b0": {
   "id": "20260709-060534-5e05b0",
@@ -1079,7 +1527,23 @@ export const REPORT_INDEX = {
   "pages": 56,
   "image_count": 3,
   "photo_count": 49,
-  "size": 17250941
+  "size": 17250941,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 5
+   },
+   "summary": true
+  }
  },
  "20260711-075453-36760b": {
   "id": "20260711-075453-36760b",
@@ -1116,7 +1580,23 @@ export const REPORT_INDEX = {
   "pages": 134,
   "image_count": 3,
   "photo_count": 128,
-  "size": 22528224
+  "size": 22528224,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": true,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 3
+   },
+   "summary": true
+  }
  },
  "20260713-101635-4f6082": {
   "id": "20260713-101635-4f6082",
@@ -1154,7 +1634,23 @@ export const REPORT_INDEX = {
   "pages": 129,
   "image_count": 3,
   "photo_count": 123,
-  "size": 22411609
+  "size": 22411609,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 8
+   },
+   "summary": true
+  }
  },
  "20260715-101838-4ec7bf": {
   "id": "20260715-101838-4ec7bf",
@@ -1192,7 +1688,23 @@ export const REPORT_INDEX = {
   "pages": 94,
   "image_count": 3,
   "photo_count": 87,
-  "size": 36457900
+  "size": 36457900,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 1,
+    "attention": 6
+   },
+   "summary": true
+  }
  },
  "20260717-131326-0c2fa6": {
   "id": "20260717-131326-0c2fa6",
@@ -1229,7 +1741,23 @@ export const REPORT_INDEX = {
   "pages": 58,
   "image_count": 3,
   "photo_count": 52,
-  "size": 24895113
+  "size": 24895113,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 3
+   },
+   "summary": true
+  }
  },
  "20260719-124440-50e10d": {
   "id": "20260719-124440-50e10d",
@@ -1265,7 +1793,23 @@ export const REPORT_INDEX = {
   "pages": 95,
   "image_count": 3,
   "photo_count": 88,
-  "size": 20459161
+  "size": 20459161,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 1,
+    "attention": 9
+   },
+   "summary": true
+  }
  },
  "20260721-153815-5311cd": {
   "id": "20260721-153815-5311cd",
@@ -1302,7 +1846,23 @@ export const REPORT_INDEX = {
   "pages": 106,
   "image_count": 3,
   "photo_count": 101,
-  "size": 11412373
+  "size": 11412373,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 1,
+    "attention": 3
+   },
+   "summary": true
+  }
  },
  "20260723-180519-21962c": {
   "id": "20260723-180519-21962c",
@@ -1339,7 +1899,23 @@ export const REPORT_INDEX = {
   "pages": 93,
   "image_count": 3,
   "photo_count": 88,
-  "size": 42418847
+  "size": 42418847,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 2
+   },
+   "summary": true
+  }
  },
  "20260725-174050-c21097": {
   "id": "20260725-174050-c21097",
@@ -1376,7 +1952,23 @@ export const REPORT_INDEX = {
   "pages": 78,
   "image_count": 3,
   "photo_count": 71,
-  "size": 17484744
+  "size": 17484744,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 2,
+    "attention": 10
+   },
+   "summary": true
+  }
  },
  "20260727-194848-565f02": {
   "id": "20260727-194848-565f02",
@@ -1413,7 +2005,23 @@ export const REPORT_INDEX = {
   "pages": 175,
   "image_count": 3,
   "photo_count": 167,
-  "size": 32030893
+  "size": 32030893,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 7
+   },
+   "summary": true
+  }
  },
  "20260729-200606-53e297": {
   "id": "20260729-200606-53e297",
@@ -1450,7 +2058,23 @@ export const REPORT_INDEX = {
   "pages": 66,
   "image_count": 3,
   "photo_count": 77,
-  "size": 10101339
+  "size": 10101339,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 1,
+    "attention": 8
+   },
+   "summary": true
+  }
  },
  "20260731-224749-9f751a": {
   "id": "20260731-224749-9f751a",
@@ -1479,17 +2103,33 @@ export const REPORT_INDEX = {
    "customer": "ReBuilt Autos"
   },
   "summary": {
-   "pass": 57,
+   "pass": 58,
    "fail": 2,
-   "attention": 18,
+   "attention": 17,
    "na": 0,
-   "unknown": 1,
-   "total": 78
+   "unknown": 0,
+   "total": 77
   },
   "pages": 72,
   "image_count": 3,
   "photo_count": 65,
-  "size": 28865112
+  "size": 28865112,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 2,
+    "attention": 17
+   },
+   "summary": true
+  }
  },
  "20260803-005056-4cd32f": {
   "id": "20260803-005056-4cd32f",
@@ -1526,7 +2166,23 @@ export const REPORT_INDEX = {
   "pages": 93,
   "image_count": 3,
   "photo_count": 86,
-  "size": 14185731
+  "size": 14185731,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 13
+   },
+   "summary": true
+  }
  },
  "20260805-010758-eaf76c": {
   "id": "20260805-010758-eaf76c",
@@ -1563,7 +2219,23 @@ export const REPORT_INDEX = {
   "pages": 155,
   "image_count": 3,
   "photo_count": 148,
-  "size": 29376995
+  "size": 29376995,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 13
+   },
+   "summary": true
+  }
  },
  "20260807-033750-992b1b": {
   "id": "20260807-033750-992b1b",
@@ -1601,7 +2273,23 @@ export const REPORT_INDEX = {
   "pages": 105,
   "image_count": 3,
   "photo_count": 98,
-  "size": 20967047
+  "size": 20967047,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 9
+   },
+   "summary": true
+  }
  },
  "20260809-033202-cad6c5": {
   "id": "20260809-033202-cad6c5",
@@ -1639,7 +2327,23 @@ export const REPORT_INDEX = {
   "pages": 156,
   "image_count": 3,
   "photo_count": 152,
-  "size": 26773489
+  "size": 26773489,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 5
+   },
+   "summary": true
+  }
  },
  "20260811-052846-8dca87": {
   "id": "20260811-052846-8dca87",
@@ -1677,7 +2381,23 @@ export const REPORT_INDEX = {
   "pages": 55,
   "image_count": 3,
   "photo_count": 48,
-  "size": 19052533
+  "size": 19052533,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 8
+   },
+   "summary": true
+  }
  },
  "20260813-055228-eaa4a5": {
   "id": "20260813-055228-eaa4a5",
@@ -1714,7 +2434,23 @@ export const REPORT_INDEX = {
   "pages": 47,
   "image_count": 3,
   "photo_count": 42,
-  "size": 17079903
+  "size": 17079903,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 0
+   },
+   "summary": true
+  }
  },
  "20260815-081115-6d94f4": {
   "id": "20260815-081115-6d94f4",
@@ -1752,7 +2488,23 @@ export const REPORT_INDEX = {
   "pages": 175,
   "image_count": 3,
   "photo_count": 168,
-  "size": 31282217
+  "size": 31282217,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 13
+   },
+   "summary": true
+  }
  },
  "20260817-104111-f1b62b": {
   "id": "20260817-104111-f1b62b",
@@ -1790,7 +2542,23 @@ export const REPORT_INDEX = {
   "pages": 160,
   "image_count": 3,
   "photo_count": 152,
-  "size": 76164934
+  "size": 76164934,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 2,
+    "attention": 17
+   },
+   "summary": true
+  }
  },
  "20260819-105017-cd5323": {
   "id": "20260819-105017-cd5323",
@@ -1829,7 +2597,23 @@ export const REPORT_INDEX = {
   "pages": 86,
   "image_count": 3,
   "photo_count": 80,
-  "size": 30543244
+  "size": 30543244,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 8
+   },
+   "summary": true
+  }
  },
  "20260821-123613-515f31": {
   "id": "20260821-123613-515f31",
@@ -1866,7 +2650,23 @@ export const REPORT_INDEX = {
   "pages": 156,
   "image_count": 3,
   "photo_count": 150,
-  "size": 62123623
+  "size": 62123623,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 1,
+    "attention": 14
+   },
+   "summary": true
+  }
  },
  "20260823-124339-d4966f": {
   "id": "20260823-124339-d4966f",
@@ -1904,7 +2704,23 @@ export const REPORT_INDEX = {
   "pages": 67,
   "image_count": 3,
   "photo_count": 60,
-  "size": 24736137
+  "size": 24736137,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 3
+   },
+   "summary": true
+  }
  },
  "20260825-152927-4325fa": {
   "id": "20260825-152927-4325fa",
@@ -1942,7 +2758,23 @@ export const REPORT_INDEX = {
   "pages": 248,
   "image_count": 3,
   "photo_count": 239,
-  "size": 50155102
+  "size": 50155102,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 10
+   },
+   "summary": true
+  }
  },
  "20260827-174648-439c24": {
   "id": "20260827-174648-439c24",
@@ -1979,7 +2811,23 @@ export const REPORT_INDEX = {
   "pages": 100,
   "image_count": 3,
   "photo_count": 56,
-  "size": 16318882
+  "size": 16318882,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 6
+   },
+   "summary": true
+  }
  },
  "20260829-174702-2ea2a1": {
   "id": "20260829-174702-2ea2a1",
@@ -2017,7 +2865,23 @@ export const REPORT_INDEX = {
   "pages": 50,
   "image_count": 3,
   "photo_count": 45,
-  "size": 6971585
+  "size": 6971585,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 0
+   },
+   "summary": true
+  }
  },
  "20260831-195146-8cf274": {
   "id": "20260831-195146-8cf274",
@@ -2054,7 +2918,23 @@ export const REPORT_INDEX = {
   "pages": 55,
   "image_count": 3,
   "photo_count": 47,
-  "size": 16964422
+  "size": 16964422,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 0
+   },
+   "summary": true
+  }
  },
  "20260902-202500-b3d61c": {
   "id": "20260902-202500-b3d61c",
@@ -2089,7 +2969,23 @@ export const REPORT_INDEX = {
   "pages": 66,
   "image_count": 3,
   "photo_count": 59,
-  "size": 23738525
+  "size": 23738525,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": true,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 14
+   },
+   "summary": true
+  }
  },
  "20260904-222647-c0fdda": {
   "id": "20260904-222647-c0fdda",
@@ -2126,7 +3022,23 @@ export const REPORT_INDEX = {
   "pages": 58,
   "image_count": 3,
   "photo_count": 51,
-  "size": 8275573
+  "size": 8275573,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 10
+   },
+   "summary": true
+  }
  },
  "20260907-004509-29309d": {
   "id": "20260907-004509-29309d",
@@ -2164,7 +3076,23 @@ export const REPORT_INDEX = {
   "pages": 47,
   "image_count": 3,
   "photo_count": 70,
-  "size": 16287794
+  "size": 16287794,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 9
+   },
+   "summary": true
+  }
  },
  "20260909-004302-253dd4": {
   "id": "20260909-004302-253dd4",
@@ -2202,7 +3130,23 @@ export const REPORT_INDEX = {
   "pages": 140,
   "image_count": 3,
   "photo_count": 132,
-  "size": 40068902
+  "size": 40068902,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 2
+   },
+   "summary": true
+  }
  },
  "20260911-034754-aa5537": {
   "id": "20260911-034754-aa5537",
@@ -2239,7 +3183,23 @@ export const REPORT_INDEX = {
   "pages": 66,
   "image_count": 3,
   "photo_count": 59,
-  "size": 14166732
+  "size": 14166732,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 1,
+    "attention": 8
+   },
+   "summary": true
+  }
  },
  "20260913-033841-63f801": {
   "id": "20260913-033841-63f801",
@@ -2270,13 +3230,29 @@ export const REPORT_INDEX = {
    "fail": 0,
    "attention": 16,
    "na": 0,
-   "unknown": 1,
-   "total": 81
+   "unknown": 0,
+   "total": 80
   },
   "pages": 157,
   "image_count": 3,
   "photo_count": 150,
-  "size": 28226257
+  "size": 28226257,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 16
+   },
+   "summary": true
+  }
  },
  "20260915-060929-8683b4": {
   "id": "20260915-060929-8683b4",
@@ -2315,7 +3291,23 @@ export const REPORT_INDEX = {
   "pages": 111,
   "image_count": 3,
   "photo_count": 104,
-  "size": 41580278
+  "size": 41580278,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 13
+   },
+   "summary": true
+  }
  },
  "20260917-061202-fc17e1": {
   "id": "20260917-061202-fc17e1",
@@ -2352,7 +3344,23 @@ export const REPORT_INDEX = {
   "pages": 212,
   "image_count": 3,
   "photo_count": 204,
-  "size": 79982078
+  "size": 79982078,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": true,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 7,
+    "attention": 29
+   },
+   "summary": true
+  }
  },
  "20260919-080620-06b789": {
   "id": "20260919-080620-06b789",
@@ -2389,7 +3397,23 @@ export const REPORT_INDEX = {
   "pages": 63,
   "image_count": 3,
   "photo_count": 91,
-  "size": 7733502
+  "size": 7733502,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 4,
+    "attention": 9
+   },
+   "summary": true
+  }
  },
  "20260921-110054-72c85d": {
   "id": "20260921-110054-72c85d",
@@ -2427,7 +3451,23 @@ export const REPORT_INDEX = {
   "pages": 99,
   "image_count": 3,
   "photo_count": 92,
-  "size": 33549864
+  "size": 33549864,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 12
+   },
+   "summary": true
+  }
  },
  "20260922-154057-1cd4d8": {
   "id": "20260922-154057-1cd4d8",
@@ -2464,7 +3504,23 @@ export const REPORT_INDEX = {
   "pages": 81,
   "image_count": 3,
   "photo_count": 75,
-  "size": 17916355
+  "size": 17916355,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 8
+   },
+   "summary": true
+  }
  },
  "20260923-104718-b4e671": {
   "id": "20260923-104718-b4e671",
@@ -2501,7 +3557,23 @@ export const REPORT_INDEX = {
   "pages": 97,
   "image_count": 3,
   "photo_count": 89,
-  "size": 39939086
+  "size": 39939086,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 7
+   },
+   "summary": true
+  }
  },
  "20260925-132536-f0ec0b": {
   "id": "20260925-132536-f0ec0b",
@@ -2530,15 +3602,31 @@ export const REPORT_INDEX = {
   "summary": {
    "pass": 65,
    "fail": 2,
-   "attention": 19,
+   "attention": 18,
    "na": 0,
    "unknown": 0,
-   "total": 86
+   "total": 85
   },
   "pages": 225,
   "image_count": 3,
   "photo_count": 216,
-  "size": 100197459
+  "size": 100197459,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 2,
+    "attention": 18
+   },
+   "summary": true
+  }
  },
  "20260927-130141-79f355": {
   "id": "20260927-130141-79f355",
@@ -2576,7 +3664,23 @@ export const REPORT_INDEX = {
   "pages": 130,
   "image_count": 3,
   "photo_count": 124,
-  "size": 54310899
+  "size": 54310899,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 4,
+    "attention": 8
+   },
+   "summary": true
+  }
  },
  "20260929-152549-e08591": {
   "id": "20260929-152549-e08591",
@@ -2612,7 +3716,23 @@ export const REPORT_INDEX = {
   "pages": 60,
   "image_count": 3,
   "photo_count": 54,
-  "size": 22853854
+  "size": 22853854,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 1
+   },
+   "summary": true
+  }
  },
  "20261001-174156-719cf4": {
   "id": "20261001-174156-719cf4",
@@ -2649,7 +3769,23 @@ export const REPORT_INDEX = {
   "pages": 74,
   "image_count": 3,
   "photo_count": 67,
-  "size": 9667037
+  "size": 9667037,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": true,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 15
+   },
+   "summary": true
+  }
  },
  "20261003-172929-eb5e4e": {
   "id": "20261003-172929-eb5e4e",
@@ -2686,7 +3822,23 @@ export const REPORT_INDEX = {
   "pages": 53,
   "image_count": 3,
   "photo_count": 48,
-  "size": 16426352
+  "size": 16426352,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 1
+   },
+   "summary": true
+  }
  },
  "20261005-195319-8a79ee": {
   "id": "20261005-195319-8a79ee",
@@ -2723,7 +3875,23 @@ export const REPORT_INDEX = {
   "pages": 170,
   "image_count": 3,
   "photo_count": 163,
-  "size": 57467696
+  "size": 57467696,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": true,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 15
+   },
+   "summary": true
+  }
  },
  "20261007-202541-f52ee2": {
   "id": "20261007-202541-f52ee2",
@@ -2760,7 +3928,23 @@ export const REPORT_INDEX = {
   "pages": 104,
   "image_count": 3,
   "photo_count": 58,
-  "size": 9186735
+  "size": 9186735,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 11
+   },
+   "summary": true
+  }
  },
  "20261009-222705-080dd5": {
   "id": "20261009-222705-080dd5",
@@ -2797,7 +3981,23 @@ export const REPORT_INDEX = {
   "pages": 66,
   "image_count": 3,
   "photo_count": 59,
-  "size": 15875159
+  "size": 15875159,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 1,
+    "attention": 10
+   },
+   "summary": true
+  }
  },
  "20261012-012503-33093e": {
   "id": "20261012-012503-33093e",
@@ -2834,7 +4034,23 @@ export const REPORT_INDEX = {
   "pages": 75,
   "image_count": 3,
   "photo_count": 68,
-  "size": 11360729
+  "size": 11360729,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 5
+   },
+   "summary": true
+  }
  },
  "20261014-005119-19d283": {
   "id": "20261014-005119-19d283",
@@ -2872,7 +4088,23 @@ export const REPORT_INDEX = {
   "pages": 67,
   "image_count": 3,
   "photo_count": 63,
-  "size": 11034986
+  "size": 11034986,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 8
+   },
+   "summary": true
+  }
  },
  "20261014-145907-d73b05": {
   "id": "20261014-145907-d73b05",
@@ -2910,7 +4142,23 @@ export const REPORT_INDEX = {
   "pages": 109,
   "image_count": 101,
   "photo_count": 101,
-  "size": 14328005
+  "size": 14328005,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": true,
+    "tires": true,
+    "leaks": true,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 3,
+    "attention": 9
+   },
+   "summary": true
+  }
  },
  "20261016-030940-d0665b": {
   "id": "20261016-030940-d0665b",
@@ -2947,7 +4195,23 @@ export const REPORT_INDEX = {
   "pages": 105,
   "image_count": 3,
   "photo_count": 142,
-  "size": 17394011
+  "size": 17394011,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 0
+   },
+   "summary": true
+  }
  },
  "20261017-153340-c4d812": {
   "id": "20261017-153340-c4d812",
@@ -2984,7 +4248,23 @@ export const REPORT_INDEX = {
   "pages": 94,
   "image_count": 81,
   "photo_count": 81,
-  "size": 31189499
+  "size": 31189499,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 1,
+    "attention": 7
+   },
+   "summary": true
+  }
  },
  "20261018-030700-59e62e": {
   "id": "20261018-030700-59e62e",
@@ -3021,7 +4301,23 @@ export const REPORT_INDEX = {
   "pages": 81,
   "image_count": 3,
   "photo_count": 74,
-  "size": 17993165
+  "size": 17993165,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 10
+   },
+   "summary": true
+  }
  },
  "20261020-061058-ce4075": {
   "id": "20261020-061058-ce4075",
@@ -3058,7 +4354,23 @@ export const REPORT_INDEX = {
   "pages": 74,
   "image_count": 3,
   "photo_count": 67,
-  "size": 18751951
+  "size": 18751951,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": true,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": true,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 11
+   },
+   "summary": true
+  }
  },
  "20261021-153952-622a14": {
   "id": "20261021-153952-622a14",
@@ -3095,7 +4407,23 @@ export const REPORT_INDEX = {
   "pages": 67,
   "image_count": 3,
   "photo_count": 60,
-  "size": 16122351
+  "size": 16122351,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 7
+   },
+   "summary": true
+  }
  },
  "20261021-161204-3c9e1a": {
   "id": "20261021-161204-3c9e1a",
@@ -3132,7 +4460,23 @@ export const REPORT_INDEX = {
   "pages": 78,
   "image_count": 68,
   "photo_count": 68,
-  "size": 10536239
+  "size": 10536239,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 3
+   },
+   "summary": true
+  }
  },
  "20261022-060610-ab7129": {
   "id": "20261022-060610-ab7129",
@@ -3169,7 +4513,23 @@ export const REPORT_INDEX = {
   "pages": 90,
   "image_count": 3,
   "photo_count": 84,
-  "size": 11753864
+  "size": 11753864,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 5
+   },
+   "summary": true
+  }
  },
  "20261022-171446-6e48c0": {
   "id": "20261022-171446-6e48c0",
@@ -3206,7 +4566,23 @@ export const REPORT_INDEX = {
   "pages": 109,
   "image_count": 102,
   "photo_count": 102,
-  "size": 36279211
+  "size": 36279211,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": true,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 4,
+    "attention": 12
+   },
+   "summary": true
+  }
  },
  "20261023-174533-e15f07": {
   "id": "20261023-174533-e15f07",
@@ -3243,7 +4619,23 @@ export const REPORT_INDEX = {
   "pages": 88,
   "image_count": 80,
   "photo_count": 80,
-  "size": 10292514
+  "size": 10292514,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 9
+   },
+   "summary": true
+  }
  },
  "20261024-083129-ab674d": {
   "id": "20261024-083129-ab674d",
@@ -3270,17 +4662,33 @@ export const REPORT_INDEX = {
    "customer": "Meridian Fleet Services"
   },
   "summary": {
-   "pass": 73,
+   "pass": 74,
    "fail": 0,
-   "attention": 11,
+   "attention": 10,
    "na": 0,
-   "unknown": 1,
-   "total": 85
+   "unknown": 0,
+   "total": 84
   },
   "pages": 81,
   "image_count": 3,
   "photo_count": 73,
-  "size": 30868841
+  "size": 30868841,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 10
+   },
+   "summary": true
+  }
  },
  "20261024-131125-0f6be9": {
   "id": "20261024-131125-0f6be9",
@@ -3317,7 +4725,23 @@ export const REPORT_INDEX = {
   "pages": 85,
   "image_count": 76,
   "photo_count": 76,
-  "size": 11967317
+  "size": 11967317,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 7
+   },
+   "summary": true
+  }
  },
  "20261025-160218-92ad4e": {
   "id": "20261025-160218-92ad4e",
@@ -3356,7 +4780,23 @@ export const REPORT_INDEX = {
   "pages": 112,
   "image_count": 103,
   "photo_count": 103,
-  "size": 15849193
+  "size": 15849193,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": true,
+    "tires": false,
+    "leaks": true,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 1,
+    "attention": 9
+   },
+   "summary": true
+  }
  },
  "20261026-104538-d65921": {
   "id": "20261026-104538-d65921",
@@ -3393,7 +4833,23 @@ export const REPORT_INDEX = {
   "pages": 69,
   "image_count": 3,
   "photo_count": 82,
-  "size": 12913109
+  "size": 12913109,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 11
+   },
+   "summary": true
+  }
  },
  "20261027-142810-8b20d4": {
   "id": "20261027-142810-8b20d4",
@@ -3430,7 +4886,23 @@ export const REPORT_INDEX = {
   "pages": 30,
   "image_count": 22,
   "photo_count": 22,
-  "size": 8303380
+  "size": 8303380,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 1
+   },
+   "summary": true
+  }
  },
  "20261028-104949-e0a47e": {
   "id": "20261028-104949-e0a47e",
@@ -3469,7 +4941,23 @@ export const REPORT_INDEX = {
   "pages": 118,
   "image_count": 3,
   "photo_count": 111,
-  "size": 47042815
+  "size": 47042815,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 14
+   },
+   "summary": true
+  }
  },
  "20261028-120952-5a7c31": {
   "id": "20261028-120952-5a7c31",
@@ -3506,7 +4994,23 @@ export const REPORT_INDEX = {
   "pages": 90,
   "image_count": 81,
   "photo_count": 81,
-  "size": 32972093
+  "size": 32972093,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 4
+   },
+   "summary": true
+  }
  },
  "20261028-152914-cbf026": {
   "id": "20261028-152914-cbf026",
@@ -3543,7 +5047,23 @@ export const REPORT_INDEX = {
   "pages": 75,
   "image_count": 3,
   "photo_count": 68,
-  "size": 16884640
+  "size": 16884640,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 3
+   },
+   "summary": true
+  }
  },
  "20261029-130637-a91f2c": {
   "id": "20261029-130637-a91f2c",
@@ -3580,7 +5100,23 @@ export const REPORT_INDEX = {
   "pages": 78,
   "image_count": 71,
   "photo_count": 71,
-  "size": 14418143
+  "size": 14418143,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 2,
+    "attention": 4
+   },
+   "summary": true
+  }
  },
  "20261030-125557-2c319e": {
   "id": "20261030-125557-2c319e",
@@ -3617,7 +5153,23 @@ export const REPORT_INDEX = {
   "pages": 52,
   "image_count": 3,
   "photo_count": 43,
-  "size": 19346218
+  "size": 19346218,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": true,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 9
+   },
+   "summary": true
+  }
  },
  "20261101-131637-4d1750": {
   "id": "20261101-131637-4d1750",
@@ -3654,7 +5206,23 @@ export const REPORT_INDEX = {
   "pages": 96,
   "image_count": 3,
   "photo_count": 88,
-  "size": 43748410
+  "size": 43748410,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": true,
+   "key_issues": {
+    "fail": 0,
+    "attention": 6
+   },
+   "summary": true
+  }
  },
  "20261103-153723-93d5fd": {
   "id": "20261103-153723-93d5fd",
@@ -3691,6 +5259,22 @@ export const REPORT_INDEX = {
   "pages": 98,
   "image_count": 3,
   "photo_count": 92,
-  "size": 42675656
+  "size": 42675656,
+  "insight_overview": {
+   "flags": {
+    "warning_lights": false,
+    "prior_repair": false,
+    "tires": false,
+    "leaks": false,
+    "rust_corrosion": false,
+    "structural": false
+   },
+   "surface_rust": false,
+   "key_issues": {
+    "fail": 0,
+    "attention": 8
+   },
+   "summary": true
+  }
  }
 };

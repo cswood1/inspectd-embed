@@ -779,5 +779,107 @@
   "unknown": 0,
   "total": 82
  },
- "photo_count": 128
+ "photo_count": 128,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 72,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Muffler System",
+    "note": "Minor surface rust was observed on portions of the exhaust system.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "Paint protection film is applied to the front end of the vehicle. The vehicle showed varied paint readings, see pictures",
+    "photo": 13,
+    "consumable": false
+   },
+   {
+    "finding": 18,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of surface rust. See pictures.",
+    "photo": null,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 16
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The vehicle showed varied paint readings, see pictures The underside shows areas of surface rust."
+     }
+    ]
+   },
+   "tires": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 81
+     },
+     {
+      "source": "summary:Tires",
+      "text": "One of the tires is worn with a tread depth measuring 4/32."
+     }
+    ]
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 18
+     },
+     {
+      "finding": 72
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The vehicle showed varied paint readings, see pictures The underside shows areas of surface rust."
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "Minor surface rust was observed on portions of the exhaust system."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Mostly clean: varied paint readings and paint protection film on the front end, and one tire worn to 4/32. Also surface rust underneath and on the exhaust; no diagnostic codes, and it drove well at highway speed.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

@@ -763,5 +763,203 @@
   "unknown": 0,
   "total": 80
  },
- "photo_count": 163
+ "photo_count": 163,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 7,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Steering Performance and Alignment",
+    "note": "There is a clunk noise in the steering that can be heard when turning the wheel back and forth as well as when going over bumps.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 14,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are several misc scratches around the vehicle. Normal for mileage and some too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 15,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "There are several small paint chips on the front of the hood. There are a couple areas where the paint has peeled off oddly at the edge line of a couple panels and starting to show some rust formation.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 17,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of very minor surface rust.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 18,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Exterior Lights",
+    "note": "The headlights are worn and foggy due to oxidation.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 20,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Power Door Mirrors",
+    "note": "The underside of the right side mirror has a spot rubbed down on it.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 21,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Bumpers",
+    "note": "The bumpers show scratches and rear has some impact damages.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 25,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dings",
+    "note": "The vehicle shows minor miscellaneous dings around the body.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 26,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "There is a dent in the rear tailgate just under the glass.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 30,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats. Normal for mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 35,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 38,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Center Console",
+    "note": "The chrome trim on the right side of the center console is bubbling.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 48,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Headliner",
+    "note": "The headliner has several stains present.",
+    "photo": 30,
+    "consumable": false
+   },
+   {
+    "finding": 54,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 75,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Key Fob",
+    "note": "Only one key fob was shown during inspection.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 15
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "There are a couple areas where the paint has peeled off oddly at the edge line of a couple panels and starting to show some rust formation."
+     }
+    ]
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 15
+     },
+     {
+      "finding": 17
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The underside shows areas of very minor surface rust."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Several items to note: a clunk in the steering when turning and over bumps, paint peeling at panel edges with rust starting, a tailgate dent and impact damage on the rear bumper. Also foggy headlights and headliner stains.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

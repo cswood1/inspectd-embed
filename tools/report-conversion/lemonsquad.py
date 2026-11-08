@@ -8,7 +8,8 @@ heuristic floor is unreadable. This module returns the same payload the model wo
 page layout:
 
   - section headings are bold 13pt; each fixes its column's label edge, carried to continuation pages
-  - an item label sits at that edge (wrapped lines are joined); its status is the text at the same
+  - an item label sits at that edge (wrapped lines are joined, across a page break too, and the clipped glyphs a
+    page break leaves at the foot of a page are dropped); its status is the text at the same
     height in the nearest column to its right, so full-width sections pair as well as half-width ones
   - red 9pt remarks under an item are its notes
   - the tire table (bold 10.5pt sub-headings) folds into one finding per tire, as llm.SYSTEM asks;
@@ -62,6 +63,22 @@ def _lines(page) -> list[dict]:
             out.append({"x": l["bbox"][0], "y0": l["bbox"][1], "y1": l["bbox"][3], "size": round(s["size"], 1),
                         "bold": bool(s["flags"] & 16), "red": s["color"] == RED, "text": _join(spans)})
     return out
+
+
+def _drop_cut_rows(pages: list[list[dict]], heights: list[float]) -> None:
+    """A checklist row that falls on a page break is printed in full at the top of the next page, but the foot of
+    the page keeps clipped glyphs of it ("Cl", "/G", "C"), which read as a label of their own ("Instrument Cl",
+    "Underbody/Frame C"). Drop a line at the foot of a page when the next page's first line in the same column starts
+    with its text, and every other line on that clipped row."""
+    for i in range(len(pages) - 1):
+        foot = [l for l in pages[i] if l["y0"] > heights[i] - 40]
+        cut = set()
+        for l in foot:
+            top = sorted((t for t in pages[i + 1] if t["y0"] < 70 and abs(t["x"] - l["x"]) < 2), key=lambda t: t["y0"])
+            if top and top[0]["text"] != l["text"] and top[0]["text"].startswith(l["text"].rstrip()):
+                cut.add(round(l["y0"]))
+        if cut:
+            pages[i] = [l for l in pages[i] if not any(abs(l["y0"] - y) < 1.5 for y in cut)]
 
 
 def _status_guess(raw: str) -> str:
@@ -161,8 +178,10 @@ def extract_payload(pdf_bytes: bytes) -> dict:
     doc = pymupdf.open(stream=pdf_bytes, filetype="pdf")
     vehicle, inspection, findings, ratings, summaries, notes = {}, {}, [], [], [], []
     edges, sections, tires, attr = {}, {}, {}, {}
-    for page in doc:
-        lines = _lines(page)
+    pages = [_lines(page) for page in doc]
+    _drop_cut_rows(pages, [page.rect.height for page in doc])
+    carry = {}   # each column's last checklist finding, for a label that continues at the top of the next page
+    for page, lines in zip(doc, pages):
         if not lines:
             continue
         texts = [l["text"] for l in lines]
@@ -184,9 +203,22 @@ def extract_payload(pdf_bytes: bytes) -> dict:
             texts = [l["text"] for l in lines]
         if "Vehicle Images" in texts or not any(l["size"] <= 11 for l in lines):
             continue
-        for r in _page_rows(lines, page.rect.width / 2, edges, sections):
+        rows = _page_rows(lines, page.rect.width / 2, edges, sections)
+        firsts = {}
+        for r in rows:
+            firsts.setdefault(r["band"], r)
+        here = {}
+        for r in rows:
             section = r["section"]
             if not section:
+                continue
+            # a label split by the page break ("Underbody/Frame" | "Condition"): the second part, first in its column
+            # and with no status of its own, finishes the item above it
+            prev = carry.get(r["band"])
+            if r is firsts.get(r["band"]) and prev is not None and not r["value"] and not r["sub"] and not prev["item"].endswith("."):
+                prev["item"] += " " + r["label"]
+                if r["notes"]:
+                    prev["notes"] = (prev["notes"] + " " + " ".join(r["notes"])).strip()
                 continue
             if section == "Vehicle Information":
                 k = VEHICLE_KEYS.get(r["label"].lower())
@@ -207,6 +239,8 @@ def extract_payload(pdf_bytes: bytes) -> dict:
                     tires.setdefault((section, r["label"]), {})[attr.get("name", "")] = r["value"]
             elif not r["sub"]:
                 findings.append({"section": section, "item": r["label"], "raw_status": r["value"], "status": _status_guess(r["value"]), "notes": " ".join(r["notes"])})
+                here[r["band"]] = findings[-1]
+        carry.update(here)
     # one finding per tire: brand, size and tread as the note, its condition as the status
     for (section, pos), a in tires.items():
         bits = [" ".join(x for x in (a.get("Manufacturer"), a.get("Size")) if x), f"{a['Tire Tread']} tread" if a.get("Tire Tread") else "",

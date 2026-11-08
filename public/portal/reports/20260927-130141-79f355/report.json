@@ -740,5 +740,178 @@
   "unknown": 0,
   "total": 78
  },
- "photo_count": 124
+ "photo_count": 124,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 74,
+    "status": "fail",
+    "section": "Tire / Wheels",
+    "item": "Driver's Front Tire",
+    "note": "BFGoodrich 265/65/18, 7/32 tread",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 75,
+    "status": "fail",
+    "section": "Tire / Wheels",
+    "item": "Passenger's Front Tire",
+    "note": "BFGoodrich 265/65/18, 6/32 tread",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 76,
+    "status": "fail",
+    "section": "Tire / Wheels",
+    "item": "Driver's 1st Axle Outer Tire",
+    "note": "BFGoodrich 265/65/18, 6/32 tread",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 77,
+    "status": "fail",
+    "section": "Tire / Wheels",
+    "item": "Passenger's 1st Axle Outer Tire",
+    "note": "BFGoodrich 265/65/18, 4/32 tread",
+    "photo": 70,
+    "consumable": false
+   },
+   {
+    "finding": 15,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 18,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of surface rust. See pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 19,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Exterior Lights",
+    "note": "There are some light scuffs in the headlight lenses.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 22,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Side Moldings",
+    "note": "The front grille is faded.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 30,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats. Normal for mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 43,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "The floor shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 51,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 13,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Windshield Washer",
+    "note": "The rear window sprayer was not working.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 74
+     },
+     {
+      "finding": 75
+     },
+     {
+      "finding": 76
+     },
+     {
+      "finding": 77
+     }
+    ]
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 18
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The underside shows areas of surface rust."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Mostly clean: all four tires were marked failing, with tread from 4/32 to 7/32. Otherwise minor scratches, surface rust underneath, scuffed headlight lenses, a faded grille and a rear window sprayer that was not working.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

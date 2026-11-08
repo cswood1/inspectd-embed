@@ -777,5 +777,75 @@
   "unknown": 0,
   "total": 81
  },
- "photo_count": 153
+ "photo_count": 153,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 72,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Muffler System",
+    "note": "Some minor surface rust can be found on portions of the exhaust.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 76,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Key Fob",
+    "note": "Only one key fob was shown during inspection.",
+    "photo": 153,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 72
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "Some minor surface rust can be found on portions of the exhaust."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Clean overall: only minor surface rust on the exhaust, one key fob provided and no spare tire. There were no leaks or diagnostic codes, and it drove normally.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

@@ -750,5 +750,147 @@
   "unknown": 0,
   "total": 80
  },
- "photo_count": 88
+ "photo_count": 88,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 15,
+    "status": "fail",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc of scratches around the vehicle. The trim on the roof for the luggage rack is missing.",
+    "photo": 32,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "There are paint chips around the vehicles body.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 18,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of surface rust.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 21,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Bumpers",
+    "note": "There are chips and scratches on the front and rear bumpers.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 30,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is wear to the seats. The seats also have covers on them.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 34,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear and some scratches.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 38,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Dash",
+    "note": "The dashboard is dirty.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 47,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Headliner",
+    "note": "The headliner shows miscellaneous smudge marks and is dirty.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 52,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 44,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Floor Mats",
+    "note": "After market floor mats inside the vehicle and they are dirty.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 18
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The underside shows areas of surface rust."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Several items to note: the roof luggage-rack trim is missing, with paint chips, chipped and scratched bumpers, surface rust underneath, and worn seats, door panels and trim. The dash, headliner and floor mats are dirty.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

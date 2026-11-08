@@ -174,3 +174,51 @@ or two: what was decided and, where it isn't obvious, why. Newest at the bottom 
   (Meridian's and Crestview's people, 20 new consumers, four ReBuilt shoppers), and the ZIP's price tier (the nearest
   seeded ZIP's tier within 60 miles, else tier 2). ReBuilt's rebuilt titles and damage history are its listings'
   facts; none of the Salt Lake City reports mentions title status. Mileage is as the report prints it, typos included.
+
+## Inspectd AI: per-report insight (AI layer, step 2)
+
+- **Every report carries `insight`**: key issues, condition flags, a surface-rust detail and a short summary, with a
+  version and when it was generated (`tools/report-conversion/insight.py`, rerunnable). Insight is factual: it
+  describes the record and never recommends what to do, estimates a cost, or judges the car as a purchase. Next steps
+  belong to the business.
+- **Key issues are rules, not AI**: every finding graded fail, then attention, by area (Mechanical, Road Test, Tire /
+  Wheels, Exterior, Interior), consumables last. Each keeps the inspector's note, and the photo it refers to when that
+  photo is in the report (the picked issue photo, or a "refer to picture N" one).
+- **Flags are rules, not AI**, each true or false with its evidence (findings, and inspector sentences). A sentence with
+  a negation before the match ("no signs of frame damage", "no current, pending, or historic fault codes") doesn't
+  count. Warning lights or codes: the OBD scan, TPMS and dash-light items, or a sentence affirming codes or a lit
+  warning light. Prior repair or paint: repainted, prior paint, filler, varied paint readings, paint mismatch (not
+  "needs to be repainted"). Tires: a Tire / Wheels finding graded fail or attention, or a tread reading of 4/32 or less recorded anywhere (a tire's own line, even one graded pass, or the inspector's text); wording alone ("low tread", "worn") is not enough (25 of the 99).
+  Leaks: the Engine Oil, Transmission Fluid and Differential leak items, or a sentence affirming a leak, seepage or
+  wetness. Structural: a frame item graded fail, or frame or structural damage stated.
+- **Rust is split.** `rust_corrosion` (a flag, with a chip) is true only when the record describes more than surface
+  rust: rust on a body panel, perforation, or rust or corrosion called heavy (battery-terminal corrosion doesn't count).
+  Rust the record calls surface rust or places under the car, on the exhaust or on the rotors is `details.surface_rust`:
+  no chip, though a Rust item graded attention still appears in key issues. Across the 99: rust_corrosion 2,
+  surface_rust 57.
+- **Summaries are written for a reader, not a tally.** One or two sentences, about 40 words at most. They don't open
+  with counts (the counts bar shows those). They lead with the overall condition in plain words that follow from the
+  record ("Clean overall" only with no failures, only routine wear and no flag true: when a flag is true, the opening names
+  that concern first, e.g. "Mostly clean, but all four tires are at 4/32"; "Significant mechanical problems" only with
+  failures or serious findings there), then the notable items, most important first, without repeating a word of the opening ("Clean overall: only minor
+  scratches", not "Clean, with minor wear: minor scratches"). Plain language, no inspector
+  jargon ("diagnostic codes", not DTC; "tire pressure warning light", not TPMS; no code numbers). Still strictly
+  factual: no recommendations, costs or judgments, and the inspector's uncertainty is kept. Inspector notes on the
+  card's key issues stay as written.
+- **The summary is one AI call in production** (`summarize()` in insight.py, given only the record's brief). For the
+  demo's 99 reports the summaries were written in this repo's session from those briefs and stored with
+  `"source": "demo-written"` (`demo-summaries.json`); the card does not say so, so it looks as it will in production.
+  Every summary was fact-checked: every number against the record, length, no counts in the lead, banned words
+  (should, needs, recommend, replace, cost, buy, avoid, worth, great, excellent and similar) and jargon, the lead
+  against the failures and flags, then each claim read against the record by a second reader.
+- **The card shows on a business's reports only**: Condition Report and Arbitration (Meridian Fleet Services, Crestview
+  Denver). Consumer-type reports (Inspectd Consumers, and ReBuilt Autos' shoppers) don't show it yet, and neither does
+  the public share page. A report row carries its job's inspection type so the viewer can tell. The card sits at the
+  top of the report's main column: the summary, the true flags as chips (or "No warning lights, prior repair, leaks or
+  structural concerns found"), and the top five key issues with "Show all"; a key issue jumps to its finding.
+- **A checklist row split by a page break is read whole.** Lemon Squad's PDFs reprint such a row at the top of the
+  next page but leave clipped glyphs of it at the foot of the page, which the reader had taken for labels
+  ("Instrument Cl", "Underbody/Frame C", "I") with garbled statuses. The reader now drops those fragments and joins a
+  label that continues on the next page. Four reports were affected and re-converted with their photo picks.
+- **The Inspectd AI mark is one component** (`AiMark.jsx`), so the step-3 sidebar uses the same one. Each report's
+  flags and issue counts are also in `reportIndex.js` (`insight_overview`) for the step-3 overview.

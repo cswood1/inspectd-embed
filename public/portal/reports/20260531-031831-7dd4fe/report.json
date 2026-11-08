@@ -799,5 +799,84 @@
   "unknown": 0,
   "total": 84
  },
- "photo_count": 117
+ "photo_count": 117,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 74,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Muffler System",
+    "note": "Surface rust can be found on some portions of the exhaust pipe, welds, and flanges which is a typical occurrence.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 15,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle. Most too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 31,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats. I noted a blemish on the driver side upholstery cushion. Refer to picture 43. The rear seat upholstery backrest has light discoloration. Refer to picture 52.",
+    "photo": 43,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 74
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "Surface rust can be found on some portions of the exhaust pipe, welds, and flanges which is a typical occurrence."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Clean overall: minor scratches, light seat wear with a small blemish and discoloration, and typical surface rust on the exhaust. No diagnostic codes were found, and it drove well.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

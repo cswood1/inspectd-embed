@@ -762,5 +762,243 @@
   "unknown": 0,
   "total": 79
  },
- "photo_count": 152
+ "photo_count": 152,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 19,
+    "status": "fail",
+    "section": "Exterior",
+    "item": "Power Door Mirrors",
+    "note": "I noticed that the passenger mirror motor is not functioning, and the mirror glass is broken. Refer to photo #110.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 23,
+    "status": "fail",
+    "section": "Exterior",
+    "item": "Glass",
+    "note": "The windshield has a crack. Refer to photo #65.",
+    "photo": 65,
+    "consumable": false
+   },
+   {
+    "finding": 65,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Engine Oil Condition",
+    "note": "The engine oil is dirty and should be changed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 68,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Brake System Condition",
+    "note": "I noticed that the brake rotors edges show signs of rust.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 70,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Muffler System",
+    "note": "Surface rust can be found on some portions of the exhaust pipe, welds, and flanges. The exhaust pipe and muffler system has no leaks and sounds good.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 4,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Wheel Bearing Performance",
+    "note": "During the road test, I heard a wheel bearing making noise, resonating throughout the vehicle. Further diagnosis is needed to determine which wheel has the faulty bearing.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 14,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "The exterior of the vehicle was dusty at time of inspection. This can hide minor imperfections. This vehicle has excessive scratches all over the exterior.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 20,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Bumpers",
+    "note": "I noticed chips and scratches on the front bumper.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 25,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "I noticed a dent on the passenger rear quarter panel. Refer to photo #3.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 26,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Steering Wheel",
+    "note": "I observed that the steering wheel shows wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 29,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats. Normal for mileage. I noticed minor dirt stains on the seats.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 34,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "I noted scratches and scuffed marks on the inner door panels.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 37,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Center Console",
+    "note": "The center console shows wear. I noticed some damage on the leather material of the compartment lid cover. Refer to photo #44.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 43,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "The carpet shows moderate wear from use.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 47,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Headliner",
+    "note": "I noticed minor dirt stains present on the",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 52,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim of the vehicle shows wear. I noticed that the trim and bed of the cargo area shows scratches and scuff marks.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 54,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Air Filter",
+    "note": "The air filter is dirty and needs to be replaced.",
+    "photo": null,
+    "consumable": true
+   },
+   {
+    "finding": 74,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Key Fob",
+    "note": "Only one key fob was shown during inspection.",
+    "photo": null,
+    "consumable": true
+   },
+   {
+    "finding": 44,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Floor Mats",
+    "note": "The floor mats are dirty.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 76
+     },
+     {
+      "source": "summary:Tires",
+      "text": "I observed that the tires of the vehicle are matched with tire brand and sizes however, I noticed that the front right tire shows 4/32 of tire tread depth remaining."
+     }
+    ]
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 68
+     },
+     {
+      "finding": 70
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "I noticed that the brake rotors edges show signs of rust."
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "Surface rust can be found on some portions of the exhaust pipe, welds, and flanges."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Several items to note: a wheel bearing noise on the road test, a cracked windshield and a broken passenger mirror with a non-working motor. Also heavy scratches, a quarter-panel dent, one tire at 4/32, dirty oil and interior wear.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

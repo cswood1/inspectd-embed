@@ -665,3 +665,37 @@
 .ipp .vgroup .vjob .sub{color:var(--sub)}
 .ipp .vgroup .vempty{padding:14px 16px 14px 70px;color:var(--sub);font-size:13px}
 @media (max-width:720px){ .ipp .vgroup > summary .vlast{display:none} .ipp .vgroup .vjob{padding-left:16px;grid-template-columns:auto auto minmax(0,1fr)} .ipp .vgroup .vjob .sub:last-child{display:none} }
+
+/* ---- Inspectd AI: the mark, and the card at the top of a business report (InsightCard.jsx) ---- */
+.ipp .aimark{display:inline-flex;align-items:center;gap:7px;line-height:1}
+.ipp .aimark svg{flex:none;display:block}
+.ipp .aimark.withlabel b{font-size:13.5px;font-weight:700;letter-spacing:.01em;color:var(--ink)}
+.ipp .ai-card{margin:0 0 18px;padding:16px 18px 14px;border:1px solid #d6d9f5;border-radius:8px;
+  background:linear-gradient(180deg,#f7f8ff 0,#fff 72px);box-shadow:0 1px 2px rgba(16,24,40,.05)}
+.ipp .ai-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ipp .ai-sum{font-size:14.5px;line-height:1.6;color:#1f2937;max-width:80ch}
+.ipp .ai-flags{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}
+.ipp .ai-chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:600;
+  background:#fff3e6;color:#9d500a;border:1px solid #f6c08c}
+.ipp .ai-chip.warning_lights,.ipp .ai-chip.structural,.ipp .ai-chip.leaks{background:#fdecea;color:#a81f14;border-color:#f0a49c}
+.ipp .ai-none{font-size:13px;color:var(--sub)}
+.ipp .ai-issues{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.ipp .ai-issues h3{font-size:12px;font-weight:650;color:var(--sub);letter-spacing:.02em;text-transform:uppercase;margin-bottom:6px}
+.ipp .ai-issues ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.ipp .ai-issues li{display:flex;align-items:center;gap:10px}
+.ipp .ai-issue{flex:1;min-width:0;display:grid;grid-template-columns:86px minmax(0,1fr);gap:10px;align-items:start;text-align:left;
+  padding:7px 8px;border:0;background:none;border-radius:6px;cursor:pointer;font:inherit;color:inherit}
+.ipp .ai-issue:hover{background:var(--hover)}
+.ipp .ai-issue .pill{justify-self:start;margin-top:1px}
+.ipp .ai-it{display:flex;flex-wrap:wrap;column-gap:8px;min-width:0}
+.ipp .ai-it b{font-weight:650;font-size:13.5px}
+.ipp .ai-it small{color:var(--sub);font-size:12px;align-self:center}
+.ipp .ai-it em{flex-basis:100%;font-style:normal;color:#4b5563;font-size:12.5px;line-height:1.45;margin-top:1px}
+.ipp .ai-ph{flex:none;width:52px;height:40px;padding:0;border:1px solid var(--line);border-radius:5px;overflow:hidden;background:var(--well);cursor:zoom-in}
+.ipp .ai-ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ipp .ai-card .linkbtn{margin:6px 0 0 8px;border:0;background:none;padding:0;color:var(--blue);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.ipp .ai-card .linkbtn:hover{text-decoration:underline}
+/* a finding the card jumped to */
+.ipp .cr-issue.flash{animation:aiflash 1.8s ease-out}
+@keyframes aiflash{0%,35%{box-shadow:0 0 0 3px #b9c2f6;background:#f4f5ff}100%{box-shadow:none}}
+@media (max-width:720px){ .ipp .ai-issue{grid-template-columns:1fr} .ipp .ai-ph{display:none} }

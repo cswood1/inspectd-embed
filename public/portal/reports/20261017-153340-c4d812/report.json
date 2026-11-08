@@ -1589,5 +1589,141 @@
   "na": 0,
   "unknown": 0,
   "total": 86
+ },
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 11,
+    "status": "fail",
+    "section": "Road Test",
+    "item": "Computer Diagnosis/OBD2",
+    "note": "I connected my Scan Tool to the computer system and found fault codes. More diagnosis is needed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 70,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Transmission Fluid Condition",
+    "note": "new transmission and right front axle installed by LenStoler Chevrolet at 103,797 miles.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 76,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Muffler System",
+    "note": "Exhaust shows some surface rust, but at this time has no leaks and sounds good.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor scratches around the vehicle. Normal for mileage and most too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 17,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "Front end grill and lower moldings have paint chips. Front grill paint is peeling off (See Photo). The paint shows some wear that is consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 32,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats. Normal for mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 37,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "Drivers door lower panel has heavy scratches. The inner door panels show wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 55,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "",
+    "photo": null,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 11
+     },
+     {
+      "source": "summary:Road Test",
+      "text": "A scan of the vehicle’s computer system revealed fault codes; further diagnosis is recommended."
+     }
+    ]
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 82
+     }
+    ]
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 76
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "The exhaust system shows surface rust but is free of leaks and sounds normal at this time."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Mostly clean, but a diagnostic scan found fault codes. A new transmission and right front axle were installed at 103,797 miles; also peeling grille paint, chips, exhaust surface rust and heavy scratches on the driver's door panel.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
  }
 }

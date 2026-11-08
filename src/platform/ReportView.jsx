@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
 import { PaneCtx } from "./ui.jsx";
 import { Svg, title, fmtDate, jobRef, useNotices } from "./portalUi.jsx";
+import { InsightCard } from "./InsightCard.jsx";
 
 /*
  * The report viewer: inspection-dashboard/ui/reports-client/report.js and report-view.html. A photo header
@@ -44,7 +45,7 @@ export async function reportDoc(row){
   if (!res.ok) throw new Error("No such report");
   const doc = await res.json();
   const {raw_text, ...content} = doc;
-  return {...content, ...row, inspection: {...content.inspection, ...row.inspection}, images: content.images, findings: content.findings};
+  return {...content, ...row, inspection: {...content.inspection, ...row.inspection}, images: content.images, findings: content.findings, insight: content.insight};
 }
 
 export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" }){
@@ -54,6 +55,7 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
   const [current, setCurrent] = useState(null), [missing, setMissing] = useState(false);
   const [filter, setFilter] = useState("all"), [query, setQuery] = useState(""), [expandAll, setExpandAll] = useState(tab === "checklist"), [gen, setGen] = useState(0);
   const [photo, setPhoto] = useState(-1), [copied, setCopied] = useState(false);
+  const secOf = useRef({});   // a finding's index in the report -> the id of the section it is drawn in
   const typing = useRef(null), sectionsEl = useRef(null), navEl = useRef(null), heroEl = useRef(null), lbClose = useRef(null), chosenAt = useRef(0), collapse = useRef(false);
 
   useEffect(() => {
@@ -114,6 +116,7 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
       let sid = "cat-" + slug(name);
       for (let n = 2; ids.has(sid); n++) sid = `cat-${slug(name)}-${n}`;
       ids.add(sid);
+      items.forEach(f => { secOf.current[fs.indexOf(f)] = sid; });
       const fails = items.filter(f => f.status === "fail").length, att = items.filter(f => f.status === "attention").length, passed = items.filter(f => f.status === "pass").length;
       const tone = fails ? "fail" : att ? "attention" : passed ? "pass" : "na";
       const meta = fails + att ? plural(fails + att, "issue") : passed ? "Passed" : "Not inspected";
@@ -163,7 +166,7 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
     const list = (fs, cls) => <ul className={`cr-plist ${cls}`}>{fs.map((f, n) => <li key={n}><span className="ic"><Svg src={(STATUS[f.status] || STATUS.unknown).icon} /></span><span><b>{f.item}</b>{f.notes ? <>{" "}<em>{f.notes}</em></> : null}</span></li>)}</ul>;
     return (<>
       {issues.map((f, n) => { const st = STATUS[f.status];
-        return <div key={n} className={`cr-issue ${f.status}`}><span className={`pill ${st.pill}`}>{st.label}</span><div><b>{f.item}</b>{f.notes ? <p>{f.notes}</p> : null}{where(f) ? <small>{where(f)}</small> : null}</div></div>; })}
+        return <div key={n} className={`cr-issue ${f.status}`} id={`f-${(current.findings || []).indexOf(f)}`}><span className={`pill ${st.pill}`}>{st.label}</span><div><b>{f.item}</b>{f.notes ? <p>{f.notes}</p> : null}{where(f) ? <small>{where(f)}</small> : null}</div></div>; })}
       {passed.length ? <details className="cr-passed" open={filter === "pass" || !!query}><summary><Svg src={ICON.check} />{`${plural(passed.length, "item")} passed`}</summary>{list(passed, "pass")}</details> : null}
       {other.length ? <details className="cr-passed na" open={!!query}><summary><Svg src={ICON.dash} />{`${plural(other.length, "item")} not inspected or unclear`}</summary>{list(other, "na")}</details> : null}
     </>);
@@ -186,6 +189,18 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
     sectionsEl.current?.querySelectorAll(".cr-sec").forEach(s => spy.observe(s));
     return () => spy.disconnect();
   }, [current, gen]);
+  // Inspectd AI's key issues jump to their finding: every finding shown, its section opened, the finding brought
+  // into view and marked for a moment
+  const jumpTo = n => {
+    const go = () => {
+      const sid = secOf.current[n]; if (sid) openSection(sid);
+      setTimeout(() => { const el = document.getElementById(`f-${n}`); if (!el) return;
+        el.scrollIntoView({behavior: "smooth", block: "center"}); el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); }, 80);
+    };
+    if (filter !== "all" || query) { setFilter("all"); setQuery(""); const q = document.getElementById("q"); if (q) q.value = ""; redraw(); setTimeout(go, 30); } else go();
+  };
+  // shown on a business's reports only (Condition Report or Arbitration), and never on the public share page
+  const showAi = r => !isPublic && !!r?.insight && (r.inspection_type || "") !== "consumer";
   const toggleAll = () => { const next = !expandAll; setExpandAll(next); if (!next) collapse.current = true; redraw(); };
 
   // ---------- the photo viewer ----------
@@ -265,6 +280,9 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
           {list.map(s => <a key={s.id} href={`#${s.id}`} data-sec={s.id} className={s.hidden ? "dim" : ""} onClick={e => { stay(e); indexClick(s.id); }}><i className={`dot ${s.tone}`}></i><span>{s.title}</span><b className={s.tone}>{s.meta}</b></a>)}
         </nav></aside>
         <div className="cr-main">
+          {showAi(r) ? <InsightCard key={r.id} insight={r.insight} onJump={jumpTo}
+            thumb={n => { const p = ims.find(x => x.index === n); return p ? thumbUrl(p) : null; }}
+            onPhoto={n => { const k = ims.findIndex(x => x.index === n); if (k >= 0) openLb(k); }} /> : null}
           <div className="cr-tools"><span className="cr-found" id="crFound" role="status">{query ? `${plural(hits, "item")} match “${query}”` : ""}</span>
             <button className="cr-expand" id="toggleAll" type="button" onClick={toggleAll}><Svg src='<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 4h8M6 8h8M6 12h8M2.5 4h.1M2.5 8h.1M2.5 12h.1"/></svg>' /><span>{expandAll ? "Collapse all" : "Expand all"}</span></button></div>
           <div id="crSections" ref={sectionsEl} key={`s${gen}`}>

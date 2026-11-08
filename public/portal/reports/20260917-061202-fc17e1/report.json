@@ -789,5 +789,425 @@
   "unknown": 0,
   "total": 83
  },
- "photo_count": 204
+ "photo_count": 204,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 66,
+    "status": "fail",
+    "section": "Mechanical",
+    "item": "Engine Oil Leaks",
+    "note": "The engine shows active oil leaks. The engine should be pressure washed off and rechecked to verify source of the leak or all leaks.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 71,
+    "status": "fail",
+    "section": "Mechanical",
+    "item": "Differential leaks",
+    "note": "The front differential actively leaking.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 79,
+    "status": "fail",
+    "section": "Tire / Wheels",
+    "item": "Driver's Front Tire",
+    "note": "Hankook 2556517, 2/32 tread, wheel: Scratches",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 80,
+    "status": "fail",
+    "section": "Tire / Wheels",
+    "item": "Passenger's Front Tire",
+    "note": "Hankook 2556517, 1/32 tread, wheel: Scratches",
+    "photo": 80,
+    "consumable": false
+   },
+   {
+    "finding": 82,
+    "status": "fail",
+    "section": "Tire / Wheels",
+    "item": "Passenger's 1st Axle Outer Tire",
+    "note": "Hankook 2556517, 3/32 tread, wheel: Scratches",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 25,
+    "status": "fail",
+    "section": "Exterior",
+    "item": "Glass",
+    "note": "The windshield has a crack and misc chips.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 49,
+    "status": "fail",
+    "section": "Interior",
+    "item": "Instrument Cluster/Gauges",
+    "note": "The check engine light is on and the wrench icon was displayed on the driver's message center.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 55,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Battery Condition",
+    "note": "The alternator and or battery is weak and does not pass 12.73V while running.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 56,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Charging System",
+    "note": "The alternator and or battery is weak and does not pass 12.73V while running.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 65,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Engine Oil Condition",
+    "note": "The engine oil is on level and dark in colour.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 68,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Brake System Condition",
+    "note": "The brake fluid is on level, and dark in color.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 3,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Transmission performance",
+    "note": "The transmission does jerk hard, hesitate, slip, and function very poorly. I was unable to perform a proper test drive due to a major transmission problem.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 4,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Differential Performance",
+    "note": "The transmission does jerk hard, hesitate, slip, and function very poorly. I was unable to perform a proper test drive due to a major transmission problem. Unable to test properly.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 9,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Steering Performance and Alignment",
+    "note": "The steering wheel does pull a hard left.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 11,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Computer Diagnosis/OBD2",
+    "note": "I hooked up my scan tool to the onboard ECU and found stored codes across multiple systems. See pictures of more descriptive information. More diagnoses are needed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are scratches and rock chips around the vehicle. Normal for mileage and most too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 17,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "The paint shows some wear and tear that is consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 18,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Seals",
+    "note": "All window lower window seals are discolored.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 19,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of surface rust. See pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 21,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Power Door Mirrors",
+    "note": "The door mirror housings have miscellaneous scratches and rock chips",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 23,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Side Moldings",
+    "note": "The passenger side center window moldings appear faded, scratched, and discolored, while the driver side center window moldings are discolored and faded.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 27,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "The passenger side fender exhibits scratches, paint chips, and a dent.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 28,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Steering Wheel",
+    "note": "The steering wheel shows some wear and tear as seen in pics. Normal for mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 30,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats. Normal for mileage. The driver seat has light wear and medium wear on the side bolsters.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 34,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear consistent with age and mileage. The front driver-side door panel shows heavy stains and wear, as does the front passenger-side door panel. Similarly, the rear passenger side and rear driver side door panels exhibit stains and wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 37,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Center Console",
+    "note": "The center console is dirty.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 38,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Dash",
+    "note": "The dash is showing wear and tear consistent with the age of the vehicle.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 42,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "The carpet shows normal wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 46,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Headliner",
+    "note": "",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 47,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Headliner",
+    "note": "The headliner shows miscellaneous smudge marks from normal use.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 52,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows heavy wear. See pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 53,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Sun Visors",
+    "note": "The sun visors show wear and tear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 76,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Key Fob",
+    "note": "",
+    "photo": null,
+    "consumable": true
+   },
+   {
+    "finding": 78,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Key Fob",
+    "note": "Only one key fob was shown during inspection.",
+    "photo": null,
+    "consumable": true
+   },
+   {
+    "finding": 13,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Wiper Blades",
+    "note": "The wipers are worn and should be replaced.",
+    "photo": null,
+    "consumable": true
+   },
+   {
+    "finding": 43,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Floor Mats",
+    "note": "The floor mats are dirty.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 11
+     },
+     {
+      "finding": 49
+     },
+     {
+      "source": "summary:Overall",
+      "text": "The check engine light is on, and the wrench icon is displayed on the driver's message center."
+     },
+     {
+      "source": "summary:Overall",
+      "text": "I hooked up my scan tool to the onboard ECU and found stored codes across multiple systems."
+     }
+    ]
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 79
+     },
+     {
+      "finding": 80
+     },
+     {
+      "finding": 82
+     }
+    ]
+   },
+   "leaks": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 66
+     },
+     {
+      "finding": 71
+     },
+     {
+      "source": "summary:Overall",
+      "text": "The front differential is actively leaking."
+     },
+     {
+      "source": "summary:Overall",
+      "text": "The engine shows active oil leaks."
+     },
+     {
+      "source": "summary:Overall",
+      "text": "The engine should be pressure washed off and rechecked to verify source of the leak or all leaks."
+     }
+    ]
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 19
+     },
+     {
+      "source": "summary:Overall",
+      "text": "The underside shows areas of surface rust."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Significant mechanical problems: a badly slipping transmission, active oil and front differential leaks, a check engine light with stored codes and a hard pull left. Also dry-rotted tires, two nearly bald, and a cracked windshield.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

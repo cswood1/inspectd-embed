@@ -794,5 +794,137 @@
   "unknown": 0,
   "total": 83
  },
- "photo_count": 48
+ "photo_count": 48,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 74,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Muffler System",
+    "note": "Exhaust shows some surface rust, but at this time has no leaks and sounds good.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 11,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Computer Diagnosis/OBD2",
+    "note": "I hooked up my Scan Tool to the computer system and found P0004 stored. Further diagnosis needed.",
+    "photo": 2,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle. Normal for mileage and most too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 23,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Bumpers",
+    "note": "There is a mark in rear bumper cover.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 31,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats. Normal for mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 36,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 54,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows normal wear",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 78,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Key Fob",
+    "note": "No key fobs shown with the vehicle.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 11
+     },
+     {
+      "source": "summary:Road Test",
+      "text": "I connected my scan tool to the vehicle's computer system and found a stored P0004 code, indicating that further diagnosis is needed."
+     }
+    ]
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 74
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "The exhaust shows some surface rust but has no leaks and sounds good."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Mostly clean: a stored diagnostic code, no key fobs provided, and three tires at 5/32 to 6/32. Otherwise minor scratches, a mark on the rear bumper, surface rust on the exhaust and light interior wear; no leaks.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

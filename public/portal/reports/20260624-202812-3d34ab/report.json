@@ -711,5 +711,268 @@
   "unknown": 0,
   "total": 75
  },
- "photo_count": 99
+ "photo_count": 99,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 63,
+    "status": "fail",
+    "section": "Mechanical",
+    "item": "Engine Oil Leaks",
+    "note": "The engines valve cover shows seeping some oil. There were no drips at time of inspection. This area should be cleaned off and rechecked to verify source of leak or leaks.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 61,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Power Steering Fluid Condition",
+    "note": "",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 62,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Engine Oil Condition",
+    "note": "",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 66,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Muffler System",
+    "note": "Exhaust shows some surface rust throughout, but at this time has no leaks and sounds good.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 2,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Engine running well after Started",
+    "note": "The engine feels like it has a shake or misfire while driving.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 10,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Computer Diagnosis/OBD2",
+    "note": "I scanned the vehicle and there are codes in the system, see images.",
+    "photo": 81,
+    "consumable": false
+   },
+   {
+    "finding": 71,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Driver's Front Tire",
+    "note": "Advan 245/45/20, 6/32 tread, wheel: Curb Rash, Scratches",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 72,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Passenger's Front Tire",
+    "note": "Advan 245/45/20, 6/32 tread, wheel: Curb Rash, Scratches",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 73,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Driver's 1st Axle Outer Tire",
+    "note": "Advan 275/40/20, 5/32 tread, wheel: Curb Rash, Scratches",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 74,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Passenger's 1st Axle Outer Tire",
+    "note": "Advan 275/40/20, 5/32 tread, wheel: Curb Rash, Scratches",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 14,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc of scratches around the vehicle. The hood has some scratches as well.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 15,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "The exterior was dirty at the time of the inspection which can hide any minor imperfections.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 17,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of surface rust.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 18,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Exterior Lights",
+    "note": "The headlights are worn and foggy due to oxidation.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 23,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dings",
+    "note": "The vehicle shows miscellaneous dings around the body.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 24,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dents",
+    "note": "One on the top of the roof that is kinda hard to see, but there a dent found by the drivers side, see image.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 28,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is wear to the seats.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 33,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 49,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows wear.",
+    "photo": null,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 10
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "I scanned the vehicle and there are codes in the system, see images."
+     }
+    ]
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 71
+     },
+     {
+      "finding": 72
+     },
+     {
+      "finding": 73
+     },
+     {
+      "finding": 74
+     }
+    ]
+   },
+   "leaks": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 63
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "Mechanical The engines valve cover shows seeping some oil."
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "This area should be cleaned off and rechecked to verify source of leak or leaks."
+     }
+    ]
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 17
+     },
+     {
+      "finding": 66
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The underside shows areas of surface rust."
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The exhaust shows some surface rust throughout, but at this time has no leaks and sounds good."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Several items to note: oil seeping from the valve cover, an engine shake or possible misfire while driving, and stored diagnostic codes. Tires are low on tread (5-6/32) with an object in one, plus foggy headlights, dents and seat wear.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

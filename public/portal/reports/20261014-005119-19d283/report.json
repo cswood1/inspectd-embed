@@ -812,5 +812,137 @@
   "unknown": 0,
   "total": 86
  },
- "photo_count": 63
+ "photo_count": 63,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 11,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Computer Diagnosis/OBD2",
+    "note": "I hooked up my Scan Tool to the computer system and found several codes across multiple systems. See pictures of more descriptive information. More diagnosis is needed.",
+    "photo": 18,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are scratches around the vehicle. Most too small to see in photos.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 19,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of surface rust. See pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 32,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is wear and stains to the seats.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 37,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 40,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Center Console",
+    "note": "The center console shows wear and tear. See pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 51,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Instrument Cluster/Gauges",
+    "note": "The \"Change Engine Oil Soon\" message is displayed in the driver information center. Further diagnosis is needed, see video.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 78,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Key Fob",
+    "note": "Only one key fob was shown during inspection.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 11
+     },
+     {
+      "source": "summary:Road Test",
+      "text": "I hooked up my Scan Tool to the computer system and found several codes across multiple systems."
+     }
+    ]
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 19
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The underside shows areas of surface rust."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Mostly clean, but a diagnostic scan found codes across several systems and a \"Change Engine Oil Soon\" message is displayed. Also surface rust underneath, scratches, worn and stained seats, and only one key fob.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

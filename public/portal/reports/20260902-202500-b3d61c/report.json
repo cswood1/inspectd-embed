@@ -669,5 +669,204 @@
   "unknown": 0,
   "total": 70
  },
- "photo_count": 59
+ "photo_count": 59,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 66,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Driver's Front Tire",
+    "note": "Sumitomo 205/55/16, 2/32 tread, wheel: Curb Rash, Scratches",
+    "photo": 46,
+    "consumable": false
+   },
+   {
+    "finding": 67,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Passenger's Front Tire",
+    "note": "Sumitomo 205/55/16, 2/32 tread, wheel: Curb Rash, Scratches",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 68,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Driver's 1st Axle Outer Tire",
+    "note": "Sumitomo 205/55/16, 1/32 tread, wheel: Curb Rash, Scratches",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 69,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Passenger's 1st Axle Outer Tire",
+    "note": "Sumitomo 205/55/16, 1/32 tread, wheel: Curb Rash, Scratches",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 10,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "This vehicle has excessive scratches all over the exterior.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 11,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "The paint shows some wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 13,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "One spot where the bumper meets the fenders showing some rust. There is also some rust on parts of the underbody.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Bumpers",
+    "note": "The front and rear bumpers have scratches.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 20,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dings",
+    "note": "The vehicle shows miscellaneous dings around the body.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 25,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is light wear to the seats.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 29,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 47,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "The interior trim shows normal wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 64,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Key Fob",
+    "note": "Only one key fob was shown during inspection.",
+    "photo": null,
+    "consumable": true
+   },
+   {
+    "finding": 7,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Wiper Blades",
+    "note": "The wiper blades are worn and should be replaced.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 66
+     },
+     {
+      "finding": 67
+     },
+     {
+      "finding": 68
+     },
+     {
+      "finding": 69
+     }
+    ]
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 13
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "One spot where the bumper meets the fenders showing some rust."
+     }
+    ]
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 13
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "There is also some rust on parts of the underbody."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Several items to note: all four tires are nearly bald, and every wheel has curb rash. The exterior has excessive scratches, dings, and rust where the bumper meets the fenders and underneath; also worn wipers and seat wear.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

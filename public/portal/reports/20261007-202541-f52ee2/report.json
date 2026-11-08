@@ -770,5 +770,169 @@
   "unknown": 0,
   "total": 81
  },
- "photo_count": 58
+ "photo_count": 58,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 6,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Braking Performance",
+    "note": "When coming to a stop, there is a pulsation coming from the brake pedal.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 77,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Driver's Front Tire",
+    "note": "Goodyear 245/50/20, 7/32 tread, wheel: Scratches",
+    "photo": 18,
+    "consumable": false
+   },
+   {
+    "finding": 78,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Passenger's Front Tire",
+    "note": "Goodyear 245/50/20, 8/32 tread, wheel: Scratches",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 79,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Driver's 1st Axle Outer Tire",
+    "note": "Goodyear 245/50/20, 5/32 tread, wheel: Scratches",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 80,
+    "status": "attention",
+    "section": "Tire / Wheels",
+    "item": "Passenger's 1st Axle Outer Tire",
+    "note": "Goodyear 245/50/20, 7/32 tread, wheel: Scratches",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 15,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle, see images.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 18,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of rust. See pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 26,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dings",
+    "note": "The vehicle shows miscellaneous dings around the body.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 31,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is wear to the seats, see images.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 36,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear, see images.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 49,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Headliner",
+    "note": "There are multiple stains on the headliner.",
+    "photo": null,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 77
+     },
+     {
+      "finding": 78
+     },
+     {
+      "finding": 79
+     },
+     {
+      "finding": 80
+     }
+    ]
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 18
+     },
+     {
+      "source": "summary:Exterior",
+      "text": "The underside shows areas of rust."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Mostly clean: the brake pedal pulses when stopping, and three of four tires are low on tread, reading 5/32 to 7/32. Otherwise scratches, dings, rust underneath, seat wear and headliner stains.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

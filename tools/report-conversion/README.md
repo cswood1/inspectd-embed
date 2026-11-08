@@ -16,6 +16,8 @@ unchanged. No API key and no network calls.
 | `lemonsquad.py` | The layout reader: sections, item labels paired with their status by position, red remarks as notes, one finding per tire, NAAA scores as ratings, the Summary page as per-area summaries, and the cover's date and place. HTML entities in the text (`&rsquo;`) are decoded. The ordering customer and the legal disclosures are not read. |
 | `convert.py` | Runs `build_report` with the layout reader in place of the model call, then prepares each document for the demo (below) and writes it out. |
 | `normalize.py` | Our grading on top of Kavin's: a failed consumable (wiper blades, air filters, washer fluid, key fob, floor mats) is graded attention, and the counts recomputed. `python normalize.py <reports folder>` re-grades converted reports in place. |
+| `insight.py` | Inspectd AI's insight on each report: key issues and condition flags by rule, and the summary (one AI call in production, in `summarize()`; for the demo, read from `demo-summaries.json`). `--briefs <folder>` writes what a summary may draw on instead. |
+| `demo-summaries.json` | The demo reports' hand-written, fact-checked summaries, by report id. |
 | `photo-picks.json` | For the reports that keep three photos: each one's hero, interior and issue photo, by the number the report gives it, with the reason it was chosen. |
 | `images.py` | Re-encodes each photo as WebP: 1024px on the long side, plus a 360px thumbnail, both at quality 55. |
 | `index.mjs` | Writes `src/platform/reportIndex.js`, every report's summary row, from the converted documents. |
@@ -57,7 +59,7 @@ Then, from this folder:
 - `--only <pdf name> ...` converts just those.
 - `--picks photo-picks.json` keeps only the listed reports' three photos.
 
-Then refresh the index the seed and the list pages read (each report's summary row; Node, no dependencies):
+Then give the reports their insight (`python3 insight.py --summaries demo-summaries.json`), and refresh the index the seed and the list pages read (each report's summary row; Node, no dependencies):
 
 ```bash
 node index.mjs --reports ../../public/portal/reports --out ../../src/platform/reportIndex.js

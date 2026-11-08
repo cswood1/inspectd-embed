@@ -780,5 +780,92 @@
   "unknown": 0,
   "total": 82
  },
- "photo_count": 60
+ "photo_count": 60,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 72,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Muffler System",
+    "note": "Exhaust shows some surface rust.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 34,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 39,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Dash Lights Working",
+    "note": "During the test drive, the TPMS (Tire Pressure Monitoring System) warning light illuminated. further diagnosis is needed to prevent from possible vehicle problem.",
+    "photo": 6,
+    "consumable": false
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 39
+     },
+     {
+      "source": "summary:Interior",
+      "text": "During the test drive, the TPMS (Tire Pressure Monitoring System) warning light illuminated."
+     }
+    ]
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": false,
+    "evidence": []
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 72
+     },
+     {
+      "source": "summary:Mechanical",
+      "text": "Exhaust shows some surface rust."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Mostly clean: the tire pressure warning light came on during the test drive. Otherwise only surface rust on the exhaust and worn door panels; there were no diagnostic codes, and it drove well.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }

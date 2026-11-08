@@ -1,7 +1,7 @@
 {
  "id": "20260913-033841-63f801",
  "filename": "Dodge_354747_inspection.pdf",
- "uploaded_at": "2026-11-08T18:58:04+00:00",
+ "uploaded_at": "2026-11-08T19:37:18+00:00",
  "size": 28226257,
  "llm_error": "",
  "scanned": false,
@@ -219,7 +219,7 @@
    "raw_status": "Issues"
   },
   {
-   "item": "Underbody/Frame C",
+   "item": "Underbody/Frame Condition",
    "status": "pass",
    "section": "Exterior",
    "notes": "",
@@ -441,14 +441,6 @@
    "notes": "",
    "page": null,
    "raw_status": "Issues"
-  },
-  {
-   "item": "Condition",
-   "status": "unknown",
-   "section": "Exterior",
-   "notes": "",
-   "page": 8,
-   "raw_status": ""
   },
   {
    "item": "Glass",
@@ -769,8 +761,215 @@
   "fail": 0,
   "attention": 16,
   "na": 0,
-  "unknown": 1,
-  "total": 81
+  "unknown": 0,
+  "total": 80
  },
- "photo_count": 150
+ "photo_count": 150,
+ "insight": {
+  "version": 1,
+  "generated_at": "2026-11-08T19:46:59+00:00",
+  "key_issues": [
+   {
+    "finding": 67,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Brake System Condition",
+    "note": "The brake fluid looks old and dirty and should be flushed.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 70,
+    "status": "attention",
+    "section": "Mechanical",
+    "item": "Muffler System",
+    "note": "Exhaust shows some surface rust throughout, but at this time has no leaks and sounds good.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 8,
+    "status": "attention",
+    "section": "Road Test",
+    "item": "Steering Performance and Alignment",
+    "note": "The steering wheel is slightly off center when driving straight down the road.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 14,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Body Panel Alignment",
+    "note": "The passenger corner of the front bumper is slightly misaligned. See pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 15,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Scratches",
+    "note": "There are minor misc scratches around the vehicle and most too small to see in photos.The exterior of the vehicle was very dusty at time of inspection. This can hide minor imperfections.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 16,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Paint Condition",
+    "note": "When using a paint meter, the paint meter readings were all over the place on this vehicle. Visually there does not appear to be repaint. There is a area on the driver door about the size of a football that has been spray painted attempting to cover scratches. The driver door will most likely need to be repainted.The paint shows some wear and tear that is consistent with age and mileage.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 18,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Rust",
+    "note": "The underside shows areas of rust. See pictures.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 22,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Bumpers",
+    "note": "There are scuff marks on the passenger side of the front bumper that has caused the passenger corner of the front bumper to become slightly misaligned. See pictures.",
+    "photo": 124,
+    "consumable": false
+   },
+   {
+    "finding": 23,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Side Moldings",
+    "note": "The side moldings on both sides show minor nicks and chips.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 53,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Dings",
+    "note": "The vehicle shows miscellaneous dings around the body.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 28,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Seat Condition",
+    "note": "There is wear to the seats, see images.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 33,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Inner Door Panels",
+    "note": "The inner door panels show wear, see images.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 42,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Carpet",
+    "note": "The carpet shows wear, see images.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 46,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Headliner",
+    "note": "The headliner shows miscellaneous smudge marks, see images.",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 51,
+    "status": "attention",
+    "section": "Interior",
+    "item": "Interior Trim",
+    "note": "",
+    "photo": null,
+    "consumable": false
+   },
+   {
+    "finding": 12,
+    "status": "attention",
+    "section": "Exterior",
+    "item": "Wiper Blades",
+    "note": "The wipers are worn and should be replaced.",
+    "photo": null,
+    "consumable": true
+   }
+  ],
+  "flags": {
+   "warning_lights": {
+    "value": false,
+    "evidence": []
+   },
+   "prior_repair": {
+    "value": false,
+    "evidence": []
+   },
+   "tires": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 79
+     }
+    ]
+   },
+   "leaks": {
+    "value": false,
+    "evidence": []
+   },
+   "rust_corrosion": {
+    "value": false,
+    "evidence": []
+   },
+   "structural": {
+    "value": false,
+    "evidence": []
+   }
+  },
+  "details": {
+   "surface_rust": {
+    "value": true,
+    "evidence": [
+     {
+      "finding": 18
+     },
+     {
+      "finding": 70
+     },
+     {
+      "source": "summary:Overall",
+      "text": "The underside shows areas of rust."
+     },
+     {
+      "source": "summary:Overall",
+      "text": "Exhaust shows some surface rust throughout, but at this time has no leaks and sounds good."
+     }
+    ]
+   }
+  },
+  "summary": {
+   "text": "Several items to note: all tires low on tread, old and dirty brake fluid, and an off-center steering wheel. Part of the driver door was spray-painted over scratches, the front bumper is scuffed and misaligned, and there's rust underneath.",
+   "source": "demo-written",
+   "model": null,
+   "written_at": "2026-11-08T19:43:39+00:00"
+  }
+ }
 }
