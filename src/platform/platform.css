@@ -118,6 +118,8 @@
 .ip .card:hover{background:#fcfcfd} .ip .card.on{border-color:#96c8ec;background:#f4f9fd}
 .ip .card .t{font-weight:650;font-size:13px;color:var(--sub)}
 .ip .card .n{font-size:26px;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.ip .card .d{font-size:12.5px;color:var(--sub)}
+.ip .metroblock + .metroblock .sechead{margin-top:34px}
 .ip .callout{margin-top:20px;border:1px solid #f6c08c;background:#fff7ed;border-radius:5px;padding:10px 14px;font-size:13px;color:var(--amber);display:flex;gap:8px;align-items:flex-start;line-height:1.55}
 .ip .callout > svg{flex:none;margin-top:3px}
 .ip .callout .dups{flex:1;min-width:0} .ip .callout .dups a{white-space:nowrap} .ip .callout .dups b{font-weight:600}

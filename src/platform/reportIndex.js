@@ -25,7 +25,7 @@ export const REPORT_INDEX = {
    "report_id": "20261014-145907-d73b05",
    "date": "2025-08-11",
    "location": "Fairfield, CA, 94533",
-   "customer": "Crestview Auto Group"
+   "customer": "Crestview Denver"
   },
   "summary": {
    "pass": 69,
@@ -61,7 +61,7 @@ export const REPORT_INDEX = {
    "report_id": "20261017-153340-c4d812",
    "date": "2025-08-16",
    "location": "Westminster, MD, 21157",
-   "customer": "Harbor Lease Remarketing"
+   "customer": "Meridian Fleet Services"
   },
   "summary": {
    "pass": 78,
@@ -133,7 +133,7 @@ export const REPORT_INDEX = {
    "report_id": "20261022-171446-6e48c0",
    "date": "2025-08-11",
    "location": "La Puente, CA, 91746",
-   "customer": "Rafael Ortiz"
+   "customer": "Meridian Fleet Services"
   },
   "summary": {
    "pass": 64,
@@ -169,7 +169,7 @@ export const REPORT_INDEX = {
    "report_id": "20261023-174533-e15f07",
    "date": "2025-08-08",
    "location": "Taylor, MI, 48180",
-   "customer": "Northline Mobility"
+   "customer": "Meridian Fleet Services"
   },
   "summary": {
    "pass": 75,
@@ -205,7 +205,7 @@ export const REPORT_INDEX = {
    "report_id": "20261024-131125-0f6be9",
    "date": "2025-08-08",
    "location": "Birmingham, MI, 48009",
-   "customer": "Harbor Lease Remarketing"
+   "customer": "Meridian Fleet Services"
   },
   "summary": {
    "pass": 79,
@@ -243,7 +243,7 @@ export const REPORT_INDEX = {
    "report_id": "20261025-160218-92ad4e",
    "date": "2025-08-09",
    "location": "Berkeley, CA, 94709",
-   "customer": "Crestview Auto Group"
+   "customer": "Crestview Denver"
   },
   "summary": {
    "pass": 73,
@@ -315,7 +315,7 @@ export const REPORT_INDEX = {
    "report_id": "20261028-120952-5a7c31",
    "date": "2025-08-09",
    "location": "Bronx, NY, 10467",
-   "customer": "Northline Mobility"
+   "customer": "Meridian Fleet Services"
   },
   "summary": {
    "pass": 78,
@@ -351,7 +351,7 @@ export const REPORT_INDEX = {
    "report_id": "20261029-130637-a91f2c",
    "date": "2025-08-10",
    "location": "Merced, CA, 95348",
-   "customer": "Omar Haddad"
+   "customer": "Meridian Fleet Services"
   },
   "summary": {
    "pass": 76,

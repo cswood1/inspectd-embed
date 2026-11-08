@@ -91,7 +91,7 @@ export function SkelRows({ n = 6, heads = [], extraCls = "" }){
 }
 // what a section shows between the click and its own skeleton: a heading and a table, pulsing
 export const SkelSection = () => (
-  <><div className="pad greet" aria-busy="true"><div className="gt"><Sk w={180} h={22} /><span style={{ display: "block", marginTop: 10 }}><Sk w="60%" h={12} /></span></div></div>
+  <><div className="pad greet" aria-busy="true"><div className="gt"><Sk w={180} h={22} /></div></div>
     <div className="pad"><SkelRows n={6} /></div></>
 );
 export const SkelCards = ({ n = 5 }) => Array.from({length: n}, (_, i) => <div key={i} className="card sk-card" aria-busy="true"><Sk w={86} h={12} /><Sk w={42} h={24} /></div>);

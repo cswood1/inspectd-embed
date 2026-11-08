@@ -35,15 +35,27 @@ const TYPE_ALIASES = {
   listing: ["condition", "general"], "auction-arbitration": ["arbitration", null], warranty: ["condition", "general"], other: ["condition", "general"],
   "de-fleet": ["condition", "fleet"], defleet: ["condition", "fleet"], "state-safety": ["condition", "general"], emissions: ["condition", "general"],
 };
+/*
+ * The Consumer type is only for jobs whose end customer is a consumer: a consumer's own order, or a shopper ordering
+ * through a marketplace's embed. A business (a dealer or a fleet) orders a Condition Report or an Arbitration.
+ */
+export const consumerTypeAllowed = orderedBy => orderedBy === "consumer" || orderedBy === "marketplace";
+/** The inspection types a customer of this kind may order, as INSPECTION_TYPES rows. */
+export const typesFor = orderedBy => consumerTypeAllowed(orderedBy) ? INSPECTION_TYPES : INSPECTION_TYPES.filter(([k]) => k !== "consumer");
+/** What a blank type means for this kind of customer: Consumer for a consumer, Condition Report for a business. */
+export const defaultTypeFor = orderedBy => consumerTypeAllowed(orderedBy) ? "consumer" : "condition";
+export const CONSUMER_TYPE_RULE = "The Consumer type is for consumers; a business orders a Condition Report or an Arbitration";
+
 /**
  * The canonical type and subtype for what a form or a spreadsheet row says, or null when it can't be read.
  * Takes a type ("consumer"), a subtype on its own ("pre-purchase"), or one of the old type names
- * ("lease-end", "auction-listing"), with an optional subtype beside it. Blank means Consumer, Pre-purchase.
+ * ("lease-end", "auction-listing"), with an optional subtype beside it. Blank means what `defaultTypeFor` says for
+ * the customer (Consumer, Pre-purchase for a consumer; Condition Report, General for a business).
  */
-export function classifyInspection(type, subtype){
+export function classifyInspection(type, subtype, orderedBy = "consumer"){
   const t = slug(type), s = slug(subtype);
   let out;
-  if (!t) out = s ? BY_SUBTYPE[s] || null : ["consumer", "pre-purchase"];
+  if (!t) out = s ? BY_SUBTYPE[s] || null : (consumerTypeAllowed(orderedBy) ? ["consumer", "pre-purchase"] : ["condition", "general"]);
   else if (TYPE[t]) out = [t, null];
   else if (BY_SUBTYPE[t]) out = BY_SUBTYPE[t];
   else { const a = TYPE_ALIASES[t]; out = a ? (Array.isArray(a) ? a : [a, null]) : null; }
@@ -56,6 +68,17 @@ export function classifyInspection(type, subtype){
   if (!ks) ks = defaultSubtype(kt);
   return {inspection_type: kt, inspection_subtype: ks};
 }
+
+/* ---- who ordered it ------------------------------------------------- */
+
+// Every job is ordered by one kind of customer, the type of the workspace it lands in. Consumers order one-off
+// inspections that we run ourselves (the Inspectd Consumers workspace); the others are businesses.
+export const ORDERED_BY = [["consumer", "Consumer"], ["dealer", "Dealer"], ["marketplace", "Marketplace"], ["fleet", "Fleet"]];
+const ORDERED = Object.fromEntries(ORDERED_BY);
+export const orderedByLabel = k => ORDERED[k] || k || "";
+/** Who ordered a job: its own `ordered_by`, else its workspace's type; a job with neither is a consumer's. */
+export const orderedByOf = r => r.ordered_by || r.org?.type || "consumer";
+export const isConsumer = r => orderedByOf(r) === "consumer";
 
 /* ---- vehicle class -------------------------------------------------- */
 

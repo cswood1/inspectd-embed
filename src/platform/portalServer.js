@@ -7,13 +7,14 @@
  */
 import { ApiError, createAuth } from "./authServer.js";
 import { PROVIDER_TERMS_VERSION, jobRef, payoutAt } from "./seed.js";
-import { INSPECTION_TYPES, VEHICLE_CLASSES, classifyInspection, classifyClass, inspectionLabel, classLabel, subtypesOf,
+import { INSPECTION_TYPES, VEHICLE_CLASSES, classifyInspection, typesFor, consumerTypeAllowed, CONSUMER_TYPE_RULE, classifyClass, inspectionLabel, classLabel, subtypesOf,
          requirementsFor, TIME_WINDOWS, PROPOSE_DAYS, plannedLabel, DECLINE_REASONS } from "./jobModel.js";
 import { vinCheck } from "./vin.js";
 
 const nowIso = () => new Date().toISOString().replace(/\.\d{3}Z$/, "+00:00");
 const hex = n => Array.from(crypto.getRandomValues(new Uint8Array(n)), b => b.toString(16).padStart(2, "0")).join("").slice(0, n);
 const mailId = () => `${hex(8)}-${hex(4)}-${hex(4)}-${hex(4)}-${hex(12)}`;
+const alnum = n => Array.from(crypto.getRandomValues(new Uint8Array(n)), b => "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"[b % 62]).join("");
 const fail = (status, message, extra = {}) => Object.assign(new ApiError(message), {status, body: {error: message, ...extra}});
 
 export const STAGES = ["received", "dispatching", "confirmed", "complete", "canceled"];
@@ -54,9 +55,11 @@ function intakeProblem(row, defaults = null){
 }
 // jobs_service._classify: canonical type, subtype and vehicle class, or what is wrong. The old type names and
 // "designation" are still read, so older lists import.
-function classify(row){
-  const t = classifyInspection(row.inspection_type, row.inspection_subtype);
-  if (!t) return `Unknown inspection type '${[row.inspection_type, row.inspection_subtype].filter(Boolean).join(" / ")}' (use one of: ${TYPE_KEYS.join(", ")}, with a subtype where it has one)`;
+// A business workspace can't order the Consumer type (jobModel.consumerTypeAllowed).
+function classify(row, orderedBy = "consumer"){
+  const t = classifyInspection(row.inspection_type, row.inspection_subtype, orderedBy);
+  if (!t) return `Unknown inspection type '${[row.inspection_type, row.inspection_subtype].filter(Boolean).join(" / ")}' (use one of: ${typesFor(orderedBy).map(([k]) => k).join(", ")}, with a subtype where it has one)`;
+  if (t.inspection_type === "consumer" && !consumerTypeAllowed(orderedBy)) return CONSUMER_TYPE_RULE;
   const c = classifyClass(row.vehicle_class || row.designation);
   if (!c) return `Unknown vehicle class '${row.vehicle_class || row.designation}' (use one of: ${CLASS_KEYS.join(", ")})`;
   Object.assign(row, t); row.vehicle_class = c; delete row.designation;
@@ -178,14 +181,15 @@ export function createPortal(state){
     };
   };
   const newRow = (form, org, ts, meta) => ({id: hex(12), created_at: ts, updated_at: ts, status: "new", search: null, notes: "",
-    payout_cents: payoutAt(form.zip, form.vehicle_class), form, result: null, meta, org_id: org.id, user_id: me.id, org: {id: org.id, name: org.name}, partner: null});
+    payout_cents: payoutAt(form.zip, form.vehicle_class), ordered_by: org.type || "consumer", form, result: null, meta, org_id: org.id, user_id: me.id,
+    org: {id: org.id, name: org.name, type: org.type || "consumer"}, partner: null});
 
   return {
     // GET /api/me
     me(){
       const cur = current(), role = cur?.role || (me.is_super ? "SUPER" : null);
       return {user: {id: me.id, name: me.name, email: me.email, role, role_label: ROLE_LABEL[role] || "", is_super: !!me.is_super, has_password: !!me.has_password, google_linked: !!me.google_linked},
-              account: cur ? {id: cur.org.id, name: cur.org.name, slug: cur.org.slug, plan: "pilot"} : {id: "", name: me.is_super ? "Inspectd" : "", slug: "", plan: ""},
+              account: cur ? {id: cur.org.id, name: cur.org.name, slug: cur.org.slug, type: cur.org.type || "consumer", plan: "pilot"} : {id: "", name: me.is_super ? "Inspectd" : "", slug: "", plan: ""},
               role, authenticated: true,
               workspaces: workspaces().map(w => ({id: w.org.id, name: w.org.name, slug: w.org.slug, role: w.role, role_label: ROLE_LABEL[w.role] || "", current: !!cur && w.org.id === cur.org.id})),
               ...(me.is_super ? {console_url: "/dashboard"} : {})};
@@ -324,7 +328,7 @@ export function createPortal(state){
       const org = ws();
       body = {...body};
       if (String(body.vin || "").trim()) { const v = vinCheck(body.vin); if (!v.ok) throw fail(422, `Invalid VIN: ${v.reason}`); body.vin = v.vin; }
-      const problem = intakeProblem(body) || classify(body);
+      const problem = intakeProblem(body) || classify(body, org?.type);
       if (problem) throw fail(422, problem);
       const form = Object.fromEntries(FIELDS.map(k => [k, body[k]]));
       form.name = form.name || me.name; form.email = form.email || me.email;   // the requester is the signed-in person unless they say otherwise
@@ -349,7 +353,7 @@ export function createPortal(state){
           if (!v.ok) { skipped.push({row: i + 1, vin: r.vin, error: `Invalid VIN: ${v.reason}`}); return; }
           r.vin = v.vin;
         }
-        const p = classify(r);
+        const p = classify(r, org?.type);
         if (p) { skipped.push({row: i + 1, vin: r.vin || "", error: p}); return; }
         keep.push(r); keptIndex.push(i + 1);
       });
@@ -378,7 +382,13 @@ export function createPortal(state){
       if (!["new", "dispatching"].includes(r.status)) throw fail(409, "An inspector has already been booked for this job; ask Inspectd to cancel it");
       if (!canCancel(r)) throw fail(409, "An inspector is already booked for this request, so it can no longer be canceled here. Contact the Inspectd team and they will sort it out.");
       const at = nowIso(), canceled = {at, by: me.name || me.email, by_id: me.id, reason: String(reason || "").trim().slice(0, 300)};
-      const next = {...r, status: "canceled", updated_at: at, meta: {...r.meta, canceled, history: [...(r.meta?.history || []), {stage: "canceled", at}]}};
+      // a job the customer paid for (a consumer's, or a shopper's through a partner's embed) is refunded and the customer told,
+      // as the console's cancel does
+      const order = r.meta?.order || {}, paid = order.payment_intent && order.amount_cents && !r.meta?.refund;
+      const refund = paid ? {refund: {id: "re_" + alnum(24), status: "succeeded", amount_cents: +order.amount_cents, at, by: me.name || me.email, by_id: me.id},
+        emails: [...(r.meta?.emails || []), {to: r.form.email, subject: `Inspection canceled and refunded: ${[r.form.year, r.form.make, r.form.model].filter(Boolean).join(" ") || "a vehicle"} (${jobRef(r.id)})`,
+                 at, sent: true, id: mailId(), kind: "refunded"}]} : {};
+      const next = {...r, status: "canceled", updated_at: at, meta: {...r.meta, ...refund, canceled, history: [...(r.meta?.history || []), {stage: "canceled", at}]}};
       return {state: withState({rows: state.rows.map(x => x.id === id ? next : x)}), out: clientView(next, state.reports)};
     },
   };

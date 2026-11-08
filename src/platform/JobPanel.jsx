@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
 import { PORTAL, inspectLink } from "./seed.js";
 import { STATUS, fmt, vehicle, isClosed, Icon, ClassTag, useToast, useAsk } from "./ui.jsx";
-import { inspectionLabel, classLabel, dollars, plannedLabel } from "./jobModel.js";
+import { inspectionLabel, classLabel, dollars, plannedLabel, isConsumer, orderedByOf, orderedByLabel } from "./jobModel.js";
 import { activityOf } from "./activity.js";
 
 /*
@@ -13,8 +13,11 @@ import { activityOf } from "./activity.js";
  * position:fixed, so it anchors to the .ip pane (contain:layout) and never covers the dev bar.
  */
 
-// Who the job is for: a workspace's request is the business's; a walk-in is the person.
-export const requester = r => r.org ? {name: r.org.name, sub: r.form.email, business: true} : {name: r.form.name, sub: r.form.email, business: false};
+// Who the job is for: a consumer's job is the person's; a business's is the company's.
+export const requester = r => !isConsumer(r) && r.org ? {name: r.org.name, sub: r.form.email, business: true} : {name: r.form.name, sub: r.form.email, business: false};
+// "Consumer", "Fleet · Meridian Fleet Services", "Marketplace · ReBuilt Autos, through its embed"
+const orderedByText = r => { const k = orderedByOf(r), label = orderedByLabel(k);
+  return k === "consumer" || !r.org ? label : `${label} · ${r.org.name}${r.partner ? ", through its embed" : ""}`; };
 const money = c => "$" + ((c || 0) / 100).toFixed(2);
 const place = f => [f.city, (f.state || "").toUpperCase()].filter(Boolean).join(", ");
 const site = u => (u || "").replace(/^https?:\/\/(www\.)?/, "").replace(/\/.*$/, "");
@@ -85,7 +88,7 @@ export function JobPanel({ row: r, rows, open, onClose, onOpenPortal, onViewAll,
   const f = r.form, w = requester(r), [hue, label] = STATUS[r.status] || ["gray", r.status];
   const m = r.meta || {}, link = m.link, rep = m.report, o = m.order, closed = isClosed(r);
   const onNotes = e => { const v = e.target.value; clearTimeout(notesTimer.current); notesTimer.current = setTimeout(() => { try { api.patch(r.id, {notes: v}); toast("Notes saved"); } catch (er) { fail(er); } }, 700); };
-  const related = r.org ? rows.filter(x => x.id !== r.id && x.org?.id === r.org.id) : rows.filter(x => x.id !== r.id && x.form.email.toLowerCase() === f.email.toLowerCase());
+  const related = w.business ? rows.filter(x => x.id !== r.id && x.org?.id === r.org.id) : rows.filter(x => x.id !== r.id && isConsumer(x) && x.form.email.toLowerCase() === f.email.toLowerCase());
   const shops = r.result?.shops || [], shown = allShops ? shops : shops.slice(0, TOP);
   const copyContacts = () => {
     const lines = [`Providers for ${vehicle(f)}, ${place(f)}`, ""];
@@ -158,13 +161,13 @@ export function JobPanel({ row: r, rows, open, onClose, onOpenPortal, onViewAll,
         <Fact k="Received" v={fmt(r.created_at)} />
         <Fact k="Address" v={[f.address, f.city, f.state, f.zip].filter(Boolean).join(", ")} wide />
         <Fact k="On-site contact" v={[f.name, f.phone, f.email].filter(Boolean).join(" · ")} wide />
-        <Fact k="Requested by" v={r.org ? `${r.org.name}` : `Walk-in${r.partner ? ` via ${r.partner.name}` : ""}`} />
+        <Fact k="Ordered by" v={orderedByText(r)} />
         <Fact k="Paid" v={o ? `${money(o.amount_cents)}${m.refund ? ` · refunded ${fmt(m.refund.at)}` : ""}` : ""} />
       </div>
       {f.notes ? <div className="note">{f.notes}</div> : null}
       <Listing r={r} />
-      {related.length ? <button className="linkbtn" id="relatedlink" onClick={() => onViewAll(r.org ? r.org.name : f.email)}>
-        {`${related.length} other job${related.length === 1 ? "" : "s"} from ${r.org ? r.org.name : f.name}`}</button> : null}
+      {related.length ? <button className="linkbtn" id="relatedlink" onClick={() => onViewAll(w.business ? r.org.name : f.email)}>
+        {`${related.length} other job${related.length === 1 ? "" : "s"} from ${w.name}`}</button> : null}
 
       <Sec title="Providers" right={r.search?.state === "done" ? <>
         <button className="btn sm" id="copyall" onClick={copyContacts}><Icon name="copy" size={13} /> Copy</button>
