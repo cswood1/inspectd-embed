@@ -7,6 +7,8 @@ import { Jobs, NewJob, BulkJobs, Job } from "./PortalJobs.jsx";
 import { Reports, Vehicles } from "./PortalReports.jsx";
 import { Team, Settings, Invoices } from "./PortalTeam.jsx";
 import { ReportView } from "./ReportView.jsx";
+import { AiMark } from "./AiMark.jsx";
+import { AiOverview } from "./PortalAI.jsx";
 
 /*
  * The client portal: Kavin's inspection-dashboard shell (ui/nav-client) with its workspace switcher,
@@ -35,7 +37,11 @@ const ROUTES = [
   [/^\/invoices$/, "invoices", "invoices"],
   [/^\/team$/, "team", "team"],
   [/^\/settings$/, "settings", "settings"],
+  [/^\/ai$/, "ai", "ai"],
 ];
+// Inspectd AI is for a business's reports: fleet and dealer workspaces. Elsewhere (Inspectd Consumers, a
+// marketplace's shoppers) it is not in the sidebar, and /ai shows the Overview.
+const aiAllowed = type => type === "fleet" || type === "dealer";
 const match = path => ROUTES.find(([re]) => re.test(path));
 // kept between visits to the tab: the page, and whether this page load has fetched the account yet
 let lastPath = "/", booted = false, pending = null;
@@ -112,9 +118,9 @@ function Sidebar({ active, me, counts, ctx, onSwitch, onSignOut }){
         {SECTIONS.map(([label, items]) => (
           <React.Fragment key={label}>
             <div className="navlabel">{label}</div>
-            {items.map(([k, name, href, icon]) => (
-              <a key={k} className={`navitem row ${active === k ? "active" : ""}`} href={href} aria-current={active === k ? "page" : "false"} onClick={e => go(e, href)}>
-                <Svg src={icon} /><span className="nl">{name}</span>{counts[k] ? <span className="count">{counts[k]}</span> : null}
+            {items.filter(([k]) => k !== "ai" || (me && aiAllowed(me.account?.type))).map(([k, name, href, icon]) => (
+              <a key={k} className={`navitem row ${active === k ? "active" : ""}${k === "ai" ? " ainav" : ""}`} href={href} aria-current={active === k ? "page" : "false"} onClick={e => go(e, href)}>
+                {k === "ai" ? <AiMark size={16} /> : <Svg src={icon} />}<span className="nl">{name}</span>{counts[k] ? <span className="count">{counts[k]}</span> : null}
               </a>))}
           </React.Fragment>
         ))}
@@ -144,7 +150,8 @@ function Shell({ onExit, onReload }){
     return () => { clearTimeout(a); clearTimeout(b); };
   }, []);
   // the page is the path without its #hash: a link that only changes the hash stays on the same page
-  const [bare, tab = ""] = path.split("#"), hit = match(bare) || ROUTES[0], [re, active, page] = hit, id = re.exec(bare)?.[1];
+  const [bare, tab = ""] = path.split("#"), hit0 = match(bare) || ROUTES[0];
+  const hit = hit0[2] === "ai" && !aiAllowed(portal.me().account?.type) ? ROUTES[0] : hit0, [re, active, page] = hit, id = re.exec(bare)?.[1];
   // a new page starts at the top, and the reader moves to its heading
   useEffect(() => {
     if (first.current) first.current = false; else scroller.current?.scrollTo(0, 0);
@@ -175,6 +182,7 @@ function Shell({ onExit, onReload }){
     : page === "vehicles" ? <Vehicles key={bare} ctx={ctx} />
     : page === "team" ? <Team key={bare} ctx={ctx} />
     : page === "settings" ? <Settings key={bare} ctx={ctx} />
+    : page === "ai" ? <AiOverview key={bare} ctx={ctx} />
     : <Invoices />;
   return (
     <div className="ipp" ref={pane}>

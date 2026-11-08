@@ -53,7 +53,108 @@ export const REPORT_INDEX = {
     "fail": 1,
     "attention": 13
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Glass",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Road Test",
+     "Tire Pressure System (TPMS)",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Body Panel Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Side Moldings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Underbody/Frame Condition",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Windshield Washer",
+     "attention",
+     true,
+     false
+    ],
+    [
+     "Interior",
+     "Floor Mats",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: a cracked windshield, the tire pressure warning light on, a misaligned hood, front bumper and fenders, a damaged front bumper and a loose rocker panel."
   }
  },
  "20260516-174152-cd91dc": {
@@ -106,7 +207,59 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 7
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: minor scratches and paint chips, surface rust underneath, and light seat wear with some stains."
   }
  },
  "20260518-202058-627ebe": {
@@ -159,7 +312,38 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 4
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: minor scratches and dings and moderate seat wear."
   }
  },
  "20260519-151649-f008b0": {
@@ -212,7 +396,66 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 8
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: minor scratches and dings, a scrape low on the front bumper, surface rust underneath and light seat wear."
   }
  },
  "20260520-202116-d655e3": {
@@ -265,7 +508,73 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 9
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Steering Wheel",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Air Conditioning",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Floor Mats",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean, though all four tires are worn past acceptable levels."
   }
  },
  "20260522-223948-9e7004": {
@@ -317,7 +626,31 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 3
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: all tires are getting low on tread."
   }
  },
  "20260525-003800-b18fe5": {
@@ -370,7 +703,24 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 2
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: only minor surface rust on the exhaust, one key fob provided and no spare tire."
   }
  },
  "20260527-011714-65ab31": {
@@ -424,7 +774,52 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 6
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Road Test",
+     "Computer Diagnosis/OBD2",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Exterior Lights",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: a diagnostic code for the engine computer and a damaged left rear light."
   }
  },
  "20260529-034836-a99ba7": {
@@ -478,7 +873,136 @@ export const REPORT_INDEX = {
     "fail": 4,
     "attention": 14
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Power Sunroof",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Air Conditioning",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Blower Motor",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Sun Visors",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "CV Boots and Joints",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Engine running well after Started",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Computer Diagnosis/OBD2",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Glass",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Heater",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: the A/C and blower motor don't work, the heater is weak, engine RPM randomly sticks, a noisy axle has a split CV boot, and diagnostic codes are stored."
   }
  },
  "20260531-031831-7dd4fe": {
@@ -531,7 +1055,31 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 3
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: minor scratches, light seat wear with a small blemish and discoloration, and typical surface rust on the exhaust."
   }
  },
  "20260602-055317-366cb7": {
@@ -584,7 +1132,45 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 5
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: small scratches on the rear driver door, surface rust underneath, and wear to the seats, door panels and trim."
   }
  },
  "20260604-053346-30ac53": {
@@ -637,7 +1223,52 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 6
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Air Filter",
+     "attention",
+     true,
+     false
+    ],
+    [
+     "Exterior",
+     "Wiper Blades",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: a small dent in the left front door, moderate seat wear with stains on the rear seats, worn wipers and a dirty air filter."
   }
  },
  "20260606-075517-aadbdb": {
@@ -690,7 +1321,45 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 5
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Body Panel Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean, apart from the front end: the bumper is misaligned and missing two small covers after the customer reported hitting a pole, and the hood is hard to close."
   }
  },
  "20260608-101844-625aa7": {
@@ -744,7 +1413,59 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 7
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: minor scratches, very faint hail damage visible only at certain angles, surface rust underneath and light seat wear."
   }
  },
  "20260610-102702-df7605": {
@@ -797,7 +1518,59 @@ export const REPORT_INDEX = {
     "fail": 1,
     "attention": 6
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Glass",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: the windshield is cracked."
   }
  },
  "20260612-123929-ec2c92": {
@@ -850,7 +1623,52 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 6
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: minor scratches and dings, surface rust underneath and on the exhaust, and light seat wear."
   }
  },
  "20260614-130608-2ad7f9": {
@@ -903,7 +1721,24 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 2
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: only a small dent in the left rear quarter panel."
   }
  },
  "20260616-150555-e65ab2": {
@@ -958,7 +1793,66 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 8
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Suspension Performance",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: weak front struts cause a floating ride, the rear shocks are old and weak, the engine oil is dirty and the rear bumper cover is damaged."
   }
  },
  "20260618-174723-155d3a": {
@@ -1011,7 +1905,52 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 6
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: minor scratches, minor surface rust underneath, and light wear to the seats, door panels, carpet and trim."
   }
  },
  "20260620-173920-61cc97": {
@@ -1065,7 +2004,94 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 12
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Body Panel Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Side Moldings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean, with prior paint work: the passenger front fender and front bumper were repainted, the hood possibly, and the front bumper and hood sit slightly misaligned."
   }
  },
  "20260622-200233-374f8f": {
@@ -1118,7 +2144,45 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 5
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Glass",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: a chip in the center of the windshield, minor chips, scratches and dings, moderate seat wear and some animal hair inside."
   }
  },
  "20260624-202812-3d34ab": {
@@ -1171,7 +2235,143 @@ export const REPORT_INDEX = {
     "fail": 1,
     "attention": 18
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Engine Oil Leaks",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Power Steering Fluid Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Road Test",
+     "Engine running well after Started",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Computer Diagnosis/OBD2",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Driver's Front Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's Front Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Driver's 1st Axle Outer Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's 1st Axle Outer Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Exterior Lights",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: oil seeping from the valve cover, an engine shake or possible misfire while driving, and stored diagnostic codes."
   }
  },
  "20260626-223556-601534": {
@@ -1224,7 +2424,80 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 10
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Center Console",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ],
+    [
+     "Interior",
+     "Floor Mats",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean, though three of four tires are low on tread and all wheels have curb rash."
   }
  },
  "20260629-004533-f52db1": {
@@ -1277,7 +2550,52 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 6
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: one tire reads 4/32 and the others 5/32 to 6/32."
   }
  },
  "20260701-010853-23ed8f": {
@@ -1330,7 +2648,66 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 8
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: scratches and chips, minor surface rust underneath and light seat wear."
   }
  },
  "20260703-032929-2fddbe": {
@@ -1383,7 +2760,52 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 6
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Coolant Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: minor scratches, light paint and seat wear, curb rash on the passenger-side wheels and the coolant overflow tank below full."
   }
  },
  "20260705-032751-26afc4": {
@@ -1436,7 +2858,164 @@ export const REPORT_INDEX = {
     "fail": 4,
     "attention": 18
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Road Test",
+     "Wheel Bearing Performance",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's Front Tire",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Driver's 1st Axle Outer Tire",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's 1st Axle Outer Tire",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Steering Performance and Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Tire Pressure System (TPMS)",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Driver's Front Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Body Panel Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Power Door Mirrors",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Side Moldings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Steering Wheel",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Dash Lights Working",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Sun Visors",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ],
+    [
+     "Exterior",
+     "Wiper Blades",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Significant tire and driving concerns: dry-rotted, unevenly worn tires at 3/32 to 5/32, a humming noise that rises with speed (tires or wheel bearings), a hard pull right and a tire pressure warning light."
   }
  },
  "20260707-053432-b5fdee": {
@@ -1489,7 +3068,38 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 4
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: minor scratches and dings, light seat wear and dirty engine oil."
   }
  },
  "20260709-060534-5e05b0": {
@@ -1542,7 +3152,45 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 5
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Road Test",
+     "Computer Diagnosis/OBD2",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: the diagnostic scan showed a communication error for the ignition switch, and there are heavy scratches all over the exterior, a door ding and moderate seat and carpet wear."
   }
  },
  "20260711-075453-36760b": {
@@ -1595,7 +3243,31 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 3
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ]
+   ],
+   "first_sentence": "Mostly clean: varied paint readings and paint protection film on the front end, and one tire worn to 4/32."
   }
  },
  "20260713-101635-4f6082": {
@@ -1649,7 +3321,66 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 8
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Side Moldings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: minor scratches, dings, light paint wear, small nicks on the side moldings, and normal seat, door panel and carpet wear."
   }
  },
  "20260715-101838-4ec7bf": {
@@ -1703,7 +3434,59 @@ export const REPORT_INDEX = {
     "fail": 1,
     "attention": 6
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Bumpers",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Significant body problems: the front bumper cover is missing and the clear coat is peeling in several spots."
   }
  },
  "20260717-131326-0c2fa6": {
@@ -1756,7 +3539,31 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 3
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: three of the four tires are worn, otherwise only minor scratches and dings and light seat wear and stains."
   }
  },
  "20260719-124440-50e10d": {
@@ -1808,7 +3615,80 @@ export const REPORT_INDEX = {
     "fail": 1,
     "attention": 9
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Dash",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Floor Mats",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: the roof luggage-rack trim is missing, with paint chips, chipped and scratched bumpers, surface rust underneath, and worn seats, door panels and trim."
   }
  },
  "20260721-153815-5311cd": {
@@ -1861,7 +3741,38 @@ export const REPORT_INDEX = {
     "fail": 1,
     "attention": 3
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Battery Condition",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: the battery was dead and the car was jump-started, after which it started and ran well."
   }
  },
  "20260723-180519-21962c": {
@@ -1914,7 +3825,24 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 2
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: two of the four tires are low on tread."
   }
  },
  "20260725-174050-c21097": {
@@ -1967,7 +3895,94 @@ export const REPORT_INDEX = {
     "fail": 2,
     "attention": 10
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Coolant Condition",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Glass",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: low engine coolant with no obvious external leak, a cracked windshield, worn front tires and dirty engine oil."
   }
  },
  "20260727-194848-565f02": {
@@ -2020,7 +4035,59 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 7
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Brake System Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: the tires are worn to 4/32 and there is a dent on the passenger-side quarter panel."
   }
  },
  "20260729-200606-53e297": {
@@ -2073,7 +4140,73 @@ export const REPORT_INDEX = {
     "fail": 1,
     "attention": 8
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Road Test",
+     "Tire Pressure System (TPMS)",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Glass",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Radio/Navigation/DVD",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Unusual Odors",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: the tire pressure warning light is on, there is a small star chip on the windshield and a musty smell inside, and the engine oil is dirty."
   }
  },
  "20260731-224749-9f751a": {
@@ -2128,7 +4261,143 @@ export const REPORT_INDEX = {
     "fail": 2,
     "attention": 17
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Interior",
+     "Window Function",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Sun Visors",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Transmission performance",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Tire Pressure System (TPMS)",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Body Panel Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Steering Wheel",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Center Console",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ],
+    [
+     "Interior",
+     "Floor Mats",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: the driver's rear power window doesn't work, with a vibration at road speed, a tire pressure warning light, a damaged rear bumper and misaligned panels."
   }
  },
  "20260803-005056-4cd32f": {
@@ -2181,7 +4450,101 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 13
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Body Panel Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Exterior Lights",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ],
+    [
+     "Interior",
+     "Floor Mats",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: a poor-quality repaint, an inoperable right turn signal and a front bumper misaligned with the fender."
   }
  },
  "20260805-010758-eaf76c": {
@@ -2234,7 +4597,101 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 13
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Transmission Fluid Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Side Moldings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: all the tires are low on tread, and the engine oil and transmission fluid are dirty."
   }
  },
  "20260807-033750-992b1b": {
@@ -2288,7 +4745,73 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 9
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Road Test",
+     "Tire Pressure System (TPMS)",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Computer Diagnosis/OBD2",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Power Sunroof",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Dash Lights Working",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: multiple diagnostic codes and a tire pressure warning light, plus aftermarket modifications including a performance engine-computer module left unmounted in the footwell."
   }
  },
  "20260809-033202-cad6c5": {
@@ -2342,7 +4865,45 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 5
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: minor scratches, including on the front bumper, light seat wear with some dirt and pet hair, and normal trim and carpet wear."
   }
  },
  "20260811-052846-8dca87": {
@@ -2396,7 +4957,66 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 8
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Road Test",
+     "Computer Diagnosis/OBD2",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: a stored diagnostic code, no key fobs provided, and three tires at 5/32 to 6/32."
   }
  },
  "20260813-055228-eaa4a5": {
@@ -2449,7 +5069,9 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 0
    },
-   "summary": true
+   "summary": true,
+   "issues": [],
+   "first_sentence": "Clean overall: no issues were found during the inspection."
   }
  },
  "20260815-081115-6d94f4": {
@@ -2503,7 +5125,101 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 13
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Brake System Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Side Moldings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: tires worn to 4/32 and 6/32, low and dirty engine oil, and dirty brake fluid."
   }
  },
  "20260817-104111-f1b62b": {
@@ -2557,7 +5273,143 @@ export const REPORT_INDEX = {
     "fail": 2,
     "attention": 17
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Power Door Mirrors",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Glass",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Brake System Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Road Test",
+     "Wheel Bearing Performance",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Steering Wheel",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Center Console",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Air Filter",
+     "attention",
+     true,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ],
+    [
+     "Interior",
+     "Floor Mats",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: a wheel bearing noise on the road test, a cracked windshield and a broken passenger mirror with a non-working motor."
   }
  },
  "20260819-105017-cd5323": {
@@ -2612,7 +5464,66 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 8
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Driver's Front Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Heated Seats",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Air Conditioning",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: the air conditioning did not blow cold, the passenger heated seat did not heat, and the tires are worn."
   }
  },
  "20260821-123613-515f31": {
@@ -2665,7 +5576,115 @@ export const REPORT_INDEX = {
     "fail": 1,
     "attention": 14
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Power Door Mirrors",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Steering Performance and Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Side Moldings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Center Console",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Sun Visors",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: a cracked passenger-side mirror, tires that rub the fender liners at full steering lock, low and dirty engine oil, and two dents on the hood."
   }
  },
  "20260823-124339-d4966f": {
@@ -2719,7 +5738,31 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 3
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Dash Lights Working",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: the tire pressure warning light came on during the test drive."
   }
  },
  "20260825-152927-4325fa": {
@@ -2773,7 +5816,80 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 10
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Center Console",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: scratches, dings, paint wear, surface rust underneath, a cracked driver armrest and general interior wear."
   }
  },
  "20260827-174648-439c24": {
@@ -2826,7 +5942,52 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 6
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: light scratches, slightly peeled protective film on the hood, surface rust underneath, and normal seat and interior wear."
   }
  },
  "20260829-174702-2ea2a1": {
@@ -2880,7 +6041,9 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 0
    },
-   "summary": true
+   "summary": true,
+   "issues": [],
+   "first_sentence": "Clean overall: the interior showed no issues, and the only note was a dirty exterior."
   }
  },
  "20260831-195146-8cf274": {
@@ -2933,7 +6096,9 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 0
    },
-   "summary": true
+   "summary": true,
+   "issues": [],
+   "first_sentence": "Clean overall: no notable dents, scratches or rust, the interior showed no issues and the electronics worked, and it drove as designed with no mechanical issues noted."
   }
  },
  "20260902-202500-b3d61c": {
@@ -2984,7 +6149,108 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 14
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Tire / Wheels",
+     "Driver's Front Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's Front Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Driver's 1st Axle Outer Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's 1st Axle Outer Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ],
+    [
+     "Exterior",
+     "Wiper Blades",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: all four tires are nearly bald, and every wheel has curb rash."
   }
  },
  "20260904-222647-c0fdda": {
@@ -3037,7 +6303,80 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 10
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Driver's Front Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Steering Wheel",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Center Console",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: the driver's front tire is worn to 3/32 with uneven wear, and the engine oil is dirty."
   }
  },
  "20260907-004509-29309d": {
@@ -3091,7 +6430,73 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 9
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: a dent on the driver-side roof rail, plus scratches, surface rust and seat wear."
   }
  },
  "20260909-004302-253dd4": {
@@ -3145,7 +6550,24 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 2
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: only minor scratches and light seat wear."
   }
  },
  "20260911-034754-aa5537": {
@@ -3198,7 +6620,73 @@ export const REPORT_INDEX = {
     "fail": 1,
     "attention": 8
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Exterior Lights",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Windshield Washer",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: the right rear tail light is cracked."
   }
  },
  "20260913-033841-63f801": {
@@ -3251,7 +6739,122 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 16
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Brake System Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Road Test",
+     "Steering Performance and Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Body Panel Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Side Moldings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Wiper Blades",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: all tires low on tread, old and dirty brake fluid, and an off-center steering wheel."
   }
  },
  "20260915-060929-8683b4": {
@@ -3306,7 +6909,101 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 13
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Road Test",
+     "Engine running well after Started",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Seals",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Side Moldings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: a slight engine ticking noise with the hood up, moderately worn tires, and obvious paint work from earlier body repairs."
   }
  },
  "20260917-061202-fc17e1": {
@@ -3359,7 +7056,262 @@ export const REPORT_INDEX = {
     "fail": 7,
     "attention": 29
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Engine Oil Leaks",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Differential leaks",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Driver's Front Tire",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's Front Tire",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's 1st Axle Outer Tire",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Glass",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Instrument Cluster/Gauges",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Battery Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Charging System",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Brake System Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Transmission performance",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Differential Performance",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Steering Performance and Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Computer Diagnosis/OBD2",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Seals",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Power Door Mirrors",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Side Moldings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Steering Wheel",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Center Console",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Dash",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Sun Visors",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ],
+    [
+     "Exterior",
+     "Wiper Blades",
+     "attention",
+     true,
+     false
+    ],
+    [
+     "Interior",
+     "Floor Mats",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Significant mechanical problems: a badly slipping transmission, active oil and front differential leaks, a check engine light with stored codes and a hard pull left."
   }
  },
  "20260919-080620-06b789": {
@@ -3412,7 +7364,101 @@ export const REPORT_INDEX = {
     "fail": 4,
     "attention": 9
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Tire / Wheels",
+     "Driver's Front Tire",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's Front Tire",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Driver's 1st Axle Outer Tire",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's 1st Axle Outer Tire",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Floor Mats",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: all four tires are dry-rotted, though tread reads 6/32."
   }
  },
  "20260921-110054-72c85d": {
@@ -3466,7 +7512,94 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 12
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Shocks and bushings Condition. Leaking?",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Ball Joints and Tie Rods",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Suspension Performance",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Floor Mats",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: a noticeable noise from the front end while driving, dirty engine oil and a dent near the gas door."
   }
  },
  "20260922-154057-1cd4d8": {
@@ -3519,7 +7652,66 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 8
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Road Test",
+     "Computer Diagnosis/OBD2",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Body Panel Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Power Window Switches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Wiper Blades",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: the front bumper is misaligned and the driver's master switch does not properly operate the left rear window."
   }
  },
  "20260923-104718-b4e671": {
@@ -3572,7 +7764,59 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 7
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Floor Mats",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: light scratches, surface rust underneath, and dirty, worn seats and interior trim."
   }
  },
  "20260925-132536-f0ec0b": {
@@ -3625,7 +7869,150 @@ export const REPORT_INDEX = {
     "fail": 2,
     "attention": 18
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Coolant Condition",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Road Test",
+     "Wheel Bearing Performance",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Tire Pressure System (TPMS)",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Computer Diagnosis/OBD2",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's Front Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Driver's 1st Axle Outer Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's 1st Axle Outer Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Power Sunroof",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Steering Wheel",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Dash Lights Working",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Wiper Blades",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: low coolant with no visible leaks, a growl that may be a wheel bearing, a tire pressure warning light, diagnostic codes across several systems and a sunroof that jams."
   }
  },
  "20260927-130141-79f355": {
@@ -3679,7 +8066,94 @@ export const REPORT_INDEX = {
     "fail": 4,
     "attention": 8
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Tire / Wheels",
+     "Driver's Front Tire",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's Front Tire",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Driver's 1st Axle Outer Tire",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's 1st Axle Outer Tire",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Exterior Lights",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Side Moldings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Windshield Washer",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: all four tires were marked failing, with tread from 4/32 to 7/32."
   }
  },
  "20260929-152549-e08591": {
@@ -3731,7 +8205,17 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 1
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean, but all four tires are at 4/32."
   }
  },
  "20261001-174156-719cf4": {
@@ -3784,7 +8268,115 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 15
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Battery Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Brake System Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Road Test",
+     "Tire Pressure System (TPMS)",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Body Panel Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Steering Wheel",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Center Console",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: a tire pressure warning light, plus prior bodywork with filler on the right rear quarter panel and a repainted rear door."
   }
  },
  "20261003-172929-eb5e4e": {
@@ -3837,7 +8429,17 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 1
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Road Test",
+     "Computer Diagnosis/OBD2",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: the only finding was multiple diagnostic codes found in the system."
   }
  },
  "20261005-195319-8a79ee": {
@@ -3890,7 +8492,115 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 15
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Road Test",
+     "Steering Performance and Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Exterior Lights",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Power Door Mirrors",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Center Console",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: a clunk in the steering when turning and over bumps, paint peeling at panel edges with rust starting, a tailgate dent and impact damage on the rear bumper."
   }
  },
  "20261007-202541-f52ee2": {
@@ -3943,7 +8653,87 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 11
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Road Test",
+     "Braking Performance",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Driver's Front Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's Front Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Driver's 1st Axle Outer Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's 1st Axle Outer Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: the brake pedal pulses when stopping, and three of four tires are low on tread, reading 5/32 to 7/32."
   }
  },
  "20261009-222705-080dd5": {
@@ -3996,7 +8786,87 @@ export const REPORT_INDEX = {
     "fail": 1,
     "attention": 10
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Glass",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Road Test",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Side Moldings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ],
+    [
+     "Interior",
+     "Floor Mats",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: a cracked windshield, excessive scratches all over, a small dent on the left rear quarter panel and a broken key fob."
   }
  },
  "20261012-012503-33093e": {
@@ -4049,7 +8919,45 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 5
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: minor scratches, bumper chips, light seat and trim wear and a dirty carpet."
   }
  },
  "20261014-005119-19d283": {
@@ -4103,7 +9011,66 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 8
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Road Test",
+     "Computer Diagnosis/OBD2",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Center Console",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Instrument Cluster/Gauges",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean, but a diagnostic scan found codes across several systems and a \"Change Engine Oil Soon\" message is displayed."
   }
  },
  "20261014-145907-d73b05": {
@@ -4157,7 +9124,94 @@ export const REPORT_INDEX = {
     "fail": 3,
     "attention": 9
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Engine Oil Leaks",
+     "fail",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Power Door Mirrors",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Body Panel Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Dash",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Windshield Washer",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Significant body damage: a cracked, misaligned front bumper and grille, a cracked left mirror, and dents and panel misalignment along the left side."
   }
  },
  "20261016-030940-d0665b": {
@@ -4210,7 +9264,9 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 0
    },
-   "summary": true
+   "summary": true,
+   "issues": [],
+   "first_sentence": "Mostly clean: the only issue the inspector noted is a problem with the front trunk latch."
   }
  },
  "20261017-153340-c4d812": {
@@ -4263,7 +9319,66 @@ export const REPORT_INDEX = {
     "fail": 1,
     "attention": 7
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Road Test",
+     "Computer Diagnosis/OBD2",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Transmission Fluid Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean, but a diagnostic scan found fault codes."
   }
  },
  "20261018-030700-59e62e": {
@@ -4316,7 +9431,80 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 10
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Glass",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Unusual Odors",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: scratches and chips, windshield stone chips, minor surface rust underneath and some seat stains."
   }
  },
  "20261020-061058-ce4075": {
@@ -4369,7 +9557,87 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 11
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Engine Oil Leaks",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Body Panel Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Power Locks",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: oil seepage at the oil cap, a severe pull left at highway speed and two parking-sensor warning lights."
   }
  },
  "20261021-153952-622a14": {
@@ -4422,7 +9690,59 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 7
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: scratches, three dings on the passenger-side doors and light seat wear."
   }
  },
  "20261021-161204-3c9e1a": {
@@ -4475,7 +9795,31 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 3
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: only minor scratches and light seat and trim wear."
   }
  },
  "20261022-060610-ab7129": {
@@ -4528,7 +9872,45 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 5
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Brake System Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: the brake fluid is low, which the inspector reads as brake pads getting low, and three of the four tires are low on tread."
   }
  },
  "20261022-171446-6e48c0": {
@@ -4581,7 +9963,122 @@ export const REPORT_INDEX = {
     "fail": 4,
     "attention": 12
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Glass",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Dash",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Sun Visors",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Brake System Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Seals",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Exterior Lights",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Air Conditioning",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Windshield Washer",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: a cracked windshield, a convertible top that did not close properly, weak A/C with compressor noise, old brake fluid with high water content and sludge at the oil fill."
   }
  },
  "20261023-174533-e15f07": {
@@ -4634,7 +10131,73 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 9
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Transmission Fluid Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Center Console",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: minor scratches, surface rust underneath and on the exhaust, and light seat and console wear."
   }
  },
  "20261024-083129-ab674d": {
@@ -4687,7 +10250,80 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 10
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Steering Wheel",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Center Console",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Headliner",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: a knocking noise from the muffler, surface rust on the exhaust and all four tires at 5/32."
   }
  },
  "20261024-131125-0f6be9": {
@@ -4740,7 +10376,59 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 7
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Transmission Fluid Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: only minor scratches, light seat wear, minor surface rust on the exhaust and possible animal fur on the carpet."
   }
  },
  "20261025-160218-92ad4e": {
@@ -4795,7 +10483,80 @@ export const REPORT_INDEX = {
     "fail": 1,
     "attention": 9
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Engine Oil Leaks",
+     "fail",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Body Panel Alignment",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Floor Mats",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: seepage underneath, possibly a leak, plus a misaligned front bumper, below-standard prior paint on the left front door, a repainted front bumper, a right quarter panel dent and the right rear tire at 5/32."
   }
  },
  "20261026-104538-d65921": {
@@ -4848,7 +10609,87 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 11
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Glass",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Air Filter",
+     "attention",
+     true,
+     false
+    ],
+    [
+     "Exterior",
+     "Wiper Blades",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: the engine oil and air filter are dirty and the wipers are worn."
   }
  },
  "20261027-142810-8b20d4": {
@@ -4901,7 +10742,17 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 1
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: only mild scuffing on the driver's door panel and curb rash on the left wheels."
   }
  },
  "20261028-104949-e0a47e": {
@@ -4956,7 +10807,108 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 14
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Rust",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Bumpers",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dents",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Steering Wheel",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Center Console",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Key Fob",
+     "attention",
+     true,
+     false
+    ],
+    [
+     "Interior",
+     "Floor Mats",
+     "attention",
+     true,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: dents on the left rear fender and rear bumper, rear bumper damage and dirty engine oil."
   }
  },
  "20261028-120952-5a7c31": {
@@ -5009,7 +10961,38 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 4
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: only minor scratches and light seat, carpet and trim wear."
   }
  },
  "20261028-152914-cbf026": {
@@ -5062,7 +11045,31 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 3
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Clean overall: minor scratches, light seat wear and surface rust on the exhaust, which has no leaks."
   }
  },
  "20261029-130637-a91f2c": {
@@ -5115,7 +11122,52 @@ export const REPORT_INDEX = {
     "fail": 2,
     "attention": 4
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Tire / Wheels",
+     "Passenger's 1st Axle Outer Tire",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Power Sunroof",
+     "fail",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Carpet",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: the sunroof does not work, and the right rear wheel has curb rash with minimal dry rot on its tire."
   }
  },
  "20261030-125557-2c319e": {
@@ -5168,7 +11220,73 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 9
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Tire / Wheels",
+     "Driver's Front Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's Front Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Driver's 1st Axle Outer Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Tire / Wheels",
+     "Passenger's 1st Axle Outer Tire",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Paint Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Dings",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean apart from the tires: all four are worn (3/32 to 4/32), with flat spots and uneven wear."
   }
  },
  "20261101-131637-4d1750": {
@@ -5221,7 +11339,52 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 6
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Coolant Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Muffler System",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     true
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Interior Trim",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Mostly clean: the coolant reservoir is low."
   }
  },
  "20261103-153723-93d5fd": {
@@ -5274,7 +11437,66 @@ export const REPORT_INDEX = {
     "fail": 0,
     "attention": 8
    },
-   "summary": true
+   "summary": true,
+   "issues": [
+    [
+     "Mechanical",
+     "Engine Oil Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Mechanical",
+     "Brake System Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Road Test",
+     "Suspension Performance",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Scratches",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Exterior",
+     "Glass",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Steering Wheel",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Seat Condition",
+     "attention",
+     false,
+     false
+    ],
+    [
+     "Interior",
+     "Inner Door Panels",
+     "attention",
+     false,
+     false
+    ]
+   ],
+   "first_sentence": "Several items to note: a clunk from the rear on the road test, low brake fluid that the inspector links to worn brake linings, and dirty engine oil."
   }
  }
 };

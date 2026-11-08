@@ -10,7 +10,7 @@ import { AiMark } from "./AiMark.jsx";
 
 const FLAG_LABEL = {
   warning_lights: "Warning lights or codes", prior_repair: "Prior repair or paint", tires: "Tire concerns",
-  leaks: "Leaks", rust_corrosion: "Rust or corrosion", structural: "Structural or frame concerns",
+  leaks: "Leaks", rust_corrosion: "Rust beyond surface", structural: "Structural or frame concerns",
 };
 const TOP = 5;
 const short = (t, n = 140) => { const s = String(t || "").trim(); return s.length > n ? s.slice(0, s.lastIndexOf(" ", n - 1) > 60 ? s.lastIndexOf(" ", n - 1) : n - 1) + "…" : s; };

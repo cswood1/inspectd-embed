@@ -145,6 +145,8 @@ export const PROVIDERS = P.map(([zip, name, address, phone, domain, hours, servi
 // The metros the seed has providers in, each by its center ZIP. Every provider belongs to the metro in its state.
 const METROS = ["75201", "30303", "37203", "80202", "84101"].map(zip => ({zip, ...ZIPS[zip]}));
 const METRO_OF_STATE = Object.fromEntries(METROS.map(m => [m.state, m.city]));
+// each metro's center (its downtown ZIP), for the Inspectd AI overview's "By location" (within 60 miles of one)
+export const METRO_CENTERS = METROS.map(m => ({name: m.city, state: m.state, lat: m.lat, lon: m.lon}));
 // the Providers tab's blocks: the four launch metros, Salt Lake City, then the national network
 export const PROVIDER_METROS = ["Denver", "Dallas", "Atlanta", "Nashville", "Salt Lake City", "National"];
 const PROVIDER_ZIP = new Map(PROVIDERS.map(p => [p.website.toLowerCase(), p.zip]));
@@ -208,7 +210,7 @@ export function lookupFor(row, attempt = 0){
 
 /* ---- people ------------------------------------------------------- */
 
-export const SEED_VERSION = 12;   // bump when the seed changes shape: a stored older seed is replaced
+export const SEED_VERSION = 13;   // bump when the seed changes shape: a stored older seed is replaced
 export const PORTAL = "https://portal.inspectd.com";
 // The links the demo hands out (an inspector's job link) are built on the page's own origin, so a copied link opens
 // inside the demo, on localhost, a preview or staging alike. Invitation links stay on PORTAL: the demo has no invite page.
