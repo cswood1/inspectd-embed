@@ -85,7 +85,7 @@ FLAGS = {
         "unless": r"no (active )?leaks|no (audible )?leaks|free of leaks|has no leaks",
     },
     "rust_corrosion": {
-        "label": "Rust or corrosion",
+        "label": "Rust beyond surface",
         # more than surface rust: rust on a body panel, perforation or rot, rust or corrosion called out as heavy,
         # or a Rust item graded fail. Surface and underside rust is the surface_rust detail, not this flag.
         "items_fail": r"^Rust$|Corrosion",

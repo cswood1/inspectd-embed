@@ -36,7 +36,8 @@ export const I = {
   back: `<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3L5 8l5 5"/></svg>`,
   search: `<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>`,
 };
-export const SECTIONS = [["Inspections", [["overview", "Overview", "/", I.home], ["jobs", "Jobs", "/jobs", I.jobs], ["reports", "Reports", "/reports", I.reports]]],
+// "ai" (Inspectd AI) is drawn with the AiMark, and only in fleet and dealer workspaces (aiAllowed, Portal.jsx)
+export const SECTIONS = [["Inspections", [["overview", "Overview", "/", I.home], ["jobs", "Jobs", "/jobs", I.jobs], ["reports", "Reports", "/reports", I.reports], ["ai", "Inspectd AI", "/ai", null]]],
                          ["Account", [["vehicles", "Vehicles", "/vehicles", I.vehicles], ["invoices", "Invoices", "/invoices", I.invoices], ["team", "Team", "/team", I.team], ["settings", "Settings", "/settings", I.settings]]]];
 
 /* ---- vocabulary (jobs-client/shared.js) ------------------------------ */

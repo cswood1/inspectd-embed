@@ -191,7 +191,7 @@ or two: what was decided and, where it isn't obvious, why. Newest at the bottom 
   "needs to be repainted"). Tires: a Tire / Wheels finding graded fail or attention, or a tread reading of 4/32 or less recorded anywhere (a tire's own line, even one graded pass, or the inspector's text); wording alone ("low tread", "worn") is not enough (25 of the 99).
   Leaks: the Engine Oil, Transmission Fluid and Differential leak items, or a sentence affirming a leak, seepage or
   wetness. Structural: a frame item graded fail, or frame or structural damage stated.
-- **Rust is split.** `rust_corrosion` (a flag, with a chip) is true only when the record describes more than surface
+- **Rust is split.** `rust_corrosion` (a flag, with a chip labeled "Rust beyond surface") is true only when the record describes more than surface
   rust: rust on a body panel, perforation, or rust or corrosion called heavy (battery-terminal corrosion doesn't count).
   Rust the record calls surface rust or places under the car, on the exhaust or on the rotors is `details.surface_rust`:
   no chip, though a Rust item graded attention still appears in key issues. Across the 99: rust_corrosion 2,
@@ -222,3 +222,40 @@ or two: what was decided and, where it isn't obvious, why. Newest at the bottom 
   label that continues on the next page. Four reports were affected and re-converted with their photo picks.
 - **The Inspectd AI mark is one component** (`AiMark.jsx`), so the step-3 sidebar uses the same one. Each report's
   flags and issue counts are also in `reportIndex.js` (`insight_overview`) for the step-3 overview.
+
+## Inspectd AI: the workspace overview (AI layer, step 3)
+
+- **An "Inspectd AI" item in the portal sidebar, for fleet and dealer workspaces only** (Meridian Fleet Services,
+  Crestview Denver), with the AI mark toned down. In Inspectd Consumers and ReBuilt Autos it isn't in the sidebar, and
+  `/ai` shows the Overview. The page (`/ai`) is an overview across the workspace's reports; step 4 adds the chat.
+- **Computed in the browser from the records, with no AI.** `aiOverview.js` turns the workspace's report rows (their
+  dates and locations, and each report's `insight_overview` in `reportIndex.js`: flags, surface rust, key issues as
+  `[section, item, status, consumable, underbody]`, and the summary's first sentence) into every figure, and every
+  figure into the vehicles or inspections behind it. Step 4's chat calls the same functions. No report is fetched.
+- **Vehicles are grouped by VIN and use their latest inspection**; figures about inspections count every report.
+  Vehicle figures: Vehicles, Flagged (at least one flag), With a failure, the flag tiles (count and share of vehicles),
+  surface rust, most common issues, issues by area. Inspection figures: Reports, Last 30 days, By location, Inspected
+  more than once.
+- **"Rust or corrosion" is now labeled "Rust beyond surface"** (on the tiles and on the report card's chip); the key
+  stays `rust_corrosion`. Surface rust is one muted line under the tiles, "Surface rust noted on N vehicles (not a
+  flag)".
+- **Most common issues** counts vehicles with an item graded fail or attention, once per vehicle, top ten, with how
+  many failed it. Consumables are hidden unless "Show consumables" is on. "Failures only" ranks by failures and drops
+  items with none. Item names are the inspector's.
+- **Tires are one row in Most common issues.** Lemon Squad records each tire position as its own item (Driver's Front
+  Tire, Passenger's 1st Axle Outer Tire ...); there they group into one "Tires" row, a vehicle counted once (two failed
+  tires are one vehicle with a failure), and its list shows those vehicles. The report, the flags and Issues by area
+  keep the positions apart.
+- **Two tire figures, on purpose.** The Tire concerns tile is the flag (a flagged tire finding, or a tread reading of
+  4/32 or less even on a tire graded pass); the Tires and wheels bar counts vehicles with a Tire / Wheels finding graded
+  fail or attention. A muted line under the bar says so.
+- **Issues by area: Exterior, Interior, Mechanical, Tires and wheels, Road test, Underbody.** Underbody isn't a section
+  of the checklist: a flagged finding is underbody when its item is the frame, rust, the muffler or the exhaust (or
+  floors, rockers), or its note places it under the car (underside, underbody, undercarriage, underneath). Underbody
+  findings leave Exterior and Mechanical, so the areas don't overlap.
+- **By location: within 60 miles of a metro's center counts under the metro** (Denver, Dallas, Atlanta, Nashville,
+  Salt Lake City; centers exported from the seed as `METRO_CENTERS`); everything else is one "Elsewhere" row that
+  expands to its cities. Each place shows its inspections and the share of them with any flag.
+- **Every figure opens the vehicles behind it** (`VehicleList.jsx`, reusable): "Tire concerns · 17 vehicles" with a
+  Clear button, then vehicle, VIN, city, date, flag chips and the summary's first sentence; a row opens the report.
+  It opens under the headline cards, one list at a time.
