@@ -1,7 +1,22 @@
 {
   "rewrites": [
-    { "source": "/job/(.*)", "destination": "/index.html" },
-    { "source": "/r/(.*)", "destination": "/index.html" },
-    { "source": "/inspect/(.*)", "destination": "/index.html" }
-  ]
+    {
+      "source": "/job/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/r/(.*)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/inspect/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "functions": {
+    "api/ask.js": {
+      "maxDuration": 30,
+      "includeFiles": "public/portal/reports/*/report.json"
+    }
+  }
 }

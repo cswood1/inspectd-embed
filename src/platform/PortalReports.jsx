@@ -4,6 +4,7 @@ import { PageDock, paged } from "./ui.jsx";
 import { Svg, I, title, fmtDate, SkelRows, ReportRows, useLoaded, FLAG_TONE, isBusiness } from "./portalUi.jsx";
 import { workspaceData, overview, commonIssues, select, filterTitle } from "./aiOverview.js";
 import { refHay } from "./jobRef.js";
+import { AskBar } from "./AskBar.jsx";
 
 /*
  * Reports: the workspace's reports, one list. For a business (fleet or dealer) it opens with Inspectd AI's figures
@@ -17,9 +18,9 @@ const pct = x => `${Math.round(x * 100)}%`;
 const CARDS = [["vehicles", "Vehicles"], ["reports", "Reports"], ["last30", "Last 30 days"], ["flagged", "Flagged"], ["failure", "With a failure"]];
 
 export function Reports({ ctx }){
-  const { portal, rows: _ } = usePlatform();
+  const { portal, rows: _, seededAt } = usePlatform();
   const loaded = useLoaded();
-  const business = isBusiness(portal.me().account?.type);
+  const me = portal.me(), business = isBusiness(me.account?.type);
   const all = loaded ? portal.reports().reports : null;
   const ws = useMemo(() => all && business ? workspaceData(all) : null, [all, business]);
   const o = useMemo(() => ws ? overview(ws) : null, [ws]);
@@ -37,6 +38,9 @@ export function Reports({ ctx }){
   const pg = paged(list, page);
   const pick = f => { setFilter(f); setView("list"); setPage(0); };
   const on = f => !!filter && JSON.stringify(filter) === JSON.stringify(f);
+  // an answer's cited reports filter the list ("Asked: … · 4 reports"); an answer citing none leaves it as it is
+  const asked = ({ question, refs }) => { if (refs.length) pick({kind: "refs", refs, label: `Asked: ${question}`}); else if (filter?.kind === "refs") pick(null); };
+  const unask = () => { if (filter?.kind === "refs") pick(null); };
 
   return (<>
     <section className="pad greet"><div className="gt"><h1>Reports</h1></div>
@@ -45,6 +49,8 @@ export function Reports({ ctx }){
         <button type="button" id="viewBreakdown" className={view === "breakdown" ? "on" : ""} aria-pressed={view === "breakdown"} onClick={() => setView("breakdown")}>Breakdown</button>
       </span></div> : null}
     </section>
+
+    {business && loaded ? <AskBar workspace={me.account.id} seededAt={seededAt} onAnswer={asked} onClear={unask} /> : null}
 
     {business ? (
       <section className="pad">

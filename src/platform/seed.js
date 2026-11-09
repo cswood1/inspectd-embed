@@ -8,10 +8,11 @@
  * Dates are offsets from the moment the seed is built, so the demo always looks current.
  * Ids and tokens come from a fixed-seed generator: a reset rebuilds the same records.
  */
-import { DEALER } from "../data.js";
+import { DEALER } from "../dealer.js";
 import { REPORT_INDEX } from "./reportIndex.js";
 import { payoutFor, STATUS_LABELS } from "./jobModel.js";
 import { newRef } from "./jobRef.js";
+import { demoDay } from "./demoDay.js";
 import { vehicleName } from "./vehicleName.js";
 import { REPORT_ZIPS, REPORT_PEOPLE, MORE_REPORT_JOBS } from "./reportJobs.js";
 import zipDb from "us-zips";
@@ -564,7 +565,11 @@ function reportFlow(row, x, created, k){
   const shop = {...LEMON_SQUAD, lat: null, lon: null, miles: null};
   row.result = {shops: [shop], summary: `Lemon Squad covers ${k.place.city}, ${k.place.state} with a mobile inspector who comes to the vehicle.`, origin: [k.place.lat, k.place.lon]};
   k.step(0.05);
-  const visit = new Date(k.now - x.inspected * k.DAY); visit.setHours(10, 0, 0, 0);
+  // the inspection's day in the demo's zone, and the visit at a fixed instant on it (17:00 UTC is mid-morning in Denver),
+  // so the server and every browser give the report the same date (demoDay.js)
+  const day = demoDay(k.now - x.inspected * k.DAY), [vy, vm, vd] = day.split("-").map(Number);
+  const visit = new Date(Date.UTC(vy, vm - 1, vd, 17, 0));
+  m.inspected_on = day;
   const linked = k.iso(created + (visit.getTime() - created) * 0.45);
   k.setT(Date.parse(linked));
   m.scheduled_at = when(visit.getTime());
@@ -618,10 +623,9 @@ function buildReports(rows, inspectdOrgId){
       // every job has a workspace now; a job without one would be kept in Inspectd's own (reports_service DIRECT_ORG)
       org_id: row.org_id || inspectdOrgId,
       uploaded_by: null, uploaded_by_name: rep.shop?.name || "",                 // the inspector, through their job link
-      inspection: {...doc.inspection, date: localDate(Date.parse(rep.at) - 3 * 36e5)},
+      inspection: {...doc.inspection, date: row.meta.inspected_on || demoDay(Date.parse(rep.at))},   // date-only
       share: {token: pick(r, HEX, 32), listing: pick(r, HEX, 32)},                // the customer's /r/<token> link, and the listing's
     });
   }
   return out.sort((a, b) => b.uploaded_at.localeCompare(a.uploaded_at));
 }
-const localDate = ms => { const d = new Date(ms), p = n => String(n).padStart(2, "0"); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`; };
