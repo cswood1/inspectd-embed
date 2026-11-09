@@ -10,7 +10,7 @@ import { PROVIDER_TERMS_VERSION, mailSubject, payoutAt } from "./seed.js";
 import { newRef, normRef } from "./jobRef.js";
 import { vehicleName } from "./vehicleName.js";
 import { INSPECTION_TYPES, VEHICLE_CLASSES, classifyInspection, typesFor, consumerTypeAllowed, CONSUMER_TYPE_RULE, classifyClass, inspectionLabel, classLabel, subtypesOf,
-         requirementsFor, TIME_WINDOWS, PROPOSE_DAYS, plannedLabel, DECLINE_REASONS } from "./jobModel.js";
+         requirementsFor, TIME_WINDOWS, PROPOSE_DAYS, plannedLabel, DECLINE_REASONS, STATUS_LABELS } from "./jobModel.js";
 import { vinCheck } from "./vin.js";
 
 const nowIso = () => new Date().toISOString().replace(/\.\d{3}Z$/, "+00:00");
@@ -21,7 +21,7 @@ const fail = (status, message, extra = {}) => Object.assign(new ApiError(message
 
 // one vocabulary on every surface: the job's stored status keys, and the words for them (docs/platform/decisions.md, "Job statuses")
 export const STAGES = ["new", "dispatching", "claimed", "complete", "canceled"];
-const STAGE_LABELS = {new: "Submitted", dispatching: "Dispatching", claimed: "Claimed", complete: "Complete", canceled: "Canceled"};
+const STAGE_LABELS = STATUS_LABELS.customer;   // the customer's words: the first status is "Submitted"
 const ROLE_LABEL = {OWNER: "Owner", ADMIN: "Admin", USER: "User", SUPER: "Inspectd team"};
 
 /* ---- the taxonomy and the form (jobModel.js; requests/store.py) ---- */
@@ -300,7 +300,7 @@ export function createPortal(state){
       if (status !== r.status) {   // the customer is told the job is Claimed (client.status_changed)
         meta.history = [...(r.meta.history || []), {stage: status, at}];
         const to = recipient(r);
-        if (to) meta.emails = [...(r.meta.emails || []), {to, subject: mailSubject("Claimed", vehicleName(r.form) || "your vehicle", r.ref), at, sent: true, id: mailId(), kind: "claimed"}];
+        if (to) meta.emails = [...(r.meta.emails || []), {to, subject: mailSubject("claimed", vehicleName(r.form) || "your vehicle", r.ref), at, sent: true, id: mailId(), kind: "claimed"}];
       }
       const next = putLink({...r, status, updated_at: at, meta}, {...link, claim});
       return {state: save(next), out: {ok: true, claim, status}};
@@ -340,7 +340,7 @@ export function createPortal(state){
       let clean;
       try { clean = validateForm(form); } catch (e) { throw fail(422, e.message); }
       const ts = nowIso(), row = newRow(clean, org, ts, {}, taken());
-      row.meta = {emails: [{to: clean.email, subject: mailSubject("Submitted", vehicleName(clean) || "your vehicle", row.ref), at: ts, sent: true, id: mailId(), kind: "submitted"}],
+      row.meta = {emails: [{to: clean.email, subject: mailSubject("new", vehicleName(clean) || "your vehicle", row.ref), at: ts, sent: true, id: mailId(), kind: "submitted"}],
                   history: [{stage: "new", at: ts}], source: "portal"};
       return {state: withState({rows: [row, ...state.rows]}), out: {...clientView(row, state.reports), auto_start: false}};
     },
@@ -378,8 +378,8 @@ export function createPortal(state){
       const refs = taken(), ts = nowIso(), created = forms.map(f => newRow(f, org, ts, {source: "portal-bulk", history: [{stage: "new", at: ts}]}, refs));
       const n = created.length;
       // one email for the list: the status, the first car and its reference, and how many more
-      const subject = n === 1 ? mailSubject("Submitted", vehicleName(forms[0]) || "your vehicle", created[0].ref)
-        : `Submitted: ${n} vehicles · ${created[0].ref} and ${n - 1} more`;
+      const subject = n === 1 ? mailSubject("new", vehicleName(forms[0]) || "your vehicle", created[0].ref)
+        : `${STATUS_LABELS.customer.new}: ${n} vehicles · ${created[0].ref} and ${n - 1} more`;
       created[0].meta = {...created[0].meta, emails: [{to: forms[0].email, subject, at: ts, sent: true, id: mailId(), kind: "submitted"}]};
       return {state: withState({rows: [...created, ...state.rows]}), out: {created: created.map(r => clientView(r, state.reports)), count: n, auto_start: false, fulfill_urls: [], skipped}};
     },
@@ -395,7 +395,7 @@ export function createPortal(state){
       // as the console's cancel does
       const order = r.meta?.order || {}, paid = order.payment_intent && order.amount_cents && !r.meta?.refund;
       const refund = paid ? {refund: {id: "re_" + alnum(24), status: "succeeded", amount_cents: +order.amount_cents, at, by: me.name || me.email, by_id: me.id},
-        emails: [...(r.meta?.emails || []), {to: r.form.email, subject: mailSubject("Canceled", vehicleName(r.form) || "your vehicle", r.ref),
+        emails: [...(r.meta?.emails || []), {to: r.form.email, subject: mailSubject("canceled", vehicleName(r.form) || "your vehicle", r.ref),
                  at, sent: true, id: mailId(), kind: "refunded"}]} : {};
       const next = {...r, status: "canceled", updated_at: at, meta: {...r.meta, ...refund, canceled, history: [...(r.meta?.history || []), {stage: "canceled", at}]}};
       return {state: withState({rows: state.rows.map(x => x.id === id ? next : x)}), out: clientView(next, state.reports)};

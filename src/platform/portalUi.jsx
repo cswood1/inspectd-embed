@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
-import { inspectionLabel, inspectionShort, classLabel } from "./jobModel.js";
+import { inspectionLabel, inspectionShort, classLabel, STATUS_LABELS } from "./jobModel.js";
 import { FLAGS } from "./aiOverview.js";
 import { vehicleName } from "./vehicleName.js";
 
@@ -40,15 +40,15 @@ export const SECTIONS = [["jobs", "Jobs", "/jobs", I.jobs], ["reports", "Reports
 
 /* ---- vocabulary (jobs-client/shared.js) ------------------------------ */
 
-// One vocabulary on every surface: the job's stored status keys and the words Inspectd staff see in the console. Only
+// The job's stored status keys, in the customer's words (jobModel STATUS_LABELS.customer: the first is "Submitted"). Only
 // Complete (green) and Canceled (red) carry a color. What each means is in docs/platform/decisions.md, not on screen.
 const STAGE_ALIAS = {received: "new", submitted: "new", finding: "dispatching", confirmed: "claimed", booked: "claimed", cancelled: "canceled"};   // older names
 const STAGES = {
-  new: {label: "Submitted", pill: "gray"},
-  dispatching: {label: "Dispatching", pill: "gray"},
-  claimed: {label: "Claimed", pill: "gray"},
-  complete: {label: "Complete", pill: "green"},
-  canceled: {label: "Canceled", pill: "red"},
+  new: {label: STATUS_LABELS.customer.new, pill: "gray"},
+  dispatching: {label: STATUS_LABELS.customer.dispatching, pill: "gray"},
+  claimed: {label: STATUS_LABELS.customer.claimed, pill: "gray"},
+  complete: {label: STATUS_LABELS.customer.complete, pill: "green"},
+  canceled: {label: STATUS_LABELS.customer.canceled, pill: "red"},
 };
 export const STAGE = {
   ...STAGES,

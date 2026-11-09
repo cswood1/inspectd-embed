@@ -199,7 +199,7 @@ export function Reports({ loaded, onNavigate, onOpenPortal }){
       return (
         // a row opens the job on its board
         <tr key={r.id} className="row" data-id={r.id} onClick={() => onNavigate(isClosed(r) ? "closed" : "jobs", {open: r.id})}>
-          <td className="jobcell"><span className="mono">{r.ref}</span>{r.form.customer_ref ? <span className="cref">{r.form.customer_ref}</span> : null}</td>
+          <td className="jobcell"><span className="mono">{r.ref}</span>{r.form.customer_ref ? <span className="cref mono">{r.form.customer_ref}</span> : null}</td>
           <td><Who name={!isConsumer(r) && r.org ? r.org.name : r.form.name} email={r.form.email} /></td>
           <td>{vehicle(r)}</td><td className="sub">{[r.form.city, (r.form.state || "").toUpperCase()].filter(Boolean).join(", ")}</td>
           <td className="sub">{claim ? claim.company || claim.name : ""}</td><td className="sub">{fmt(r.updated_at)}</td>

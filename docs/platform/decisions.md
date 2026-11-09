@@ -282,10 +282,11 @@ Provider are outside them.*
   A stage like "Dispatching" or a role like "Admin" is neutral.
 - **Six neutrals and nothing else:** ink `#111827`, body `#374151`, muted `#6b7280`, faint `#9aa1ac`, hairline `#e5e7eb`,
   wash `#f9fafb` (plus white). All of these are CSS variables in `src/platform/tokens.css`, shared by the portal and
-  the console, with Kavin's names mapped onto them, so the design pass changes them in one place. The customer's share page keeps its own dark theme.
-- **The type scale:** page title 24/600; section title 15/600; body and table text 14/400; labels (field names, column
+  the console, with Kavin's names mapped onto them, so the design pass changes them in one place. ~~The customer's share page keeps its own dark theme.~~ *(Replaced: the share page is light, like the rest; see "Type, surfaces and density".)* *(Since the design system: plus the page color, `--page` #fafaf9; content surfaces are white, `--surface`.)*
+- ~~**The type scale:** page title 24/600; section title 15/600; body and table text 14/400; labels (field names, column
   heads) 12/500 muted, sentence case; secondary text 12.5/400 muted; figures 28/600 (the strip) and 20/600 (small),
-  tabular; the report's vehicle title 36/700, the only 700. Weights are 400, 500 and 600.
+  tabular; the report's vehicle title 36/700, the only 700. Weights are 400, 500 and 600.~~
+  *Replaced (design system): see "Type, surfaces and density" below.*
 
 **What polish round 1 changed in the portal**
 - **Pages:** Jobs, Reports, Team, Settings, and the New inspection request button. No Overview (its request block,
@@ -359,12 +360,13 @@ Provider are outside them.*
 
 ## Job statuses, references and the customer's reference (job standards)
 
-**Job statuses: one vocabulary everywhere.** The client portal, the Operations console, the provider job card, the
-report viewer, the share page and customer emails use the same five words for the same five states. The stored keys
+**Job statuses: one vocabulary everywhere,** ~~the same five words for the same five states~~ *(since the design
+system: one state, two labels for the first; see "One state, two labels" below)*. The client portal, the Operations
+console, the provider job card, the report viewer, the share page and customer emails use the same words. The stored keys
 are unchanged (`new`, `dispatching`, `claimed`, `complete`, `canceled`), so saved demo state needs no migration; only
 the labels changed, and the portal's own keys (`received`, `confirmed`) were aligned to the stored ones (the older
 names are still read). The interface never explains a status; these definitions live here:
-- **Submitted**: received, not yet sent to inspectors.
+- **Submitted** (customers) / **Received** (Inspectd): received, not yet sent to inspectors.
 - **Dispatching**: sent to inspectors in the area, waiting for one to claim it. A job is Dispatching from the moment
   its job link is created, on both surfaces. Looking up providers is a detail of a Submitted job, not a status.
 - **Claimed**: an inspector has accepted it.
@@ -414,3 +416,52 @@ violation; nothing else generates or derives it. The portal, the console, provid
 agents all read `ref`, and none of them show or accept the internal id or a link token as a reference. Lookups take
 `ref` in any case, with or without the dash. `customer_ref` is a nullable text column (40 characters), indexed for
 search, set by the customer on the request or the bulk upload.
+
+## Type, surfaces and density (the design system)
+
+Chosen from two directions shown side by side on a hidden preview page (since removed): **A, "Quiet precision"**,
+plus Geist Mono for identifiers. It applies to the client portal, the Operations console, the report viewer, the share
+page and the provider job card; Internal, Enterprise and the dev bar keep their own styles. Every value is a token in
+`src/platform/tokens.css`. The lift comes from type, numbers, spacing and surfaces, never from ornament: no gradients,
+glows, illustrations or new colors.
+- **Type: Geist for everything; Geist Mono for identifiers only.** Geist (`@fontsource-variable/geist`) sets titles,
+  figures, labels and text. Geist Mono (`@fontsource-variable/geist-mono`) sets VINs, job references and the customer's
+  reference, wherever they appear, because those are read and compared character by character, copied and read out on
+  the phone. Dates, figures, the odometer, payouts and every other number stay in Geist with tabular figures: people
+  read them as quantities, and a monospace makes them look like code. Both fonts are bundled from npm, not a CDN; a
+  browser rendering English downloads 29 KB (Geist) and 23 KB (Geist Mono).
+- **The scale:** page title 28/600 at −0.02em; section 15/600; body 14/400; small 13; labels 12/500 muted, sentence case;
+  figures 40/500 at −0.03em (small figures 22); the report's vehicle name up to 40/600 at −0.03em. Names in tables
+  are 500. Weights are 400, 500 and 600.
+- **Surfaces:** a barely warm page, `--page` #fafaf9, with white content surfaces on it, `--surface` #ffffff (tables,
+  cards, forms, fields, the report body, the job panel), separated by hairlines and spacing rather than shadows or a
+  border on every box. ~~The share page maps these onto its own dark theme.~~ The share page is light too (below).
+- **Two row densities:** the portal's tables use 15px of row padding (rows about 62px), for reading; the Operations
+  console's use 10px (about 50px), for working through a list (`--row-pad`, set again on the console's root). Nothing
+  else differs between the two.
+- **The figure strip** on Reports is the signature moment: the label above, the figure at 40px, hairlines between,
+  26px above and below.
+- **The report's hero:** the photo gets a band of its own (360px; 230px on a phone), and the vehicle name, the facts
+  and "Also inspected" sit on the white surface below it. Nothing is written over the photo, so no scrim or gradient is
+  needed. *Replaces the full-height photo with the name and facts over a dark gradient.* The share page uses the same
+  layout ~~on its dark surface~~ (now light: see the share page, below).
+- **The provider job card** keeps its larger phone sizes (16px fields keep iOS from zooming), with the system's type,
+  sentence-case headings, neutral callouts and "Claimed by you" in ink (Claimed is a neutral status).
+- **The request form** has no section pictures (the vehicle, pin and person icons are gone from the markup, with their
+  image files): illustrations aren't part of the
+  system.
+- **The share page is light,** the same as the report in the portal: the page and surface colors, ink text, hairlines,
+  and the photo band with the name and facts on white below it. *Replaces its dark theme (navy, like inspectd.com's
+  sample condition report), which is removed along with every dark-only style.* The customer sees the same report the
+  workspace sees.
+- **The provider job card** uses the same light system and nothing else: a white card on the page, ink text, hairlines,
+  ink primary buttons, teal only for links, selection and focus, and no hard-coded colors (`jobcard.css` draws only
+  from the tokens).
+
+**One state, two labels (the first status).** The first status has one stored key (`new`) everywhere, and two words by
+audience: **"Submitted"** in the client portal, in customer emails and on the provider's card if it ever shows it,
+because that is what the customer did; **"Received"** in the Operations console (the pills, the chips, the board, the
+job panel, the activity log, the Reopen confirm, which says it "returns the job to Received", and error messages),
+because that is what happened from Inspectd's side. Every other status reads the same everywhere. The words live in
+one place, `STATUS_LABELS` in `jobModel.js` (a `console` and a `customer` map next to the status keys), and every
+surface and email reads them from there.

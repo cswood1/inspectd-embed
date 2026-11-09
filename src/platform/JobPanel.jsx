@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
 import { PORTAL, inspectLink } from "./seed.js";
 import { fmt, useJobVehicle, isClosed, Icon, ClassTag, useToast, useAsk } from "./ui.jsx";
-import { inspectionLabel, classLabel, dollars, plannedLabel, isConsumer, orderedByOf, orderedByLabel } from "./jobModel.js";
+import { inspectionLabel, classLabel, dollars, plannedLabel, isConsumer, orderedByOf, orderedByLabel, STATUS_LABELS } from "./jobModel.js";
 import { activityOf } from "./activity.js";
 
 /*
@@ -67,7 +67,7 @@ export function JobPanel({ row: r, rows, open, onClose, onOpenPortal, onViewAll,
     setBusy(false);
   };
   const reset = async () => {
-    const ok = await ask({title: "Reopen this job?", text: `${r.meta?.link ? "Its job link is turned off, and anyone who opens it sees the job is no longer available. " : ""}The provider results are kept, so you can create a new link and dispatch it again.`, ok: "Reopen", cancel: "Keep it canceled"});
+    const ok = await ask({title: "Reopen this job?", text: `${r.meta?.link ? "Its job link is turned off, and anyone who opens it sees the job is no longer available. " : ""}It returns the job to ${STATUS_LABELS.console.new}. The provider results are kept, so you can create a new link and dispatch it again.`, ok: "Reopen", cancel: "Keep it canceled"});
     if (!ok) return;
     try { api.reset(r.id); toast("Job reopened"); } catch (e) { fail(e); }
   };
@@ -129,7 +129,7 @@ export function JobPanel({ row: r, rows, open, onClose, onOpenPortal, onViewAll,
       {earlier}</>);
     const url = inspectLink(link.token), c = link.claim, dn = link.declines.length;
     return (<>
-      <div className="linkrow"><Icon name="copy" size={14} /><span className="mono" id="linkurl">{url}</span>
+      <div className="linkrow"><Icon name="copy" size={14} /><span className="linkurl" id="linkurl">{url}</span>
         <button className="btn sm" id="copylink" onClick={() => navigator.clipboard.writeText(url).then(() => toast("Job link copied"), () => toast("Copy failed"))}>Copy</button>
         <a className="btn sm" id="openlink" href={`${url}?preview=1`} target="_blank" rel="noopener" title="Opens the provider's page as a preview; nothing is recorded">Open</a></div>
       <div className="lstats">
@@ -150,7 +150,7 @@ export function JobPanel({ row: r, rows, open, onClose, onOpenPortal, onViewAll,
   return shell(<>
     <div className="ohead">
       <div className="ht"><h2 id="otitle">{jobVehicle(r)}<ClassTag c={f.vehicle_class} /></h2>
-        <p id="osub"><span className="mono" id="oref">{r.ref}</span>{r.form.customer_ref ? <span className="cref" id="ocref">{r.form.customer_ref}</span> : null}
+        <p id="osub"><span className="mono" id="oref">{r.ref}</span>{r.form.customer_ref ? <span className="cref mono" id="ocref">{r.form.customer_ref}</span> : null}
           <span className="osep">{w.name}</span><span className="opay">{r.payout_cents != null ? `${dollars(r.payout_cents)} payout` : ""}</span></p></div>
       <button className="btn icon" id="closebtn" title="Close" ref={closeRef} onClick={onClose}><Icon name="x" /></button>
     </div>

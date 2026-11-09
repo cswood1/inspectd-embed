@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
 import { dupEmails } from "./derive.js";
 import { STATUS, received, useJobVehicle, isClosed, Icon, Who, ClassTag, SkelRows, CSelect, PageDock, paged, anySelectOpen } from "./ui.jsx";
-import { ORDERED_BY, STATUSES, NEXT_STEP, orderedByOf, orderedByLabel, isConsumer, inspectionLabel, dollars } from "./jobModel.js";
+import { ORDERED_BY, STATUSES, STATUS_LABELS, NEXT_STEP, orderedByOf, orderedByLabel, isConsumer, inspectionLabel, dollars } from "./jobModel.js";
 import { JobPanel, requester } from "./JobPanel.jsx";
 import { refHay } from "./jobRef.js";
 
@@ -17,9 +17,10 @@ const place = f => [f.city, (f.state || "").toUpperCase()].filter(Boolean).join(
 const colVal = (r, k, vehicle) => ({ref: r.ref || "", name: requester(r).name.toLowerCase(), vehicle: vehicle(r).toLowerCase(), where: place(r.form).toLowerCase(), ordered: ORDERED_ORDER.indexOf(orderedByOf(r)),
   payout: r.payout_cents ?? -1, status: STATUS_ORDER.indexOf(r.status), created_at: r.created_at})[k];
 // the status chips: the statuses this board holds, and one for all of them
-const OPEN_CARDS = [["all", "All"], ["new", "Submitted"], ["dispatching", "Dispatching"], ["claimed", "Claimed"]];
-const CLOSED_CARDS = [["all", "All"], ["complete", "Complete"], ["canceled", "Canceled"]];
-// the one button per row: Dispatch ▸ (ink) on a Submitted job, Reopen on a canceled one, Open → on any other
+const L = STATUS_LABELS.console;
+const OPEN_CARDS = [["all", "All"], ["new", L.new], ["dispatching", L.dispatching], ["claimed", L.claimed]];
+const CLOSED_CARDS = [["all", "All"], ["complete", L.complete], ["canceled", L.canceled]];
+// the one button per row: Dispatch ▸ (ink) on a Received job, Reopen on a canceled one, Open → on any other
 const ACTION = {new: {icon: "play", primary: true}, canceled: {icon: "refresh"}};
 const VIEW = {open: "Open jobs", closed: "Closed jobs"};
 
@@ -129,7 +130,7 @@ export function Board({ mode, loaded, onOpenPortal, initialQ = "", initialOpen =
                   const w = requester(r);
                   return (
                     <tr key={r.id} className={`row st-${r.status} ${r.id === openId ? "on" : ""}`} data-id={r.id} onClick={() => openOver(r.id)}>
-                      <td className="jobcell"><span className="mono">{r.ref}</span>{f.customer_ref ? <span className="cref">{f.customer_ref}</span> : null}</td>
+                      <td className="jobcell"><span className="mono">{r.ref}</span>{f.customer_ref ? <span className="cref mono">{f.customer_ref}</span> : null}</td>
                       <td><Who name={w.name} email={w.sub} extra={dup} /></td>
                       <td className="vehcell">{vehicle(r)}<ClassTag c={f.vehicle_class} /></td>
                       <td className="sub nowrap">{place(f)}</td>

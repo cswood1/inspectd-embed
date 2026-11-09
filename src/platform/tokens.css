@@ -1,3 +1,7 @@
+/* the faces, bundled from npm (no CDN at runtime): Geist for everything, Geist Mono for identifiers only */
+@import "@fontsource-variable/geist/wght.css";
+@import "@fontsource-variable/geist-mono/wght.css";
+
 /*
  * The design tokens, shared by the client portal (.ipp, portal.css) and the Operations console (.ip, platform.css):
  * every color both use, and the type scale (docs/platform/decisions.md, "Simplicity"). One accent, the logo's teal
@@ -8,16 +12,27 @@
   --ink:#111827; --body:#374151; --muted:#6b7280; --faint:#9aa1ac; --hairline:#e5e7eb; --wash:#f9fafb; --white:#ffffff;
   --accent:#00807f; --accent-wash:#e6f5f5;
   --red:#b02318; --red-wash:#fdecea; --amber:#9d500a; --amber-wash:#fff3e6; --green:#1c7a3f; --green-wash:#e9f6ee;
-  --fs-title:24px; --fs-section:15px; --fs-body:14px; --fs-small:12.5px; --fs-label:12px; --fs-fig:28px; --fs-fig-s:20px; --fs-hero:36px;
+  /* surfaces: a barely warm page, white content surfaces on it, hairlines between; no shadows */
+  --page:#fafaf9; --surface:#ffffff;
+  /* type (docs/platform/decisions.md, "Type"): Geist for everything; Geist Mono only for VINs, job references and the
+     customer's reference. Dates, figures and every other number stay in Geist, with tabular figures. */
+  --fs-title:28px; --fs-section:15px; --fs-body:14px; --fs-small:13px; --fs-label:12px; --fs-fig:40px; --fs-fig-s:22px; --fs-hero:40px;
+  --fw-title:600; --fw-fig:500; --fw-strong:500;
+  --track-display:-0.03em;   /* 28px and up: page titles' big brother, figures, the report's name */
+  --track-title:-0.02em;     /* page titles */
+  /* spacing: the figure strip, column heads, and table rows (the portal's; the console is denser, below) */
+  --strip-pad:26px; --head-pad:12px; --row-pad:15px;
   /* Kavin's names (both apps use them), mapped onto the tokens */
   --bg:var(--white); --side:var(--white); --line:var(--hairline); --hover:var(--wash); --well:var(--wash);
   --sub:var(--muted); --deco:var(--faint);
   --blue:var(--accent); --blue-d:var(--accent); --blue-t:var(--accent-wash);
   --gray-p:var(--body);
   --key:var(--ink); --key-b:var(--ink); --key-hi:rgba(255,255,255,.12);
-  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
+  --mono:"Geist Mono Variable",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --sans:"Geist Variable",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   --pad-l:36px; --pad-r:28px;
   --shadow-over:0 12px 32px rgba(16,24,40,.14), 0 2px 8px rgba(16,24,40,.08);
   --ease:cubic-bezier(.16,1,.3,1);
 }
+/* the Operations console is a working list: denser rows (about 50px against the portal's 62px); nothing else differs */
+.ip{ --row-pad:10px; }

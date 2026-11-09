@@ -96,21 +96,32 @@ export function classifyClass(v){
 
 /* ---- status ----------------------------------------------------------- */
 
-// [stored key, label, pill hue]: one vocabulary on every surface, the same words the client portal uses. Stages are
-// neutral; only Complete and Canceled carry a color. What each means: docs/platform/decisions.md, "Job statuses".
+// The words for each stored status key, by audience: one state, two labels for the first one. The customer submits a
+// job and Inspectd receives it, so the client portal, customer emails and the provider's card say "Submitted" and the
+// Operations console says "Received". Every other status reads the same everywhere. Every surface takes its words
+// from here (docs/platform/decisions.md, "Job statuses").
+export const STATUS_LABELS = {
+  console:  {new: "Received",  dispatching: "Dispatching", claimed: "Claimed", complete: "Complete", canceled: "Canceled"},
+  customer: {new: "Submitted", dispatching: "Dispatching", claimed: "Claimed", complete: "Complete", canceled: "Canceled"},
+};
+/** A status's word for an audience ("console" or "customer"). */
+export const statusLabel = (key, audience = "console") => STATUS_LABELS[audience]?.[key] || key;
+
+// [stored key, the console's label, pill hue]. Stages are neutral; only Complete and Canceled carry a color.
+// What each means: docs/platform/decisions.md, "Job statuses".
 export const STATUSES = [
-  ["new", "Submitted", "gray"],
-  ["dispatching", "Dispatching", "gray"],
-  ["claimed", "Claimed", "gray"],
-  ["complete", "Complete", "green"],
-  ["canceled", "Canceled", "red"],
+  ["new", STATUS_LABELS.console.new, "gray"],
+  ["dispatching", STATUS_LABELS.console.dispatching, "gray"],
+  ["claimed", STATUS_LABELS.console.claimed, "gray"],
+  ["complete", STATUS_LABELS.console.complete, "green"],
+  ["canceled", STATUS_LABELS.console.canceled, "red"],
 ];
 export const STATUS = Object.fromEntries(STATUSES.map(([k, label, hue]) => [k, [hue, label]]));
 export const OPEN_STATUSES = ["new", "dispatching", "claimed"];
 export const CLOSED_STATUSES = ["complete", "canceled"];
 export const isClosed = r => CLOSED_STATUSES.includes(r.status);
 // the button on a job's row: its next step
-// the board's one button per row (Board.jsx): Dispatch a Submitted job, Open any other, Reopen a canceled one
+// the board's one button per row (Board.jsx): Dispatch a Received job, Open any other, Reopen a canceled one
 export const NEXT_STEP = {new: "Dispatch", dispatching: "Open", claimed: "Open", complete: "Open", canceled: "Reopen"};
 
 /* ---- provider payout ---------------------------------------------------- */

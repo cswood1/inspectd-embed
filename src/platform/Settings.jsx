@@ -31,7 +31,7 @@ function LinkNote({ note, toast }){
   if (!note) return <div className="invnote hide"></div>;
   return (
     <div className="invnote"><Icon name="warn" size={14} />{` ${notSent(note.entry) || "Not emailed"}, so send this link to `}<b>{note.email}</b>{" yourself: "}
-      <span className="mono">{note.link}</span>{" "}<button className="btn sm copylink" onClick={() => navigator.clipboard.writeText(note.link).then(() => toast("Invite link copied"))}><Icon name="copy" size={13} /> Copy link</button></div>
+      <span className="link">{note.link}</span>{" "}<button className="btn sm copylink" onClick={() => navigator.clipboard.writeText(note.link).then(() => toast("Invite link copied"))}><Icon name="copy" size={13} /> Copy link</button></div>
   );
 }
 
@@ -262,7 +262,7 @@ export function Settings({ onOpenPortal }){
         </dl></div>
         <div className="kv"><h3>Addresses</h3><dl>
           <dt>Landing page</dt><dd><a href={`${PORTAL}/`} target="_blank" rel="noopener" onClick={e => { stay(e); onOpenPortal(); }}>{`${PORTAL}/`}</a></dd>
-          <dt>Tracking</dt><dd><span className="mono">{`${PORTAL}/track/<id>`}</span></dd>
+          <dt>Tracking</dt><dd>{`${PORTAL}/track/<id>`}</dd>
           <dt>Client portal</dt><dd>{meta.portal_url ? <a href={meta.portal_url} target="_blank" rel="noopener" onClick={e => { stay(e); onOpenPortal(); }}>{meta.portal_url}</a> : "—"}</dd>
         </dl></div>
       </div>

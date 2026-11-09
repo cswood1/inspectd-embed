@@ -47,7 +47,7 @@ export function Jobs({ ctx }){
       <div className="tablewrap listgap"><table className="rtable"><thead><tr><th>Job</th><th>Vehicle</th><th>Where</th><th>Status</th><th>Report</th><th>Requested</th></tr></thead><tbody>
         {pg.slice.map(j => (
           <tr key={j.id} className="row" data-ref={j.ref} onClick={() => ctx.navigate(jobHref(j))}>
-            <td className="jobref"><span className="mono">{j.ref}</span>{j.customer_ref ? <span className="cref">{j.customer_ref}</span> : null}</td>
+            <td className="jobref"><span className="mono">{j.ref}</span>{j.customer_ref ? <span className="cref mono">{j.customer_ref}</span> : null}</td>
             <td><div className="who"><span className="tx"><b>{vehicleOf(j.form)}</b>
               <span>{[STAGE.type(j.form) !== usual ? STAGE.type(j.form) : "", j.form.vehicle_class && j.form.vehicle_class !== "standard" ? STAGE.vclass(j.form.vehicle_class) : "", j.form.vin].filter(Boolean).join(" · ")}</span></span></div></td>
             <td className="sub">{whereOf(j.form)}</td><td><span className={`pill ${STAGE.of(j.stage).pill}`}>{STAGE.of(j.stage).label}</span></td>
@@ -125,7 +125,7 @@ export function NewJob({ ctx }){
     <section className="pad"><div className="narrow wide"><div className="greet"><div className="gt"><h1>New inspection request</h1></div>
       <div className="actions"><a className="btn" href="/jobs/bulk" onClick={e => stay(e, ctx, "/jobs/bulk")}>Many cars? Upload a list</a><button className="btn" id="cancelJob" onClick={() => ctx.navigate("/jobs")}>Cancel</button></div></div>
       <form className="reqform" id="jobForm" noValidate ref={form} onSubmit={submit}><div className="fsgrid">
-        <section className="fs span2"><div className="fsh"><span className="fsi"><img src="/portal/icons/vehicle.png" alt="" width="30" height="30" /></span><div><h2>Vehicle</h2><p>What we are inspecting. A VIN fills in the year, make and model for you.</p></div></div><div className="grid6">
+        <section className="fs span2"><div className="fsh"><div><h2>Vehicle</h2><p>What we are inspecting. A VIN fills in the year, make and model for you.</p></div></div><div className="grid6">
           <div className="f c1"><label htmlFor="year">Year</label><input id="year" name="year" inputMode="numeric" placeholder="2019" /></div>
           <div className="f c2"><label htmlFor="make">Make</label><input id="make" name="make" placeholder="Honda" /></div>
           <div className="f c3"><label htmlFor="model">Model</label><input id="model" name="model" placeholder="Civic" /></div>
@@ -137,14 +137,14 @@ export function NewJob({ ctx }){
             <CSelect value={subtype} onChange={setSubtype} options={subtypesOf(type).map(([value, label]) => ({value, label}))} /></div> : null}
           <div className="f c3"><label htmlFor="customer_ref">Your reference <i>optional</i></label><input id="customer_ref" name="customer_ref" maxLength="40" placeholder="Unit number, stock number or PO" autoComplete="off" /></div>
         </div></section>
-        <section className="fs"><div className="fsh"><span className="fsi"><img src="/portal/icons/location.png" alt="" width="30" height="30" /></span><div><h2>Where is the car</h2><p>The inspector drives to it, so we need the exact address, plus anything that helps them get to the car.</p></div></div><div className="grid6">
+        <section className="fs"><div className="fsh"><div><h2>Where is the car</h2><p>The inspector drives to it, so we need the exact address, plus anything that helps them get to the car.</p></div></div><div className="grid6">
           <div className="f c6"><label htmlFor="address">Street address</label><input id="address" name="address" className={cls("address")} autoComplete="off" placeholder="1200 Congress Ave" required /></div>
           <div className="f c3"><label htmlFor="city">City</label><input id="city" name="city" className={cls("city")} required /></div>
           <div className="f c1"><label htmlFor="state">State</label><input id="state" name="state" className={cls("state")} maxLength="2" placeholder="TX" required /></div>
           <div className="f c2"><label htmlFor="zip">ZIP</label><input id="zip" name="zip" className={cls("zip")} inputMode="numeric" maxLength="10" placeholder="78701" required /></div>
           <div className="f c6"><label htmlFor="notes">Anything the inspector should know <i>optional</i></label><textarea id="notes" name="notes" placeholder="Seller only allows weekends, car does not start, keys at the front desk, etc."></textarea></div>
         </div></section>
-        <section className="fs"><div className="fsh"><span className="fsi"><img src="/portal/icons/contact.png" alt="" width="30" height="30" /></span><div><h2>On-site contact</h2><p>Who the inspector calls to get to the car and confirm the time. All three are required.</p></div></div><div className="grid6">
+        <section className="fs"><div className="fsh"><div><h2>On-site contact</h2><p>Who the inspector calls to get to the car and confirm the time. All three are required.</p></div></div><div className="grid6">
           <div className="f c6"><label htmlFor="name">Name</label><input id="name" name="name" className={cls("name")} autoComplete="name" required defaultValue={me.user?.name || ""} /></div>
           <div className="f c3"><label htmlFor="email">Email</label><input id="email" name="email" className={cls("email")} type="email" autoComplete="email" required defaultValue={me.user?.email || ""} /></div>
           <div className="f c3"><label htmlFor="phone">Phone</label><input id="phone" name="phone" className={cls("phone")} type="tel" autoComplete="tel" placeholder="(512) 555-0100" required /></div>
@@ -276,7 +276,7 @@ export function BulkJobs({ ctx }){
         <label className={`drop${drag ? " drag" : ""}`} id="drop" htmlFor="csvFile" onDragOver={e => { e.preventDefault(); setDrag(true); }} onDragLeave={() => setDrag(false)}
           onDrop={e => { e.preventDefault(); setDrag(false); const f = e.dataTransfer.files[0]; if (f) loadFile(f); }}>
           <input type="file" id="csvFile" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" className="hide" onChange={e => { const f = e.target.files[0]; if (f) loadFile(f); e.target.value = ""; }} />
-          <b>Drop an Excel or CSV file here, or click to choose</b><span>{`Columns: ${COLUMNS.join(", ")}. Street address, city, state and ZIP are required, and so is an on-site contact (name, email, phone: per row, or once for the whole list below). Everything else is optional. Inspection type, with its subtype: ${TYPE_HELP}; a subtype on its own also works, and blank means consumer pre-purchase. Vehicle class: standard (default), ev, exotic. Older lists with the previous type names or a designation column still import.`}</span></label>
+          <b>Drop an Excel or CSV file here, or click to choose</b><span>{`Columns: ${COLUMNS.join(", ")}. Street address, city, state and ZIP are required, and so is an on-site contact (name, email, phone: per row, or once for the whole list below). Everything else is optional. Inspection type, with its subtype: ${typeHelp(orderedBy)}; a subtype on its own also works, and blank means consumer pre-purchase. Vehicle class: standard (default), ev, exotic. Older lists with the previous type names or a designation column still import.`}</span></label>
         <div><label htmlFor="csvText">Or paste rows</label><textarea id="csvText" ref={text} placeholder={"year,make,model,address,city,state,zip\n2019,Honda,Civic,1200 Congress Ave,Austin,TX,78701\n2021,Toyota,Camry,2100 Ross Ave,Dallas,TX,75201"}></textarea>
           <div className="formfoot" style={{ marginTop: 8 }}><button className="btn sm" id="parseBtn" onClick={() => load(parseCsv(text.current.value), "the pasted text")}>Preview</button></div></div>
       </div>
@@ -335,7 +335,7 @@ export function Job({ id, ctx }){
   const reached = Object.fromEntries((j.history || []).map(h => [STAGE.key(h.stage), h.at]));   // when each status was reached
   const updated = fmtWhen(j.updated_at), requested = fmtWhen(j.created_at);
   // our reference, with the customer's own beside it; no internal id anywhere
-  const facts = [["Reference", j.ref, "mono"], ["Your reference", j.customer_ref], ["Inspection", STAGE.type(f)], ["Vehicle class", STAGE.vclass(f.vehicle_class)],
+  const facts = [["Reference", j.ref, "mono"], ["Your reference", j.customer_ref, "mono"], ["Inspection", STAGE.type(f)], ["Vehicle class", STAGE.vclass(f.vehicle_class)],
     ["Location", [f.address, f.city, f.state, f.zip].filter(Boolean).join(", ")], ["VIN", f.vin, "mono"], ["Contact", [f.name, f.phone].filter(Boolean).join(" · ")],
     ["Requested", requested], ["Updated", updated !== requested ? updated : ""]].filter(([, v]) => v);
   const rep = canceled ? null : j.report, ink = {color: "var(--ink)"};

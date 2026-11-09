@@ -97,8 +97,8 @@ export function JobCard({ token }){
           <p className="jc-addr" id="address">{j.address}</p>
           {j.site ? <p className="jc-sub">{[j.site.name, j.site.contact_name, j.site.contact_phone].filter(Boolean).join(" · ")}</p> : null}
           <a className="jc-btn" id="navBtn" href={mapsUrl(j.address)} target="_blank" rel="noopener">Navigate</a></section>
-        <section className="jc-sec"><h2>Vehicle</h2><Vehicle j={j} />{j.vin ? <p className="jc-sub mono">{`VIN ${j.vin}`}</p> : null}
-          {j.customer_ref ? <p className="jc-sub" id="customerRef">{`Customer reference ${j.customer_ref}`}</p> : null}</section>
+        <section className="jc-sec"><h2>Vehicle</h2><Vehicle j={j} />{j.vin ? <p className="jc-sub">VIN <span className="mono">{j.vin}</span></p> : null}
+          {j.customer_ref ? <p className="jc-sub" id="customerRef">Customer reference <span className="mono">{j.customer_ref}</span></p> : null}</section>
         {j.notes ? <section className="jc-sec"><h2>Customer's notes</h2><p className="jc-quote">{j.notes}</p></section> : null}
         <section className="jc-sec"><h2>Your report covers <span className="jc-count" id="tickCount">{`${done} of ${covers.length}`}</span></h2>
           <ul className="jc-check" id="checklist">{covers.map((c, i) => (

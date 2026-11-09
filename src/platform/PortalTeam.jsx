@@ -104,7 +104,7 @@ export function Team({ ctx }){
       </form>
       <div className={`invlink${link ? "" : " hide"}`} id="invLink">{link ? <>
         {link.sent ? <>Invitation emailed to <b>{link.email}</b>.</> : <>We could not email this invitation from here (the request service has no email key in this environment), so send this link to <b>{link.email}</b> yourself:</>}
-        {" "}<span className="mono">{link.url}</span>{" "}<button className="btn sm" id="copyInv" type="button" onClick={copy}>Copy link</button></> : null}</div>
+        {" "}<span className="link">{link.url}</span>{" "}<button className="btn sm" id="copyInv" type="button" onClick={copy}>Copy link</button></> : null}</div>
       <div className="sechead"><h2>Pending invitations</h2><span className="secnote">Links work for 7 days.</span></div>
     </section>
     <div id="invites">{manager ? (inv.length ? <>

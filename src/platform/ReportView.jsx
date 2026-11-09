@@ -228,13 +228,13 @@ export function ReportView({ id, row: getRow, ctx, isPublic = false, tab = "" })
   const facts = [];
   if (r) {
     if (v.vin) facts.push(["VIN", <><span className="mono">{v.vin}</span><button className={`cr-copy${copied ? " done" : ""}`} id="copyVin" type="button" aria-label="Copy the VIN" title={copied ? "Copied" : "Copy the VIN"} onClick={copyVin}><Svg src={COPY} /></button></>]);
-    if (v.mileage) facts.push(["Odometer", <span className="mono">{fmtMiles(v.mileage)}</span>]);
+    if (v.mileage) facts.push(["Odometer", <span>{fmtMiles(v.mileage)}</span>]);
     if (i.location) facts.push(["Location", <span>{i.location}</span>]);
     if (i.date) facts.push(["Inspected", <span>{fmtDate(i.date)}</span>]);
     // the job's reference (a report has no ID of its own), with the customer's own beside it; the share page shows ours only
     if (r.job_ref) facts.push(["Job", isPublic ? <span className="mono" id="jobRefFact">{r.job_ref}</span>
       : <a href={`/jobs/${r.job_ref}`} className="mono" id="jobRefFact" onClick={e => { stay(e); ctx.navigate(`/jobs/${r.job_ref}`); }}>{r.job_ref}</a>]);
-    if (r.customer_ref && !isPublic) facts.push(["Your reference", <span id="custRefFact">{r.customer_ref}</span>]);
+    if (r.customer_ref && !isPublic) facts.push(["Your reference", <span className="mono" id="custRefFact">{r.customer_ref}</span>]);
   }
   // the same car's other reports in this workspace, and any job for it still in progress (not on the share page)
   const vin = (v.vin || "").toUpperCase();

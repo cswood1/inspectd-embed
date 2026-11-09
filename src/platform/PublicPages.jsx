@@ -10,7 +10,7 @@ import { JobCard } from "./JobCard.jsx";
  * The two pages a link opens without an account, outside the access gate as /job/:token is:
  *
  *  /r/<token>        the customer's report (inspection-dashboard ui/share-client): the portal's viewer,
- *                    told it is public, under a plain Inspectd bar, in the dark colours of share-client/style.css
+ *                    told it is public, under a plain Inspectd bar, in the same light colours as the portal
  *  /inspect/<token>  the provider's job card (JobCard.jsx): the job behind its one job link, open to every
  *                    provider it was shared with; the first to claim gets it
 

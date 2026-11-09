@@ -10,7 +10,7 @@
  */
 import { DEALER } from "../data.js";
 import { REPORT_INDEX } from "./reportIndex.js";
-import { payoutFor } from "./jobModel.js";
+import { payoutFor, STATUS_LABELS } from "./jobModel.js";
 import { newRef } from "./jobRef.js";
 import { vehicleName } from "./vehicleName.js";
 import { REPORT_ZIPS, REPORT_PEOPLE, MORE_REPORT_JOBS } from "./reportJobs.js";
@@ -229,7 +229,8 @@ export const linkOrigin = () => (typeof window !== "undefined" && window.locatio
 export const inspectLink = token => `${linkOrigin()}/inspect/${token}`;
 export const PROVIDER_TERMS_VERSION = "1";   // booking.provider_terms(): what a claim records
 // a customer email's subject: the job's status, the vehicle and the job's reference (docs/platform/decisions.md)
-export const mailSubject = (status, vehicle, ref) => `${status}: ${vehicle}${ref ? ` · ${ref}` : ""}`;
+// `status` is the stored key; the subject uses the customer's word for it (jobModel STATUS_LABELS.customer)
+export const mailSubject = (status, vehicle, ref) => `${STATUS_LABELS.customer[status] || status}: ${vehicle}${ref ? ` · ${ref}` : ""}`;
 export const CAM = {name: "Cam Wood", email: "cam@inspectd.com"};
 
 // [key, name, email domain, who orders (jobModel ORDERED_BY), headquarters]: the client portal's workspaces, one per
@@ -401,11 +402,11 @@ export function buildSeed(now = Date.now()){
     const mail = (to, subject, at, extra = {}) => m.emails.push({to, subject, at, sent: !x.held || to !== row.form.email, ...(x.held && to === row.form.email ? {error: `held: ${to} not on MAIL_ALLOWLIST`} : {id: [8, 4, 4, 4, 12].map(k => pick(r, HEX, k)).join("-")}), ...extra});
 
     // how it came in: a business sends a list and is told once; a consumer or a shopper pays at checkout
-    if (u) mail(u.email, mailSubject("Submitted", veh, row.ref), row.created_at);
+    if (u) mail(u.email, mailSubject("new", veh, row.ref), row.created_at);
     else {
       m.order = {...quote(zip, p ? p.share_bps : 0), checkout_id: pick(r, HEX, 16), session_id: "cs_test_" + pick(r, ALNUM, 58), payment_intent: "pi_" + pick(r, ALNUM, 24),
                  amount_cents: quote(zip).price_cents, livemode: false, paid_at: row.created_at};
-      mail(row.form.email, mailSubject("Submitted", veh, row.ref), row.created_at);
+      mail(row.form.email, mailSubject("new", veh, row.ref), row.created_at);
       if (p) {
         // the listing the shopper ordered from: what the embed handed over about the car
         const {share_bps, org: _org, listings, ...pub} = p, l = x.listing, d = l.damage[0];
@@ -450,12 +451,12 @@ export function buildSeed(now = Date.now()){
       const claimAt = step(2, "claimed");
       seedViews(m.link, r, Date.parse(linked), Date.parse(claimAt), views, iso);
       m.link.claim = claimOf(m.link, claimAt, INSPECTORS[n % INSPECTORS.length], s.name, s.phone, n % 2 ? s.email : "", slot.getTime());
-      mail(row.form.email, mailSubject("Claimed", veh, row.ref), claimAt, {kind: "claimed"});
+      mail(row.form.email, mailSubject("claimed", veh, row.ref), claimAt, {kind: "claimed"});
       if (status === "complete") {
         t = slot.getTime() + 3 * HOUR;
         const at = step(0, "complete");
         m.report = {id: reportId(at, id12()), at, filename: `${make.replace(/\W/g, "")}_${row.form.vin.slice(-6)}_inspection.pdf`, shop: shopCard(s)};
-        mail(row.form.email, mailSubject("Complete", veh, row.ref), at, {kind: "complete"});
+        mail(row.form.email, mailSubject("complete", veh, row.ref), at, {kind: "complete"});
       }
     }
     if (status === "canceled") {
@@ -464,7 +465,7 @@ export function buildSeed(now = Date.now()){
       m.canceled = {at, by: by.name, by_id: by.id, reason: x.reason};
       if (x.refund) {
         m.refund = {id: "re_" + pick(r, ALNUM, 24), status: "succeeded", amount_cents: m.order.amount_cents, at, by: cam.name, by_id: cam.id};
-        mail(row.form.email, mailSubject("Canceled", veh, row.ref), at, {kind: "refunded"});
+        mail(row.form.email, mailSubject("canceled", veh, row.ref), at, {kind: "refunded"});
       }   // a workspace canceling its own job from the portal is not emailed (portal.cancel_request)
     }
     return row;
@@ -574,11 +575,11 @@ function reportFlow(row, x, created, k){
   seedViews(m.link, k.r, Date.parse(linked), Date.parse(claimAt), hashStr(rep.id) % 3 + 1, k.iso);
   // Lemon Squad claims through its dispatcher; no phone or email of theirs is invented here
   m.link.claim = claimOf(m.link, claimAt, INSPECTORS[hashStr(rep.id) % INSPECTORS.length], LEMON_SQUAD.name, "", "", visit.getTime());
-  k.mail(row.form.email, mailSubject("Claimed", k.veh, row.ref), claimAt, {kind: "claimed"});
+  k.mail(row.form.email, mailSubject("claimed", k.veh, row.ref), claimAt, {kind: "claimed"});
   k.setT(visit.getTime() + 3 * k.HOUR);
   const at = k.step(0, "complete");
   m.report = {id: rep.id, at, filename: rep.filename, shop: shopCard(shop)};
-  k.mail(row.form.email, mailSubject("Complete", k.veh, row.ref), at, {kind: "complete"});
+  k.mail(row.form.email, mailSubject("complete", k.veh, row.ref), at, {kind: "complete"});
   return row;
 }
 

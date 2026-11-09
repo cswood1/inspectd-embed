@@ -321,7 +321,7 @@
 .ip .bgrid input{background:var(--white);font-size:var(--fs-small);padding:7px 9px}
 .ip .brow{display:flex;align-items:center;gap:12px;margin-top:12px} .ip .brow .err{color:var(--red);font-size:var(--fs-small)}
 .ip .linkrow,.ip .reprow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;border:1px solid var(--line);border-radius:5px;padding:9px 12px;font-size:var(--fs-small);background:var(--white)}
-.ip .linkrow .mono{flex:1;min-width:160px;overflow-wrap:anywhere}
+.ip .linkrow .linkurl{flex:1;min-width:160px;overflow-wrap:anywhere;font-size:var(--fs-small)}
 .ip .linkrow small,.ip .reprow .sub{color:var(--sub)}
 .ip .linkrow > svg,.ip .reprow > svg{color:var(--sub);flex:none}
 .ip .reprow{background:var(--well)} .ip .reprow b{font-weight:600}
@@ -394,7 +394,7 @@
 .ip .inviterow .csel-wrap{width:auto}
 .ip .inviterow .err{color:var(--red);font-size:var(--fs-small)}
 .ip .invnote{margin-top:12px;border:1px solid var(--line);background:var(--well);border-radius:5px;padding:10px 14px;font-size:var(--fs-small);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.ip .invnote .mono{overflow-wrap:anywhere}
+.ip .invnote .link{overflow-wrap:anywhere}
 .ip .sechead.sub{margin:26px 0 0} .ip .sechead.sub h3{font-size:var(--fs-small);font-weight:600;color:var(--sub)}
 .ip table.team{margin-top:14px} .ip table.team td .csel-wrap{width:auto} .ip table.team td .csel{padding:5px 8px;font-size:var(--fs-small)}
 .ip td.r .btn{margin-left:6px}
@@ -558,3 +558,42 @@
 .ip table.board .who .tx{max-width:none}
 .ip table.board .who .tx b{overflow:visible;text-overflow:clip}
 .ip table.board .who .tx > span{max-width:160px}
+
+/* ===== The design system (direction A, "Quiet precision"; docs/platform/decisions.md, "Type, surfaces and density").
+   The same as the portal's, with denser rows (--row-pad in tokens.css). Geist throughout, Geist Mono for identifiers
+   only, a barely warm page with white surfaces, hairlines rather than boxes or shadows. ===== */
+.ip{font-family:var(--sans);background:var(--page);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.ip :is(button, input, select, textarea){font-family:inherit}
+.ip main{background:var(--page)}
+.ip .side{background:var(--surface)}
+/* identifiers only: VINs, job references, the customer's reference */
+.ip .mono{font-family:var(--mono);font-variant-numeric:normal;letter-spacing:0}
+.ip .greet h1{font-size:var(--fs-title);font-weight:var(--fw-title);letter-spacing:var(--track-title);line-height:1.15}
+.ip .greet{padding-top:36px}
+.ip .sechead h2{letter-spacing:-0.01em}
+
+/* fields sit on white */
+.ip input,.ip select,.ip textarea,.ip .csel,.ip .csel.fsel{background:var(--surface)}
+.ip .fbtn{background:var(--surface)} .ip .fbtn.on{background:var(--ink)}
+
+/* tables: one white surface per list, hairline rows, quiet heads, the console's denser rows */
+.ip .tablewrap{background:var(--surface);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+.ip table{margin-top:24px}
+.ip .tablewrap > table{margin-top:0}
+.ip th{font-size:var(--fs-label);font-weight:500;color:var(--muted);padding-top:var(--head-pad);padding-bottom:var(--head-pad);background:var(--surface)}
+.ip td{height:auto;padding-top:var(--row-pad);padding-bottom:var(--row-pad)}
+.ip tr.row:hover,.ip tr.row.st-dispatching:hover,.ip tr.row.st-claimed:hover,.ip tr.row.st-complete:hover,.ip tr.row.st-canceled:hover{background:var(--page)}
+.ip .who .tx > b{font-weight:var(--fw-strong)}
+.ip .jobcell .mono{font-weight:500}
+.ip .jobcell .cref{font-size:var(--fs-label)}
+.ip .pill{font-weight:500}
+/* Providers and Settings tables keep their own padding, on the same rhythm */
+.ip .ptable td{padding-top:var(--row-pad);padding-bottom:var(--row-pad)}
+.ip .setmain .tablewrap{border-top:0;border-bottom:0;background:none}
+.ip .setmain table{background:var(--surface)}
+.ip .addprov{background:var(--surface);padding:16px 18px;border:1px solid var(--hairline);border-radius:8px}
+
+/* the job panel is a white surface over the page */
+.ip .over{background:var(--surface)}
+.ip .ohead h2{font-size:var(--fs-title);font-weight:var(--fw-title);letter-spacing:var(--track-title)}
+.ip .facts span{font-weight:500}

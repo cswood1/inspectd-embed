@@ -201,7 +201,7 @@
   .ipp .inviterow input{flex:1;min-width:220px;max-width:360px}
   .ipp .inviterow .err{color:var(--red);font-size:var(--fs-small)}
   .ipp .invlink{margin-top:12px;border:1px solid var(--line);background:var(--well);border-radius:5px;padding:10px 14px;font-size:var(--fs-small);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .ipp .invlink .mono{overflow-wrap:anywhere}
+  .ipp .invlink .link{overflow-wrap:anywhere}
   .ipp td select.rolesel{padding:5px 8px;font-size:var(--fs-small)}
   .ipp td.r{text-align:right;white-space:nowrap;padding-right:var(--pad-r)} .ipp th.r{text-align:right;padding-right:var(--pad-r)}
   .ipp .rtable td{vertical-align:middle}
@@ -232,8 +232,6 @@
   .ipp .reqform .fs.span2{grid-column:span 2}
   @media (max-width:1100px){.ipp .reqform .fsgrid{grid-template-columns:1fr} .ipp .reqform .fs.span2{grid-column:auto}}
   .ipp .reqform .fsh{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-  .ipp .reqform .fsi{flex:none;width:44px;height:44px;border-radius:11px;background:var(--white);border:1px solid var(--line);display:grid;place-items:center;overflow:hidden}
-  .ipp .reqform .fsi img{width:32px;height:32px;display:block;object-fit:contain}
   .ipp .reqform .fsh h2{margin:0;font-size:var(--fs-body);font-weight:600;letter-spacing:-.01em;color:var(--ink)}
   .ipp .reqform .fsh p{margin:1px 0 0;font-size:var(--fs-small);color:var(--sub)}
   .ipp .reqform label i{font-style:normal;color:var(--deco);font-weight:500;margin-left:4px}
@@ -539,70 +537,24 @@
 /* ===== share-client/style.css ===== */
 /* share-client: the report viewer on its own page, under a plain Inspectd bar. The car's photo runs edge to edge;
    everything else sits in one centered column. */
-.ipp.share{ background: var(--bg, #fff); --pad-l: 28px; --pad-r: 28px; }
-.ipp .sbar{ display: flex; align-items: center; gap: 8px; padding: 12px 20px; border-bottom: 1px solid var(--line, #e3e5e9); background: #fff; }
+.ipp.share{ background: var(--page); --pad-l: 28px; --pad-r: 28px; }
+.ipp .sbar{ display: flex; align-items: center; gap: 8px; padding: 12px 20px; border-bottom: 1px solid var(--hairline); background: var(--surface); }
 .ipp .sbar .logo{ width: 24px; height: 24px; display: block; flex: none; }
-.ipp .sbar b{ font-size: 14px; }
-.ipp .sbar .sub{ color: var(--sub, #6b7280); font-size: 13px; padding-left: 8px; border-left: 1px solid var(--line, #e3e5e9); }
+.ipp .sbar b{ font-size: var(--fs-body); font-weight: 600; color: var(--ink); }
+.ipp .sbar .sub{ color: var(--muted); font-size: var(--fs-small); padding-left: 8px; border-left: 1px solid var(--hairline); }
 .ipp .swrap{ padding: 0 0 48px; }
 .ipp.share .pad{ max-width: 1280px; margin-left: auto; margin-right: auto; }
 @media (max-width: 520px) { .ipp.share{ --pad-l: 16px; --pad-r: 16px; } }
 @media print { .ipp .sbar{ display: none; } }
 
-/* The customer's report is dark, like inspectd.com's sample condition report (Tailwind's slate on navy). On screen
-   only: printed, it stays black on white paper. The team portal shows the same report in its light colors. */
-@media screen {
-  /* html:has(body.share) darkens the page behind the report; here the .ipp.share pane fills the window and is dark itself */
-  .ipp.share{
-    color-scheme: dark;
-    --bg: #0b1120; --well: #0f172a; --hover: rgba(148, 163, 184, .08); --line: rgba(51, 65, 85, .6);
-    --ink: #f1f5f9; --sub: #94a3b8; --deco: #64748b; --key: #334155; --key-b: #475569;
-    --blue: #60a5fa; --blue-d: #93c5fd; --blue-t: rgba(59, 130, 246, .22);
-    --green: #34d399; --amber: #fbbf24; --red: #f87171; --gray-p: #cbd5e1;
-  }
-  .ipp.share .sbar{ background: var(--bg); }
-  .ipp.share .sbar b{ color: #fff; }
-
-  /* the bar: outlined counts, as on the sample */
-  .ipp.share .rb{ background: transparent; }
-  .ipp.share .rb:hover:not(:disabled){ background: var(--hover); }
-  .ipp.share .rb.pass,.ipp.share .rb.issues.none{ color: #34d399; border-color: rgba(52, 211, 153, .4); }
-  .ipp.share .rb.pass.on{ background: rgba(16, 185, 129, .14); }
-  .ipp.share .rb.issues{ color: #f87171; border-color: rgba(248, 113, 113, .35); }
-  .ipp.share .rb.issues.on{ background: rgba(239, 68, 68, .12); }
-  .ipp.share .rb.all.on{ background: #334155; border-color: #475569; color: #fff; }
-  .ipp.share .rb.listing{ color: #60a5fa; border-color: rgba(96, 165, 250, .4); background: rgba(59, 130, 246, .08); }
-  .ipp.share .cr-search{ background: rgba(30, 41, 59, .5); }
-  .ipp.share .cr-search input::placeholder{ color: var(--deco); }
-
-  /* the index and the sections */
-  .ipp.share #crNav{ background: rgba(15, 23, 42, .6); }
-  .ipp.share #crNav a.on{ background: #1e293b; color: #fff; border-left-color: #3b82f6; }
-  .ipp.share .dot.info{ background: #60a5fa; } .ipp.share .dot.pass{ background: #34d399; }
-  .ipp.share .dot.fail{ background: #f87171; } .ipp.share .dot.attention{ background: #fbbf24; }
-  .ipp.share .chip{ background: transparent; color: #cbd5e1; }
-  .ipp.share .chip.on{ background: #334155; border-color: #475569; color: #fff; }
-  .ipp.share .cr-thumb:hover{ border-color: #64748b; box-shadow: 0 2px 10px rgba(0, 0, 0, .35); }
-  .ipp.share .cr-issue{ background: rgba(30, 41, 59, .5); border-left-color: #fbbf24; }
-  .ipp.share .cr-issue.fail{ border-left-color: #f87171; }
-  .ipp.share .cr-issue p,.ipp.share .cr-note p,.ipp.share .rating .nm{ color: #cbd5e1; }
-  .ipp.share .rating .bar{ background: #1e293b; }
-  .ipp.share .cr-odd{ background: rgba(251, 191, 36, .1); color: #fcd34d; }
-  .ipp.share .pill,.ipp.share .pill::before{ box-shadow: none; }
-  .ipp.share .pill.green{ --pf: rgba(16, 185, 129, .16); --pr: rgba(16, 185, 129, .38); --pi: #6ee7b7; }
-  .ipp.share .pill.amber{ --pf: rgba(245, 158, 11, .16); --pr: rgba(245, 158, 11, .38); --pi: #fcd34d; }
-  .ipp.share .pill.red{ --pf: rgba(239, 68, 68, .16); --pr: rgba(239, 68, 68, .38); --pi: #fca5a5; }
-  .ipp.share .pill.gray{ --pf: rgba(148, 163, 184, .14); --pr: rgba(148, 163, 184, .3); --pi: #cbd5e1; }
-  .ipp.share .btn{ background: rgba(30, 41, 59, .7); border-color: #475569; color: #e2e8f0; box-shadow: none; }
-  .ipp.share .btn:hover{ background: #334155; }
-  .ipp.share .skel .sk{ background: linear-gradient(90deg, #111a2e 25%, #18233a 37%, #111a2e 63%); background-size: 400% 100%; }
-  .ipp.share #dash.loading .cr-hero h1:empty::before{ background: #18233a; }
-}
+/* The customer's report is light, the same as the report in the portal: the page and surface colors, ink text,
+   hairlines, the photo band with the name and facts on white below it (docs/platform/decisions.md, "Type, surfaces
+   and density"). It used to be dark, like inspectd.com's sample condition report; that theme is gone. */
 
 /* ===== inspect-client/style.css ===== */
 /* The provider's job card page (/inspect/<token>): its bar and frame. The card itself is jobcard.css. */
-.ipp.inspect{background:var(--well)}
-.ipp .ibar{display:flex;align-items:center;gap:10px;padding:14px 20px;background:var(--white);border-bottom:1px solid var(--line)}
+.ipp.inspect{background:var(--page)}
+.ipp .ibar{display:flex;align-items:center;gap:10px;padding:14px 20px;background:var(--surface);border-bottom:1px solid var(--hairline)}
 .ipp .ibar .logo{width:24px;height:24px;display:block;flex:none}
 .ipp .ibar b{font-size:var(--fs-section);font-weight:600}
 .ipp .iwrap{max-width:680px;margin:0 auto;padding:34px 20px 80px}
@@ -826,3 +778,91 @@
 .ipp .repbtn{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:6px;color:var(--accent);border:1px solid var(--hairline);background:var(--white)}
 .ipp .repbtn:hover{background:var(--accent-wash);border-color:var(--accent);text-decoration:none}
 .ipp .repbtn svg{width:16px;height:16px}
+
+/* ===== The design system (direction A, "Quiet precision"; docs/platform/decisions.md, "Type, surfaces and density").
+   The lift comes from type, numbers, spacing and surfaces: Geist throughout, Geist Mono for identifiers only, a barely
+   warm page with white surfaces on it, hairlines rather than boxes or shadows. Tokens: tokens.css. ===== */
+.ipp{font-family:var(--sans);background:var(--page);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.ipp :is(button, input, select, textarea){font-family:inherit}
+.ipp main{background:var(--page)}
+/* identifiers only: VINs, job references, the customer's reference */
+.ipp .mono{font-family:var(--mono);font-variant-numeric:normal;letter-spacing:0}
+.ipp .greet h1{font-size:var(--fs-title);font-weight:var(--fw-title);letter-spacing:var(--track-title);line-height:1.15}
+.ipp .greet{padding-top:36px}
+.ipp .sechead h2,.ipp .kv h3{letter-spacing:-0.01em}
+
+/* fields sit on white, so they read as surfaces on the page */
+.ipp input,.ipp select,.ipp textarea,.ipp .csel,.ipp .search,.ipp .cr-search{background:var(--surface)}
+.ipp .cr-search input,.ipp .search input{background:transparent}
+
+/* tables: one white surface per list, hairline rows, quiet heads (12/500, muted), more air */
+.ipp .tablewrap{background:var(--surface);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+.ipp .rtable th{font-size:var(--fs-label);font-weight:500;color:var(--muted);padding-top:var(--head-pad);padding-bottom:var(--head-pad);background:var(--surface)}
+.ipp .rtable td{padding-top:var(--row-pad);padding-bottom:var(--row-pad);border-bottom:1px solid var(--hairline)}
+.ipp .rtable tr.row:hover td{background:var(--page)}
+.ipp .rtable .tx b{font-weight:var(--fw-strong)}
+.ipp .rtable .tx .mono,.ipp .repeats .mono{font-size:var(--fs-label)}
+.ipp td.jobref .mono{font-size:var(--fs-small);font-weight:500}
+.ipp td.jobref .cref{font-size:var(--fs-label)}
+
+/* Reports: the figure strip is the signature moment: the label above, a 40px figure, hairlines between */
+.ipp .figs{margin-top:30px}
+.ipp .fig{flex-direction:column-reverse;justify-content:flex-end;gap:12px;padding:var(--strip-pad) 24px var(--strip-pad) 0}
+.ipp .fig + .fig{padding-left:24px}
+.ipp .fig .n{font-size:var(--fs-fig);font-weight:var(--fw-fig);letter-spacing:var(--track-display);line-height:1}
+.ipp .fig .t{font-size:var(--fs-label);font-weight:500;color:var(--muted)}
+.ipp .flagfilters{padding:18px 0 4px;gap:6px 24px}
+.ipp .ff .n{font-weight:500}
+.ipp .listbar{margin-top:22px}
+.ipp .bd{background:var(--page)}
+@media (max-width:980px){.ipp .figs{grid-template-columns:repeat(3,minmax(0,1fr))} .ipp .fig:nth-child(4){padding-left:0;border-left:0} .ipp .fig:nth-child(n+4){border-top:1px solid var(--hairline)}}
+@media (max-width:560px){.ipp .figs{grid-template-columns:repeat(2,minmax(0,1fr))} .ipp .fig{padding:18px 16px 18px 0} .ipp .fig + .fig{padding-left:16px}
+  .ipp .fig:nth-child(odd){padding-left:0;border-left:0} .ipp .fig:nth-child(4){border-left:1px solid var(--hairline);padding-left:16px} .ipp .fig:nth-child(n+3){border-top:1px solid var(--hairline)}
+  .ipp .fig .n{font-size:32px}}
+
+/* jobs: the status cards, the facts and the report block sit on white */
+.ipp .card{background:var(--surface);box-shadow:none}
+.ipp .jobpage .card.later{background:var(--surface)}
+.ipp .jobpage .card.on{background:var(--accent-wash)}
+.ipp .jobpage .facts span{font-weight:500}
+/* the request form: white sections on the page (no section pictures: illustrations aren't part of the system) */
+.ipp .reqform .fs{border-color:var(--hairline);border-radius:8px}
+.ipp .drop{background:var(--surface)}
+
+/* a report: the photo gets a band of its own, and the name and facts sit on a white surface below it. No scrim, no
+   text over the photo. The hero's image is drawn by ::before at a fixed height; the band's background is the surface. */
+.ipp .cr-hero.img{display:block;min-height:0;background-size:0 0;background-color:var(--surface);color:var(--ink);border-bottom:0}
+.ipp .cr-hero.img::before{content:"";display:block;position:static;inset:auto;height:360px;background:none;
+  background-image:inherit;background-size:cover;background-position:center 45%;background-repeat:no-repeat}
+.ipp .cr-hero.img .cr-hero-in{display:block;background:var(--surface);padding-top:22px;padding-bottom:26px;border-bottom:1px solid var(--hairline)}
+.ipp .cr-hero.img .cr-hero-top{position:static;margin:0 0 16px}
+.ipp .cr-hero.img .backlink{color:var(--muted);text-shadow:none}
+.ipp .cr-hero.img .backlink:hover{color:var(--ink)}
+.ipp .cr-hero h1{font-size:clamp(30px,3.4vw,var(--fs-hero));font-weight:600;letter-spacing:var(--track-display);line-height:1.08}
+.ipp .cr-hero.img h1{text-shadow:none;color:var(--ink)}
+.ipp .cr-hero.img .cr-sub{color:var(--muted);font-size:var(--fs-section)}
+.ipp .cr-facts{gap:16px 48px;margin-top:26px}
+.ipp .cr-hero.img .cr-facts small{color:var(--muted);font-size:var(--fs-label);font-weight:500;margin-bottom:4px}
+.ipp .cr-facts p{font-size:var(--fs-section);font-weight:500}
+.ipp .cr-facts .mono{font-size:var(--fs-body);font-weight:500}
+.ipp .cr-hero.img .cr-facts a{color:var(--accent)}
+.ipp .cr-hero.img .cr-also{color:var(--muted)}
+.ipp .cr-hero.img .cr-also a{color:var(--accent)}
+.ipp .cr-hero.img .cr-copy.done{color:var(--green)}
+.ipp .cr-ribbon{background:var(--surface)}
+.ipp .cr-body{background:var(--surface);max-width:none;padding-top:30px}
+.ipp #dash{background:var(--surface)}
+.ipp .ai-card h2{letter-spacing:-0.01em}
+@media (max-width:600px){
+  .ipp .cr-hero.img::before{height:230px;background-position:center 55%}
+  .ipp .cr-hero h1{font-size:30px}
+  .ipp .cr-facts{gap:14px 20px}
+}
+@media print{ .ipp .cr-hero.img::before{height:220px} }
+
+/* Team and Settings: white tables and blocks */
+.ipp .kv{background:none}
+
+.ipp.share .cr-hero.img .cr-hero-top{display:none}   /* no back link on the share page: no empty bar above the name */
+.ipp .jobpage :is(.cols2, .kv){background:none}
+.ipp.share .swrap{background:var(--surface)}   /* the report reads on white, edge to edge, as in the portal */
