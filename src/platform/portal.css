@@ -866,3 +866,20 @@
 .ipp.share .cr-hero.img .cr-hero-top{display:none}   /* no back link on the share page: no empty bar above the name */
 .ipp .jobpage :is(.cols2, .kv){background:none}
 .ipp.share .swrap{background:var(--surface)}   /* the report reads on white, edge to edge, as in the portal */
+
+/* "Ask about your reports" (AskBar.jsx): one bar above the figure strip, the answer under it, follow-ups as small
+   buttons, one muted line. No mark, no sparkle. */
+.ipp .askwrap{margin-top:22px}
+.ipp .askbar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--hairline);border-radius:8px;padding:6px 6px 6px 14px}
+.ipp .askbar:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-wash)}
+.ipp .askbar > svg{flex:none;color:var(--muted)}
+.ipp .askbar input{flex:1;min-width:0;border:0;outline:0;background:transparent;padding:6px 0;font-size:var(--fs-body);color:var(--ink)}
+.ipp .askbar input::placeholder{color:var(--muted)}
+.ipp .askbar .btn{flex:none}
+.ipp .askanswer{margin-top:14px;max-width:820px}
+.ipp .asktext{font-size:var(--fs-section);line-height:1.55;color:var(--ink)}
+.ipp .askfollow{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.ipp .askfollow .fbtn{height:30px;font-weight:500;color:var(--body);text-align:left}
+.ipp .askfoot{margin-top:12px;font-size:var(--fs-label);color:var(--muted)}
+.ipp .askclear{margin-top:8px}
+@media (max-width:560px){.ipp .askfollow .fbtn{height:auto;min-height:30px;padding:6px 11px;border-radius:14px}}

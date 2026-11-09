@@ -11,16 +11,10 @@ import {
 } from "lucide-react";
 
 // Mock partner. Generic on purpose; not tied to any real dealer.
-export const DEALER = {
-  name: "Crestview Auto Group",
-  short: "Crestview",
-  address: "16400 E Colfax Ave",
-  city: "Aurora",
-  state: "CO",
-  zip: "80011",
-  phone: "(303) 555-0148",
-  url: "crestviewautogroup.com",
-};
+// the dealer group, in a module of its own so the platform's seed (and the server function that builds it) can import
+// it without pulling in this file's React icons
+import { DEALER } from "./dealer.js";
+export { DEALER };
 
 // Dealer contexts for the parameterized Inspectd order flow.
 // The order flow reads these from context; both share the same visual chrome

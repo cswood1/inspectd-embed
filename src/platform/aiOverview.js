@@ -13,6 +13,7 @@
  */
 import { METRO_CENTERS, ZIPS } from "./seed.js";
 import { vehicleName } from "./vehicleName.js";
+import { demoDay } from "./demoDay.js";
 
 export const FLAGS = [["warning_lights", "Warning lights or codes"], ["tires", "Tire concerns"], ["prior_repair", "Prior repair or paint"],
   ["leaks", "Leaks"], ["rust_corrosion", "Rust beyond surface"], ["structural", "Structural or frame concerns"]];
@@ -41,7 +42,8 @@ export function placeOf(location){
   return {metro: null, city};
 }
 
-const dayOf = s => Date.parse(String(s || "").slice(0, 10) + "T12:00:00");
+// inspection dates are date-only strings in the demo's zone; "the last 30 days" compares them as strings (demoDay.js)
+const since30 = now => demoDay(now - 30 * DAY);
 
 /**
  * A workspace's inspections (one per report) and vehicles (one per VIN, by its latest inspection).
@@ -50,8 +52,8 @@ const dayOf = s => Date.parse(String(s || "").slice(0, 10) + "T12:00:00");
 export function workspaceData(rows, now = Date.now()){
   const inspections = rows.map(r => {
     const o = r.insight_overview || {}, v = r.vehicle || {}, place = placeOf(r.inspection?.location);
-    return {id: r.id, vin: (v.vin || "").toUpperCase() || r.id, vehicle: vehicleName(v) || "Vehicle",
-            date: r.inspection?.date || (r.uploaded_at || "").slice(0, 10), location: r.inspection?.location || "", place,
+    return {id: r.id, ref: r.job_ref || "", customer_ref: r.customer_ref || "", vin: (v.vin || "").toUpperCase() || r.id, vehicle: vehicleName(v) || "Vehicle",
+            date: r.inspection?.date || (r.uploaded_at ? demoDay(Date.parse(r.uploaded_at)) : ""), location: r.inspection?.location || "", place,
             flags: o.flags || {}, surface_rust: !!o.surface_rust, issues: o.issues || [], first_sentence: o.first_sentence || "",
             fail: r.summary?.fail || 0, attention: r.summary?.attention || 0};
   }).sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id));
@@ -94,7 +96,7 @@ export function commonIssues(ws, { consumables = false, failuresOnly = false, li
 
 /** Every figure the overview shows. */
 export function overview(ws){
-  const n = ws.vehicles.length, share = c => n ? c / n : 0, since = ws.now - 30 * DAY;
+  const n = ws.vehicles.length, share = c => n ? c / n : 0, since = since30(ws.now);
   const places = new Map();
   for (const i of ws.inspections) {
     const key = i.place.metro || "Elsewhere", p = places.get(key) || {name: key, inspections: 0, flagged: 0, cities: new Map()};
@@ -105,7 +107,7 @@ export function overview(ws){
   const loc = [...places.values()].map(p => ({...p, cities: [...p.cities.values()].sort((a, b) => b.inspections - a.inspections || a.name.localeCompare(b.name))}))
     .sort((a, b) => (a.name === "Elsewhere") - (b.name === "Elsewhere") || b.inspections - a.inspections);
   return {
-    cards: {vehicles: n, reports: ws.inspections.length, last30: ws.inspections.filter(i => dayOf(i.date) >= since).length,
+    cards: {vehicles: n, reports: ws.inspections.length, last30: ws.inspections.filter(i => i.date >= since).length,
             flagged: ws.vehicles.filter(flagged).length, failure: ws.vehicles.filter(failed).length},
     flags: FLAGS.map(([key, label]) => { const c = ws.vehicles.filter(v => v.flags[key]).length; return {key, label, vehicles: c, share: share(c)}; }),
     surface_rust: ws.vehicles.filter(v => v.surface_rust).length,
@@ -128,7 +130,7 @@ export function select(ws, f){
   switch (f.kind) {
     case "card":
       if (f.key === "reports") return I(CARD.reports, ws.inspections);
-      if (f.key === "last30") { const since = ws.now - 30 * DAY; return I(CARD.last30, ws.inspections.filter(i => dayOf(i.date) >= since)); }
+      if (f.key === "last30") { const since = since30(ws.now); return I(CARD.last30, ws.inspections.filter(i => i.date >= since)); }
       if (f.key === "flagged") return V(CARD.flagged, ws.vehicles.filter(flagged));
       if (f.key === "failure") return V(CARD.failure, ws.vehicles.filter(failed));
       return V(CARD.vehicles, ws.vehicles);
@@ -138,9 +140,39 @@ export function select(ws, f){
       ws.vehicles.filter(v => v.issues.some(k => issueName(k) === f.item && (!f.failuresOnly || k[2] === "fail"))));
     case "area": return V(f.area, ws.vehicles.filter(v => v.issues.some(k => areaOf(k) === f.area)));
     case "place": return I(f.city || f.name, ws.inspections.filter(i => f.city ? !i.place.metro && i.place.city === f.city : (i.place.metro || "Elsewhere") === f.name));
+    case "refs": { const rows = ws.inspections.filter(i => f.refs.includes(i.ref)); return {label: f.label || "Reports", unit: "reports", count: rows.length, rows}; }   // an answer's cited reports
     case "repeat": { const v = ws.vehicles.find(x => x.vin === f.vin); return I(v ? `${v.vehicle} · inspected ${v.inspections.length} times` : f.vin, v ? v.inspections : []); }
     default: return V("Vehicles", []);
   }
+}
+
+/**
+ * The reports matching a set of filters, for "Ask about your reports" (askServer.js find_reports). Every filter is
+ * optional and they all apply: flags (every one listed), issue (an item name, matched in part, so "tire" finds every tire
+ * position), area, status (fail or attention, on the matching items, or any item), date_from and date_to (YYYY-MM-DD,
+ * inclusive), metro (within 60 miles, as the overview counts), city, make, model, year, vin, customer_ref, repeat_only
+ * (vehicles inspected more than once), latest_per_vehicle. Rows are inspections, newest first.
+ */
+export function findReports(ws, f = {}){
+  const low = s => String(s ?? "").trim().toLowerCase(), compact = s => low(s).replace(/[\s#-]+/g, "");
+  const repeats = new Set(ws.vehicles.filter(v => v.inspections.length > 1).map(v => v.vin));
+  const itemOk = k => (!f.issue || low(issueName(k)).includes(low(f.issue)) || low(k[1]).includes(low(f.issue)))
+    && (!f.area || areaOf(k) === f.area) && (!f.status || k[2] === f.status);
+  const byItem = f.issue || f.area || f.status;
+  const pool = f.latest_per_vehicle ? ws.vehicles : ws.inspections;
+  const rows = pool.filter(i =>
+    (!f.flags?.length || f.flags.every(k => i.flags[k]))
+    && (!byItem || i.issues.some(itemOk))
+    && (!f.date_from || i.date >= f.date_from) && (!f.date_to || i.date <= f.date_to)
+    && (!f.metro || low(i.place.metro) === low(f.metro))
+    && (!f.city || low(i.place.city).startsWith(low(f.city).replace(/,\s*$/, "")))
+    && (!f.make || low(i.vehicle).includes(low(f.make))) && (!f.model || low(i.vehicle).includes(low(f.model)))
+    && (!f.year || i.vehicle.startsWith(String(f.year) + " "))
+    && (!f.vin || i.vin === String(f.vin).trim().toUpperCase())
+    && (!f.customer_ref || compact(i.customer_ref) === compact(f.customer_ref))
+    && (!f.repeat_only || repeats.has(i.vin)))
+    .sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id));
+  return {count: rows.length, vehicles: new Set(rows.map(i => i.vin)).size, rows};
 }
 
 /** "Tire concerns · 17 vehicles" */
