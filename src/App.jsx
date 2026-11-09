@@ -157,8 +157,8 @@ function Homepage({ onGo }) {
 
 /* ---- app ------------------------------------------------------- */
 
-export default function App() {
-  const [view, setView] = useState("platform-ops");
+export default function App({ initialView = "platform-ops" } = {}) {
+  const [view, setView] = useState(initialView);   // a deep link (/reports/<id>) opens the client portal
   const [vehicle, setVehicle] = useState(INVENTORY[0]);
   const [dnVehicle, setDnVehicle] = useState(DN_INVENTORY[0]);
   const [tab, setTab] = useState(null); // null | { context, step, orderId? }

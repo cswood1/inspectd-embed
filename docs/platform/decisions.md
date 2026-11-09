@@ -270,8 +270,10 @@ Provider are outside them.*
 - **Less is more.** Every element on a business customer's screens has to help them decide something; everything else
   goes. Sophisticated, utilitarian, direct.
 - **AI is woven into the screens people already use**, not given its own tab, and not decorated: no mark, no sparkle,
-  no gradient. The overview's figures and flags sit at the top of Reports; a report's AI summary is titled "Summary" with
-  one quiet line saying Inspectd AI wrote it from the record.
+  no gradient. ~~The overview's figures and flags sit at the top of Reports;~~ *(Replaced: the figures and breakdowns
+  moved to Inspection Intelligence, a business tab of its own built around worklists; still no mark or sparkle. See
+  "Inspection Intelligence".)* A report's AI summary is titled "Summary" with one quiet line saying Inspectd AI wrote it
+  from the record.
 - **Restraint over ornament.** The lift comes from type, numbers, spacing and one accent: hairline dividers over
   bordered boxes, a colored dot (not a colored border) where a status needs color, tabular figures on every number,
   sentence-case labels (no uppercase letter-spacing), no letter avatars, no count badges, no duplicate actions.
@@ -294,11 +296,16 @@ Provider are outside them.*
   is a section of Settings), no Inspectd AI page.
 - **Routing:** `/` lands on Reports in fleet and dealer workspaces and on Jobs in Inspectd Consumers and ReBuilt Autos;
   `/ai` and `/vehicles` redirect to Reports; `/invoices` to `/settings#billing`; an unknown path to the landing page.
-- **Reports:** in fleet and dealer workspaces, the figure strip (Vehicles, Reports, Last 30 days, Flagged, With a
+  *(Changed: `/ai` now goes to `/intelligence` in fleet and dealer workspaces, and `/intelligence` lands on Jobs in the
+  others. See "Inspection Intelligence".)*
+- ~~**Reports:** in fleet and dealer workspaces, the figure strip (Vehicles, Reports, Last 30 days, Flagged, With a
   failure) and the flag filters with the surface-rust line; any of them filters the list below, with a visible label
   and Clear. "List | Breakdown" (List by default): Breakdown holds Most common issues, Issues by area, By location and
-  Inspected more than once, and anything clicked there switches back to List, filtered. One search field (VIN, make,
-  model). The list: vehicle and VIN, city, inspected, findings, and (business) flags as dots. Consumer and marketplace
+  Inspected more than once, and anything clicked there switches back to List, filtered.~~ *Replaced (Inspection
+  Intelligence): Reports keeps the list and search, and in business workspaces one row of flag chips with vehicle counts
+  (surface rust last); a chip filters the list and a second click clears it. The figures, Most common issues and Issues
+  by area moved to Intelligence; By location became a starting point there; Inspected more than once and the ask bar
+  are gone from Reports.* One search field (VIN, make, model). The list: vehicle and VIN, city, inspected, findings, and (business) flags as dots. Consumer and marketplace
   workspaces get the plain list. Step 4's "Ask about your reports" bar goes at the top.
 - **What the Vehicles page did, now:** a car's other inspections are an "Also inspected <date>" line on its report, and
   a job still in progress for it is "In progress: J-…" on the same line (neither on the share page); jobs without a
@@ -439,7 +446,7 @@ glows, illustrations or new colors.
 - **Two row densities:** the portal's tables use 15px of row padding (rows about 62px), for reading; the Operations
   console's use 10px (about 50px), for working through a list (`--row-pad`, set again on the console's root). Nothing
   else differs between the two.
-- **The figure strip** on Reports is the signature moment: the label above, the figure at 40px, hairlines between,
+- **The figure strip** on ~~Reports~~ Intelligence is the signature moment: the label above, the figure at 40px, hairlines between,
   26px above and below.
 - **The report's hero:** the photo gets a band of its own (360px; 230px on a phone), and the vehicle name, the facts
   and "Also inspected" sit on the white surface below it. Nothing is written over the photo, so no scrim or gradient is
@@ -468,8 +475,10 @@ surface and email reads them from there.
 
 ## Ask about your reports (AI layer, step 4)
 
-- **One bar at the top of Reports, in business workspaces only** (fleet and dealer), above the figure strip: "Ask about
-  your reports", no mark or sparkle. The answer shows under the bar in one to three sentences; the reports it rests on
+- ~~**One bar at the top of Reports, in business workspaces only** (fleet and dealer), above the figure strip: "Ask about
+  your reports", no mark or sparkle.~~ *Replaced: the question bar is on Inspection Intelligence, and an answer is a
+  worklist (see "Inspection Intelligence"). `AskBar.jsx` is gone; the server side below still holds, with the changes
+  listed there.* The answer shows under the bar in one to three sentences; the reports it rests on
   filter the list below ("Asked: <question> · 4 reports", with Clear); up to three follow-ups as small buttons, each
   sending the previous question and answer as context; one muted line, "Answered by Inspectd AI from this workspace's
   inspection records." One question at a time, nothing saved. A figure or flag replaces the asked filter.
@@ -549,3 +558,124 @@ checked against them (cited references in the workspace and returned during the 
 before it reaches the browser. The same answer interface, `{answer, cited_refs, follow_ups}` over scoped tools with
 server-side checks, can later serve VINadvocate: the same contract and checks, with VINadvocate supplying its own scope
 (a vehicle or a listing rather than a workspace) and its own tools.
+
+## Inspection Intelligence (AI layer, step 5)
+
+**The tools are the product; Inspection Intelligence is their first client.** `intelTools.js` defines each tool once
+(name, description, JSON input schema) and returns structured data (rows with references, links, the reason each row
+matched, evidence), never prose. Workspace scoping, citations and checks live in the tools and the server, not the page.
+The page calls them in two ways: directly (`/api/tools`, no model) for starting points, figures and evidence, and
+through the model (`/api/ask`) for questions, where the model picks tools and writes one or two sentences on top. A
+future MCP server publishes the same definitions as MCP tools, unchanged: the workspace comes from the MCP client's
+authenticated session, never from a tool argument; tool results go out as structured content; and the same checks
+apply to anything an AI client builds from them.
+
+- **A tab of its own, for business workspaces only:** "Intelligence" between Reports and Team in fleet and dealer
+  workspaces, with a plain bar-chart icon (no mark, no sparkle), at `/intelligence`. `/ai` goes there in a business
+  workspace and to Reports otherwise; `/intelligence` lands on Jobs in Inspectd Consumers and ReBuilt Autos.
+- **The page, top to bottom:** the title "Inspection Intelligence"; the question bar ("Ask about your inspections");
+  three starting points run by code with no model ("Warning lights, tire concerns or leaks", "Vehicles with a
+  failure", "Condition by location"); the results; then the figure strip, Most common issues (All | Failures only,
+  Show consumables) and Issues by area. Every figure, issue and area runs as a result too. By location became the
+  third starting point; Inspected more than once is gone.
+- **A result is a worklist:**
+  - the question or the starting point, small and muted, above a headline: a figure with its unit and a few words
+    ("23 vehicles with warning lights, tire concerns or leaks"), or a short phrase when the answer isn't a count
+    ("2018 Porsche 718 Cayman");
+  - for a question, one or two sentences under 50 words;
+  - an optional breakdown table whose rows filter the worklist (Show all clears it);
+  - the worklist: vehicle and VIN, job reference, your reference, inspected, city, and "Matched on", the reason each
+    row is in the result, built by code from the filters and the report's own record (the flag's evidence, or the
+    matching item graded fail or attention with the inspector's note). The first 25 rows, then "Show all N";
+  - up to three follow-ups (questions only), Download CSV, and one muted line: "Answered by Inspectd AI from this
+    workspace's inspection records." for a question, "Counted from this workspace's inspection records." for code.
+  Results stack in memory, newest first, for the page's lifetime; Clear removes them all.
+- **Evidence:** clicking a row opens its evidence under it: each matching finding's status, section, item and the
+  inspector's note, with its photo when the report kept it. Otherwise it says why there's none: "The inspector's photo
+  for this item isn't in the demo set." or "The inspector didn't link a photo to this item." "Open report" goes to the
+  full report. For an evidence question, the evidence opens on its row with the answer. On a phone the worklist reads as
+  cards and the evidence opens as a bottom sheet; tapping outside closes it.
+- **CSV:** the rows shown (a breakdown filter applies), one line each: vehicle, VIN, job reference, your reference,
+  inspected, city, matched on, and the report's link, `<origin>/reports/<report id>`. That link is a new deep link
+  (`main.jsx`): behind the access gate, it opens the portal at that report, switching to the workspace that keeps it.
+- **The tools** (`intelTools.js`, exported as MCP-shaped definitions; `anthropicTools()` gives the strict Claude API
+  form of the same schemas):
+  - `find_reports`: every filter as before, plus `any_flags` (at least one of the listed flags), `group_by` (metro,
+    city, make, model, year, month, flag or issue: groups with vehicles, reports, vehicles with a flag and their
+    references) and `limit` (rows in full, 25 by default, 200 at most; `refs` always lists every match). Rows carry
+    `report_url` and `matched_on`. With `latest_per_vehicle` the result's unit is vehicles (each by its latest
+    report). An item's exact name ("Dings") matches that item only, so a click counts what the figure counts;
+    anything else matches in part ("tire").
+  - `get_evidence(ref, item | flag)`: the findings behind one item or one flag on one report, with the note, the photo
+    when kept, and the report link. A job reference or the customer's.
+  - `get_report` and `workspace_figures`, as before.
+- **`/api/tools`** (`api/tools.js`) runs one tool for a workspace with no model: the same server-side scoping as
+  `/api/ask` (the workspace and the seed's build time from the browser; never report data), no API key, 60 calls a
+  minute and 1,000 a day per browser (best effort). `api/_lib.js` holds what the two functions share; Vercel doesn't
+  serve files that start with an underscore.
+- **The answer** is `{headline: {figure, unit, text}, answer, cited_refs, group_by, follow_ups}`. The server then
+  attaches what the page shows from this question's tool results, never from the model: the worklist (the cited reports,
+  each with Matched on from the call that found it), the breakdown (when a find_reports call used that `group_by`,
+  regrouped over the cited reports; a `group_by` no call used is dropped) and the evidence (get_evidence results for a
+  cited report).
+- **Checks added or changed, each with the one repair:** the headline (a figure must be a count a tool returned and
+  equal what is cited: distinct vehicles, or reports; with no figure, a phrase of six words at most), and length (now
+  one or two sentences, under 50 words). A headline text that repeats its unit ("reports with a failed item" after
+  "14 reports") loses the repeat.
+- **Prompt changes:** one or two sentences under 50 words, the worklist shows the details; the headline is the total
+  the answer counts and cites every one; for one vehicle or one report the headline is its year, make and model; for a
+  breakdown, call find_reports with group_by and return it; for evidence, get_evidence; for how many vehicles have an
+  issue or a flag, find_reports (its refs are what to cite); for advice, the facts in one sentence (such as how many
+  vehicles have a failed item, citing them all) and one sentence that the decision is the business's. And on the tool:
+  `latest_per_vehicle` stays off with `repeat_only`.
+- **Model: Haiku stays the default.** Live test of thirteen questions (below): Haiku fully right on 13, Sonnet on 11.
+  At about 12,700 input and 720 output tokens a question, Haiku costs about $0.0016 a question (about 9,300 for $15) and
+  answers in 4.7 seconds on average. Sonnet costs about $0.036 (about 410 for $15) and takes 7.0 seconds.
+
+**The live test (scored against the data; the final prompt).** "Fully right" means all of these:
+- correct facts;
+- exactly the expected citations;
+- the right headline;
+- the breakdown or evidence attached where the question calls for one;
+- one or two sentences, under 50 words;
+- dates like Oct 29, 2026.
+
+Tokens are input / output. The test spent $0.56 in all, over five runs: three Haiku runs while the prompt was tuned,
+then the final Haiku and Sonnet runs below.
+
+| # | Question | Haiku 5.5 (the default) | Sonnet 5.5 |
+|---|---|---|---|
+| 1 | Warning lights, how many? | fully right; 10 vehicles; 10/10 cited; 2 sent., 19 words; 10,260 / 384; 3.7s | fully right, after one too_long repair; 10 vehicles; 10/10 cited; 2 sent., 26 words; 17,002 / 605; 8.1s |
+| 2 | Tire concerns, Dallas area | fully right; 6 vehicles; 6/6 cited; 1 sent., 32 words; 9,192 / 412; 3.3s | **wrong fact**: says the Ranger's driver's front tire has the lowest tread listed, 2/32 (the passenger's front is 1/32); 6/6 cited; 2 sent., 41 words; 9,170 / 395; 3.8s |
+| 3 | Inspected more than once | fully right; 2 vehicles; 4/4 cited; 2 sent., 28 words; 8,542 / 463; 3.8s | form miss: "Sep 23 and Oct 29, 2026" (a date without its year); 4/4 cited; 1 sent., 28 words; 13,569 / 740; 8.7s |
+| 4 | Unit 4468 | fully right, after one too_long repair; "2020 Jeep Gladiator inspection findings"; 1/1 cited; 2 sent., 37 words; 13,357 / 918; 5.8s | fully right, after one too_long repair; "2020 Jeep Gladiator"; 1/1 cited; 2 sent., 29 words; 13,323 / 466; 7.4s |
+| 5 | Which should we sell first? | fully right; 14 vehicles; 14/14 cited; 2 sent., 28 words; 9,954 / 618; 3.6s | fully right, after one too_long repair; 14 vehicles; 14/14 cited; 2 sent., 30 words; 20,662 / 796; 8.7s |
+| 6 | Weather in Dallas | fully right; "Weather is outside these records"; 0/0 cited; 2 sent., 22 words; 3,751 / 166; 1.2s | fully right, after one too_long repair; "Not about inspection records"; 0/0 cited; 2 sent., 20 words; 7,756 / 326; 3.3s |
+| 7 | Most common issue | fully right, after one too_long repair; 55 vehicles; 55/55 cited; 2 sent., 23 words; 26,849 / 1,917; 10.6s | fully right; 55 vehicles; 55/55 cited; 2 sent., 30 words; 16,904 / 845; 9.1s |
+| 8 | Reports in the last 30 days | fully right; 19 reports; 19/19 cited; 1 sent., 12 words; 9,897 / 371; 2.4s | fully right; 19 reports; 19/19 cited; 2 sent., 17 words; 16,474 / 470; 7.8s |
+| 9 | Crestview: what failed? | fully right; 2 vehicles; 2/2 cited; 1 sent., 33 words; 8,440 / 411; 2.5s | fully right; 2 vehicles; 2/2 cited; 2 sent., 34 words; 8,996 / 376; 5.3s |
+| 10 | Stock 24-8197 | fully right, after one too_long repair; "2018 Porsche 718 Cayman inspection findings"; 1/1 cited; 1 sent., 34 words; 13,891 / 911; 4.8s | fully right, after one too_long repair; "2018 Porsche 718 Cayman"; 1/1 cited; 1 sent., 35 words; 13,791 / 484; 5.5s |
+| 11 | Break down failures by metro | fully right; 14 reports, by metro; 14/14 cited; 2 sent., 24 words; 12,261 / 416; 2.5s | fully right, after one too_long repair; 14 reports, by metro; 14/14 cited; 2 sent., 20 words; 21,090 / 657; 5.9s |
+| 12 | Which makes had the most tire concerns? | fully right, after one numbers repair; 17 reports, by make; 17/17 cited; 1 sent., 16 words; 21,852 / 1,177; 7.2s | fully right, after one numbers repair; 17 reports, by make; 17/17 cited; 2 sent., 23 words; 21,541 / 847; 7.7s |
+| 13 | Evidence for the leak on the Porsche | fully right, after one too_long repair; "2018 Porsche 718 Cayman leak evidence"; 1/1 cited; evidence with photo 91; 2 sent., 38 words; 17,432 / 1,212; 9.6s | fully right, after one too_long repair; "2018 Porsche 718 Cayman"; 1/1 cited; evidence with photo 91; 2 sent., 32 words; 17,609 / 612; 9.7s |
+
+Notes on the scoring:
+- Sonnet's question 2 passed the automatic scorer: its patterns check for facts that must be there, not for wrong
+  extras. Every answer was also read against the records by eye, and that is where the tire claim was caught.
+- Questions 11 and 12 count reports. Those are the vehicles' latest reports (14 and 17 of them), so "14 reports" and
+  "14 vehicles" are both right, and both were accepted.
+- Question 12 also accepts a phrase headline ("Five makes tied for most"), since it asks which makes rather than how
+  many.
+- Question 3's answer no longer has to state both inspection dates: with two sentences, the worklist rows show them.
+  It must still name both vehicles and cite all four reports.
+- The first Haiku runs on this round's prompt scored 7 and then 10 of 13. Their misses led to the prompt changes above:
+  - headline figures that didn't match what was cited, or counted items rather than reports;
+  - `latest_per_vehicle` set together with `repeat_only`;
+  - a third sentence on the advice question;
+  - a one-vehicle phrase without the vehicle's name.
+- One fix was in the tool rather than the prompt: `find_reports` called its count "reports" even when it counted each
+  vehicle's latest report.
+
+**Evidence photos.** Meridian and Crestview Denver have 64 fail or flag-evidence findings. 30 point at a photo the
+report kept, none at a photo it didn't keep, and 34 name no photo. So no photos were added (0 photos, 0 bytes), and
+Supabase wasn't touched.

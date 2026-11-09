@@ -11,11 +11,19 @@
     {
       "source": "/inspect/(.*)",
       "destination": "/index.html"
+    },
+    {
+      "source": "/reports/(.*)",
+      "destination": "/index.html"
     }
   ],
   "functions": {
     "api/ask.js": {
       "maxDuration": 30,
+      "includeFiles": "public/portal/reports/*/report.json"
+    },
+    "api/tools.js": {
+      "maxDuration": 10,
       "includeFiles": "public/portal/reports/*/report.json"
     }
   }

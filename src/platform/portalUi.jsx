@@ -23,6 +23,8 @@ export function Svg({ src, ...rest }){
 export const I = {
   jobs: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h10M3 8h10M3 12h6"/></svg>`,
   reports: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2h5l3 3v9H4z"/><path d="M9 2v3h3"/><path d="M6 9h4M6 11.5h4"/></svg>`,
+  // Intelligence: a plain bar chart (no sparkle)
+  intel: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 13.5h10"/><path d="M4.5 11V8"/><path d="M8 11V4.5"/><path d="M11.5 11V6.5"/></svg>`,
   team: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5.5" r="2.25"/><path d="M1.75 13a4.25 4.25 0 0 1 8.5 0"/><circle cx="11.5" cy="6" r="1.75"/><path d="M11 9.5a3.25 3.25 0 0 1 3.25 3.5"/></svg>`,
   settings: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.8v1.7M8 12.5v1.7M1.8 8h1.7M12.5 8h1.7M3.6 3.6l1.2 1.2M11.2 11.2l1.2 1.2M12.4 3.6l-1.2 1.2M4.8 11.2l-1.2 1.2"/></svg>`,
   out: `<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5H3.5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1H6"/><path d="M10 5l3 3-3 3M13 8H6.5"/></svg>`,
@@ -36,7 +38,9 @@ export const I = {
 };
 export { isBusiness } from "./portalRoutes.js";
 // the sidebar: four pages, no groups or counts (docs/platform/decisions.md, "Simplicity")
-export const SECTIONS = [["jobs", "Jobs", "/jobs", I.jobs], ["reports", "Reports", "/reports", I.reports], ["team", "Team", "/team", I.team], ["settings", "Settings", "/settings", I.settings]];
+// the sidebar: Jobs, Reports, Intelligence (business workspaces only: fleet and dealer), Team, Settings
+export const SECTIONS = [["jobs", "Jobs", "/jobs", I.jobs], ["reports", "Reports", "/reports", I.reports], ["intelligence", "Intelligence", "/intelligence", I.intel, true],
+  ["team", "Team", "/team", I.team], ["settings", "Settings", "/settings", I.settings]];
 
 /* ---- vocabulary (jobs-client/shared.js) ------------------------------ */
 
