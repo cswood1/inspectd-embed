@@ -1,87 +1,98 @@
 /* The provider's job card (/inspect/<token>): phone first, one column; a centered card from 600px up.
-   Scoped under .ipp like the rest of the portal's pages, and drawn with its tokens. */
+   Scoped under .ipp like the rest of the portal's pages, and drawn only with the shared tokens (tokens.css): the same
+   light system as the portal (docs/platform/decisions.md, "Type, surfaces and density"). A white card on the page,
+   ink text, hairlines, ink primary buttons, teal only for links, selection and focus; Geist, with Geist Mono for the
+   job's reference, the VIN and the customer's reference. A phone page, so its sizes run larger than the portal's:
+   16px fields keep iOS from zooming, and buttons are sized for a thumb. */
 
-.ipp .jc-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px 20px 24px;box-shadow:0 1px 2px rgba(16,24,40,.05)}
-.ipp .jc-card h2{font-size:12px;font-weight:650;color:var(--sub);letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.ipp .jc-card{background:var(--surface);border:1px solid var(--hairline);border-radius:10px;padding:22px 20px 24px}
+.ipp .jc-card h2{font-size:var(--fs-label);font-weight:500;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:8px}
 
 /* the payout, first and large */
-.ipp .jc-pay{font-size:40px;font-weight:750;letter-spacing:-.02em;line-height:1;color:var(--ink)}
-.ipp .jc-pay.sm{font-size:22px;letter-spacing:-.01em}
-.ipp .jc-paynote{color:var(--sub);font-size:13.5px;margin-top:6px}
+.ipp .jc-pay{font-size:var(--fs-fig);font-weight:var(--fw-fig);letter-spacing:var(--track-display);line-height:1;color:var(--ink)}
+.ipp .jc-pay.sm{font-size:var(--fs-fig-s);letter-spacing:var(--track-title)}
+.ipp .jc-paynote{color:var(--muted);font-size:var(--fs-small);margin-top:6px}
 
 /* the vehicle and what it is */
 .ipp .jc-veh{margin-top:18px}
-.ipp .jc-veh h1{font-size:22px;font-weight:700;letter-spacing:-.01em;line-height:1.25}
-.ipp .jc-veh p{color:var(--sub);font-size:14.5px;margin-top:4px}
-.ipp .jc-tag{display:inline-block;margin-left:8px;font-size:12px;font-weight:650;color:var(--sub);border:1px solid var(--line);border-radius:4px;padding:1px 6px;vertical-align:4px;letter-spacing:.02em}
-.ipp .jc-where{margin-top:14px;font-size:15px;font-weight:600}
-.ipp .jc-where span{display:block;font-size:12.5px;font-weight:500;color:var(--deco);margin-top:2px}
+.ipp .jc-veh h1{font-size:22px;font-weight:600;letter-spacing:var(--track-title);line-height:1.25;color:var(--ink)}
+.ipp .jc-veh p{color:var(--muted);font-size:var(--fs-body);margin-top:4px}
+.ipp .jc-veh .jc-ref{font-family:var(--mono);font-size:var(--fs-small);color:var(--faint);margin-top:6px}
+.ipp .jc-tag{display:inline-block;margin-left:8px;font-size:var(--fs-label);font-weight:500;color:var(--muted);border:1px solid var(--hairline);border-radius:4px;padding:1px 6px;vertical-align:4px}
+.ipp .jc-where{margin-top:14px;font-size:15px;font-weight:600;color:var(--ink)}
+.ipp .jc-where span{display:block;font-size:var(--fs-small);font-weight:400;color:var(--muted);margin-top:2px}
 
-.ipp .jc-sec{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
-.ipp .jc-sub{color:var(--sub);font-size:13.5px;line-height:1.5;margin-top:4px}
+.ipp .jc-sec{margin-top:22px;padding-top:18px;border-top:1px solid var(--hairline)}
+.ipp .jc-sub{color:var(--muted);font-size:var(--fs-small);line-height:1.5;margin-top:4px}
 .ipp .jc-sub b{color:var(--ink);font-weight:600}
-.ipp .jc-quote{font-size:14.5px;line-height:1.55;background:var(--well);border-left:3px solid var(--line);padding:10px 12px;border-radius:0 5px 5px 0}
+.ipp .jc-sub .mono{font-family:var(--mono);color:var(--body)}
+.ipp .jc-quote{font-size:var(--fs-body);line-height:1.55;color:var(--body);background:var(--page);border-left:2px solid var(--hairline);padding:10px 12px}
 .ipp .jc-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
-.ipp .jc-list li{position:relative;padding-left:18px;font-size:14.5px;line-height:1.45}
-.ipp .jc-list li::before{content:"";position:absolute;left:3px;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--deco)}
+.ipp .jc-list li{position:relative;padding-left:18px;font-size:var(--fs-body);line-height:1.45;color:var(--ink)}
+.ipp .jc-list li::before{content:"";position:absolute;left:3px;top:.6em;width:5px;height:5px;border-radius:50%;background:var(--faint)}
 
-/* buttons sized for a thumb */
-.ipp .jc-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 16px;border-radius:8px;border:1px solid #d6d9de;background:#fff;
-  font:inherit;font-size:15px;font-weight:600;color:var(--ink);text-decoration:none;cursor:pointer;box-shadow:0 1px 2px rgba(16,24,40,.06)}
+/* buttons sized for a thumb: secondary on white with a hairline, primary in ink; flat */
+.ipp .jc-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 16px;border-radius:8px;border:1px solid var(--hairline);background:var(--surface);
+  font:inherit;font-size:15px;font-weight:500;color:var(--ink);text-decoration:none;cursor:pointer}
+.ipp .jc-btn:hover{background:var(--page);text-decoration:none}
 .ipp .jc-btn.big{min-height:52px;font-size:16px}
-.ipp .jc-btn.primary{background:var(--key);border-color:var(--key-b);color:#f7f7f8;box-shadow:inset 0 1px 0 var(--key-hi),0 1px 2px rgba(16,24,40,.25)}
-.ipp .jc-btn.danger{color:var(--red);border-color:#f0a49c}
-.ipp .jc-btn:disabled{color:var(--deco);background:var(--well);border-color:var(--line);box-shadow:none;cursor:default}
-.ipp .jc-btn.primary:disabled{color:#c8cacf;background:#8d9096;border-color:#8d9096}
+.ipp .jc-btn.primary{background:var(--ink);border-color:var(--ink);color:var(--white)}
+.ipp .jc-btn.primary:hover{background:var(--body);border-color:var(--body)}
+.ipp .jc-btn.danger{color:var(--red)}
+.ipp .jc-btn:disabled{color:var(--faint);background:var(--page);border-color:var(--hairline);cursor:default}
+.ipp .jc-btn.primary:disabled{color:var(--white);background:var(--faint);border-color:var(--faint)}
+.ipp .jc-btn:focus-visible,.ipp .jc-seg button:focus-visible,.ipp .jc-reasons button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 /* Claim and Decline: side by side, and pinned to the bottom of a phone screen */
 .ipp .jc-actions{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-top:24px}
 @media (max-width:599px){
-  .ipp .jc-actions{position:sticky;bottom:0;margin:24px -20px -24px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);
-    border-top:1px solid var(--line);border-radius:0 0 10px 10px;backdrop-filter:blur(6px)}
+  .ipp .jc-actions{position:sticky;bottom:0;margin:24px -20px -24px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:var(--surface);
+    border-top:1px solid var(--hairline);border-radius:0 0 10px 10px}
 }
 
 /* the claim and decline forms */
-.ipp .jc-form{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:12px}
-.ipp .jc-form h2{font-size:17px;font-weight:700;color:var(--ink);letter-spacing:-.01em;text-transform:none;margin:0}
+.ipp .jc-form{margin-top:22px;padding-top:18px;border-top:1px solid var(--hairline);display:flex;flex-direction:column;gap:12px}
+.ipp .jc-form h2{font-size:17px;font-weight:600;color:var(--ink);letter-spacing:-.01em;margin:0}
 .ipp .jc-f{display:flex;flex-direction:column;gap:5px}
-.ipp .jc-f > span{font-size:13.5px;font-weight:600} .ipp .jc-f > span i{font-style:normal;font-weight:500;color:var(--deco)}
-.ipp .jc-f input{min-height:46px;font-size:16px;background:#fff;width:100%;box-sizing:border-box;border-radius:8px}
+.ipp .jc-f > span{font-size:var(--fs-small);font-weight:500;color:var(--ink)} .ipp .jc-f > span i{font-style:normal;font-weight:400;color:var(--muted)}
+.ipp .jc-f input{min-height:46px;font-size:16px;background:var(--surface);border:1px solid var(--hairline);width:100%;box-sizing:border-box;border-radius:8px}
+.ipp .jc-f input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-wash);outline:0}
 .ipp .jc-seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.ipp .jc-seg button,.ipp .jc-reasons button{min-height:46px;border:1px solid #d6d9de;border-radius:8px;background:#fff;font:inherit;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer}
-.ipp .jc-seg button.on,.ipp .jc-reasons button.on{border-color:var(--blue);background:var(--blue-t);color:var(--blue-d)}
+.ipp .jc-seg button,.ipp .jc-reasons button{min-height:46px;border:1px solid var(--hairline);border-radius:8px;background:var(--surface);font:inherit;font-size:15px;font-weight:500;color:var(--ink);cursor:pointer}
+.ipp .jc-seg button.on,.ipp .jc-reasons button.on{border-color:var(--accent);background:var(--accent-wash);color:var(--accent)}   /* selected */
 .ipp .jc-reasons{display:flex;flex-direction:column;gap:8px}
 .ipp .jc-reasons button{text-align:left;padding:10px 14px}
-.ipp .jc-callnote{font-size:13.5px;line-height:1.5;background:#f4f9fd;border:1px solid #c5e0f5;color:var(--blue-d);border-radius:8px;padding:10px 12px}
-.ipp .jc-terms{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;color:var(--sub);cursor:pointer}
-.ipp .jc-terms input,.ipp .jc-check input{width:20px;height:20px;flex:none;margin-top:1px}
-.ipp .jc-err{color:var(--red);font-size:13.5px;font-weight:600}
+.ipp .jc-callnote{font-size:var(--fs-small);line-height:1.5;color:var(--body);background:var(--page);border:1px solid var(--hairline);border-radius:8px;padding:10px 12px}
+.ipp .jc-terms{display:flex;gap:10px;align-items:flex-start;font-size:var(--fs-small);line-height:1.5;color:var(--muted);cursor:pointer}
+.ipp .jc-terms input,.ipp .jc-check input{width:20px;height:20px;flex:none;margin-top:1px;accent-color:var(--ink)}
+.ipp .jc-err{color:var(--red);font-size:var(--fs-small);font-weight:500}
 .ipp .jc-row{display:grid;grid-template-columns:2fr 1fr;gap:10px}
-.ipp .jc-preview{font-size:12.5px;color:#7a4b0b;background:#fff6e6;border:1px solid #f6d7a6;border-radius:6px;padding:8px 12px;margin-bottom:16px}
-.ipp .jc-preview b{display:inline-block;background:#9d500a;color:#fff;font-size:11px;letter-spacing:.04em;text-transform:uppercase;border-radius:4px;padding:1px 6px;margin-right:6px}
+/* the console's preview of the card: a quiet note, not a warning */
+.ipp .jc-preview{font-size:var(--fs-small);color:var(--body);background:var(--page);border:1px solid var(--hairline);border-radius:6px;padding:8px 12px;margin-bottom:16px}
+.ipp .jc-preview b{font-weight:600;color:var(--ink);margin-right:6px}
 
 /* claimed: the job is theirs */
 .ipp .jc-mine{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:2px 12px}
-.ipp .jc-mine b{font-size:20px;font-weight:700;color:var(--green)}
-.ipp .jc-mine p{grid-column:1/-1;font-size:15px;font-weight:600}
-.ipp .jc-next{margin-top:18px;border:1px solid #96c8ec;background:#f4f9fd;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px}
-.ipp .jc-next small{font-size:11.5px;font-weight:650;letter-spacing:.05em;text-transform:uppercase;color:var(--blue-d)}
-.ipp .jc-next b{font-size:17px;line-height:1.35}
-.ipp .jc-addr{font-size:16px;font-weight:600;line-height:1.4;margin-bottom:10px}
+.ipp .jc-mine b{font-size:20px;font-weight:600;color:var(--ink)}          /* Claimed is a neutral status */
+.ipp .jc-mine p{grid-column:1/-1;font-size:15px;font-weight:500;color:var(--body)}
+.ipp .jc-next{margin-top:18px;border:1px solid var(--hairline);background:var(--page);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.ipp .jc-next small{font-size:var(--fs-label);font-weight:500;color:var(--muted)}
+.ipp .jc-next b{font-size:17px;font-weight:600;line-height:1.35;color:var(--ink)}
+.ipp .jc-addr{font-size:16px;font-weight:600;line-height:1.4;margin-bottom:10px;color:var(--ink)}
 .ipp .jc-sec .jc-btn{width:100%}
 .ipp .jc-sec .jc-veh{margin-top:0}
-.ipp .jc-count{margin-left:auto;font-size:12px;color:var(--sub);text-transform:none;letter-spacing:0;font-weight:600}
+.ipp .jc-count{margin-left:auto;font-size:var(--fs-label);color:var(--muted);font-weight:500}
 .ipp .jc-check{list-style:none;padding:0;margin:0;display:flex;flex-direction:column}
-.ipp .jc-check label{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px;line-height:1.4;cursor:pointer}
+.ipp .jc-check label{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--hairline);font-size:15px;line-height:1.4;color:var(--ink);cursor:pointer}
 .ipp .jc-check li:last-child label{border-bottom:0}
-.ipp .jc-check input:checked + span{color:var(--sub);text-decoration:line-through}
-.ipp .jc-drop{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;border:1px dashed #cfd3d9;border-radius:10px;padding:22px 16px;background:var(--well);cursor:pointer}
-.ipp .jc-drop b{font-size:15px} .ipp .jc-drop span{font-size:13px;color:var(--sub)} .ipp .jc-drop .jc-btn{margin-top:8px;width:auto;color:#f7f7f8}
+.ipp .jc-check input:checked + span{color:var(--muted);text-decoration:line-through}
+.ipp .jc-drop{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;border:1px dashed var(--hairline);border-radius:10px;padding:22px 16px;background:var(--page);cursor:pointer}
+.ipp .jc-drop b{font-size:15px;font-weight:600;color:var(--ink)} .ipp .jc-drop span{font-size:var(--fs-small);color:var(--muted)} .ipp .jc-drop .jc-btn{margin-top:8px;width:auto}
 
-/* a short message: taken, declined, gone, complete */
-.ipp .jc-msg{border-left:4px solid var(--deco);padding:2px 0 2px 14px}
-.ipp .jc-msg b{font-size:20px;font-weight:700;display:block;letter-spacing:-.01em}
-.ipp .jc-msg p{color:var(--sub);font-size:14.5px;line-height:1.55;margin-top:6px}
+/* a short message: taken, declined, gone, complete. Complete is the one in a status color */
+.ipp .jc-msg{border-left:2px solid var(--hairline);padding:2px 0 2px 14px}
+.ipp .jc-msg b{font-size:20px;font-weight:600;display:block;letter-spacing:-.01em;color:var(--ink)}
+.ipp .jc-msg p{color:var(--muted);font-size:var(--fs-body);line-height:1.55;margin-top:6px}
 .ipp .jc-msg.good{border-color:var(--green)} .ipp .jc-msg.good b{color:var(--green)}
 
 /* the page around it: full width on a phone, a centered card on desktop */
@@ -91,5 +102,3 @@
   .ipp .jc-card{border-radius:8px;padding:18px 16px 22px}
   .ipp .jc-actions{margin:24px -16px -22px}
 }
-/* the job's reference: the one identifier a provider quotes to Inspectd (docs/platform/decisions.md, "Job references") */
-.ipp .jc-veh .jc-ref{font-family:var(--mono);font-size:12.5px;color:var(--faint);margin-top:6px}
