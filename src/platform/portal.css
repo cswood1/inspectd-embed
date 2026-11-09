@@ -867,9 +867,8 @@
 .ipp .jobpage :is(.cols2, .kv){background:none}
 .ipp.share .swrap{background:var(--surface)}   /* the report reads on white, edge to edge, as in the portal */
 
-/* "Ask about your reports" (AskBar.jsx): one bar above the figure strip, the answer under it, follow-ups as small
-   buttons, one muted line. No mark, no sparkle. */
-.ipp .askwrap{margin-top:22px}
+/* Inspection Intelligence (PortalIntelligence.jsx): the question bar, starting points, results as worklists */
+.ipp .intelask{margin-top:22px}
 .ipp .askbar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--hairline);border-radius:8px;padding:6px 6px 6px 14px}
 .ipp .askbar:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-wash)}
 .ipp .askbar > svg{flex:none;color:var(--muted)}
@@ -883,3 +882,63 @@
 .ipp .askfoot{margin-top:12px;font-size:var(--fs-label);color:var(--muted)}
 .ipp .askclear{margin-top:8px}
 @media (max-width:560px){.ipp .askfollow .fbtn{height:auto;min-height:30px;padding:6px 11px;border-radius:14px}}
+
+.ipp .starts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.ipp .starts .fbtn{font-weight:500;color:var(--body)}
+.ipp .fbtn:disabled{opacity:.55;cursor:default}
+.ipp .intelresults{margin-top:8px}
+.ipp .iresult{border-top:1px solid var(--hairline);padding:20px 0 24px;margin-top:16px}
+.ipp .iresult.pending{color:var(--muted)}
+.ipp .iq{font-size:var(--fs-small);color:var(--muted);margin:0 0 8px}
+.ipp .ihead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.ipp .ihl{margin:0;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;color:var(--ink)}
+.ipp .ihl .n{font-size:var(--fs-fig);font-weight:var(--fw-fig);letter-spacing:var(--track-display);line-height:1}
+.ipp .ihl .u{font-size:var(--fs-section);font-weight:600}
+.ipp .ihl .t{font-size:var(--fs-section);color:var(--body)}
+.ipp .ihl.phrase{font-size:var(--fs-fig-s);font-weight:600;letter-spacing:var(--track-title)}
+.ipp .ianswer{margin:10px 0 0;max-width:760px;font-size:var(--fs-section);line-height:1.55;color:var(--ink)}
+.ipp .ibreak{max-width:520px;margin-top:16px}
+.ipp .ibreak tr.on td{color:var(--accent);font-weight:600}
+.ipp .ifilter{margin:16px 0 0;font-size:var(--fs-small);display:flex;gap:12px;align-items:baseline}
+.ipp .iwork{margin-top:16px}
+.ipp .iresult .tablewrap{margin-top:16px}
+.ipp .iwork td.jref{white-space:nowrap;font-size:var(--fs-small)}
+.ipp .iwork td[data-l="Inspected"]{white-space:nowrap}
+.ipp .iwork td.mt{max-width:360px}
+.ipp .iwork td.mt b{display:block;font-weight:500;font-size:var(--fs-small)}
+.ipp .iwork td.mt span{display:block;font-size:var(--fs-label);color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ipp .iwork td.mt .more{color:var(--faint)}
+.ipp .iwork tr.row.on td{background:var(--accent-wash)}
+.ipp .iwork tr.evrow td{padding:0;background:var(--wash)}
+.ipp .imore{margin-top:10px}
+.ipp .evpanel{padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px}
+.ipp .evhead{display:flex;align-items:baseline;gap:10px} .ipp .evhead .mono{font-size:var(--fs-label);color:var(--muted)} .ipp .evclose{margin-left:auto}
+.ipp .evitem{display:grid;grid-template-columns:minmax(0,1fr) 220px;grid-template-rows:auto 1fr;gap:6px 20px;align-items:start}
+.ipp .evmeta{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-size:var(--fs-small);color:var(--muted)} .ipp .evmeta b{color:var(--ink);font-weight:600}
+.ipp .evnote{grid-column:1;margin:0;font-size:var(--fs-body);line-height:1.55;color:var(--body)}
+.ipp .evphoto,.ipp .evnophoto{grid-column:2;grid-row:1 / span 2}
+.ipp .evphoto img{display:block;width:100%;max-height:220px;object-fit:cover;border-radius:6px;border:1px solid var(--hairline)}
+.ipp .evnophoto{margin:0;font-size:var(--fs-label);color:var(--muted);padding:12px;border:1px dashed var(--hairline);border-radius:6px}
+.ipp .evtext{margin:0;padding-left:18px;font-size:var(--fs-body);color:var(--body)}
+.ipp .evopen{align-self:flex-start}
+.ipp .evscrim{display:none}
+/* one row: on a narrow screen it scrolls sideways inside itself, never the page */
+.ipp .flagchips{display:flex;flex-wrap:nowrap;gap:6px;margin-top:18px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.ipp .flagchips::-webkit-scrollbar{display:none}
+.ipp .flagchips .fbtn{flex:none;font-weight:500;color:var(--body);font-size:var(--fs-label);height:30px;padding:0 10px} .ipp .flagchips .fbtn .dot{width:7px;height:7px}
+.ipp .flagchips .fbtn.on{background:var(--accent-wash);border-color:var(--accent);color:var(--accent)}
+.ipp .flagchips .fbtn.quiet{color:var(--muted)}
+@media (max-width:640px){
+  .ipp .iwork thead{display:none}
+  .ipp .iwork, .ipp .iwork tbody{display:block}
+  .ipp .iwork tr.row{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;padding:12px 0;border-bottom:1px solid var(--hairline)}
+  .ipp .iwork tr.row td{padding:0;border:0;max-width:none}
+  .ipp .iwork tr.row td:first-child,.ipp .iwork tr.row td.mt{grid-column:1 / -1}
+  .ipp .iwork tr.row td:not(:first-child)::before{content:attr(data-l);display:block;font-size:11px;color:var(--faint)}
+  .ipp .iwork td.mt span{white-space:normal}
+  .ipp .iwork tr.evrow{display:block}
+  .ipp .evscrim{display:block;position:fixed;inset:0;background:rgba(17,24,39,.36);z-index:60}
+  .ipp .evpanel{position:fixed;left:0;right:0;bottom:0;max-height:78vh;overflow:auto;z-index:61;background:var(--surface);border-radius:14px 14px 0 0;box-shadow:var(--shadow-over);padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+  .ipp .evitem{grid-template-columns:1fr} .ipp .evphoto,.ipp .evnophoto{grid-column:1;grid-row:auto}
+  .ipp .ihl .n{font-size:var(--fs-fig-s)}
+}

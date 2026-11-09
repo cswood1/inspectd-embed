@@ -4,7 +4,8 @@ import "./portal.css";
 import { usePlatform } from "./PlatformStore.jsx";
 import { PaneCtx } from "./ui.jsx";
 import { Svg, I, SECTIONS, Sk, NoticeProvider } from "./portalUi.jsx";
-import { ROUTES, resolve } from "./portalRoutes.js";
+import { ROUTES, resolve, isBusiness } from "./portalRoutes.js";
+import { Intelligence } from "./PortalIntelligence.jsx";
 import { Jobs, NewJob, BulkJobs, Job } from "./PortalJobs.jsx";
 import { Reports } from "./PortalReports.jsx";
 import { Team, Settings } from "./PortalTeam.jsx";
@@ -64,7 +65,7 @@ function Sidebar({ active, me, ctx, onSwitch, onSignOut }){
       </div>
       <button className="btn primary new" id="newReq" onClick={() => ctx.navigate("/jobs/new")}><Svg src={I.plus} />New inspection request</button>
       <nav id="sidenav" aria-label="Sections">
-        {SECTIONS.map(([k, name, href, icon]) => (
+        {SECTIONS.filter(([, , , , business]) => !business || isBusiness(me?.account?.type)).map(([k, name, href, icon]) => (
           <a key={k} className={`navitem row ${active === k ? "active" : ""}`} href={href} aria-current={active === k ? "page" : "false"} onClick={e => go(e, href)}>
             <Svg src={icon} /><span className="nl">{name}</span>
           </a>))}
@@ -118,6 +119,7 @@ function Shell({ onExit, onReload }){
     : page === "job" ? <Job key={bare} id={id} ctx={ctx} />
     : page === "reports" ? <Reports key={bare} ctx={ctx} />
     : page === "report" ? <ReportPage key={bare} id={id} tab={tab} ctx={ctx} />
+    : page === "intelligence" ? <Intelligence key={bare} ctx={ctx} />
     : page === "team" ? <Team key={bare} ctx={ctx} />
     : page === "settings" ? <Settings key={bare} ctx={ctx} tab={tab} />
     : <Reports key={bare} ctx={ctx} />;

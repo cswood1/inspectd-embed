@@ -53,6 +53,7 @@ export function workspaceData(rows, now = Date.now()){
   const inspections = rows.map(r => {
     const o = r.insight_overview || {}, v = r.vehicle || {}, place = placeOf(r.inspection?.location);
     return {id: r.id, ref: r.job_ref || "", customer_ref: r.customer_ref || "", vin: (v.vin || "").toUpperCase() || r.id, vehicle: vehicleName(v) || "Vehicle",
+            make: v.make || "", model: v.model || "", year: v.year ? +v.year : null,
             date: r.inspection?.date || (r.uploaded_at ? demoDay(Date.parse(r.uploaded_at)) : ""), location: r.inspection?.location || "", place,
             flags: o.flags || {}, surface_rust: !!o.surface_rust, issues: o.issues || [], first_sentence: o.first_sentence || "",
             fail: r.summary?.fail || 0, attention: r.summary?.attention || 0};
@@ -148,7 +149,7 @@ export function select(ws, f){
 
 /**
  * The reports matching a set of filters, for "Ask about your reports" (askServer.js find_reports). Every filter is
- * optional and they all apply: flags (every one listed), issue (an item name, matched in part, so "tire" finds every tire
+ * optional and they all apply: flags (every one listed), any_flags (at least one of those listed), issue (an item's exact name matches that item; anything else matches in part, so "tire" finds every tire
  * position), area, status (fail or attention, on the matching items, or any item), date_from and date_to (YYYY-MM-DD,
  * inclusive), metro (within 60 miles, as the overview counts), city, make, model, year, vin, customer_ref, repeat_only
  * (vehicles inspected more than once), latest_per_vehicle. Rows are inspections, newest first.
@@ -156,12 +157,13 @@ export function select(ws, f){
 export function findReports(ws, f = {}){
   const low = s => String(s ?? "").trim().toLowerCase(), compact = s => low(s).replace(/[\s#-]+/g, "");
   const repeats = new Set(ws.vehicles.filter(v => v.inspections.length > 1).map(v => v.vin));
-  const itemOk = k => (!f.issue || low(issueName(k)).includes(low(f.issue)) || low(k[1]).includes(low(f.issue)))
-    && (!f.area || areaOf(k) === f.area) && (!f.status || k[2] === f.status);
+  const g = {...f, exact: f.issue && ws.inspections.some(i => i.issues.some(k => low(issueName(k)) === low(f.issue)))};
+  const itemOk = k => issueMatches(k, g);
   const byItem = f.issue || f.area || f.status;
   const pool = f.latest_per_vehicle ? ws.vehicles : ws.inspections;
   const rows = pool.filter(i =>
     (!f.flags?.length || f.flags.every(k => i.flags[k]))
+    && (!f.any_flags?.length || f.any_flags.some(k => i.flags[k]))
     && (!byItem || i.issues.some(itemOk))
     && (!f.date_from || i.date >= f.date_from) && (!f.date_to || i.date <= f.date_to)
     && (!f.metro || low(i.place.metro) === low(f.metro))
@@ -173,6 +175,13 @@ export function findReports(ws, f = {}){
     && (!f.repeat_only || repeats.has(i.vin)))
     .sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id));
   return {count: rows.length, vehicles: new Set(rows.map(i => i.vin)).size, rows};
+}
+
+/** Whether one of a report's key issues (an overview tuple) matches findReports' issue, area and status filters. */
+// an issue that is an item's exact name ("Dings") matches that item only; anything else matches in part ("tire")
+export function issueMatches(k, f){
+  const low = s => String(s ?? "").trim().toLowerCase(), q = low(f.issue);
+  return (!f.issue || (f.exact ? low(issueName(k)) === q : low(issueName(k)).includes(q) || low(k[1]).includes(q))) && (!f.area || areaOf(k) === f.area) && (!f.status || k[2] === f.status);
 }
 
 /** "Tire concerns · 17 vehicles" */

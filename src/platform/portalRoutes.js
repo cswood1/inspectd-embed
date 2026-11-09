@@ -14,6 +14,7 @@ export const ROUTES = [
   [/^\/jobs\/new$/, "jobs", "new"],
   [/^\/jobs\/bulk$/, "jobs", "bulk"],
   [/^\/jobs\/(J-[0-9A-HJKMNP-TV-Z]{6})$/, "jobs", "job"],   // a job's URL is its reference (jobRef.js)
+  [/^\/intelligence$/, "intelligence", "intelligence"],   // business workspaces only (resolve sends others to their landing page)
   [/^\/team$/, "team", "team"],
   [/^\/settings$/, "settings", "settings"],
 ];
@@ -32,7 +33,10 @@ export function resolve(path, type, refOf = () => ""){
     const ref = normRef(job[1]) || (/^[0-9a-f]{12}$/.test(job[1]) ? refOf(job[1]) : "");
     return ref ? `/jobs/${ref}` : "/jobs";
   }
-  if (bare === "/ai" || bare === "/vehicles") return "/reports";
+  // Inspection Intelligence is a business workspace's (fleet, dealer); the old Inspectd AI page goes there too
+  if (bare === "/intelligence") return isBusiness(type) ? path : landing(type);
+  if (bare === "/ai") return isBusiness(type) ? "/intelligence" : "/reports";
+  if (bare === "/vehicles") return "/reports";
   if (bare === "/invoices") return "/settings#billing";
   return ROUTES.some(([re]) => re.test(bare)) ? path : landing(type);
 }
