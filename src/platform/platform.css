@@ -597,3 +597,33 @@
 .ip .over{background:var(--surface)}
 .ip .ohead h2{font-size:var(--fs-title);font-weight:var(--fw-title);letter-spacing:var(--track-title)}
 .ip .facts span{font-weight:500}
+
+/* Open jobs: List | Map, and the map (OpsMap.jsx) */
+.ip .viewseg{display:inline-flex;border:1px solid var(--hairline);border-radius:6px;overflow:hidden;flex:none}
+.ip .viewseg button{border:0;background:var(--surface);padding:0 12px;height:30px;font:inherit;font-size:var(--fs-small);font-weight:500;color:var(--muted);cursor:pointer}
+.ip .viewseg button + button{border-left:1px solid var(--hairline)}
+.ip .viewseg button.on{background:var(--accent-wash);color:var(--accent)}
+.ip .opsmap{position:relative;margin-top:16px;border-top:1px solid var(--hairline);background:var(--page);overflow:hidden;min-height:520px}
+.ip .opsmap canvas{display:block;width:100%;height:100%;touch-action:none;outline:none}
+.ip .opsmap canvas:focus-visible{box-shadow:inset 0 0 0 2px var(--accent)}
+.ip .opsmap.loading{height:calc(100vh - 220px)}
+/* no scrim over the map: it stays visible around the panel, and a click on empty map closes the panel */
+.ip:has(.opsmap) .scrim{display:none}
+.ip .mapctl{position:absolute;top:14px;right:14px;display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.ip .mapctl button{width:30px;height:30px;border:1px solid var(--hairline);border-radius:6px;background:var(--surface);font:inherit;font-size:16px;line-height:1;color:var(--body);cursor:pointer}
+.ip .mapctl button:hover{background:var(--wash);color:var(--ink)}
+.ip .mapctl .reset{width:auto;padding:0 10px;font-size:var(--fs-label);font-weight:500;color:var(--muted)}
+.ip .mapleg{position:absolute;left:14px;bottom:14px;display:flex;gap:16px;align-items:center;padding:8px 12px;background:rgba(255,255,255,.94);border:1px solid var(--hairline);border-radius:8px;font-size:var(--fs-label);color:var(--body)}
+.ip .mapleg span{display:inline-flex;align-items:center;gap:6px}
+.ip .mapleg b{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.ip .mapleg .linkbtn{font-size:var(--fs-label);margin:0}
+.ip .opsmap .md{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
+.ip .opsmap .md-new{background:var(--map-received)} .ip .opsmap .md-dispatching{background:var(--map-dispatching)} .ip .opsmap .md-claimed{background:var(--map-claimed);box-shadow:0 0 0 1px #fff}
+.ip .mapcard{position:absolute;transform:translate(-50%,-100%);pointer-events:none;background:var(--surface);border:1px solid var(--hairline);border-radius:8px;box-shadow:var(--shadow-over);padding:9px 12px;display:flex;flex-direction:column;gap:3px;white-space:nowrap;z-index:2}
+.ip .mapcard b{font-size:var(--fs-small);font-weight:600;color:var(--ink)}
+.ip .mapcard .ln{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-label);color:var(--body)}
+.ip .mapcard .ln.sub{color:var(--muted)}
+.ip .mapcard .mono{font-family:var(--mono)}
+.ip .mapempty{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 20px;background:rgba(255,255,255,.94);border:1px solid var(--hairline);border-radius:8px;font-size:var(--fs-body);color:var(--body)}
+/* what's drawn, for screen readers (out of the tab order; List is the keyboard view of the same jobs) */
+.ip .maplist{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0;padding:0}

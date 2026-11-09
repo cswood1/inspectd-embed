@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { Suspense, lazy, useEffect, useMemo, useRef, useState } from "react";
 import { usePlatform } from "./PlatformStore.jsx";
 import { dupEmails } from "./derive.js";
 import { STATUS, received, useJobVehicle, isClosed, Icon, Who, ClassTag, SkelRows, CSelect, PageDock, paged, anySelectOpen } from "./ui.jsx";
@@ -23,6 +23,9 @@ const CLOSED_CARDS = [["all", "All"], ["complete", L.complete], ["canceled", L.c
 // the one button per row: Dispatch ▸ (ink) on a Received job, Reopen on a canceled one, Open → on any other
 const ACTION = {new: {icon: "play", primary: true}, canceled: {icon: "refresh"}};
 const VIEW = {open: "Open jobs", closed: "Closed jobs"};
+// Open jobs as a map: its own chunk, loaded the first time Map is chosen (OpsMap.jsx)
+const OpsMap = lazy(() => import("./OpsMap.jsx"));
+const VIEW_KEY = "inspectd_ops_view";   // List or Map, remembered for the session
 
 export function Board({ mode, loaded, onOpenPortal, initialQ = "", initialOpen = null }){
   const closed = mode === "closed";
@@ -40,6 +43,11 @@ export function Board({ mode, loaded, onOpenPortal, initialQ = "", initialOpen =
   // what a next-step button asked the panel to do as it opens: start the search, or ask to reset
   const [intent, setIntent] = useState(null);
   const returnFocus = useRef(null), closeBtn = useRef(null), searchBox = useRef(null);
+  // Open jobs only: List or Map, remembered for the session; the map's zoom and pan are kept while the page is mounted
+  const [view, setView] = useState(() => { if (closed) return "list"; try { return sessionStorage.getItem(VIEW_KEY) === "map" ? "map" : "list"; } catch { return "list"; } });
+  const pickView = v => { setView(v); try { sessionStorage.setItem(VIEW_KEY, v); } catch { /* private mode: this visit only */ } };
+  const mapView = useRef(null);
+  const onMap = !closed && view === "map";
 
   const pool = useMemo(() => loaded ? rows.filter(r => closed ? isClosed(r) : !isClosed(r)) : [], [rows, loaded, closed]);
   const cards = closed ? CLOSED_CARDS : OPEN_CARDS;
@@ -106,11 +114,21 @@ export function Board({ mode, loaded, onOpenPortal, initialQ = "", initialOpen =
           <div className="filters" id="statusChips" role="group" aria-label="Status">{cards.map(([k, t]) => (
             <button key={k} type="button" className={`fbtn${filter === k ? " on" : ""}`} data-status={k} aria-pressed={filter === k} disabled={!loaded} onClick={() => pickCard(k)}>
               {t}<span className="n">{loaded ? counts[k] || 0 : ""}</span></button>))}</div>
+          {!closed ? <span className="viewseg" id="viewSwitch" role="group" aria-label="View">
+            <button type="button" id="viewList" className={onMap ? "" : "on"} aria-pressed={!onMap} onClick={() => pickView("list")}>List</button>
+            <button type="button" id="viewMap" className={onMap ? "on" : ""} aria-pressed={onMap} onClick={() => pickView("map")}>Map</button>
+          </span> : null}
           <CSelect className={`fsel${jf.ordered ? " on" : ""}`} label="Ordered by" options={orderedOpts} value={jf.ordered} onChange={v => setJ("ordered", v)} />
           <button className={`btn sm${anyFilter ? "" : " hide"}`} onClick={clearAll}>Clear filters</button>
           {loaded && anyFilter ? <span className="chip" id="boardCount">{`${list.length} of ${pool.length}`}</span> : null}
         </div>
       </div>
+      {onMap ? (loaded ? (
+        <Suspense fallback={<div className="opsmap loading" aria-busy="true" />}>
+          <OpsMap jobs={list.map(r => ({id: r.id, ref: r.ref, vehicle: vehicle(r), status: r.status, label: (STATUS[r.status] || [])[1] || r.status, city: place(r.form), form: r.form}))}
+            openId={openId} panelOpen={!!openId} viewRef={mapView} onOpen={openOver} onEmptyClick={closeOver} onShowList={() => pickView("list")}
+            emptyText={pool.length ? "Nothing matches" : "No open jobs"} onClearFilters={pool.length && anyFilter ? clearAll : null} />
+        </Suspense>) : <div className="opsmap loading" aria-busy="true" />) : (
       <div className="tablewrap">
         {!loaded ? <SkelRows n={6} heads={COLS.map(([, t]) => t).concat(["Actions"])} />
           : !list.length ? (
@@ -149,8 +167,8 @@ export function Board({ mode, loaded, onOpenPortal, initialQ = "", initialOpen =
               </tbody>
             </table>
           )}
-      </div>
-      <PageDock pg={pg} rowSelector=".tablewrap tbody tr.row" onChange={d => setPage(p => p + d)} />
+      </div>)}
+      <PageDock pg={onMap ? null : pg} rowSelector=".tablewrap tbody tr.row" onChange={d => setPage(p => p + d)} />
       <JobPanel row={rows.find(r => r.id === shownId) || null} rows={rows} open={!!openId} closeRef={closeBtn} intent={intent}
         onClose={closeOver} onViewAll={viewAll} onOpenPortal={onOpenPortal} />
     </>

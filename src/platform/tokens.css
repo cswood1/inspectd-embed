@@ -36,3 +36,17 @@
 }
 /* the Operations console is a working list: denser rows (about 50px against the portal's 62px); nothing else differs */
 .ip{ --row-pad:10px; }
+
+/*
+ * The Open jobs map (OpsMap.jsx), console only. Marks and their glows have their own tokens, separate from the text
+ * colors: the same hues, tuned to read on the land fill (each mark at least 3:1 against --map-land, WCAG 1.4.11). Color
+ * by status is a map-only exception to "stages are neutral" (docs/platform/decisions.md, "Open jobs map").
+ */
+.ip{
+  --map-land:#efeeeb; --map-outline:#cfd2d6; --map-state:#d6d8dc; --map-county:#e3e4e7; --map-road:#d3d0c8;
+  --map-city:#9aa1ac; --map-leader:rgba(17,24,39,.2); --map-leader-dot:rgba(17,24,39,.4);
+  --map-received:#008a88;      /* 3.63:1 on the land */
+  --map-dispatching:#c46a00;   /* 3.35:1; brighter than the text amber, so it doesn't read brown */
+  --map-claimed:#7d848f;       /* 3.25:1, with a white edge (3.77:1 against it) */
+  --map-received-glow:rgba(0,138,136,.30); --map-dispatching-glow:rgba(196,106,0,.28); --map-claimed-glow:rgba(125,132,143,.24);
+}

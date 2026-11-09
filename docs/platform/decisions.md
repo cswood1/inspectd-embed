@@ -379,7 +379,8 @@ names are still read). The interface never explains a status; these definitions 
 - **Claimed**: an inspector has accepted it.
 - **Complete**: the report is delivered.
 - **Canceled**: the job was canceled.
-- Colors: Complete green, Canceled red, every other status neutral, everywhere.
+- Colors: Complete green, Canceled red, every other status neutral, everywhere. *(One exception, on the Open jobs
+  map only: marks are colored by status, Received teal, Dispatching amber, Claimed grey. See "Open jobs map".)*
 - The portal's "Stage" is "Status"; its job page shows the four names (Submitted, Dispatching, Claimed, Complete) with
   when each was reached, and no descriptions. The console's "Reset to New" is **Reopen** ("Reopen this job?",
   "Reopen"); a reopened job is Submitted again. The activity log reads "Submitted", "Report delivered" and "Reopened".
@@ -679,3 +680,50 @@ Notes on the scoring:
 **Evidence photos.** Meridian and Crestview Denver have 64 fail or flag-evidence findings. 30 point at a photo the
 report kept, none at a photo it didn't keep, and 34 name no photo. So no photos were added (0 photos, 0 bytes), and
 Supabase wasn't touched.
+
+## Open jobs map (Operations console)
+
+- **"List | Map" beside the status chips, on Open jobs only.** List is the board as before and stays the default; the
+  choice is remembered for the session (sessionStorage), and the map keeps its zoom and pan while the page is mounted.
+  Map draws exactly the board's filtered jobs (the chips, search and Ordered by), every one, unpaged; the legend counts
+  what is drawn. With nothing to draw: "Nothing matches" with Clear filters (or "No open jobs").
+- **No map service.** Nothing is fetched from another host: no tiles, no keys. The map is drawn on one canvas from
+  public data bundled with the app:
+  - us-atlas's states, pre-projected to Albers USA (Alaska and Hawaii inset), load with the map;
+  - three context layers in `public/map/`, built by `scripts/build-map-layers.mjs`, load the first time the map zooms
+    past 4x: county lines (us-atlas), interstates (Natural Earth 10m roads, US, level Interstate) and the 300 largest
+    cities (Census Vintage 2023 population estimates, placed at their 2023 Gazetteer points). Together they are 92 KB
+    gzipped.
+  - The map is its own chunk (68 KB gzipped, with the states), loaded the first time Map is chosen; List users don't
+    load it. Packages: d3-geo, d3-zoom (with d3-selection and d3-transition), d3-quadtree, topojson-client, us-atlas.
+- **Canvas, not SVG:** thousands of glowing marks and about 3,000 county lines redraw at 60fps on a canvas, where SVG
+  would repaint every element on every zoom frame. The hover card, the controls and the legend are HTML. A visually
+  hidden list mirrors what's drawn for screen readers; List is the keyboard view of the same jobs.
+- **The look:** a pale land fill on the page color, hairline state lines, county lines fading in from 6x, interstates as
+  faint lines from 4x, no water or terrain. Labels in Geist: state abbreviations below 3x, the five metros between 2.5x
+  and 8x, the cities of open jobs from 8x (beside each group of pins), major cities in a fainter grey from 6x, below the
+  job cities in priority. Labels are placed greedily, so none overlaps a mark or another label.
+- **Zoom from 1x (the country) to 32x (about 100 miles across).** Drag to pan, scroll or pinch to zoom, double-click to
+  zoom in; + and − buttons and Reset view; on the focused map, + and − zoom, arrows pan and 0 resets.
+- **Below 8x, jobs cluster:** jobs within 36 pixels merge (most urgent first), recomputed only at each √2 zoom step so
+  nodes don't jitter. A node's radius grows with the square root of its count (7 to 30 pixels); its color is its most
+  urgent status, and a thin ring shows the mix. Hovering shows the count by status; clicking zooms in to fit its jobs.
+- **From 8x, one pin per job.** Pins within 14 pixels share a ring of 15 + 2n pixels around their true point, each
+  joined to it by a hairline, so every job is clickable (8 pairs and one triple share a ZIP today).
+- **Hover a pin:** vehicle, job reference, status and city. **Click:** the board's own job panel opens, Dispatch
+  included and unchanged. In Map view there's no scrim: the map stays visible, a pin the panel would cover pans just
+  clear of it, and clicking empty map closes the panel (Escape still does). The open job's pin has an ink ring.
+- **Positions come from the job's ZIP** (seed.js `placeOf`): its centroid from the seed's ZIP table or us-zips, so a pin
+  marks the ZIP, not the street address (a few miles in a metro). A ZIP neither knows is placed at its state's center
+  and drawn hollow, with "Approximate: <state> (ZIP not found)" on hover. With no ZIP or state, a job isn't drawn
+  (never at placeOf's Dallas fallback); the legend says "N not on the map", which switches to List. Today all 27 open
+  jobs are placed exactly, within 60 miles of a metro: Dallas 7, Denver 7, Atlanta 5, Nashville 5, Salt Lake City 3.
+- **Status colors, a map-only exception to "stages are neutral":** on a map, status is the one thing a glance must
+  read. The marks and glows have their own tokens (`--map-*` in tokens.css), separate from the text colors: the same
+  hues, tuned to read on the land fill, each at least 3:1 against it (WCAG 1.4.11):
+  - Received `#008a88`, teal (3.63:1);
+  - Dispatching `#c46a00`, an amber brighter than the text amber `#9d500a` so it doesn't read brown (3.35:1);
+  - Claimed `#7d848f`, a mid grey (3.25:1) with a thin white edge (3.77:1 against the grey) so it holds its shape.
+  Selection is an ink ring, never teal, since teal is also the accent.
+- **The pulse:** one slow, faint ring every 3.2 seconds on Received nodes and pins only, drawn only while one is on
+  screen and the tab is visible; off with reduced motion. `PULSE` in OpsMap.jsx turns it off everywhere.
